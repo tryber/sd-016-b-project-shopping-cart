@@ -37,9 +37,6 @@ const appendProductItemElementToSection = (product) => {
 };
 
 const createProductsSection = async (searchParam) => {
-  if (searchParam === undefined) {
-    throw new Error('You must provide an url');
-  }
   const products = await mapProductsAndReturnObject(searchParam);
   products.forEach((product) => {
     const productSection = createProductItemElement(product);
