@@ -20,7 +20,6 @@ describe('1 - Teste a função fecthProducts', () => {
   });
 
   it('Check fetchProducts return a error when called without parameters', async () => {
-    const productsFetched = await fetchProducts();
-    expect(productsFetched).toThrowError(new Error('You must provide an url'));
+    expect(() => fetchProducts().toThrowError('You must provide an url'));
   });
 });
