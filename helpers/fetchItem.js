@@ -1,5 +1,5 @@
-const fetchItem = () => {
-  // seu código aqui
+const fetchItem = (objQuery) => {
+  console.log(objQuery);
 };
 
 if (typeof module !== 'undefined') {
