@@ -31,5 +31,4 @@ const fetchSimulator = (url) => {
     }),
   });
 };
-
 module.exports = fetchSimulator;
