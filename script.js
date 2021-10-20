@@ -53,6 +53,5 @@ const loadProductsPage = () => {
 loadProductsPage();
 
 window.onload = () => { 
-  const sectionItems = document.querySelector('.items');
-  sectionItems.appendChild(createProductItemElement(products));
+  loadProductsPage();
 };
