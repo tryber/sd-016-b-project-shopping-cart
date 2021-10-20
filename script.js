@@ -62,8 +62,14 @@ const objItem = {
 const element = createCartItemElement(objItem);
 getCart.appendChild(element);
 };
+const addCartElement = (event) => {
+  const item = event.target;
+  const id = item.parentNode.firstChild.innerText;
+  cartElement(id);
+}; 
 
 window.onload = () => {
   elementItem();
-  cartElement('MLB1615760527');
+  getCart.addEventListener('click', cartItemClickListener);
+  getItems.addEventListener('click', addCartElement);
 };
