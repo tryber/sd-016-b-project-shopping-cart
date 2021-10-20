@@ -47,6 +47,10 @@ const productConstructor = ({ id: sku, title: name, thumbnail: image }) => ({ sk
 
 const itemConstructor = ({ id: sku, title: name, price: salePrice }) => ({ sku, name, salePrice });
 
+const renderCardProducts = (id) => fetchItem(id)
+    .then((item) => itemConstructor(item))
+    .then((item) => createCartItemElement(item));
+
 const renderProducts = () => {
   fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(({ results: products }) => {
