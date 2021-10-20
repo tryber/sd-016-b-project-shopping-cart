@@ -9,8 +9,9 @@ describe('1 - Teste a função fecthProducts', () => {
 
   test('1.fetchProducts é uma função?', () => expect(fetchProducts).toBeInstanceOf(Function));
   
-  test('Teste fecthProducts vazio', async ()=>{
-    await fetchProducts().then((c) => console.table(c));
+  test('4.fecthProducts com parametro \'computador\'', async ()=>{
+    let r = [];
+    await fetchProducts('computador').then((c) => expect(c).toEqual(computadorSearch));
   });
   // fail('Teste vazio');
 });
