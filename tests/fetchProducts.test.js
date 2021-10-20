@@ -7,6 +7,7 @@ window.fetch = jest.fn(fetchSimulator);
 
 // test asincrono feito com base no post que encontrei no stackOverFlow link a baixo
 // https://stackoverflow.com/questions/50816254/necessary-to-use-expect-assertions-if-youre-awaiting-any-async-function-calls
+// https://www.leighhalliday.com/mock-fetch-jest
 
 
 describe('1 - Teste a função fecthProducts', () => {
@@ -26,6 +27,9 @@ describe('1 - Teste a função fecthProducts', () => {
     await fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith(endpoint);
   });
-  it('4 - Teste se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.', () => { });
+  it('4 - Teste se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.', () => {
+    const objRetourn = fetchProducts('computador');
+    expect(objRetourn).toBeInstanceOf(Object);
+  });
   it('5 - Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. ', () => { });
 });
