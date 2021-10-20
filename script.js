@@ -1,3 +1,5 @@
+const itemsSection = document.querySelector('.items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -24,6 +26,24 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// REQUISITO 1 -funcao que adiciona os items
+function getProduct() {
+  fetchProducts()
+    .then((response) => response.map((element) => {
+      const { id: sku, title: name, thumbnail: image } = element;
+
+      return {
+        sku,
+        name,
+        image,
+      };
+    }))
+    .then((response) => response.forEach((product) => {
+      const item = createProductItemElement(product);
+      itemsSection.appendChild(item);
+    }));
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -40,4 +60,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => {
+  getProduct();
+ };
