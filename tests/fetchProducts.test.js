@@ -16,4 +16,11 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCaleed();
     // https://jestjs.io/pt-BR/docs/expect#tohavebeencalled
   });
+
+  test('Testar endpoint com argumento computador', () => {
+    fetchProducts('computador');
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.mercadolibre.com/sites/MLB/search?q=computador'
+    );
+  });
 });
