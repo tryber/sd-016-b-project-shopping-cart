@@ -5,7 +5,7 @@ const fetchProducts = () => {
     .then((data) => data.results)
     .catch((error) => error.toString());
   
-  return itens  
+  return itens; 
 };
 
 if (typeof module !== 'undefined') {
