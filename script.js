@@ -32,7 +32,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -52,6 +52,15 @@ const loadProductsPage = () => {
   });
 };
 
+const loadProductCart = (id) => {
+  fetchItem(id).then((item) => {
+    const cartItems = document.querySelector('.cart__items');
+    const cartLi = createCartItemElement(item);
+    cartItems.appendChild(cartLi);
+  });
+};
+
 window.onload = () => { 
   loadProductsPage();
+  loadProductCart('MLB1341706310');
 };
