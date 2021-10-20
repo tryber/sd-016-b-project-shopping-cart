@@ -1,3 +1,9 @@
+const teste = document.querySelector('.empty-cart')
+
+teste.addEventListener('click', () => {
+  fetchProducts()
+})
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,7 +18,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({id: sku,title: name,thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -40,4 +46,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const putItens = () => {
+  fetchProducts()
+    .then((products) => {
+      const itemsCointainer = document.querySelector('.items')
+      products.forEach((product) => {
+        const item = createProductItemElement(product);
+        itemsCointainer.appendChild(item)
+      })
+  })
+}
+
+window.onload = () => { 
+  putItens();
+};
