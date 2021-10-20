@@ -1,11 +1,14 @@
 const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=';
 
-// const fetch = require('node-fetch');
-
-const fetchProducts = async (QUERY) => fetch(`${API_URL}${QUERY}`)
+const fetchProducts = (QUERY) => {
+  if (QUERY.length < 1) {
+    throw new Error('You must provide an url');
+  }
+  return fetch(`${API_URL}${QUERY}`)
   .then((response) => response.json())
   .then((data) => data)
   .catch((error) => console.log('Seu erro é: ', error));
+};
 
 if (typeof module !== 'undefined') {
   module.exports = {

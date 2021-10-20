@@ -22,4 +22,16 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(testezinhoLindo).toEqual(computadorSearch);
   })
 
+  it(('Teste se ao chamar a função sem argumento um erro é retornado'), async() => {
+    //esse teste foi realizado com sucesso após a mentoria da Ellen. 
+    // O estudante Jeff Thierch estava com o mesmo problema com o meu e comentou que 
+    // havia finalmente conseguido colocando o try catch no teste.
+    const error = new Error('You must provide an url')
+    try {
+      await fetchProducts();
+    }
+    catch {
+      expect(error).toEqual(new Error('You must provide an url'))
+    }
+  })
 });
