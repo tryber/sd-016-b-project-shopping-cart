@@ -5,7 +5,7 @@ const fetchProducts = async (query) => {
     .then((data) => data.results);
   return result;
 };
-
+console.log(typeof fetchProducts);
 fetchProducts('computador');
 
 if (typeof module !== 'undefined') {
