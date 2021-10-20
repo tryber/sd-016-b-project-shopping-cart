@@ -1,3 +1,9 @@
+const staticElements = {
+  cartItems: document.querySelector('.cart__items'),
+  allItems: document.querySelector('.items'),
+  btnEmptyCart: document.querySelector('.empty-cart'),
+};
+
 // Trybe functions
 
 function createProductImageElement(imageSource) {
@@ -57,7 +63,7 @@ const addProductOnCart = (event) => {
 
   renderCardProducts(productId)
     .then((product) => {
-      document.querySelector('.cart__items').appendChild(product);
+      staticElements.cartItems.appendChild(product);
     });
 };
 
@@ -67,7 +73,7 @@ const createProducts = ({ results: products }) => {
     .forEach((product) => {
       const newProduct = createProductItemElement(product);
       newProduct.addEventListener('click', addProductOnCart);
-      document.querySelector('.items').appendChild(newProduct);
+      staticElements.allItems.appendChild(newProduct);
     });
 };
 
@@ -78,10 +84,8 @@ const renderProducts = () => {
 };
 
 const emptyCart = () => {
-  document.querySelector('.empty-cart')
-    .addEventListener('click', () => {
-      const cart = document.querySelector('.cart__items');
-      cart.innerHTML = '';
+    staticElements.btnEmptyCart.addEventListener('click', () => {
+      staticElements.cartItems.innerHTML = '';
     });
 };
 
