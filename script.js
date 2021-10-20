@@ -41,8 +41,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const loadProductsPage = () => {
-  fetchProducts('computador')
-    .then((products) => {
+   fetchProducts('computador')
+   .then((data) => data.results)
+   .then((products) => {
     const sectionItems = document.querySelector('.items');
     products.forEach((product) => {
     const createSectionItems = createProductItemElement(product);
