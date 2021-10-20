@@ -1,3 +1,5 @@
+const allItemsInCart = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -33,6 +35,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const eT = event.target;
   eT.remove();
+  saveCartItems(allItemsInCart.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -62,15 +65,27 @@ const addItemCartElement = async (id) => {
   const prod = await fetchItem(id);
   const prodAdded = createCartItemElement(prod);
   document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
+  saveCartItems(allItemsInCart.innerHTML);
 };
+
+function loadItemsInCart() {
+  const iHTMLcartI = getSavedCartItems();
+  allItemsInCart.innerHTML = iHTMLcartI;
+}
 
 // código do https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
 
 window.onload = () => {
   productsArray();
+  loadItemsInCart();
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
     }
+    if (e.target && e.target.classList.contains('cart__item')) {
+      cartItemClickListener(e);
+    }
   });
 };
+
+// window.addEventListener('change', saveCartItems);
