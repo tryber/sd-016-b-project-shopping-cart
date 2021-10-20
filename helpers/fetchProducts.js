@@ -1,6 +1,5 @@
-const fetchProducts = () => {
-  // seu código aqui
-};
+const fetchProducts = (q) => fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${q}}`)
+  .then((r) => r.json());
 
 if (typeof module !== 'undefined') {
   module.exports = {
