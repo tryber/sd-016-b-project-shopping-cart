@@ -44,6 +44,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const appendProducts = () => {
   fetchProducts()
+  .then((data) => data.results)
     .then((products) => {
     const items = document.querySelector('.items');
     products.forEach((product) => {
