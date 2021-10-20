@@ -11,7 +11,7 @@ describe('1 - Teste a função fecthProducts', () => {
   });
 
   test('Testar se função fetchProducts chama fetch para computador como argumento ', async () => {
-    expect.assertions(1);
+    expect.assertions(2);
     await fecthProducts('computador');
     expect(fetch).toHaveBeenCaleed();
     // https://jestjs.io/pt-BR/docs/expect#tohavebeencalled
@@ -23,4 +23,9 @@ describe('1 - Teste a função fecthProducts', () => {
       'https://api.mercadolibre.com/sites/MLB/search?q=computador'
     );
   });
+
+  test('Testar retorno fetchProducts = objeto computadorSearch', () => {
+    const product = await fetchProducts('computador');
+    expect(product).toEqual(computadorSearch);
+  })
 });
