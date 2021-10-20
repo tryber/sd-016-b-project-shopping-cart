@@ -40,13 +40,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const elementItem = async () => {
+const elementItem = async () => { // falta testar
 const getItems = document.querySelector('.items');
 const arrProducts = await fetchProducts('computador');
 const arrResults = arrProducts.results
 .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
 arrResults.forEach((element) => getItems.appendChild(createProductItemElement(element)));
-console.log(arrProducts);
+};
+
+const cartElement = async (param) => { // falta testar
+const item = await fetchItem(param);
+const { id, title, price } = item;
+const objItem = {
+  sku: id,
+  name: title,
+  salePrice: price,
+};
+const element = createCartItemElement(objItem);
+const getCart = document.querySelector('.cart__items');
+getCart.appendChild(element);
 };
 
 window.onload = () => {
