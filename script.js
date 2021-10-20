@@ -1,3 +1,5 @@
+fetchProducts();
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,4 +42,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const appendProducts = () => {
+  fetchProducts()
+    .then((products) => {
+    const items = document.querySelector('.items');
+    products.forEach((product) => {
+      const item = createProductItemElement(product);
+      items.appendChild(item);
+    });
+  });
+};
+
+window.onload = () => {
+  appendProducts();
+ };
