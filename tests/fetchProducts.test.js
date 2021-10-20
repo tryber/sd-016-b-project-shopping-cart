@@ -8,3 +8,4 @@ describe('1 - Teste a função fecthProducts', () => {
   // implemente seus testes aqui
   fail('Teste vazio');
 });
+
