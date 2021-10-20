@@ -24,6 +24,30 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const filterElementItems = async () => {
+  const ListaDeItems = await fetchProducts('computador');
+  const data = await ListaDeItems;
+  const selectClass = document.querySelector('.items');
+  const getAPIElements = await data.forEach((element) => {
+    const { id, title, thumbnail } = element;
+    const elements = { sku: id, name: title, image: thumbnail };
+    selectClass.appendChild(createProductItemElement(elements));
+  });
+  return getAPIElements;
+};
+filterElementItems();
+
+/* const createFinalItems = async () => {
+  const getClass = document.querySelector('.items');
+  const array = await filterElementItems();
+  const returnStuff = array.forEach((element) => {
+    const elements = { sku: element.id, name: element.title, image: element.thumbnail };
+    getClass.appendChild(createProductItemElement(elements));
+  });
+  return returnStuff;
+};
+createFinalItems(); */
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }

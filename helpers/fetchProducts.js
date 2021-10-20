@@ -1,5 +1,15 @@
-const fetchProducts = () => {
+const fetchProducts = async (par) => {
   // seu código aqui
+  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${par}`;
+  if (!par) {
+    throw new Error('Informações Inválidas');
+  }
+  const result = await fetch(url)
+  .then((response) => response.json())
+  .then((data) => data.results)
+  .catch((error) => `seu erro ${error}`);
+  
+  return result;
 };
 
 if (typeof module !== 'undefined') {
