@@ -15,14 +15,17 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetchProducts(endPoint)).toBeTruthy();
   });
   it('Teste se, ao chamar a função fetchProducts com o argumento "computador", a função fetch utiliza o endpoint "https://api.mercadolibre.com/sites/MLB/search?q=computador"', async() =>{
-    expect(fetchProducts(endPoint).then((data) => data.query === computadorSearch.query)).toBeTruthy();
+    expect(fetchProducts(endPoint).then((data) => data.query === fetchSimulator(endPoint).query)).toBeTruthy();
   })
   it('Teste se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.' , async () => {
     expect(await fetchProducts(endPoint)).toEqual(computadorSearch);
   });
-  it('x' , async () => {
+  it('Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. Dica: Lembre-se de usar o new Error(mensagem esperada aqui) para comparar com o objeto retornado da API.' , async () => {
     await expect(fetchProducts()).rejects.toThrow('You must provide an url');
   });
+  // it('teste se o catch funciona', async () => {
+  //   expect(await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=')).toBe({});
+  // });
 });
 
 
