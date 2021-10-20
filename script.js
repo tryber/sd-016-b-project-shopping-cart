@@ -1,5 +1,8 @@
 const seItens = document.querySelector('.items');
 const seCarrinho = document.querySelector('.cart__items');
+const localCarregando = document.querySelector('#local-loading');
+const localTotalCarrinho = document.querySelector('#total-valor');
+const localTotalValor = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,8 +16,24 @@ function cartItemClickListener(event) {
   saveCartItems(seCarrinho.innerHTML);
 }
 
+const criarLoading = (load) => { 
+  if (load === 'carre') {
+    const criarP = document.createElement('p');
+    criarP.className = 'loading';
+    criarP.innerText = 'carregando...';
+    localCarregando.appendChild(criarP);
+  } else {
+    localCarregando.innerHTML = '';
+  }
+};
+
+document.querySelector('.empty-cart').addEventListener('click', () => {
+  seCarrinho.innerHTML = '';
+  saveCartItems(seCarrinho.innerHTML);
+});
+
 const somarValores = (valor, operador) => {
-  console.log(valor, operador);
+  console.log(valor);
 };
 
 const addEventNasLI = () => {
@@ -34,6 +53,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const addCarrinho = (event) => {
+  criarLoading('carre');
   const idDoproduto = event.target.parentElement.firstElementChild.innerText;
   fetchItem(idDoproduto).then((data) => { 
     seCarrinho.appendChild(createCartItemElement({
@@ -43,6 +63,7 @@ const addCarrinho = (event) => {
     }));
     somarValores(data.price, '+');
     saveCartItems(seCarrinho.innerHTML);
+    criarLoading('');
   });
 };
 
@@ -70,15 +91,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const criarItens = (data) => data
-  .forEach((element) => {
+const criarItens = (data) => {
+  data.forEach((element) => {
     seItens.appendChild(createProductItemElement({
       sku: element.id, 
       name: element.title, 
       image: element.thumbnail, 
     }));
   });
+  criarLoading();
+};
 
+criarLoading('carre');
 fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then((data) => criarItens(data.results));
 
