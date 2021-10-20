@@ -52,7 +52,7 @@ const loadProductsPage = () => {
   });
 };
 
-const loadProductCart = (id) => {
+const addProductCart = (id) => {
   fetchItem(id).then((item) => {
     const cartItems = document.querySelector('.cart__items');
     const cartLi = createCartItemElement(item);
@@ -62,5 +62,5 @@ const loadProductCart = (id) => {
 
 window.onload = () => { 
   loadProductsPage();
-  loadProductCart('MLB1341706310');
+  // addProductCart();
 };
