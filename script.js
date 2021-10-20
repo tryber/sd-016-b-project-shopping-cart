@@ -23,6 +23,16 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+const mapProductsAndReturnObject = async () => {
+  const products = await fetchProducts();
+  const productsInfo = products.map(({ id, title, thumbnail }) => (
+    { id, title, thumbnail }
+    ));
+  return productsInfo;
+};
+
+mapProductsAndReturnObject();
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
