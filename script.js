@@ -77,6 +77,15 @@ const renderProducts = () => {
     .catch((error) => console.log(error));
 };
 
+const emptyCart = () => {
+  document.querySelector('.empty-cart')
+    .addEventListener('click', () => {
+      const cart = document.querySelector('.cart__items');
+      cart.innerHTML = '';
+    });
+};
+
 window.onload = () => {
   renderProducts();
+  emptyCart();
 };
