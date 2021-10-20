@@ -23,8 +23,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-const mapProductsAndReturnObject = async () => {
-  const products = await fetchProducts();
+const mapProductsAndReturnObject = async (searchParam) => {
+  const products = await fetchProducts(searchParam);
   const productsInfo = products.map(({ id, title, thumbnail }) => (
     { id, title, thumbnail }
     ));
@@ -36,8 +36,11 @@ const appendProductItemElementToSection = (product) => {
   sectionItem.appendChild(product);
 };
 
-const createProductsSection = async (callback) => {
-  const products = await callback();
+const createProductsSection = async (searchParam) => {
+  if (searchParam === undefined) {
+    throw new Error('You must provide an url');
+  }
+  const products = await mapProductsAndReturnObject(searchParam);
   products.forEach((product) => {
     const productSection = createProductItemElement(product);
     appendProductItemElementToSection(productSection);
@@ -61,5 +64,5 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 window.onload = () => {
-  createProductsSection(mapProductsAndReturnObject);
+  createProductsSection('computador');
 };
