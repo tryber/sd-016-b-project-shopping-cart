@@ -1,3 +1,15 @@
+const unstructure = async (url) => {
+  const result = await fetchProducts(url);
+  const data = await result.results;
+  const response = await data.map((item) => {
+    const { id: sku, title: name, thumbnail: image } = item;
+    return { sku, name, image };
+  });
+  return response;
+};
+
+const itens = unstructure('computador');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +41,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // coloque seu código aqui m
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -39,5 +51,15 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const createNavigation = () => {
+  const productList = document.querySelector('.items');
+  itens.then((item) => item.forEach((element) => {
+    const { sku, name, image } = element;
+    productList.appendChild(createProductItemElement({ sku, name, image }));
+  }));
+};
+
+createNavigation();
 
 window.onload = () => { };
