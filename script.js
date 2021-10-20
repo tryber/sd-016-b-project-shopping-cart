@@ -28,8 +28,8 @@ function createProductItemElement({ sku, name, image }) {
 
 // REQUISITO 1 -funcao que adiciona os items
 function getProduct() {
-  fetchProducts()
-    .then((response) => response.map((element) => {
+  fetchProducts('computador')
+    .then((response) => response.results.map((element) => {
       const { id: sku, title: name, thumbnail: image } = element;
 
       return {
