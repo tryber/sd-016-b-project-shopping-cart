@@ -57,8 +57,9 @@ const constructor = (data) => {
   constructorHTML(resultObj);
 };
 
-fetchProducts().then((data) => constructor(data.results));
+fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  .then((data) => constructor(data.results));
 
 window.onload = () => {
-  constructor();
+  
 };
