@@ -11,16 +11,21 @@ describe('1 - Teste a função fecthProducts', () => {
     const isFunction = typeof fetchProducts;
     expect(isFunction).toBe('function');
   })
-  it('Verifica se a função é chamada', () => {
-    expect(fetchProducts(endPoint)).toBeTruthy();
+  it('Verifica se a função é chamada', async () => {
+    expect.assertions(1);
+    await fetchProducts(endPoint);
+    expect(fetch).toHaveBeenCalled();
   });
-  it('Teste se, ao chamar a função fetchProducts com o argumento "computador", a função fetch utiliza o endpoint "https://api.mercadolibre.com/sites/MLB/search?q=computador"', async() =>{
-    expect(fetchProducts(endPoint).then((data) => data.query === fetchSimulator(endPoint).query)).toBeTruthy();
+  it('Teste se, ao chamar a função fetchProducts com o argumento "computador", a função fetch utiliza o endpoint "https://api.mercadolibre.com/sites/MLB/search?q=computador"', () =>{
+    expect.assertions(1);
+    expect(fetch).toHaveBeenCalledWith(endPoint);
   })
   it('Teste se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.' , async () => {
+    expect.assertions(1);
     expect(await fetchProducts(endPoint)).toEqual(computadorSearch);
   });
   it('Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. Dica: Lembre-se de usar o new Error(mensagem esperada aqui) para comparar com o objeto retornado da API.' , async () => {
+    expect.assertions(1);
     await expect(fetchProducts()).rejects.toThrow('You must provide an url');
   });
   // it('teste se o catch funciona', async () => {

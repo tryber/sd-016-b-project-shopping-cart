@@ -8,6 +8,11 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+document.querySelector('.empty-cart').addEventListener('click', () => {
+  getOL.innerHTML = '';
+  saveCartItems(getOL.innerHTML);
+});
+
 function cartItemClickListener(event) {
   getOL.removeChild(event.target);
   saveCartItems(getOL.innerHTML);
@@ -40,13 +45,13 @@ const addItemCard = (event) => {
   });
 };
 
-function createCustomElement(element, className, innerText) {
+const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   if (element === 'button') e.addEventListener('click', addItemCard);
   e.className = className;
   e.innerText = innerText;
   return e;
-}
+};
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
