@@ -1,7 +1,8 @@
-const fetchProducts = () => {
-  return fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-    .then((response) => response.json())
-    .then((dataJSON) => dataJSON.results);
+const fetchProducts = (query) => {
+  const result = fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+    .then((response) => response.json());
+
+  return result;
 };
 
 if (typeof module !== 'undefined') {
