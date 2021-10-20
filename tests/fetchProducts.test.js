@@ -9,4 +9,8 @@ describe('1 - Teste a função fecthProducts', () => {
     const result = fetchProducts;
     expect(typeof (result)).toEqual('function');
   });
+  it('Testa se fetch é chamado', () => {
+    fetchProducts('computador');
+    expect(fetch).toBeCalled();
+  });
 });
