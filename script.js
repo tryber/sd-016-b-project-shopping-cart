@@ -12,7 +12,8 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+  // Desestruturação apontada pelo colega Israel Sant'Anna em thread do Slack.
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -23,6 +24,19 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+
+const itemsSection = document.querySelector('.items');
+
+const getProducts = () => {
+  // Recupera o objeto do produto na API, cria o elemento e o adiciona à section no HTML.
+  fetchProducts('computador')
+    .then(({ results }) => {
+      for (let i = 0; i < results.length; i += 1) {
+        const a = createProductItemElement(results[i]);
+        itemsSection.appendChild(a);
+      }
+    });
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -40,4 +54,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => {
+  getProducts();
+};
