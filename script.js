@@ -44,7 +44,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const loadPage = () => {
   fetchProducts('computador')
-   .then((products) => {
+    .then((data) => data.results)
+    .then((products) => {
     products.forEach((product) => {
       const item = createProductItemElement(product);
       items.appendChild(item);
