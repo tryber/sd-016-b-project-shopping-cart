@@ -34,6 +34,8 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   const item = event.target;
   item.remove();
+  // funcao q salva local storage
+  saveCartItems();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -52,16 +54,19 @@ arrResults.forEach((element) => getItems.appendChild(createProductItemElement(el
 };
 
 const cartElement = async (param) => { // falta testar
-const item = await fetchItem(param);
-const { id, title, price } = item;
-const objItem = {
-  sku: id,
-  name: title,
-  salePrice: price,
+  const item = await fetchItem(param);
+  const { id, title, price } = item;
+  const objItem = {
+    sku: id,
+    name: title,
+    salePrice: price,
+  };
+  const element = createCartItemElement(objItem);
+  getCart.appendChild(element);
+  // funcao q salva local storage
+  saveCartItems();
 };
-const element = createCartItemElement(objItem);
-getCart.appendChild(element);
-};
+
 const addCartElement = (event) => {
   const item = event.target;
   const id = item.parentNode.firstChild.innerText;
@@ -72,4 +77,5 @@ window.onload = () => {
   elementItem();
   getCart.addEventListener('click', cartItemClickListener);
   getItems.addEventListener('click', addCartElement);
+  getSavedCartItems();
 };
