@@ -36,6 +36,14 @@ const appendProductItemElementToSection = (product) => {
   sectionItem.appendChild(product);
 };
 
+const createProductsSection = (callback) => {
+  const products = callback();
+  products.forEach((product) => {
+    const productSection = createProductItemElement(product);
+    appendProductItemElementToSection(productSection);
+  });
+};
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
