@@ -40,8 +40,8 @@ function extractIDAndNameAndImage(productData) {
 
 async function productsToBeCreated() {
   const resultPromise = await fetchProducts('computador');
-  
-  resultPromise
+
+  resultPromise.results
     .map((product) => extractIDAndNameAndImage(product))
     .forEach((productSummarized) => appendSectionProductItem(productSummarized));
 }
