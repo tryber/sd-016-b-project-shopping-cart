@@ -12,7 +12,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -40,6 +40,21 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+// Inicio do meu código
+const items = document.querySelector('.items');
 
-// inicio
+const showProducts = () => {
+  fetchProducts()
+  .then((products) => {
+    products.forEach((product) => {
+      const createItem = createProductItemElement(product);
+      items.appendChild(createItem);
+    });
+  });
+};
+// Uso do then é para pegar a promise que retorna da função fetchProduct, forEach para passar em casa objeto e criar os elementos.
+// fiz alteração do objeto diretamente na função createProductItemELement - Dica do colega Israel Santana no slack.
+
+window.onload = () => {
+  showProducts();
+ };
