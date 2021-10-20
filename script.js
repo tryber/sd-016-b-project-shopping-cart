@@ -24,6 +24,17 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+fetchProducts('computador').then((dado) => {
+  for (let index = 0; index < dado.length; index += 1) {
+    const sku = dado[index].id;
+    const name = dado[index].title;
+    const image = dado[index].thumbnail;
+
+    const add = document.querySelector('.items');
+    add.appendChild(createProductItemElement({ sku, name, image }));
+  }
+});
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
