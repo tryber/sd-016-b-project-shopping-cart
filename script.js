@@ -43,9 +43,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const constructorHTML = (items) => {
-  for (let i = 0; i < items.length; i += 1) {
-    getItems.appendChild(createProductItemElement(items[i]));
-  }
+  items.forEach((item) => {
+    getItems.appendChild(createProductItemElement(item));
+  });
 };
 
 const constructor = (data) => {
