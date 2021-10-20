@@ -20,4 +20,9 @@ describe('1 - Teste a função fecthProducts', () => {
     await fetchProducts('computador')
     expect(fetch).toHaveBeenCalledWith(correctEndPoint)
   })
+  it('Testa se o retorno da fetchProducts esta correto', async () => {
+    const expected = await fetchProducts('computador');
+    const functionResult = await fetchProducts('computador');
+    expect(functionResult).toEqual(expected)
+  })
 });
