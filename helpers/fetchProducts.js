@@ -1,8 +1,10 @@
 const fetchProducts = (query) => {
-  const result = fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
-    .then((response) => response.json());
+  if (!query) {
+    throw new Error('You must provide an url');
+  }
 
-  return result;
+  return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+    .then((response) => response.json());
 };
 
 if (typeof module !== 'undefined') {
