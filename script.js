@@ -45,6 +45,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 // My functions
 const productConstructor = ({ id: sku, title: name, thumbnail: image }) => ({ sku, name, image });
 
+const itemConstructor = ({ id: sku, title: name, price: salePrice }) => ({ sku, name, salePrice });
+
 const renderProducts = () => {
   fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(({ results: products }) => {
