@@ -41,8 +41,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // }
 
 window.onload = () => {
-  fetchProducts().then((products) => {
-    products.forEach((product) => document.querySelector('.items')
+  fetchProducts().then((inventory) => {
+    inventory.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
   });
 };
