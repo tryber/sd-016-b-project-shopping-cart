@@ -1,5 +1,5 @@
 const fetchProducts = () => {
-  // seu código aqui
+  a// seu código aqui
 };
 
 if (typeof module !== 'undefined') {
