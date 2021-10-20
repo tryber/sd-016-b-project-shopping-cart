@@ -51,6 +51,15 @@ const renderCardProducts = (id) => fetchItem(id)
     .then((item) => itemConstructor(item))
     .then((item) => createCartItemElement(item));
 
+const addProductOnCart = (event) => {
+  const productId = event.target.parentElement.firstElementChild.innerText;
+
+  renderCardProducts(productId)
+    .then((product) => {
+      document.querySelector('.cart__items').appendChild(product);
+    });
+};
+
 const renderProducts = () => {
   fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(({ results: products }) => {
@@ -58,7 +67,7 @@ const renderProducts = () => {
         .map((product) => productConstructor(product))
         .forEach((product) => {
           const newProduct = createProductItemElement(product);
-          newProduct.addEventListener('click', addProuctOnCart);
+          newProduct.addEventListener('click', addProductOnCart);
           document.querySelector('.items').appendChild(newProduct);
         });
     })
