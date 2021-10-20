@@ -1,3 +1,5 @@
+const getCartItemsOL = document.getElementsByClassName('cart__items')[0];
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -32,10 +34,10 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -51,6 +53,13 @@ async function showProductItems() {
   });
 }
 
+async function addCartItems(productID) {
+  const product = await fetchItem(productID);
+
+  getCartItemsOL.appendChild(createCartItemElement(product));
+}
+
 window.onload = () => {
   showProductItems();
+  addCartItems('MLB1341706310');
  };
