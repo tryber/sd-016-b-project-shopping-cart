@@ -17,4 +17,10 @@ describe('1 - Teste a função fecthProducts', () => {
     expect.assertions(1);
     expect(response).toEqual(computadorSearch);
   })
+
+  // teste 5
+  it('Verifica o erro da função em caso de chamada sem argumento',  () => {
+    expect(() => fetchProducts()).toThrow();
+    expect(() => fetchProducts()).toThrowError(new Error('You must provide an url'));
+  })
 });
