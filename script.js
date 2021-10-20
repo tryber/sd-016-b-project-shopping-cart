@@ -1,5 +1,6 @@
 const allItemsInCart = document.querySelector('.cart__items');
 const cartItemsSection = document.querySelector('.cart');
+const cleanButton = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -34,6 +35,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // }
 
 // regex para retornar somente números. Fonte: https://stackoverflow.com/questions/30607419/return-only-numbers-from-string/30607466
+// https://stackoverflow.com/questions/9799505/allow-only-numbers-and-dot-in-script
 // const teste = document.querySelectorAll('.cart__item')[0].innerText
 // const teste2 = teste.slice(-10);
 // const teste 3 = teste2.replace(/\D/g, "");
@@ -121,5 +123,11 @@ window.onload = () => {
     }
   });
 };
+
+cleanButton.addEventListener('click', function () {
+  allItemsInCart.innerHTML = '';
+  document.querySelector('.total-price').innerText = '';
+  saveCartItems(allItemsInCart.innerHTML);
+});
 
 // window.addEventListener('change', saveCartItems);
