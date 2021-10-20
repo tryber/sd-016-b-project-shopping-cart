@@ -40,4 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => { 
+  const products = fetchProducts('computador');
+  createProductItemElement(products); 
+};
