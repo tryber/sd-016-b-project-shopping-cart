@@ -10,8 +10,15 @@ describe('2 - Teste a função fecthItem', () => {
     expect(fetchItem).toBeInstanceOf(Function);
   });
 
-  it('Check fetchItem calls fetch() function', () => {
-    expect(fetchItem('MLB1615760527')).toBeInstanceOf(Promise);
+  it('Check fetchItem call fetch() function', async () => {
+    await fetchItem('MLB1341706310');
+    expect(fetch).toHaveBeenCalled();
+  });
+
+  it('Check fetchItem call fetch() with params', async () => {
+    const itemId = 'MLB1341706310'
+    await fetchItem('MLB1341706310');
+    expect(fetch).toHaveBeenCalledWith(`https://api.mercadolibre.com/items/${itemId}`);
   });
 
   it('Check fetchItem return expected JSON', async () => {
