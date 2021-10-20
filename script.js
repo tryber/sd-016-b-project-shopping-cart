@@ -1,4 +1,5 @@
 const allItemsInCart = document.querySelector('.cart__items');
+const cartItemsSection = document.querySelector('.cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -32,9 +33,40 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+// regex para retornar somente números. Fonte: https://stackoverflow.com/questions/30607419/return-only-numbers-from-string/30607466
+// const teste = document.querySelectorAll('.cart__item')[0].innerText
+// const teste2 = teste.slice(-10);
+// const teste 3 = teste2.replace(/\D/g, "");
+// teste5.replace(/[^0-9\.]/g,''
+
+const catchPrice = (str) => {
+  const priceTextHandly = str.slice(-10);
+  const valueText = priceTextHandly.replace(/[^0-9.]/g, '');
+  const valueNumber = Number(valueText);
+  return valueNumber;
+};
+
+const sumItems = () => {
+  const allItems = [...document.querySelectorAll('.cart__item')];
+  const mapValues = allItems.map((item) => catchPrice(item.innerText));
+  const prices = mapValues.reduce((sum, actPrice) => (sum + actPrice), 0);
+  return prices;
+};
+
+const addTotalToPage = () => {
+  document.querySelector('.total-price').innerText = sumItems();
+};
+
+// const addSumToTotal = () => {
+//   const totalPrice = document.querySelector('total-price');
+//   const sumTotal = sumItems();
+//   totalPrice.appendChild((createCustomElement('div', 'subTotal', sumTotal)));
+// };
+
 function cartItemClickListener(event) {
   const eT = event.target;
   eT.remove();
+  addTotalToPage();
   saveCartItems(allItemsInCart.innerHTML);
 }
 
@@ -65,6 +97,7 @@ const addItemCartElement = async (id) => {
   const prod = await fetchItem(id);
   const prodAdded = createCartItemElement(prod);
   document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
+  addTotalToPage();
   saveCartItems(allItemsInCart.innerHTML);
 };
 
@@ -78,6 +111,7 @@ function loadItemsInCart() {
 window.onload = () => {
   productsArray();
   loadItemsInCart();
+  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
