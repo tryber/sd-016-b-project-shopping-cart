@@ -31,7 +31,10 @@ const mapProductsAndReturnObject = async () => {
   return productsInfo;
 };
 
-mapProductsAndReturnObject();
+const appendProductItemElementToSection = (product) => {
+  const sectionItem = document.querySelector('.items');
+  sectionItem.appendChild(product);
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
