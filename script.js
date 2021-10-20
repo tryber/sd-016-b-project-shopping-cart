@@ -1,3 +1,5 @@
+const getCart = document.querySelector('.cart__items');
+const getItems = document.querySelector('.items');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,6 +32,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const item = event.target;
+  item.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,7 +45,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const elementItem = async () => { // falta testar
-const getItems = document.querySelector('.items');
 const arrProducts = await fetchProducts('computador');
 const arrResults = arrProducts.results
 .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
@@ -57,10 +60,10 @@ const objItem = {
   salePrice: price,
 };
 const element = createCartItemElement(objItem);
-const getCart = document.querySelector('.cart__items');
 getCart.appendChild(element);
 };
 
 window.onload = () => {
   elementItem();
+  cartElement('MLB1615760527');
 };
