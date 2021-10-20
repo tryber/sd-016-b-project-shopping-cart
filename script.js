@@ -1,3 +1,5 @@
+const getItems = document.querySelector('.items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,4 +42,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const constructorHTML = (items) => {
+  for (let i = 0; i < items.length; i += 1) {
+    getItems.appendChild(createProductItemElement(items[i]));
+  }
+};
+
+const constructor = (data) => {
+  const resultObj = data.map(({ id, title, thumbnail, price }) => ({ sku: id,
+    name: title,
+    image: thumbnail,
+    val: price,
+  }));
+  constructorHTML(resultObj);
+};
+
+fetchProducts().then((data) => constructor(data.results));
+
+window.onload = () => {
+  constructor();
+};
