@@ -8,4 +8,10 @@ describe('1 - Teste a função fecthProducts', () => {
   it('fetchProducts should be a function', () => {
     expect(typeof fetchProducts).toBe('function')
   })
+
+  it('Should return computadorSearch with params computador', async () => {
+    const request = await fetchProducts('computador')
+
+    expect(request).toEqual(computadorSearch)
+  })
 });
