@@ -9,7 +9,7 @@ function createProductImageElement(imageSource) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  getOL.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
