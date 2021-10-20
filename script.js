@@ -36,8 +36,8 @@ const appendProductItemElementToSection = (product) => {
   sectionItem.appendChild(product);
 };
 
-const createProductsSection = (callback) => {
-  const products = callback();
+const createProductsSection = async (callback) => {
+  const products = await callback();
   products.forEach((product) => {
     const productSection = createProductItemElement(product);
     appendProductItemElementToSection(productSection);
@@ -60,4 +60,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => {};
+window.onload = () => {
+  createProductsSection(mapProductsAndReturnObject);
+};
