@@ -48,7 +48,7 @@ const appendByClass = (className, childName) => {
   }
 };
 
-window.onload = async () => {
+const getfetchProducts = async () => {
   const { results: products } = await fetchProducts('computador');
 
   products.forEach((product) => {
@@ -57,4 +57,16 @@ window.onload = async () => {
 
     appendByClass('items', itemElement);
   });
+};
+
+const getfetchItem = async () => {
+  const { id: sku, title: name, price: salePrice } = await fetchItem('MLB1341706310');
+  const itemElement = createCartItemElement({ sku, name, salePrice });
+
+  appendByClass('cart__items', itemElement);
+};
+
+window.onload = () => {
+  getfetchProducts();
+  getfetchItem();
 };
