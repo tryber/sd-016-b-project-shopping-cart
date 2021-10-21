@@ -13,4 +13,8 @@ describe('1 - Teste a função fecthProducts', () => {
     fetchProducts('computador');
     expect(fetch).toBeCalled();
   });
+  it('Testa se fetch utiliza o endpoint adequado', () => {
+    fetchProducts('computador');
+    expect(fetch).toBeCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
+  });
 });
