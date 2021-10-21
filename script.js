@@ -49,4 +49,4 @@ const productsList = async () => {
   });
 };
 
-window.onload = () => {productsList();};
+window.onload = () => { productsList(); };
