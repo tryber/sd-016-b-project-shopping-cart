@@ -65,8 +65,7 @@ const addItemOnCart = (id) => {
 
 const addProduct = (event) => {
   if (event.target.classList.contains('item__add')) {
-    const g = event.target
-    const id = g.parentNode.firstChild.innerText;
+    const id = event.target.parentNode.firstChild.innerText;
     addItemOnCart(id);
     saveCartItems();
   }
