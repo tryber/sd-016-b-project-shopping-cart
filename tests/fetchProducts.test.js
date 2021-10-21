@@ -2,7 +2,6 @@ const fetchSimulator = require('../mocks/fetchSimulator');
 const { fetchProducts } = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
 const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-const errSet = 'You must provide an url';
 
 window.fetch = jest.fn(fetchSimulator);
 
@@ -33,6 +32,6 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(objRetourn).toBeInstanceOf(Object);
   });
   it('5 - Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. ', async () => {
-    const data = await fetchProducts().catch(data => expect(data).toMatch(errSet));
+    await expect(fetchProducts()).rejects.toEqual(new Error('You must provide an url')); 
   });
 });
