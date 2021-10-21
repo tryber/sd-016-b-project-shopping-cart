@@ -48,6 +48,25 @@ const appendByClass = (className, childName) => {
   }
 };
 
+const getfetchItem = async (id) => {
+  const { id: sku, title: name, price: salePrice } = await fetchItem(id);
+  const itemElement = createCartItemElement({ sku, name, salePrice });
+
+  appendByClass('cart__items', itemElement);
+};
+
+const itemAdd = () => {
+  const button = document.getElementsByClassName('item__add');
+  // const lastButton = button.parentElement.lastElementChild;
+  
+  for (let index = 0; index <= button.length; index += 1) {
+    button[index].addEventListener('click', (element) => {
+      const sku = element.target.parentElement.firstChild.innerText;
+      getfetchItem(sku);
+    });
+  }
+};
+
 const getfetchProducts = async () => {
   const { results: products } = await fetchProducts('computador');
 
@@ -57,16 +76,11 @@ const getfetchProducts = async () => {
 
     appendByClass('items', itemElement);
   });
-};
 
-const getfetchItem = async () => {
-  const { id: sku, title: name, price: salePrice } = await fetchItem('MLB1341706310');
-  const itemElement = createCartItemElement({ sku, name, salePrice });
-
-  appendByClass('cart__items', itemElement);
+  itemAdd();
 };
 
 window.onload = () => {
   getfetchProducts();
-  getfetchItem();
+  // getfetchItem();
 };
