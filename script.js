@@ -1,4 +1,5 @@
 function cartItemClickListener(event) {
+  event.target.remove();
 }
 
 function createCartItemElement({ id, title, price }) {
