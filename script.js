@@ -47,10 +47,10 @@ const loadProducts = async () => {
     const items = document.querySelector('.items');
     products.forEach((product) => {
       const item = createProductItemElement(product);
-      item.appendChild(item);
+      items.appendChild(item);
     });
   });
-};
+}
 
 window.onload = () => { 
   loadProducts();
