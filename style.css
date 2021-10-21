@@ -7,7 +7,7 @@
 .items {
   display: flex;
   flex-basis: 70%;
-  flex-wrap: wrap;
+  flex-wrap: wrap;    
   justify-content: center;
 }
 
