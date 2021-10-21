@@ -1,5 +1,10 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
+// const { fetchItem } = require("./helpers/fetchItem");
+
+const itemClass = document.querySelector('.items');
+const cartItemsClass = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,8 +49,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const getProductsSection = async () => {
   const productsArray = await fetchProducts('computador');
-  const itemClass = document.querySelector('.items');
-
   const createProductSection = productsArray.results
   .map((product) => ({
     sku: product.id,
@@ -57,6 +60,27 @@ const getProductsSection = async () => {
   .forEach((product) => itemClass.appendChild(createProductItemElement(product)));
 };
 
+const getCartElement = async (ID) => {
+  const returnedItem = await fetchItem(ID);
+
+  const { id, title, price } = returnedItem;
+  const objOfReturnedItem = {
+    sku: id,
+    name: title,
+    salePrice: price,
+  };
+
+  cartItemsClass.appendChild(createCartItemElement(objOfReturnedItem));
+};
+
+const addElementToCart = (event) => {
+  const eventTarget = event.target;
+  const eventId = eventTarget.parentNode.firstChild.innerText;
+  getCartElement(eventId);
+};
+
 window.onload = () => { 
   getProductsSection();
+  itemClass.addEventListener('click', addElementToCart);
+  cartItemsClass.addEventListener('click', cartItemClickListener);
 };
