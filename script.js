@@ -4,6 +4,8 @@ const staticElements = {
   btnEmptyCart: document.querySelector('.empty-cart'),
 };
 
+let totalPrice = 0;
+
 // Trybe functions
 
 function createProductImageElement(imageSource) {
@@ -41,8 +43,25 @@ const saveCart = () => { // My func
   saveCartItems(JSON.stringify(allProducts));
 };
 
+const updateTotalPrice = (value, operation) => {
+  const total = document.querySelector('.total-price');
+
+  if (operation === 'clear') totalPrice = 0;
+  if (operation === 'remove') {
+    totalPrice -= value;
+  } else {
+    totalPrice += value;
+  }
+
+  total.innerText = totalPrice;
+};
+
 function cartItemClickListener(event) {
-  const productOnCart = event.target;
+  const productOnCart = event.target; 
+  const priceRegex = new RegExp(/(?:)\$+[0-9]+[.]?[0-9]+/g);
+  const price = productOnCart.innerText.match(priceRegex).flat()[0].split('$')[1];
+
+  updateTotalPrice(Number(price), 'remove');
   productOnCart.outerHTML = '';
   saveCart();
 }
@@ -63,6 +82,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 // My functions
+
 const showLoadMesage = () => {
   const loadMsg = document.createElement('div');
   loadMsg.classList.add('loading');
@@ -83,7 +103,10 @@ const renderCardProducts = async (id) => {
 
   const cartItem = await fetchItem(id)
     .then((item) => itemConstructor(item))
-    .then((item) => createCartItemElement(item));
+    .then((item) => {
+      updateTotalPrice(item.salePrice);
+      return createCartItemElement(item);
+    });
 
   hideLoadMesage();
 
@@ -123,6 +146,7 @@ const renderProducts = async () => {
 const emptyCart = () => {
     staticElements.btnEmptyCart.addEventListener('click', () => {
       staticElements.cartItems.innerHTML = '';
+      updateTotalPrice(0, 'clear');
       saveCart();
     });
 };
