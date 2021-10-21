@@ -36,7 +36,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.className = 'item';
 
   const btn = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  btn.addEventListener('click', cartItems);
+  btn.addEventListener('click', () => cartItems(sku));
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
