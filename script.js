@@ -1,3 +1,19 @@
+const totalPriceHtml = (num) => {
+  // console.log(num);
+  const priceContainer = document.querySelector('.total-price');
+  priceContainer.innerText = `Preço Total: $${num}`;
+};
+
+const totalPrice = () => {
+  const productsIds = JSON.parse(localStorage.getItem('cartItems'));
+  // console.log(productsIds.length);
+  if (productsIds.length > 0) {
+    let acc = 0;
+    productsIds.forEach((id) => fetchItem(id)
+      .then((element) => { totalPriceHtml(acc += element.base_price); }));
+  } else totalPriceHtml(0); // Faz com que o preço se atualize para 0 caso a condição acima não seja atendida
+};
+
 const localStorageNull = () => {
   if (localStorage.getItem('cartItems') === null) localStorage.setItem('cartItems', '[]');
 };
@@ -46,6 +62,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
   saveCartItems(currentOl());
+  totalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -57,6 +74,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   cart.appendChild(li);
   saveCartItems(currentOl());
+  totalPrice();
 }
 
 const addToCart = () => {
@@ -73,11 +91,17 @@ const cartOnRefresh = () => {
   // console.log(arrayFromLocal);
   arrayFromLocal.forEach((id) => fetchItem(id)
     .then((element) => createCartItemElement(element)));
+  totalPrice();
 };
 
-localStorageNull();
-createProductRotation();
-addToCart();
-cartOnRefresh();
+// localStorageNull();
+// createProductRotation();
+// addToCart();
+// cartOnRefresh();
 
-window.onload = () => { };
+window.onload = () => {
+  localStorageNull();
+  createProductRotation();
+  addToCart();
+  cartOnRefresh();
+};
