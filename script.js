@@ -1,6 +1,8 @@
 const elementoItems = document.querySelector('.items');
 const elementoCart = document.querySelector('.cart__items');
 
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -13,7 +15,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  elementoCart.removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
