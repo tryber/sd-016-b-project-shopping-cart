@@ -1,11 +1,9 @@
 const itemsSection = document.querySelector('.items');
 const olList = document.querySelector('.cart__items');
-const cartSection = document.querySelector('.cart');
 
-const listen = async (param) => {
-  const result = (await toCreateItemCarts(await fetchItem(await getSkuFromProductItem(param))));
-  return result;
-};
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,6 +11,29 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return olList.appendChild(li);
+}
+
+const toCreateItemCarts = async (fetcherObj) => {
+  const params = {
+    sku: fetcherObj.id,
+    name: fetcherObj.title,
+    salePrice: fetcherObj.base_price,
+  };
+
+  return createCartItemElement(params);
+};
+
+const listen = async (param) => {
+  const result = (await toCreateItemCarts(await fetchItem(await getSkuFromProductItem(param))));
+  return result;
+};
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -48,32 +69,10 @@ const toCreateResultList = async (fetcher) => {
   return params.map((eachParam) => itemsSection.appendChild(createProductItemElement(eachParam)));
 };
 
-const toCreateItemCarts = async (fetcherObj) => {
-  const params = {
-    sku: fetcherObj.id,
-    name: fetcherObj.title,
-    salePrice: fetcherObj.base_price,
-  };
-
-  return createCartItemElement(params);
-};
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 // function cartItemClickListener(event) {
   // const olList = document.querySelector('.cart__items');
   // olList.append(event);
 // }
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', cartItemClickListener);
-  return olList.appendChild(li);
-}
 
 window.onload = async () => {
   const resultsList = await fetchProducts('computador');
