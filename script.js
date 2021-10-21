@@ -1,6 +1,7 @@
 const getItems = document.querySelector('.items');
 const getOL = document.querySelector('.cart__items');
 const getP = document.querySelector('.total-price');
+const getLoading = document.querySelector('#load');
 
 let val = 0;
 
@@ -20,7 +21,7 @@ function cartItemClickListener(event) {
   getOL.removeChild(event.target);
   console.log(event.target.innerText.split('$')[1]);
   val -= event.target.innerText.split('$')[1];
-  getP.innerHTML = val;
+  getP.innerHTML = val.toFixed(2);
   saveCartItems(getOL.innerHTML);
 }
 
@@ -40,7 +41,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const somePrice = (price) => {
   val += price;
-  getP.innerHTML = val;
+  getP.innerHTML = val.toFixed(2);
 };
 
 const addItemCard = (event) => {
@@ -81,10 +82,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const removeLoad = () => {
+  getLoading.innerHTML = '';
+};
+
 const constructorHTML = (items) => {
   items.forEach((item) => {
     getItems.appendChild(createProductItemElement(item));
   });
+  removeLoad();
 };
 
 const constructor = (data) => {
