@@ -1,8 +1,4 @@
-const saveCartItems = () => {
-  const products = document.querySelectorAll('.cart__items');
-  products.forEach((product) => localStorage
-  .setItem('cartItems', JSON.stringify(product.innerHTML)));
-};
+const saveCartItems = (element) => localStorage.setItem('cartItems', element);
 
 if (typeof module !== 'undefined') {
   module.exports = saveCartItems;
