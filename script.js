@@ -33,6 +33,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  saveCartItems();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -65,6 +66,7 @@ const addProductCart = (event) => {
   if (event.target.classList.contains('item__add')) {
     const id = event.target.parentNode.firstChild.innerText;
     LoadProductCart(id);
+    saveCartItems();
   }
 };
     
