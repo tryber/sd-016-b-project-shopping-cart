@@ -1,6 +1,7 @@
 const getItens = document.querySelector('.items');
 const getOl = document.querySelector('.cart__items');
 const getallOl = document.querySelectorAll('.cart__items');
+const deletButton = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -76,6 +77,10 @@ const morefun = () => {
   getOl.innerHTML = getSavedCartItems();
   getallOl.forEach((x) => x.addEventListener('click', cartItemClickListener));
 };
+
+deletButton.addEventListener('click', () => {
+  getOl.innerHTML = '';
+});
 
 window.onload = () => {
   morefun();
