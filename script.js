@@ -1,7 +1,6 @@
 const seItens = document.querySelector('.items');
 const seCarrinho = document.querySelector('.cart__items');
 const localCarregando = document.querySelector('#local-loading');
-const localTotalCarrinho = document.querySelector('#total-valor');
 const localTotalValor = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
@@ -32,8 +31,8 @@ document.querySelector('.empty-cart').addEventListener('click', () => {
   saveCartItems(seCarrinho.innerHTML);
 });
 
-const somarValores = (valor, operador) => {
-  console.log(valor);
+const somarValores = (valor) => {
+  localTotalValor.innerText = parseFloat(Number(localTotalValor.innerText) + Number(valor));
 };
 
 const addEventNasLI = () => {
@@ -61,7 +60,7 @@ const addCarrinho = (event) => {
       name: data.title, 
       salePrice: data.price,
     }));
-    somarValores(data.price, '+');
+    somarValores(data.price);
     saveCartItems(seCarrinho.innerHTML);
     criarLoading('');
   });
