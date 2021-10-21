@@ -4,7 +4,7 @@
   "description": "Você já usa o GitHub diariamente para desenvolver os exercícios, certo? Agora, para desenvolver os projetos, você deverá seguir as instruções a seguir. Fique atento a cada passo, e se tiver qualquer dúvida, nos envie por _Slack_! #vqv 🚀",
   "main": "script.js",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
     "test:coverage": "jest test --coverage",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
