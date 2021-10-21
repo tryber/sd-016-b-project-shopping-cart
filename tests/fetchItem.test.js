@@ -29,5 +29,10 @@ describe('2 - A função fecthItem', () => {
     expect(response).toEqual(item);
   })
 
+  it("sem o argumento, retorna a mensagem de erro 'You must provide an url' ", async () => {
+    expect.assertions(1);
+    await expect(fetchItem()).rejects.toEqual(new Error ('You must provide an url'));
+  })
+
   //fail('Teste vazio');
 });
