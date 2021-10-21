@@ -42,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const createProductObject = async () => {
   const products = await fetchProducts('computador');
-  const list = products
+  const list = products.results
     .map(({ id, title, thumbnail, price }) => {
       const productObject = {
         sku: id,
