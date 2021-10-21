@@ -1,15 +1,15 @@
-const baseUrl = "https://api.mercadolibre.com/items/"
+const baseUrl = 'https://api.mercadolibre.com/items/';
 
-const fetchItem = async (itemId) => {
-  const endPoint = itemId
-  const url = `${baseUrl}${endPoint}`
+const fetchItem = (itemId) => {
+  const endPoint = itemId;
+  const url = `${baseUrl}${endPoint}`;
 
-   const result = await fetch(url)
-    .then((response)=> response.json())
-      .then((data)=>data)
-        .catch(()=>'You must provide an url')
+   const result = fetch(url)
+    .then((response) => response.json())
+      .then((data) => data)
+        .catch(() => 'You must provide an url');
 
-  return result
+  return result;
 };
 
 if (typeof module !== 'undefined') {
