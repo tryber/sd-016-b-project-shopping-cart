@@ -32,6 +32,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  return event;
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -47,6 +48,5 @@ const criarProduto = async () => {
   arrayItens.results.forEach((item) => createProductItemElement(item));
 };
 criarProduto();
-
 
 window.onload = () => {};
