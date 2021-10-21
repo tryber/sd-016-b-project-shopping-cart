@@ -1,4 +1,11 @@
-fetchProducts();
+const creatWithArrayItens = async () => {
+  const catchItens = document.querySelector('.items');
+  const itensList = await fetchProducts('computador').results;
+  const itensListFiltred = itensList.map(({ id, title, thumbnail }) =>
+    ({ sku: id, name: title, image: thumbnail }));
+  itensListFiltred.forEach((element) =>
+    catchItens.appendChild(createProductItemElement(element)));
+};
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -7,10 +14,10 @@ function createProductImageElement(imageSource) {
 }
 
 function createCustomElement(element, className, innerText) {
-  const ele = document.createElement(element);
-  ele.className = className;
-  ele.innerText = innerText;
-  return ele;
+  const e = document.createElement(element);
+  e.className = className;
+  e.innerText = innerText;
+  return e;
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -41,4 +48,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => {
+  creatWithArrayItens();
+};
