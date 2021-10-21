@@ -1,7 +1,7 @@
 const getItens = document.querySelector('.items');
 const getOl = document.querySelector('.cart__items');
-
 const deletButton = document.querySelector('.empty-cart');
+const load = document.querySelector('#local-loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -23,10 +23,16 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+const sum = (param) => {
+  const setvalue = parseFloat(totalValue.innerText);
+  totalValue.innerText = param + setvalue;
+};
+
 const funnn = async (e) => {
   const lalala = e.target.parentElement.firstChild.innerText;
   await fetchItem(lalala)
     .then((reponse) => getOl.appendChild(createCartItemElement(reponse)));
+  sum(valor.price);
   saveCartItems(getOl.innerHTML);
 };
 
@@ -60,6 +66,10 @@ const constructorHTML = (items) => {
   });
 };
 
+const removetxt = () => {
+  load.innerHTML = '';
+};
+
 const constructor = (data) => {
   const resultObj = data.map(({ id, title, thumbnail, price }) => ({
     sku: id,
@@ -72,6 +82,7 @@ const constructor = (data) => {
 
 fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then((data) => constructor(data.results));
+removetxt();
 
 const morefun = () => {
   getOl.innerHTML = getSavedCartItems();
