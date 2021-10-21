@@ -32,15 +32,14 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   
   li.className = 'cart__item';
   const classCartItems = document.querySelector('.cart__items');
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  classCartItems.appendChild(li);
-  return li;
+  classCartItems.appendChild(li);  
 }
 
 const criarProduto = async () => {
@@ -49,21 +48,14 @@ const criarProduto = async () => {
 };
 criarProduto();
 
-const capturarId = (event) => {
-  const innerTxtId = event.target.parentNode.firstChild.innerText;
-  return innerTxtId;
-};
-
-const adicionarElementoCart = async (prod) => {
-  const product = await fetchItem(prod);
-  const productAdd = createCartItemElement(product);
-  document.getElementsByClassName('car__items')[0].appendChild(productAdd);
-};
-
-window.onload = () => {
-  document.addEventListener('click', (evento) => {
-    if (evento.target.classList.contains('item__add')) {
-      adicionarElementoCart(capturarId(evento));
-    }
+const addToCart = () => {
+  const buttons = document.querySelector('.items');
+  buttons.addEventListener('click', (event) => {
+    if (event.target.className !== 'item__add') return; 
+    const idByParent = event.target.parentNode.querySelector('.item__sku').innerText;
+    fetchItem(idByParent).then((data) => createCartItemElement(data));
   });
 };
+addToCart();
+
+window.onload = () => { };
