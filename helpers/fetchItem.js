@@ -6,7 +6,7 @@ const fetchItem = (itemId) => {
     .then((data) => data)
     .catch((err) => console.log(err));
 };
-
+fetchItem('MLB1341706310');
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchItem,

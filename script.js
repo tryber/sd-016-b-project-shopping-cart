@@ -52,7 +52,14 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+const mapFetchItemAndReturnObj = async (itemId) => {
+  const fetchItemData = await fetchItem(itemId);
+  return fetchItemData.map(({ id, title, price }) => (
+    { id, title, price }
+  ));
+};
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
