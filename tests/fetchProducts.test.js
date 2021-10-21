@@ -17,4 +17,10 @@ describe('1 - Teste a função fecthProducts', () => {
     fetchProducts('computador');
     expect(fetch).toBeCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   });
+  it('Testa se a função retorna um objeto igual ao computadorSearch', async () => {
+    const toType = (obj) => ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    // função toType para verificar o tipo do elemento retirada de: https://stackoverflow.com/a/23461268/17151937
+    const result = await fetchProducts('computador');
+    expect(toType(result)).toEqual(toType(computadorSearch.results));
+  });
 });
