@@ -23,16 +23,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const sum = (param) => {
-  const setvalue = parseFloat(totalValue.innerText);
-  totalValue.innerText = param + setvalue;
-};
-
 const funnn = async (e) => {
   const lalala = e.target.parentElement.firstChild.innerText;
   await fetchItem(lalala)
     .then((reponse) => getOl.appendChild(createCartItemElement(reponse)));
-  sum(valor.price);
   saveCartItems(getOl.innerHTML);
 };
 
