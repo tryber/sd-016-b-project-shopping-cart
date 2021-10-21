@@ -24,6 +24,21 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const destructuringObject = async (itens) => {
+  const resultFetch = await fetchProducts(itens);
+   const retorno = resultFetch.results.map((value) => ({
+    sku: value.id,
+    name: value.title,
+    image: value.thumbnail,
+  }));
+  const items = document.querySelector('.items');
+  retorno.forEach((value) => {
+    items.appendChild(createProductItemElement(value));
+  }); 
+};
+
+destructuringObject('computador');
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
