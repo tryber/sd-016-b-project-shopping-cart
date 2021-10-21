@@ -50,7 +50,7 @@ const loadProducts = async () => {
       items.appendChild(item);
     });
   });
-}
+};
 
 window.onload = () => { 
   loadProducts();
