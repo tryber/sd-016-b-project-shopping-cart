@@ -24,7 +24,6 @@ totalPriceHtml(0);
 //   totalDiv.innerHTML = sum;
 // };
 
-
 const totalPrice = () => {
   const productsIds = JSON.parse(localStorage.getItem('cartItems'));
   if (productsIds.length > 0) {
