@@ -1,12 +1,13 @@
 const totalPriceHtml = (num) => {
   // console.log(num);
-  const priceContainer = document.querySelector('.total-price');
-  priceContainer.innerText = `Preço Total: $${num}`;
+  const priceTag = document.querySelector('#totalTag');
+  priceTag.innerText = `Preço Total: $${num.toFixed(2)}`;
 };
+
+totalPriceHtml(0);
 
 const totalPrice = () => {
   const productsIds = JSON.parse(localStorage.getItem('cartItems'));
-  // console.log(productsIds.length);
   if (productsIds.length > 0) {
     let acc = 0;
     productsIds.forEach((id) => fetchItem(id)
@@ -91,8 +92,16 @@ const cartOnRefresh = () => {
   // console.log(arrayFromLocal);
   arrayFromLocal.forEach((id) => fetchItem(id)
     .then((element) => createCartItemElement(element)));
-  totalPrice();
 };
+
+// const emptyCartBtn = () => {
+
+// }
+
+// const totalPrice = () => {
+//   const nodeFather = currentOl();
+//   if 
+// }
 
 // localStorageNull();
 // createProductRotation();
@@ -104,4 +113,5 @@ window.onload = () => {
   createProductRotation();
   addToCart();
   cartOnRefresh();
+  // totalPrice();
 };
