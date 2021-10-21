@@ -1,5 +1,6 @@
 const getItens = document.querySelector('.items');
 const getOl = document.querySelector('.cart__items');
+const getallOl = document.querySelectorAll('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -71,4 +72,11 @@ const constructor = (data) => {
 fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then((data) => constructor(data.results));
 
-window.onload = () => { getOl.innerHTML = getSavedCartItems(); };
+const morefun = () => {
+  getOl.innerHTML = getSavedCartItems();
+  getallOl.forEach((x) => x.addEventListener('click', cartItemClickListener));
+};
+
+window.onload = () => {
+  morefun();
+};
