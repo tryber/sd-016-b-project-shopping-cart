@@ -2,6 +2,19 @@ const sectionCart = document.querySelector('.cart');
 const cartList = document.querySelector('.cart__items');
 const EmptyButton = document.querySelector('.empty-cart');
 
+function appendLoading() {
+  const sectionFather = document.querySelector('.container');
+  const divLoading = document.createElement('div');
+  divLoading.className = 'loading';
+  divLoading.innerText = 'carregando...';
+  sectionFather.appendChild(divLoading);
+}
+
+function removeLoading() {
+  const divLoading = document.querySelector('.loading');
+  divLoading.remove();
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -41,7 +54,9 @@ function appendListCartItem(itemObject) {
 }
 
 async function cartItemToBeCreated(itemID) { // fetch informations from ME and request to create itens to cart
+  appendLoading(); 
   const resultPromise = await fetchItem(itemID);
+  removeLoading();
   appendListCartItem(resultPromise);
 }
 
@@ -83,8 +98,9 @@ function appendSectionProductItem(productObject) { // Create items from site ML 
 }
 
 async function productsToBeCreated() { // fetch informations from ME and request to create itens
+  appendLoading();
   const resultPromise = await fetchProducts('computador');
-
+  removeLoading();
   resultPromise.results
     .forEach((productSummarized) => appendSectionProductItem(productSummarized));
 }
