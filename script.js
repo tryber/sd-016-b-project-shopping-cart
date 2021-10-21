@@ -43,7 +43,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image, pric
 
 window.onload = () => {
   fetchProducts('computador').then((inventory) => {
-    inventory.forEach((product) => document.querySelector('.items')
+    inventory.results.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
   });
 };
