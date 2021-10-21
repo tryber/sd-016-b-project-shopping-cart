@@ -14,6 +14,11 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCalled()
   })
 
+  it('Should fetchProducts use specific endpoint', async () => {
+    await fetchProducts('computador')
+    expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  })
+
   it('Should return computadorSearch with params computador', async () => {
     const request = await fetchProducts('computador')
 
