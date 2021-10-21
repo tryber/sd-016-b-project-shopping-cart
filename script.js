@@ -14,6 +14,8 @@ function createProductImageElement(imageSource) {
 
 document.querySelector('.empty-cart').addEventListener('click', () => {
   getOL.innerHTML = '';
+  val = 0;
+  getP.innerHTML = val;
   saveCartItems(getOL.innerHTML);
 });
 
@@ -21,7 +23,7 @@ function cartItemClickListener(event) {
   getOL.removeChild(event.target);
   console.log(event.target.innerText.split('$')[1]);
   val -= event.target.innerText.split('$')[1];
-  getP.innerHTML = val.toFixed(2);
+  getP.innerHTML = val;
   saveCartItems(getOL.innerHTML);
 }
 
@@ -41,7 +43,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const somePrice = (price) => {
   val += price;
-  getP.innerHTML = val.toFixed(2);
+  getP.innerHTML = val;
 };
 
 const addItemCard = (event) => {
