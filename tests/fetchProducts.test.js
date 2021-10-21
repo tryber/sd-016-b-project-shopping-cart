@@ -18,5 +18,9 @@ describe('1 - Teste a função fecthProducts', () => {
     fetchProducts('compudator');
     expect(fetch).toHaveBeenCalledWith(endpoint);
   })
+  it('return function to equal expect "computadorSearch"', async () => {
+    const result = await fetchProducts('computador');
+    expect(result).toEqual(computadorSearch);
+  })
   // fail('Teste vazio');
 });
