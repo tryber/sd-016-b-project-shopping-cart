@@ -24,4 +24,10 @@ describe('2 - Teste a função fecthItem', () => {
 
     expect(request).toEqual(item)
   })
+
+  it('Should throw an error when there is no param', async () => {
+    await expect(fetchItem()).rejects.toEqual(
+      new Error('You must provide an id')
+    )
+  })
 });
