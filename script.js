@@ -106,8 +106,6 @@ async function backEndCreateProductItem() {
     console.log('Seu erro é:', error);
   }
 }
-
 window.onload = () => {
  backEndCreateProductItem();
- 
 };
