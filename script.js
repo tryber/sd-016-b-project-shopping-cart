@@ -30,6 +30,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const catchCartItem = event.target;
+  return catchCartItem.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -53,13 +55,15 @@ const creatItensOnShoppingCart = async (id) => {
   catchCart.appendChild(createCartItemElement(item));
 };
 const getIdItem = (item) => item.target.parentNode.firstChild.innerText;
-
-window.onload = () => {
+const addItemOnShopCart = () =>
   /* usei o codigo a baixo do para fazer dinamicamente a inclusão de itens https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript */
-  creatWithArrayItens();
   document.addEventListener('click', (item) => {
     if (item.target && item.target.classList.contains('item__add')) {
       creatItensOnShoppingCart(getIdItem(item));
     }
   });
+
+window.onload = () => {
+  creatWithArrayItens();
+  addItemOnShopCart();
 };
