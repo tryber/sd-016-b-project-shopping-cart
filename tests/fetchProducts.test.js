@@ -2,12 +2,13 @@ const fetchSimulator = require('../mocks/fetchSimulator');
 const { fetchProducts } = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
 const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const errSet = 'You must provide an url';
 
 window.fetch = jest.fn(fetchSimulator);
 
 // test asincrono feito com base no post que encontrei no stackOverFlow link a baixo
 // https://stackoverflow.com/questions/50816254/necessary-to-use-expect-assertions-if-youre-awaiting-any-async-function-calls
-// https://www.leighhalliday.com/mock-fetch-jest
+// https://www.leighhalliday.com/mock-fetch-jest  && https://jestjs.io/pt-BR/docs/asynchronous#callbacks 5º test usei esta sintax sem o asserions
 
 
 describe('1 - Teste a função fecthProducts', () => {
@@ -31,5 +32,7 @@ describe('1 - Teste a função fecthProducts', () => {
     const objRetourn = fetchProducts('computador');
     expect(objRetourn).toBeInstanceOf(Object);
   });
-  it('5 - Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. ', () => { });
+  it('5 - Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url. ', async () => {
+    const data = await fetchProducts().catch(data => expect(data).toMatch(errSet));
+  });
 });
