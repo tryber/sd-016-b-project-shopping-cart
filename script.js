@@ -7,9 +7,18 @@ function updateLocalStorageRemoveItem(event) { // When the client remove somethi
   localStorage.setItem('cartItems', JSON.stringify(updatedStorage));
 }
 
+function sumValueCartItens() {
+  const divTotalValue = document.querySelector('.total-price');
+  const getStorage = JSON.parse(localStorage.getItem('cartItems'));
+  totalValue = getStorage.reduce((acc, cur) => acc + cur.price, 0);
+  console.log(totalValue);
+  divTotalValue.innerText = totalValue;
+}
+
 function cartItemClickListener(event) {
   updateLocalStorageRemoveItem(event);
   event.target.remove(); // Remove order from Cart
+  sumValueCartItens();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -32,21 +41,12 @@ function updateLocalStorageAddItem({ id, title, price }) {
   saveCartItems(JSON.stringify(actualListInLocalStorage));
 }
 
-function initialRenderization() {
-  const getLocalStorageItens = getSavedCartItems();
-  console.log(getLocalStorageItens);
-  if (getLocalStorageItens === undefined) {
-    localStorage.setItem('cartItems', JSON.stringify([]));
-  } else {
-    JSON.parse(getLocalStorageItens).forEach((item) => appendListCartItem(item));
-  }
-}
-
 async function cartItemToBeCreated(itemID) {
   const resultPromise = await fetchItem(itemID);
 
   appendListCartItem(resultPromise);
   updateLocalStorageAddItem(resultPromise); // When the client send something to the cart, the local storage will update.
+  sumValueCartItens();
 }
 
 function createProductImageElement(imageSource) {
@@ -74,6 +74,24 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
+}
+
+function appendTotalValue() {
+  const cartSection = document.querySelector('.cart');
+
+  cartSection.appendChild(createCustomElement('div', 'total-price', 0));
+}
+
+function initialRenderization() {
+  const getLocalStorageItens = getSavedCartItems();
+  console.log(getLocalStorageItens);
+  if (getLocalStorageItens === undefined) {
+    localStorage.setItem('cartItems', JSON.stringify([]));
+  } else {
+    JSON.parse(getLocalStorageItens).forEach((item) => appendListCartItem(item));
+  }
+  appendTotalValue();
+  sumValueCartItens();
 }
 
 function createProductItemElement({ id, title, thumbnail }) {
