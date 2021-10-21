@@ -112,9 +112,15 @@ const cartOnRefresh = () => {
     .then((element) => createCartItemElement(element)));
 };
 
-// const emptyCartBtn = () => {
-
-// }
+const emptyCartBtn = () => {
+  const button = document.querySelector('.empty-cart');
+  const nodeFather = currentOl();
+  button.addEventListener('click', () => {
+    nodeFather.innerHTML = '';
+    totalPrice();
+    localStorage.setItem('cartItems', '[]');
+  });
+};
 
 // const totalPrice = () => {
 //   const nodeFather = currentOl();
@@ -132,5 +138,5 @@ window.onload = () => {
   addToCart();
   cartOnRefresh();
   appendSum();
-  // totalPrice();
+  emptyCartBtn();
 };
