@@ -1,7 +1,7 @@
 const seItens = document.querySelector('.items');
 const seCarrinho = document.querySelector('.cart__items');
 const localCarregando = document.querySelector('#local-loading');
-const localTotalValor = document.querySelector('.total-price');
+const lTotal = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -10,7 +10,20 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const somarValores = (valor, operador) => {
+  if (operador === '+') {
+    lTotal.innerText = parseFloat(Number(lTotal.innerText) + Number(valor));
+  } else {
+    lTotal.innerText = parseFloat(Number(lTotal.innerText) - Number(valor));
+  }
+};
+
+const apenasNumeros = (string) => string.substr(9, string.length);
+
 function cartItemClickListener(event) {
+  const element = event.target.innerText;
+  const valor = apenasNumeros(element.split('|')[2]);
+  somarValores(valor, '');
   seCarrinho.removeChild(event.target);
   saveCartItems(seCarrinho.innerHTML);
 }
@@ -30,10 +43,6 @@ document.querySelector('.empty-cart').addEventListener('click', () => {
   seCarrinho.innerHTML = '';
   saveCartItems(seCarrinho.innerHTML);
 });
-
-const somarValores = (valor) => {
-  localTotalValor.innerText = parseFloat(Number(localTotalValor.innerText) + Number(valor));
-};
 
 const addEventNasLI = () => {
   seCarrinho.innerHTML = getSavedCartItems();
@@ -60,9 +69,9 @@ const addCarrinho = (event) => {
       name: data.title, 
       salePrice: data.price,
     }));
-    somarValores(data.price);
-    saveCartItems(seCarrinho.innerHTML);
     criarLoading('');
+    somarValores(data.price, '+');
+    saveCartItems(seCarrinho.innerHTML);
   });
 };
 
@@ -98,10 +107,9 @@ const criarItens = (data) => {
       image: element.thumbnail, 
     }));
   });
-  criarLoading();
+  criarLoading('');
 };
 
-criarLoading('carre');
 fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then((data) => criarItens(data.results));
 
