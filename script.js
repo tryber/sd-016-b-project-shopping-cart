@@ -32,7 +32,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -66,6 +66,7 @@ const addItemCartElement = async (id) => {
 
 window.onload = () => { 
   loadProducts();
+
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
