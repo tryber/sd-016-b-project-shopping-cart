@@ -28,8 +28,17 @@ async function createElementsDatajson() {
   const sectionBody = document.querySelector('.items');
   const importData = await fetchProducts('computador');
 
-  importData.forEach((product) => {
-    sectionBody.appendChild(createProductItemElement(product));
+  const dataItens = importData.results.map((product) => {
+    const createObject = {
+      sku: product.id,
+      name: product.title,
+      image: product.thumbnail,
+    };
+    return createObject;
+  });
+
+  dataItens.forEach((item) => {
+    sectionBody.appendChild(createProductItemElement(item));
   });
 }
 

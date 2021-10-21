@@ -5,16 +5,7 @@ const fetchProducts = async (url) => {
   const promise = await fetch(fetchLink);
   const dataJson = await promise.json();
 
-  const ObjectProducts = dataJson.results.map((product) => {
-    const createObject = {
-      sku: product.id,
-      name: product.title,
-      image: product.thumbnail,
-    };
-    return createObject;
-  });
-
-  return ObjectProducts;
+  return dataJson;
 };
  
 if (typeof module !== 'undefined') {
