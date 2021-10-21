@@ -72,11 +72,11 @@ const constructor = (data) => {
     salePrice: price,
   }));
   constructorHTML(resultObj);
+  removetxt();
 };
 
 fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then((data) => constructor(data.results));
-removetxt();
 
 const morefun = () => {
   getOl.innerHTML = getSavedCartItems();
