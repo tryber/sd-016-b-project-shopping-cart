@@ -2,8 +2,8 @@ const fetchItem = (itemId) => {
   if (itemId === undefined) {
     throw new Error('You must provide an url');
   }
-  const API_URL = `https://api.mercadolibre.com/items/${itemId}`;
-  return fetch(API_URL)
+
+  return fetch(`https://api.mercadolibre.com/items/${itemId}`)
     .then((response) => response.json())
     .then((data) => data)
     .catch((err) => console.log(err));
