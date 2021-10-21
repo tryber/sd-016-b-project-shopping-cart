@@ -30,6 +30,7 @@ describe('1 - A função fetchProducts', () => {
   })
 
   it("sem o argumento, retorna a mensagem de erro 'You must provide an url' ", async () => {
+    expect.assertions(1);
     await expect(fetchProducts()).rejects.toEqual(new Error ('You must provide an url'));
   })
 
