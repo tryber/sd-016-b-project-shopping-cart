@@ -26,10 +26,10 @@ function appendListCartItem(itemObject) {
   ol.append(createCartItemElement(itemObject));
 }
 
-function updateLocalStorageAddItem(itemObject) {
-  const oldList = JSON.parse(localStorage.getItem('cartItems'));
-  oldList.push(itemObject);
-  saveCartItems(JSON.stringify(oldList));
+function updateLocalStorageAddItem({ id, title, price }) {
+  const actualListInLocalStorage = JSON.parse(localStorage.getItem('cartItems'));
+  actualListInLocalStorage.push({ id, title, price });
+  saveCartItems(JSON.stringify(actualListInLocalStorage));
 }
 
 function initialRenderization() {
