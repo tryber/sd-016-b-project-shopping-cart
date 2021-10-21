@@ -49,4 +49,22 @@ const productsList = async () => {
   });
 };
 
-window.onload = () => { productsList(); };
+function getId(element) {
+  const innerId = element.target.parentNode.firstChild.innerText;
+  return innerId;
+}
+
+const addItemCartElement = async (id) => {
+  const item = await fetchItem(id);
+  const addProduct = createCartItemElement(item);
+  document.getElementsByClassName('cart__items')[0].appendChild(addProduct);
+};
+
+window.onload = () => {
+  productsList();
+  document.addEventListener('click', function (element) {
+    if (element.target && element.target.classList.contains('item__add')) {
+      addItemCartElement(getId(element));
+    }
+  });
+};
