@@ -12,7 +12,7 @@ function createProductImageElement(imageSource) {
 
 function cartItemClickListener(event) {
   getOl.removeChild(event.target);
-  saveCartItems(getOl.innerHTML);
+
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
