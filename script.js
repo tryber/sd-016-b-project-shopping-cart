@@ -1,7 +1,6 @@
 const elementoItems = document.querySelector('.items');
 const elementoCart = document.querySelector('.cart__items');
-
-
+const valorTotal = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -16,6 +15,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   elementoCart.removeChild(event.target);
+  saveCartItems(elementoCart.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -26,10 +26,18 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const addItemCart = (event) => {
+const somaValores = (param) => {
+  const valorSet = parseFloat(valorTotal.innerText);
+  valorTotal.innerText = param + valorSet;
+};
+
+const addItemCart = async (event) => {
   const item = event.target.parentElement.firstChild.innerText;
-  fetchItem(item)
-    .then((valor) => elementoCart.appendChild(createCartItemElement(valor)));
+  await fetchItem(item)
+    .then((valor) => { elementoCart.appendChild(createCartItemElement(valor));
+      somaValores(valor.price);
+    });
+    saveCartItems(elementoCart.innerHTML);
 };
 
 function createCustomElement(element, className, innerText) {
@@ -65,6 +73,14 @@ const getItems = (objeto) => {
 fetchProducts('computador')
   .then((response) => getItems(response.results));
 
-window.onload = async () => {
+const funcCarregaPg = () => {
+  elementoCart.innerHTML = getSavedCartItems();
+  const seila = document.querySelectorAll('.cart__item');
+  seila.forEach((elemen) => {
+    elemen.addEventListener('click', cartItemClickListener);
+  });
+};
 
+window.onload = () => {
+  funcCarregaPg();
 };
