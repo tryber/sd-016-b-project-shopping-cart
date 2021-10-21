@@ -25,4 +25,8 @@ describe('2 - Teste a função fecthItem', () => {
     expect(current).toEqual(item);
   })
 
+  test('Se a função sem argumento retorna um erro', async () => {
+    await expect(fetchItem()).rejects.toEqual(new Error('You must provide an url'));
+  }) 
+
 });

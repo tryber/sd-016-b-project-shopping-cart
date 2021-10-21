@@ -1,8 +1,12 @@
 const fetchItem = async (id) => {
   // seu código aqui
-  const result = await fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then((data) => data.json());
-  return result;
+  if (id !== undefined) {
+    const result = await fetch(`https://api.mercadolibre.com/items/${id}`)
+      .then((data) => data.json());
+    return result;
+  }
+
+  throw new Error('You must provide an url');
 };
 
 // console.log(fetchItem('MLB1341706310'));
