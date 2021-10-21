@@ -24,7 +24,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-async function createElementsDatajson() {
+async function createSectionsDatajson() {
   const sectionBody = document.querySelector('.items');
   const importData = await fetchProducts('computador');
 
@@ -58,7 +58,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
 window.onload = async () => {
-  await createElementsDatajson();
+  await createSectionsDatajson();
 };

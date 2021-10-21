@@ -1,7 +1,6 @@
 const fetchProducts = async (url) => {
-  // seu código aqui
   const fetchLink = `https://api.mercadolibre.com/sites/MLB/search?q=${url}`;
-  
+
   const promise = await fetch(fetchLink);
   const dataJson = await promise.json();
 
