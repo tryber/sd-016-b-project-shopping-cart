@@ -5,8 +5,7 @@ const computadorSearch = require('../mocks/search');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('1 - Teste a função fecthProducts', () => {
-  // implemente seus testes aqui
-  // fail('Teste vazio');
+ 
   it('fecthProducts is a function', () => {
     expect(typeof fetchProducts).toBe('function');
   });
@@ -29,5 +28,6 @@ describe('1 - Teste a função fecthProducts', () => {
   it('When calling "fetchProducts" without argument, it returns as error: "You must provide a url"', async() => {
     const productFetchTest = await fetchProducts();
     const error = new Error('You must provide a url');
+    expect(productFetchTest).toEqual(error);
   });
 });
