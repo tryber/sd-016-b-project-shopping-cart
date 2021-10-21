@@ -1,6 +1,7 @@
 const getCartItemsOL = document.querySelector('.cart__items');
 const getItemsSection = document.querySelector('.items');
 const getButtonEmptyCart = document.querySelector('.empty-cart');
+const getTotalPriceSpan = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -38,19 +39,31 @@ function removeLoadingText() {
   loading.parentNode.removeChild(loading);
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+function sumPrices() {
+  const priceElements = document.querySelectorAll('.prices');
+  let sum = 0;
+
+  priceElements.forEach((element) => {
+    sum += parseFloat(element.innerText, 10);
+  });
+  
+  getTotalPriceSpan.innerText = sum;
 }
 
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
   saveCartItems(getCartItemsOL.innerHTML);
+  sumPrices();
 }
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
+  li.innerHTML = `SKU: ${id} | NAME: ${title} | PRICE: $<span class="prices">${price}</span>`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -69,6 +82,7 @@ async function addCartItems(productID) {
   const product = await fetchItem(productID);
 
   getCartItemsOL.appendChild(createCartItemElement(product));
+  sumPrices();
 }
 
 getItemsSection.addEventListener('click', async (e) => {
@@ -89,6 +103,7 @@ function getSavedCart() {
   const getCartItems = document.querySelectorAll('.cart__item');
   
   getCartItems.forEach((item) => item.addEventListener('click', cartItemClickListener));
+  sumPrices();
 }
 
 window.onload = () => {
