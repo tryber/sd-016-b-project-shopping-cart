@@ -17,8 +17,8 @@ function createProductItemElement({ sku, name, image }) {
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
@@ -30,7 +30,17 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  
+}
+
+// basta chamá-la no escopo principal do arquivo
+async function appendItems() {
+  const {results} = await fetchProducts('computador');
+
+  results.forEach(result => {
+    const { id: sku, title: name, thumbnail: image } = result;
+    const items = document.querySelector('.items')
+    items.appendChild(createProductItemElement({ sku, name, image }))
+  });
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,4 +51,4 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => { appendItems() };
