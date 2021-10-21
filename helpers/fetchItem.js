@@ -1,8 +1,8 @@
-const API_URL = 'https://api.mercadolibre.com/items/';
+const id_URL = 'https://api.mercadolibre.com/items/';
 
 const fetchItem = (itemID) => {
   if (!itemID) throw new Error('You must provide and url');
-  return fetch(`${API_URL}${itemID}`)
+  return fetch(`${id_URL}${itemID}`)
   .then((response) => response.json())
   .then((data) => data)
   .catch((error) => console.log('seu erro é: ', error));
