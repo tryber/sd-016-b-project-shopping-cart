@@ -52,7 +52,7 @@ const addToCart = () => {
   const buttons = document.querySelector('.items');
   buttons.addEventListener('click', (event) => {
     if (event.target.className !== 'item__add') return; 
-    const idByParent = event.target.parentNode.querySelector('.item__sku').innerText;
+    const idByParent = event.target.parentNode.querySelectorAll('.item__sku').innerText;
     fetchItem(idByParent).then((data) => createCartItemElement(data));
   });
 };
