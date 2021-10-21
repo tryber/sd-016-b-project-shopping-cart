@@ -40,6 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   classCartItems.appendChild(li);
+  return li;
 }
 
 const criarProduto = async () => {
@@ -51,7 +52,7 @@ criarProduto();
 const capturarId = (event) => {
   const innerTxtId = event.target.parentNode.firstChild.innerText;
   return innerTxtId;
-}
+};
 
 const adicionarElementoCart = async (prod) => {
   const product = await fetchItem(prod);
@@ -64,5 +65,5 @@ window.onload = () => {
     if (evento.target.classList.contains('item__add')) {
       adicionarElementoCart(capturarId(evento));
     }
-  })
+  });
 };
