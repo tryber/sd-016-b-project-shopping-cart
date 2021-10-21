@@ -17,15 +17,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // li.addEventListener('click', cartItemClickListener);
-  return olList.appendChild(li);
+  return (olList.appendChild(li));
 }
 
 const toCreateItemCarts = async (fetcherObj) => {
   const params = {
     sku: fetcherObj.id,
     name: fetcherObj.title,
-    salePrice: fetcherObj.base_price,
+    salePrice: fetcherObj.price,
   };
+
+  console.log(fetcherObj);
 
   return createCartItemElement(params);
 };
