@@ -4,7 +4,7 @@ const fetchItem = async (id) => {
   }
   const result = await fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((data) => data.json());
-    return result;
+  return result;
 };
 
 if (typeof module !== 'undefined') {
