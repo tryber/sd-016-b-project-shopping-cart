@@ -4,28 +4,28 @@ const { fetchProducts } = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
 window.fetch = jest.fn(fetchSimulator);
 
-describe('1 - Teste a função fecthProducts', () => {
-  it('expect JsonFIle', () => {
+describe('1 - Test fecthProducts', () => {
+  it('expect Json', () => {
     expect(fetchProducts).toBeInstanceOf(Function);
   });
-  it('Expect toBeCalled Fetch', () => {
+  it('Expect parameter "computador"', () => {
     fetchProducts('computador');
     expect(fetch).toBeCalled();
   });
-  it('Testing EndPoint with argument Computador', () => {
+  it('Test endpoint', () => {
     fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith(
       'https://api.mercadolibre.com/sites/MLB/search?q=computador'
     );
   });
-  it('Testing return of function FetchProducts, to be equal computadorSearch', async () => {
+  it('Test if FetchProducts return === computadorSearch', async () => {
     const productsFetch = await fetchProducts('computador');
     expect(productsFetch).toEqual(computadorSearch);
   });
-  it('Testing return of function FetchProducts without parameter, to be You must provide an url', async () => {
+  it('Test return without parameter (You must provide an url)', async () => {
     const productsFetch = await fetchProducts();
     const error = new Error('You must provide an url');
     expect(productsFetch).toEqual(error);
-  fail('Teste vazio');
+    fail('Teste vazio');
+  });
 });
-})
