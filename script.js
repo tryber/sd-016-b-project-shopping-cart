@@ -1,24 +1,29 @@
-function updateLocalStorageRemoveItem(event) { // When the client remove something from the cart, the local storage will update.
-  const liCartItem = document.querySelectorAll('.cart__item');
-  // Author: Jeb50 obj: get position of 'li' in list ref: https://stackoverflow.com/questions/18295673/javascript-find-li-index-within-ul
-  const positionLi = Array.prototype.indexOf.call(liCartItem, event.target); 
-  const updatedStorage = JSON.parse(getSavedCartItems());
-  updatedStorage.splice(positionLi, 1);
-  localStorage.setItem('cartItems', JSON.stringify(updatedStorage));
+const sectionCart = document.querySelector('.cart');
+const cartList = document.querySelector('.cart__items');
+const EmptyButton = document.querySelector('.empty-cart');
+
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
 }
 
-function sumValueCartItens() {
-  const divTotalValue = document.querySelector('.total-price');
-  const getStorage = JSON.parse(localStorage.getItem('cartItems'));
-  totalValue = getStorage.reduce((acc, cur) => acc + cur.price, 0);
-  console.log(totalValue);
-  divTotalValue.innerText = totalValue;
+// obj: get price at each item from cart ref: https://stackoverflow.com/questions/37556240/get-everything-after-first-character
+function sumPricesInCart() {
+  const sumDiv = document.querySelector('.total-price');
+  let sumPrices = 0;
+  const cartItemList = document.getElementsByClassName('cart__item');
+  for (let i = 0; i < cartItemList.length; i += 1) {
+    sumPrices += Number(cartItemList[i].innerHTML.split('$').pop());
+  }
+  sumDiv.innerHTML = sumPrices;
 }
 
 function cartItemClickListener(event) {
-  updateLocalStorageRemoveItem(event);
-  event.target.remove(); // Remove order from Cart
-  sumValueCartItens();
+  event.target.remove(); // Remove item from Cart
+  saveCartItems(JSON.stringify(cartList.innerHTML));
+  sumPricesInCart();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -29,31 +34,15 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
-function appendListCartItem(itemObject) {
-  const ol = document.querySelector('.cart__items');
-
-  ol.append(createCartItemElement(itemObject));
+function appendListCartItem(itemObject) {  
+  cartList.append(createCartItemElement(itemObject)); // Create itens in cart
+  saveCartItems(JSON.stringify(cartList.innerHTML)); // Save itens on Storage
+  sumPricesInCart();
 }
 
-function updateLocalStorageAddItem({ id, title, price }) {
-  const actualListInLocalStorage = JSON.parse(localStorage.getItem('cartItems'));
-  actualListInLocalStorage.push({ id, title, price });
-  saveCartItems(JSON.stringify(actualListInLocalStorage));
-}
-
-async function cartItemToBeCreated(itemID) {
+async function cartItemToBeCreated(itemID) { // fetch informations from ME and request to create itens to cart
   const resultPromise = await fetchItem(itemID);
-
   appendListCartItem(resultPromise);
-  updateLocalStorageAddItem(resultPromise); // When the client send something to the cart, the local storage will update.
-  sumValueCartItens();
-}
-
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
 }
 
 function addCartClickListener(event) {
@@ -76,24 +65,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function appendTotalValue() {
-  const cartSection = document.querySelector('.cart');
-
-  cartSection.appendChild(createCustomElement('div', 'total-price', 0));
-}
-
-function initialRenderization() {
-  const getLocalStorageItens = getSavedCartItems();
-  console.log(getLocalStorageItens);
-  if (getLocalStorageItens === undefined) {
-    localStorage.setItem('cartItems', JSON.stringify([]));
-  } else {
-    JSON.parse(getLocalStorageItens).forEach((item) => appendListCartItem(item));
-  }
-  appendTotalValue();
-  sumValueCartItens();
-}
-
 function createProductItemElement({ id, title, thumbnail }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -106,24 +77,51 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-function appendSectionProductItem(productObject) {
+function appendSectionProductItem(productObject) { // Create items from site ML in Element .itens
   const section = document.querySelector('.items');
-
   section.append(createProductItemElement(productObject));
 }
 
-async function productsToBeCreated() {
+async function productsToBeCreated() { // fetch informations from ME and request to create itens
   const resultPromise = await fetchProducts('computador');
 
   resultPromise.results
     .forEach((productSummarized) => appendSectionProductItem(productSummarized));
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+function putEventOnLiWhenReload() { // reassign the event to itens in cart when the page reload
+  const li = document.getElementsByClassName('cart__item');
+
+  for (let i = 0; i < li.length; i += 1) {
+    li[i].addEventListener('click', cartItemClickListener);
+  }
 }
 
-window.onload = () => {
-  initialRenderization();
+function appendSumDiv() {
+  const sumDiv = document.createElement('div');
+  sectionCart.appendChild(sumDiv);
+  sumDiv.className = 'total-price';
+}
+
+function emptyCartButton() { 
+  cartList.innerHTML = '';
+  sumPricesInCart();
+  saveCartItems(JSON.stringify(''));
+}
+
+function renderLocalStorage() {
+  const getLocalStorageItens = getSavedCartItems();
+  cartList.innerHTML = JSON.parse(getLocalStorageItens);
+  putEventOnLiWhenReload();
+  sumPricesInCart();
+}
+
+window.onload = () => { 
+  EmptyButton.addEventListener('click', emptyCartButton);
+
+  appendSumDiv();
+
+  renderLocalStorage();
+  
   productsToBeCreated();
 };
