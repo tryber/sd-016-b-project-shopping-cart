@@ -1,3 +1,6 @@
+const sectionItems = document.querySelector('.items');
+const cartItems = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,7 +47,6 @@ const loadProductsPage = () => {
    fetchProducts('computador')
    .then((data) => data.results)
    .then((products) => {
-    const sectionItems = document.querySelector('.items');
     products.forEach((product) => {
     const createSectionItems = createProductItemElement(product);
     sectionItems.appendChild(createSectionItems); 
@@ -54,7 +56,6 @@ const loadProductsPage = () => {
 
 const LoadProductCart = (id) => {
   fetchItem(id).then((item) => {
-    const cartItems = document.querySelector('.cart__items');
     const cartLi = createCartItemElement(item);
     cartItems.appendChild(cartLi);
   });
@@ -69,6 +70,6 @@ const addProductCart = (event) => {
     
 window.onload = () => { 
   loadProductsPage();
-  const sectionAllItems = document.querySelector('.items');
-  sectionAllItems.addEventListener('click', addProductCart);
+  sectionItems.addEventListener('click', addProductCart);
+  cartItems.addEventListener('click', cartItemClickListener);
 };
