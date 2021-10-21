@@ -12,7 +12,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -39,5 +39,18 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// como queria um código mais dinâmico, deixei um parametro default como computador, 
+// mas ainda com a possibilidade de chamar a função com outro parametro; 
+const displayProducts = (SearchedProduct = 'computador') => {
+  const resultsParent = document.querySelector('.items');
+  fetchProducts(SearchedProduct).then((products) => {
+    products.results.forEach((product) => {
+      const displayProduct = createProductItemElement(product);
+      resultsParent.appendChild(displayProduct);
+    });
+  });
+};
 
-window.onload = () => { };
+window.onload = () => { 
+  displayProducts();
+};
