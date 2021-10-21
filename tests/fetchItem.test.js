@@ -16,7 +16,7 @@ describe('2 - Teste a função fecthItem', () => {
 
   test('Teste o endpoint', async () => {
     await fetchItem('MLB1615760527');
-    expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1615760527"');
+    expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1615760527');
   });
 
   test('Teste o retorno da função', async () => {
@@ -29,5 +29,5 @@ describe('2 - Teste a função fecthItem', () => {
     const erro = new Error('You must provide an url');
     expect(itemFetch).toEqual(erro);
   });
-  
+
 });

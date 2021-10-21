@@ -58,7 +58,7 @@ const adicionarCart = () => {
       return;
     } 
     const id = event.target.parentNode.querySelector('.item__sku').innerText;
-    fetchItem(id).then((produto) => createCartItemElement(produto));
+    fetchItem(id).then((data) => createCartItemElement(data));
   });
 };
 adicionarCart();
