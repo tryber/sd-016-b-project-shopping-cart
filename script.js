@@ -49,22 +49,44 @@ const productsList = async () => {
   });
 };
 
-function getId(element) {
-  const innerId = element.target.parentNode.firstChild.innerText;
-  return innerId;
+// function getId(element) {
+//   const innerId = element.target.parentNode.firstChild.innerText;
+//   return innerId;
+// }
+
+// const addItemCartElement = async (id) => {
+//   const item = await fetchItem(id);
+//   const addProduct = createCartItemElement(item);
+//   document.getElementsByClassName('cart__items')[0].appendChild(addProduct);
+// };
+
+// window.onload = () => {
+//   productsList();
+//   document.addEventListener('click', function (element) {
+//     if (element.target && element.target.classList.contains('item__add')) {
+//       addItemCartElement(getId(element));
+//     }
+//   });
+// };
+
+function getId(e) {
+  const innerTxtId = e.target.parentNode.firstChild.innerText;
+  return innerTxtId;
 }
 
 const addItemCartElement = async (id) => {
-  const item = await fetchItem(id);
-  const addProduct = createCartItemElement(item);
-  document.getElementsByClassName('cart__items')[0].appendChild(addProduct);
+  const prod = await fetchItem(id);
+  const prodAdded = createCartItemElement(prod);
+  document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
 };
 
+// código do https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
+
 window.onload = () => {
-  productsList();
-  document.addEventListener('click', function (element) {
-    if (element.target && element.target.classList.contains('item__add')) {
-      addItemCartElement(getId(element));
+  productsArray();
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      addItemCartElement(getId(e));
     }
   });
 };
