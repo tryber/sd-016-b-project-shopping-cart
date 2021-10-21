@@ -1,9 +1,11 @@
 const fetchProducts = async (QUERY) => {
-  if (!QUERY) throw new Error('You must provide an url');
+  if (!QUERY) return new Error('You must provide an url');
 
-  return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`)
+  const result = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`)
   .then((response) => response.json())
-  .then((response) => response.results);
+  .then((data) => data);
+  
+  return result;
 };
 
 if (typeof module !== 'undefined') {
