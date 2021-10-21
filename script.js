@@ -1,9 +1,24 @@
+const getCartItems = document.querySelector('.cart__items');
+const getItems = document.querySelector('.items');
+const getCart = document.querySelector('.cart');
+const getEmptyButton = document.querySelector('.empty-cart');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
+
+const insertLoading = () => {
+  const criap = document.createElement('p');
+  criap.className = 'loading';
+  criap.innerText = 'carregando...';
+  getCart.appendChild(criap);
+};
+const removeLoading = () => {
+  const getLoading = document.querySelector('.loading');
+  getLoading.remove();
+};
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -28,8 +43,32 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const countPrice = async () => {
+  insertLoading();
+  const cartItens = await getCartItems.childNodes;
+  removeLoading();
+  const getTotal = document.querySelector('.total-price');
+  if (cartItens.length === 0) {
+    getTotal.innerText = 0;
+  }
+  const arrItens = [];
+  for (let i = 0; i < cartItens.length; i += 1) {
+    arrItens.push(cartItens[i].innerText.split(' '));
+  }
+  const arrPrices = arrItens.map((item) => (item[item.length - 1]).substring(1));// arr com os numeros em string/
+  const arrNumbers = arrPrices.map((number) => parseFloat(number));
+  const count = arrNumbers.reduce((acc, number) => acc + number);
+  getTotal.innerText = count;
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const item = event.target;
+  item.remove();
+  // funcao q salva local storage
+  saveCartItems();
+  // contador
+  countPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,4 +79,58 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const elementItem = async () => { // falta testar
+  insertLoading();
+const arrProducts = await fetchProducts('computador');
+removeLoading();
+const arrResults = arrProducts.results
+.map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
+arrResults.forEach((element) => getItems.appendChild(createProductItemElement(element)));
+};
+
+const cartElement = async (param) => { // falta testar
+  insertLoading();
+  const item = await fetchItem(param);
+  removeLoading();
+  const { id, title, price } = item;
+  const objItem = {
+    sku: id,
+    name: title,
+    salePrice: price,
+  };
+  const element = createCartItemElement(objItem);
+  getCartItems.appendChild(element);
+  // funcao q salva local storage
+  saveCartItems();
+  // contador
+  countPrice();
+};
+
+const addCartElement = (event) => {
+  const item = event.target;
+  const id = item.parentNode.firstChild.innerText;
+  cartElement(id);
+}; 
+const insertp = () => {
+  const criap = document.createElement('p');
+  criap.className = 'total-price';
+  criap.innerText = 0;
+  getCart.appendChild(criap);
+};
+
+const emptyCart = () => {
+  getCartItems.innerHTML = '';
+  const getTotal = document.querySelector('.total-price');
+  getTotal.innerText = 0;
+};
+
+window.onload = () => {
+  elementItem();
+  getCartItems.addEventListener('click', cartItemClickListener);
+  getItems.addEventListener('click', addCartElement);
+  getCartItems.addEventListener('change', countPrice);
+  getEmptyButton.addEventListener('click', emptyCart);
+  getSavedCartItems();
+  insertp();
+  countPrice();
+};
