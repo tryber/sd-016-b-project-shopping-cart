@@ -108,12 +108,17 @@ function loadItemsInCart() {
   allItemsInCart.innerHTML = iHTMLcartI;
 }
 
+function addLoading() {
+  document.querySelector('body').appendChild(createCustomElement('div', 'loading', 'loading...'));
+}
+
+function removeLoading() {
+  document.querySelector('.loading').remove();
+}
+
 // código do https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
 
-window.onload = () => {
-  productsArray();
-  loadItemsInCart();
-  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
+function eventListeners() {
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
@@ -122,6 +127,29 @@ window.onload = () => {
       cartItemClickListener(e);
     }
   });
+}
+
+/* depois de entender melhor como funciona as promisses através do MDN: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise
+Entender a diferença entre async, await e o then: https://www.youtube.com/watch?v=U_eGa7LEsDk&ab_channel=RogerMelo
+A princípio tentei fazer com async e await, mas não deu certo, acredito que deve ser porque teria que chamar a função fetch diretamente.
+Após entender melhor como funciona as promisses, consegui escrever o código.
+Primeiro inicia criando a classe loading.
+depois inicia as promisses, enquanto não acabar os processos, o loading fica na tela. Depois que última promisse for cumprida, remove o loading.
+
+A questão foi a mais desafiante, precisei rever as aulas, até entender todo processo, mas no fim valeu a pena.
+*/
+
+const allFunctionOnLoad = () => {
+  addLoading();
+  productsArray()
+    .then(() => loadItemsInCart())
+    .then(() => eventListeners())
+    .then(() => removeLoading());
+};
+
+window.onload = () => {
+  allFunctionOnLoad();
+  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
 };
 
 cleanButton.addEventListener('click', function () {
