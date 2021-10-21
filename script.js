@@ -72,7 +72,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const appendProductItemToCart = (product) => {
-  const cartSection = document.querySelector('.cart');
+  const cartSection = document.querySelector('.cart__items');
   cartSection.appendChild(product);
 };
 
