@@ -1,6 +1,5 @@
 const sectionItems = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
-// const liItems = document.getElementsByTagName('li');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
