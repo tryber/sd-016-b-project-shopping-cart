@@ -34,7 +34,8 @@ const somaValores = (param) => {
 const addItemCart = async (event) => {
   const item = event.target.parentElement.firstChild.innerText;
   await fetchItem(item)
-    .then((valor) => { elementoCart.appendChild(createCartItemElement(valor));
+    .then((valor) => { 
+      elementoCart.appendChild(createCartItemElement(valor));
       somaValores(valor.price);
     });
     saveCartItems(elementoCart.innerHTML);
