@@ -22,4 +22,10 @@ describe('2 - Teste a função fecthItem', () => {
     expect(fetch).toHaveBeenCalledWith(expectedQueryUrl);
   });
 
+  test('fetchItem deve retornar uma estrutura igual à de item', async () => {
+    expect.assertions(1);
+    const actual = await fetchItem('MLB1615760527');
+    expect(actual).toEqual(item);
+  });
+
 });
