@@ -1,5 +1,13 @@
-const fetchProducts = () => {
-  // seu código aqui
+const mlApiUrl = 'https://api.mercadolibre.com/sites/MLB/search?q=';
+
+const fetchProducts = async (item) => {
+  if (!item) throw new Error('You must provide an url');
+  
+  const itemUrl = `${mlApiUrl}${item}`;
+
+  return fetch(itemUrl)
+    .then((response) => response.json())
+    .then((infos) => infos.results);
 };
 
 if (typeof module !== 'undefined') {
