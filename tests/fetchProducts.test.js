@@ -28,8 +28,8 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(actual).toEqual(computadorSearch.results);
   });
 
-  test('fetchProducts deve retornar um erro com a mensagem: "You must provide an url" quando chamada sem argumentos.', async () => {
+  test('fetchProducts deve retornar um erro com a mensagem: "You must provide an url" quando chamada sem argumentos.', () => {
     expect.assertions(1);
-    await expect(fetchProducts()).rejects.toEqual(new Error('You must provide an url'));
+    expect(() => fetchProducts()).toThrow(new Error('You must provide an url'));
   });
 });
