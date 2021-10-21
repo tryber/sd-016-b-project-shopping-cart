@@ -1,13 +1,12 @@
-const fetchItem = async (ItemID) => {
-  // seu código aqui
-  // TODO - Ao clicar no botão deve ser realizada uma requisição. Deverá ser consumido o endpoint: "https://api.mercadolibre.com/items/$ItemID"
+const fetchItem = async (itemID) => {
+  const URL_ITEMID = `https://api.mercadolibre.com/items/${itemID}`;
 
-  const URL_ITEMID = `https://api.mercadolibre.com/items/${ItemID}`;
-
-  const result = await fetch(URL_ITEMID)
-    .then((response) => response.json());
-
-  return result;
+  if (itemID) {
+    const result = await fetch(URL_ITEMID)
+      .then((response) => response.json());
+    return result;
+  }
+  throw new Error('You must provide an url');
 };
 
 if (typeof module !== 'undefined') {
