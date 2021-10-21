@@ -1,10 +1,29 @@
 const totalPriceHtml = (num) => {
   // console.log(num);
-  const priceTag = document.querySelector('#totalTag');
-  priceTag.innerText = `Preço Total: $${num.toFixed(2)}`;
+  const priceTag = document.querySelector('.total-price');
+  priceTag.innerText = num.toFixed(2);
 };
 
 totalPriceHtml(0);
+
+// const appendSum = () => {
+//   const father = document.querySelector('.cart');
+//   const div = document.createElement('div');
+//   father.appendChild(div);
+//   div.className = 'total-price';
+// }
+
+// Como referência o código do amigo Gabriel Pinheiro, que usou como fonte https://stackoverflow.com/questions/37556240/get-everything-after-first-character
+// const totalPrice = () => {
+//   const totalDiv = document.querySelector('.total-price');
+//   let sum = 0;
+//   const cartItems = document.getElementsByClassName('cart__item');
+//   for (let i = 0; i < cartItems.length; i += 1) {
+//     sum += Number(cartItems[i].innerHTML.split('$').pop());
+//   }
+//   totalDiv.innerHTML = sum;
+// };
+
 
 const totalPrice = () => {
   const productsIds = JSON.parse(localStorage.getItem('cartItems'));
@@ -113,5 +132,6 @@ window.onload = () => {
   createProductRotation();
   addToCart();
   cartOnRefresh();
+  // appendSum();
   // totalPrice();
 };
