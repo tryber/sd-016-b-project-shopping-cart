@@ -9,6 +9,17 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const insertLoading = () => {
+  const criap = document.createElement('p');
+  criap.className = 'loading';
+  criap.innerText = 'carregando...';
+  getCart.appendChild(criap);
+};
+const removeLoading = () => {
+  const getLoading = document.querySelector('.loading');
+  getLoading.remove();
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -33,7 +44,9 @@ function getSkuFromProductItem(item) {
 }
 
 const countPrice = async () => {
+  insertLoading();
   const cartItens = await getCartItems.childNodes;
+  removeLoading();
   const getTotal = document.querySelector('.total-price');
   if (cartItens.length === 0) {
     getTotal.innerText = 0;
@@ -67,14 +80,18 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const elementItem = async () => { // falta testar
+  insertLoading();
 const arrProducts = await fetchProducts('computador');
+removeLoading();
 const arrResults = arrProducts.results
 .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
 arrResults.forEach((element) => getItems.appendChild(createProductItemElement(element)));
 };
 
 const cartElement = async (param) => { // falta testar
+  insertLoading();
   const item = await fetchItem(param);
+  removeLoading();
   const { id, title, price } = item;
   const objItem = {
     sku: id,
@@ -100,7 +117,8 @@ const insertp = () => {
   criap.innerText = 0;
   getCart.appendChild(criap);
 };
-const emptyCart = async () => {
+
+const emptyCart = () => {
   getCartItems.innerHTML = '';
   const getTotal = document.querySelector('.total-price');
   getTotal.innerText = 0;
