@@ -9,6 +9,11 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(typeof fetchProducts).toBe('function')
   })
 
+  it('Should fetchProducts have been called', async () => {
+    await fetchProducts('computador')
+    expect(fetch).toHaveBeenCalled()
+  })
+
   it('Should return computadorSearch with params computador', async () => {
     const request = await fetchProducts('computador')
 
