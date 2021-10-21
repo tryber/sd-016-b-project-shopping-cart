@@ -24,9 +24,9 @@ function createProductItemElement({ sku, name, image }) {
   capturarClasseItems.appendChild(section);
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   event.target.remove();
