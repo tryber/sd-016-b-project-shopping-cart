@@ -46,8 +46,8 @@ const fetchListItens = async (item) => {
    return fetchSpecifics.forEach((element) => {
     listItems.appendChild(createProductItemElement(element));
   });
-}
+};
 
-fetchListItens('computador');
-
-window.onload = () => { };
+window.onload = () => { 
+  fetchListItens('computador');
+};
