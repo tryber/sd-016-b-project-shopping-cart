@@ -1,3 +1,8 @@
+// global variables
+const catchCart = document.querySelector('.cart__items');
+const catchItens = document.querySelector('.items');
+const catchCartButton = document.querySelector('.empty-cart');
+// functions project
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -41,9 +46,18 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-const catchCart = document.querySelector('.cart__items');
-const catchItens = document.querySelector('.items');
-const catchCartButton = document.querySelector('.empty-cart');
+// my functions
+const creatLoadingFeat = () => {
+  const span = document.createElement('span');
+  span.classList.add('loading');
+  span.innerHTML = 'loading...';
+  catchCart.appendChild(span);
+};
+const removeLoadingFeat = () => {
+  const catchLoading = document.querySelector('.loading');
+  catchLoading.remove();
+};
+
 const creatWithArrayItens = async () => {
   const itensList = await fetchProducts('computador');
   const itensListFiltred = itensList.results.map(({ id, title, thumbnail }) =>
@@ -53,8 +67,10 @@ const creatWithArrayItens = async () => {
 };
 
 const creatItensOnShoppingCart = async (id) => {
+  creatLoadingFeat();
   const item = await fetchItem(id);
   catchCart.appendChild(createCartItemElement(item));
+  removeLoadingFeat();
 };
 const getIdItem = (item) => item.target.parentNode.firstChild.innerText;
 const addItemOnShopCart = () =>
