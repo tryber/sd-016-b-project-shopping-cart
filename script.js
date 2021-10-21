@@ -48,14 +48,21 @@ const criarProduto = async () => {
 };
 criarProduto();
 
-const adicionarCart = () => {
-  const capturarBotao = document.querySelector('.items');
-  capturarBotao.addEventListener('click', (event) => {
-    if (event.target.className !== 'item__add') return; 
-    const id = event.target.parentNode.querySelector('.item__sku').innerText;
-    fetchItem(id).then((data) => createCartItemElement(data));
-  });
-};
-adicionarCart();
+const capturarId = (event) => {
+  const innerTxtId = event.target.parentNode.firstChild.innerText;
+  return innerTxtId;
+}
 
-window.onload = () => {};
+const adicionarElementoCart = async (prod) => {
+  const product = await fetchItem(prod);
+  const productAdd = createCartItemElement(product);
+  document.getElementsByClassName('car__items')[0].appendChild(productAdd);
+};
+
+window.onload = () => {
+  document.addEventListener('click', (evento) => {
+    if (evento.target.classList.contains('item__add')) {
+      adicionarElementoCart(capturarId(evento));
+    }
+  })
+};
