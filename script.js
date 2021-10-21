@@ -42,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { 
+const getProductsSection = () => {
   fetchProducts()
   .then((products) => {
     const itemsSection = document.querySelector('.items');
@@ -52,4 +52,8 @@ window.onload = () => {
     });
   })
   .catch((error) => error.toString());
+};
+
+window.onload = () => { 
+  getProductsSection();
 };
