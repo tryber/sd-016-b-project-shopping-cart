@@ -60,5 +60,6 @@ async function backEndCreateProductItem() {
 }
 
 window.onload = () => {
-  backEndCreateProductItem();
+ // backEndCreateProductItem();
+ testJestBackEndCreateSemParameter();
 };
