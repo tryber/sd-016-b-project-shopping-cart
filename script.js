@@ -1,6 +1,7 @@
 const getCartItems = document.querySelector('.cart__items');
 const getItems = document.querySelector('.items');
 const getCart = document.querySelector('.cart');
+const getEmptyButton = document.querySelector('.empty-cart');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -99,12 +100,18 @@ const insertp = () => {
   criap.innerText = 0;
   getCart.appendChild(criap);
 };
+const emptyCart = async () => {
+  getCartItems.innerHTML = '';
+  const getTotal = document.querySelector('.total-price');
+  getTotal.innerText = 0;
+};
 
 window.onload = () => {
   elementItem();
   getCartItems.addEventListener('click', cartItemClickListener);
   getItems.addEventListener('click', addCartElement);
   getCartItems.addEventListener('change', countPrice);
+  getEmptyButton.addEventListener('click', emptyCart);
   getSavedCartItems();
   insertp();
   countPrice();
