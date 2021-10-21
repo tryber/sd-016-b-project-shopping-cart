@@ -20,14 +20,15 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   });
 
-  it('Return from "fetchProducts" with argument "computador" is a data structure equal to the object', async() => {
+  it('Return from fetchProducts with argument "computador" is a data structure equal to the object', async() => {
     const productFetchTest = await fetchProducts('computador');
     expect(productFetchTest).toEqual(computadorSearch);
   });
 
-  it('When calling "fetchProducts" without argument, it returns as error: "You must provide a url"', async() => {
+  it('When calling fetchProducts without argument, it returns as error: "You must provide a url"', async() => {
     const productFetchTest = await fetchProducts();
     const error = new Error('You must provide a url');
     expect(productFetchTest).toEqual(error);
   });
+
 });

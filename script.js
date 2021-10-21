@@ -51,7 +51,24 @@ const loadProducts = async () => {
     });
   });
 };
+// https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
+
+function getId(e) {
+  const innerTxtId = e.target.parentNode.firstChild.innerText;
+  return innerTxtId;
+}
+
+const addItemCartElement = async (id) => {
+  const prod = await fetchItem(id);
+  const prodAdded = createCartItemElement(prod);
+  document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
+};
 
 window.onload = () => { 
   loadProducts();
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      addItemCartElement(getId(e));
+    }
+  });
 };
