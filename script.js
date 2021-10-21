@@ -12,7 +12,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -40,4 +40,18 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const loadProducts = async () => {
+  await fetchProducts('computador')
+  .then((data) => data.results)
+  .then((products) => {
+    const items = document.querySelector('.items');
+    products.forEach((product) => {
+      const item = createProductItemElement(product);
+      item.appendChild(item);
+    });
+  });
+};
+
+window.onload = () => { 
+  loadProducts();
+};
