@@ -1,6 +1,7 @@
 const getCartItemsOL = document.getElementsByClassName('cart__items')[0];
 const getItemsSection = document.getElementsByClassName('items')[0];
 const getItemsContainer = document.querySelector('.items');
+const getButtonEmptyCart = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -64,6 +65,10 @@ getItemsContainer.addEventListener('click', (e) => {
     const productClickedID = e.target.parentNode.firstChild.innerText;
     addCartItems(productClickedID);
   }
+});
+
+getButtonEmptyCart.addEventListener('click', () => {
+  getCartItemsOL.innerText = '';
 });
 
 window.onload = () => {
