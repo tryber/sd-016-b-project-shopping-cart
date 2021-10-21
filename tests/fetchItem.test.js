@@ -28,4 +28,8 @@ describe('2 - Teste a função fecthItem', () => {
     expect(actual).toEqual(item);
   });
 
+  test('fetchItem deve retornar um erro com a mensagem: "You must provide an url" quando chamada sem argumentos.', () => {
+    expect.assertions(1);
+    expect(() => fetchItem()).toThrow(new Error('You must provide an url'));
+  });
 });
