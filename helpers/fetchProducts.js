@@ -5,8 +5,7 @@ const fetchProducts = async (api) => {
 
   return fetch(api)
     .then((response) => response.json())
-    .then((data) => data)
-    .catch((data) => data);
+    .then((data) => data);
 };
 
 if (typeof module !== 'undefined') {
