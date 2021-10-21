@@ -30,6 +30,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,30 +42,23 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const appendByClass = (className, childName) => {
-  const fathers = document.getElementsByClassName(className);
+  const father = document.querySelector(`.${className}`);
 
-  for (let index = 0; index < fathers.length; index += 1) {
-    fathers[index].appendChild(childName);
-  }
+  return father.appendChild(childName);
 };
 
 const getfetchItem = async (id) => {
   const { id: sku, title: name, price: salePrice } = await fetchItem(id);
   const itemElement = createCartItemElement({ sku, name, salePrice });
 
-  appendByClass('cart__items', itemElement);
+  return appendByClass('cart__items', itemElement);
 };
 
-const itemAdd = () => {
-  const button = document.getElementsByClassName('item__add');
-  // const lastButton = button.parentElement.lastElementChild;
-  
-  for (let index = 0; index <= button.length; index += 1) {
-    button[index].addEventListener('click', (element) => {
+const itemAdd = (event) => {
+    event.lastElementChild.addEventListener('click', (element) => {
       const sku = element.target.parentElement.firstChild.innerText;
       getfetchItem(sku);
     });
-  }
 };
 
 const getfetchProducts = async () => {
@@ -74,13 +68,12 @@ const getfetchProducts = async () => {
     const { id: sku, title: name, thumbnail: image } = product;
     const itemElement = createProductItemElement({ sku, name, image });
 
-    appendByClass('items', itemElement);
-  });
+    const elementCart = appendByClass('items', itemElement);
 
-  itemAdd();
+    itemAdd(elementCart);
+  });
 };
 
 window.onload = () => {
   getfetchProducts();
-  // getfetchItem();
 };
