@@ -9,14 +9,14 @@ const fetchProducts = async (url) => {
     const createObject = {
       sku: product.id,
       name: product.title,
-      image: '',
+      image: product.thumbnail,
     };
     return createObject;
   });
 
   return ObjectProducts;
 };
-
+ 
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchProducts,
