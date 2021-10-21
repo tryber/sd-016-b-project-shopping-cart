@@ -1,5 +1,6 @@
-const getCart = document.querySelector('.cart__items');
+const getCartItems = document.querySelector('.cart__items');
 const getItems = document.querySelector('.items');
+const getCart = document.querySelector('.cart');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,12 +31,30 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const countPrice = async () => {
+  const cartItens = await getCartItems.childNodes;
+  const getTotal = document.querySelector('.total-price');
+  if (cartItens.length === 0) {
+    getTotal.innerText = 0;
+  }
+  const arrItens = [];
+  for (let i = 0; i < cartItens.length; i += 1) {
+    arrItens.push(cartItens[i].innerText.split(' '));
+  }
+  const arrPrices = arrItens.map((item) => (item[item.length - 1]).substring(1));// arr com os numeros em string/
+  const arrNumbers = arrPrices.map((number) => parseFloat(number));
+  const count = arrNumbers.reduce((acc, number) => acc + number);
+  getTotal.innerText = count;
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const item = event.target;
   item.remove();
   // funcao q salva local storage
   saveCartItems();
+  // contador
+  countPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -62,9 +81,11 @@ const cartElement = async (param) => { // falta testar
     salePrice: price,
   };
   const element = createCartItemElement(objItem);
-  getCart.appendChild(element);
+  getCartItems.appendChild(element);
   // funcao q salva local storage
   saveCartItems();
+  // contador
+  countPrice();
 };
 
 const addCartElement = (event) => {
@@ -72,10 +93,19 @@ const addCartElement = (event) => {
   const id = item.parentNode.firstChild.innerText;
   cartElement(id);
 }; 
+const insertp = () => {
+  const criap = document.createElement('p');
+  criap.className = 'total-price';
+  criap.innerText = 0;
+  getCart.appendChild(criap);
+};
 
 window.onload = () => {
   elementItem();
-  getCart.addEventListener('click', cartItemClickListener);
+  getCartItems.addEventListener('click', cartItemClickListener);
   getItems.addEventListener('click', addCartElement);
+  getCartItems.addEventListener('change', countPrice);
   getSavedCartItems();
+  insertp();
+  countPrice();
 };
