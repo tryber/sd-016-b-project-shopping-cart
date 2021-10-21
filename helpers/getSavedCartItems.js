@@ -1,5 +1,6 @@
 const getSavedCartItems = () => {
-  // seu código aqui
+  const list = localStorage.getItem('shopList');
+  document.querySelector('.cart__items').appendChild(list);
 };
 
 if (typeof module !== 'undefined') {
