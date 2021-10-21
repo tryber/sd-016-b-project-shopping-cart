@@ -18,4 +18,10 @@ describe('2 - Teste a função fecthItem', () => {
     await fetchItem('MLB1615760527')
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1615760527')
   })
+
+  it('Should return item with params MLB1615760527', async () => {
+    const request = await fetchItem('MLB1615760527')
+
+    expect(request).toEqual(item)
+  })
 });
