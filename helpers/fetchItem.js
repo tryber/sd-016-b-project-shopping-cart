@@ -1,5 +1,10 @@
-const fetchItem = () => {
-  // seu código aqui
+const fetchItem = (itemId) => {
+  const API_URL = `https://api.mercadolibre.com/items/${itemId}`;
+
+  return fetch(API_URL)
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((err) => console.log(err));
 };
 
 if (typeof module !== 'undefined') {
