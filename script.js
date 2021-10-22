@@ -36,10 +36,10 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-function cartItemClickListener(event) {
-  const et = event.target;
-  saveCartItems(cartItems.innerHTML);
-}
+// function cartItemClickListener(event) {
+//   const et = event.target;
+//   saveCartItems(cartItems.innerHTML);
+// }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
