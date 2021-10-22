@@ -68,5 +68,25 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(productsFetch).toEqual(computadorSearch);
   });
 
+  // **********************************************************************
+  // DOCUMENTATION: https://jestjs.io/pt-BR/docs/expect#toequalvalue
+  // **********************************************************************
+  // BREVE DESCRIÇÃO:Use .toEqual para comparar recursivamente todas as 
+  // propriedades de instâncias de objeto (também conhecido como igualdade 
+  // "profunda"). Ele chama Object.is para comparar valores primitivos, 
+  // o que é ainda melhor para teste do que o operador de igualdade estrita
+  //  ===.
+  // OBSERVAÇÃO IMPORTANTE: Nessa função em particular o que temos de diferente
+  // do toEqual que é utilizado para com comparar funções, objetos, e valore e 
+  // propriedades de objetos... é que criei uma constante para capturar um erro 
+  // disparado por uma throw no momento que a função fetchProducts for invocada
+  // sem passar o parâmetro esse erro está tratado na função fetchProducts.js numa
+  // estrutura condicional simples if 
+  //****************************************************************************** 
+  it('Teste 05: Verificar se ao invocar a função fetchProducts sem paramettro ela retorna uma erro', async () => {
+    const productsFetch = await fetchProducts();
+    const erro = new Error('You must provide an url');
+    expect(productsFetch).toEqual(erro);
+  });
 
 });

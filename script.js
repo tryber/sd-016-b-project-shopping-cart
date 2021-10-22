@@ -26,21 +26,24 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function cartItemClickListener(event) {
+ // coloque seu codigo agqui
+}
+
+// ***********************
+// QUESTÃO 02 FRONT END//
+// *********************
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice.toFixed(2)}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
 // **********************
 // QUESTÃO 01 BACK END //
 // **********************
@@ -106,6 +109,24 @@ async function backEndCreateProductItem() {
     console.log('Seu erro é:', error);
   }
 }
+
+// createCartItemElement({ sku, name, salePrice }) 
+// **********************
+// QUESTÃO 02 BACK END //
+// **********************
+async function backEndAdicioneCarrinhoDeCompras(codigoProduto) {
+  try {
+   const dataResult = await fetchItem(codigoProduto);
+    console.log(dataResult);
+     const { id: sku, title: name, price: salePrice } = dataResult;
+     const elementChild = createCartItemElement({ sku, name, salePrice });
+     const itens = document.querySelector('.cart__items');
+     itens.appendChild(elementChild);
+  } catch (error) {
+   console.log('Seu erro é:', error);
+ }
+}
 window.onload = () => {
  backEndCreateProductItem();
+ backEndAdicioneCarrinhoDeCompras('MLB1341706310');
 };
