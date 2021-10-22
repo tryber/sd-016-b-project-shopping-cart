@@ -28,9 +28,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const getFirstElementsByClass = (element) => document.querySelector(element);
+const getFirstElement = (element) => document.querySelector(element);
 
-const cartList = getFirstElementsByClass('.cart__items');
+const cartList = getFirstElement('.cart__items');
 
 const saveItemsCartForLocalStorage = () => {
   const cartListItems = cartList.innerHTML;
@@ -40,7 +40,7 @@ const saveItemsCartForLocalStorage = () => {
 
 // Fiz da forma abaixo para funcionar também, quando pegar do localstorage que é uma string;
 const calcTotalCart = async () => {
-  const totalPriceCart = getFirstElementsByClass('.total-price');
+  const totalPriceCart = getFirstElement('.total-price');
   const cartItem = document.getElementsByClassName('cart__item');
 
   let total = 0;
@@ -72,7 +72,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const appendByClass = (className, childName) => {
-  const father = getFirstElementsByClass(`.${className}`);
+  const father = getFirstElement(`.${className}`);
 
   return father.appendChild(childName);
 };
@@ -106,7 +106,7 @@ const createElementLoading = () => {
 };
 
 const clearElementLoading = () => {
-  const sectionLoading = getFirstElementsByClass('.loading');
+  const sectionLoading = getFirstElement('.loading');
   sectionLoading.remove();
 };
 
@@ -147,7 +147,7 @@ const clearCart = () => {
 };
 
 const eventClearCart = () => {
-  const buttonClear = getFirstElementsByClass('.empty-cart');
+  const buttonClear = getFirstElement('.empty-cart');
 
   buttonClear.addEventListener('click', clearCart);
 };
