@@ -22,7 +22,7 @@ function cartItemClickListener(event) {
   valorCart -= diminuir;
   valorTotal.innerText = valorCart;
   saveCartItems('carItems', elementoCart.innerHTML);
-  saveCartItems('valor', valorTotal.innerText);
+  // saveCartItems('valor', valorTotal.innerText);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -40,7 +40,7 @@ const addItemCart = async (event) => {
       elementoCart.appendChild(createCartItemElement(valor));
       valorCart += valor.price;
       valorTotal.innerText = valorCart;
-      saveCartItems('valor', valorTotal.innerText);
+      // saveCartItems('valor', valorTotal.innerText);
     });
     saveCartItems('carItems', elementoCart.innerHTML);
 };
