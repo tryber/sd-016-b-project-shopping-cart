@@ -82,6 +82,7 @@ const addItemToCart = async (id) => {
   const itemInfos = await mapFetchItemAndReturnObj(skuItem);
   const itemLi = createCartItemElement(itemInfos);
   appendProductItemToCart(itemLi);
+  saveCartItems();
 };
 
 window.onload = () => {
