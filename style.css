@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
   justify-content: space-around;
@@ -9,13 +14,15 @@
   flex-basis: 70%;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .item {
-  border: 2px solid blue;
+  border: 2px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   flex-direction: column;
   height: auto;
   margin: 5px;
@@ -37,21 +44,103 @@
 }
 
 .item .item__add {
-  background-color: green;
-  border: 0;
+  background-color: rgb(46, 195, 141);
+  border-radius: 10px;
+  border-color: rgb(46, 195, 141);
+  width: 80%;
   cursor: pointer;
-  margin: 0;
+  margin: 10px;
   padding: 5px;
 }
+
+.item .item__price {
+  font-weight: 600;
+}
+
+.loading {
+  position: absolute;
+  font-size: 20px;
+  top: 1.6%;
+  left: 50%;
+  font-weight: 1000;
+  color: white;
+ }
 
 .cart {
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
+  background: rgb(241, 241, 238);
+  align-items: center;
 }
 
-.cart .cart__title {
-  flex-basis: 1;
-  font-size: 16pt;
+.cart .empty-cart {
+  padding: 10px;
+  width: 60%;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.cart .cart__items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cart .cart__item {
+  font-size: 13px;
+  width: 70%;
   text-align: center;
+  margin-top: 15px;
+}
+
+.total-price span {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  height: 50px;
+}
+
+.header .section-1 {
+  background: rgb(3, 52, 45);
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .section-2 {
+  width: 30%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  background: rgb(10, 118, 79);
+}
+
+.header .section-1 h1 {
+  padding-left: 30px;
+  font-weight:initial;
+}
+
+.header .section-1 h1 span {
+  font-weight: 900;
+}
+
+.header .section-1 .fa-solid {
+  font-size: 25px;
+  padding-right: 20px;
+}
+
+.header .section-2 .cart-name {
+  padding-left: 30px;
+  font-weight: 800;
 }

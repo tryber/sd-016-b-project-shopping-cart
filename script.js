@@ -2,6 +2,7 @@ const sectionCart = document.querySelector('.cart');
 const cartList = document.querySelector('.cart__items');
 const EmptyButton = document.querySelector('.empty-cart');
 
+// ref: Author: Shishir Arora ref: https://stackoverflow.com/questions/53799108/how-to-add-a-loading-animation-while-fetch-data-from-api-vanilla-js
 function appendLoading() {
   const sectionFather = document.querySelector('.container');
   const divLoading = document.createElement('div');
@@ -30,7 +31,7 @@ function sumPricesInCart() {
   for (let i = 0; i < cartItemList.length; i += 1) {
     sumPrices += Number(cartItemList[i].innerHTML.split('$').pop());
   }
-  sumDiv.innerHTML = sumPrices;
+  sumDiv.innerHTML = `Subtotal: <span>${sumPrices}</span`;
 }
 
 function cartItemClickListener(event) {
@@ -47,6 +48,7 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
+// Apoio Victor K. Kamigushi
 function appendListCartItem(itemObject) {  
   cartList.append(createCartItemElement(itemObject)); // Create itens in cart
   saveCartItems(JSON.stringify(cartList.innerHTML)); // Save itens on Storage
@@ -80,13 +82,14 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ id, title, thumbnail }) {
+function createProductItemElement({ id, title, thumbnail, price }) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
+  section.appendChild(createCustomElement('span', 'item__price', `R$ ${price.toFixed(2)}`));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
@@ -134,10 +137,7 @@ function renderLocalStorage() {
 
 window.onload = () => { 
   EmptyButton.addEventListener('click', emptyCartButton);
-
   appendSumDiv();
-
-  renderLocalStorage();
-  
+  renderLocalStorage();  
   productsToBeCreated();
 };
