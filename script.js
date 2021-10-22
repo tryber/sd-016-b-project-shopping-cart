@@ -24,15 +24,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-// basta chamá-la no escopo principal do arquivo
+// Parte do requisito 01 - criar os componentes HTML.
 async function appendItems() {
   const {results} = await fetchProducts('computador');
 
@@ -41,6 +33,14 @@ async function appendItems() {
     const items = document.querySelector('.items')
     items.appendChild(createProductItemElement({ sku, name, image }))
   });
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
