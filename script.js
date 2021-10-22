@@ -49,7 +49,8 @@ const calcTotalCart = async () => {
     total += parseFloat(elementoItem.substring(elementoItem.indexOf('PRICE: $') + 8));
   }
 
-  totalPriceCart.innerText = `$ ${total.toFixed(2)}`;
+  // totalPriceCart.innerText = `$ ${total.toFixed(2)}`;
+  totalPriceCart.innerText = total;
 };
 
 function cartItemClickListener(event) {
