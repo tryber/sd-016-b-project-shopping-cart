@@ -73,11 +73,12 @@ function addCartClickListener(event) {
   cartItemToBeCreated(idProduct);
 }
 
-function createCustomElement(element, className, innerText) {
+// Suggest  by Israel Sant'Anna: put a callback function. 
+function createCustomElement(element, className, innerText, callback) {
   const e = document.createElement(element);
   
-  if (element === 'button') {
-    e.addEventListener('click', addCartClickListener);
+  if (callback) {
+    e.addEventListener('click', callback);
   }
 
   e.className = className;
@@ -93,7 +94,7 @@ function createProductItemElement({ id, title, thumbnail, price }) {
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('span', 'item__price', `R$ ${price.toFixed(2)}`));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(createCustomElement('button', 'item__add', 'Add cart', addCartClickListener));
 
   return section;
 }
