@@ -67,8 +67,7 @@ const getCartPrices = () => {
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach((item) => itemPrices
     .push(Number(item.innerText
-      .split('PRICE: $')[1])
-      .toFixed(2)));
+      .split('PRICE: $')[1])));
   return itemPrices;
 };
 
@@ -77,16 +76,22 @@ const getCartTotalValue = (callback) => {
   let total;
   if (cartPrices.length > 0) {
     total = cartPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
-    return total;
+    return total.toFixed(2);
   } 
   total = 0;
   return total;
 };
 
+const renderCartTotalValue = (totalPrice) => {
+  const totalArea = document.querySelector('.total-price');
+  totalArea.innerText = `Subtotal: R$ ${totalPrice}`;
+};
+
 function cartItemClickListener(event) {
   const fatherElement = event.target.parentNode;
   fatherElement.removeChild(event.target);
-  getCartTotalValue(getCartPrices);
+  const totalValueCart = getCartTotalValue(getCartPrices);
+  renderCartTotalValue(totalValueCart);
   saveCartItems(getCartItems());
 }
 
@@ -114,7 +119,8 @@ const addItemToCart = async (id) => {
   const itemInfos = await mapFetchItemAndReturnObj(skuItem);
   const itemLi = createCartItemElement(itemInfos);
   appendProductItemToCart(itemLi);
-  getCartTotalValue(getCartPrices);
+  const totalValueCart = getCartTotalValue(getCartPrices);
+  renderCartTotalValue(totalValueCart);
   const items = getCartItems();
   saveCartItems(items);
 };
