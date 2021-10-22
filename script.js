@@ -7,6 +7,7 @@ function createProductImageElement(imageSource) {
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
+  if (element === 'button') e.addEventListener('click', addItemCart);
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -20,7 +21,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
 
@@ -29,14 +29,14 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 // realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
@@ -52,8 +52,21 @@ async function productList(product) {
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
   });
+
+  const addCart = (event) => {
+    const setId = event.target.parentElement.firstElementChild.innerText;
+    const addValue = () => {
+      console.log(aaa);
+    }
+    fetchItem(setId).then((data) => {
+      cartItems.appendChild(itemObject);
+    addValue(data.price, '+');
+});
+
 }
 
 window.onload = () => {
   productList('computador');
+}
+
 };
