@@ -25,8 +25,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+// Item 1
 const itemsSection = document.querySelector('.items');
-
 const getProducts = () => {
   // Recupera o objeto do produto na API, cria o elemento e o adiciona à section no HTML.
   fetchProducts('computador')
@@ -39,21 +39,44 @@ const getProducts = () => {
 };
 
 function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+  const sku = item.target.parentNode.firstChild;
+  return sku.innerText; // Retorna o ID do produto, está correto.
 }
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
+const cartItem = document.getElementsByClassName('cart__items')[0];
+
+const addToCart = async (id) => {
+  // Recupera o objeto do produto específico na API e o adiciona à OL do Cart no HTML.
+  const product = await fetchItem(id);
+  const addProduct = createCartItemElement(product);
+  cartItem.appendChild(addProduct);
+};
+
+const setupEventListener = () => {
+  // 'Seta' o event listener para adicionar um item ao Cart.
+  // Não consegui adicionar apenas nos botões, então apliquei para a página toda, mas condicionando os botões.
+  document.addEventListener('click', (event) => {
+    const item = event.target;
+    if (item && item.classList.contains('item__add')) {
+      const id = getSkuFromProductItem(event);
+      addToCart(id);
+    }
+  });
+};
+
 window.onload = () => {
   getProducts();
+  setupEventListener();
 };
