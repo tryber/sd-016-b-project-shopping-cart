@@ -23,6 +23,17 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+const showLoadMessage = () => {
+  const loadMessage = document.createElement('div');
+  loadMessage.classList.add('loading');
+  loadMessage.innerText = 'carregando...';
+  document.querySelector('body').appendChild(loadMessage);
+};
+
+const hideLoadMessage = () => {
+  document.querySelector('.loading').remove();
+};
+
 const mapProductsAndReturnObject = async (searchParam) => {
   const products = await fetchProducts(searchParam);
   const productsInfo = products.map(({ id, title, thumbnail }) => (
@@ -37,7 +48,9 @@ const appendProductItemElementToSection = (product) => {
 };
 
 const createProductsSection = async (searchParam) => {
+  showLoadMessage();
   const products = await mapProductsAndReturnObject(searchParam);
+  hideLoadMessage();
   products.forEach((product) => {
     const productSection = createProductItemElement(product);
     appendProductItemElementToSection(productSection);
