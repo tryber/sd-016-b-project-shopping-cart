@@ -1,5 +1,11 @@
 const cartItems = document.querySelector('.cart__items');
 
+function cartItemClickListener(event) {
+  const et = event.target;
+  et.remove();
+  saveCartItems(cartItems.innerHTML);
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -42,11 +48,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
-// }
-
-// function cartItemClickListener(event) {
-//   const et = event.target;
-//   saveCartItems(cartItems.innerHTML);
 // }
 
 // como queria um código mais dinâmico, deixei um parametro default como computador, 
