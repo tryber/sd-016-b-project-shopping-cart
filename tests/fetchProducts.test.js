@@ -24,7 +24,7 @@ describe('1 - Teste a função fecthProducts', () => {
   it('Verifica se a função fetchProducts com o parâmetro `computador` retorna o objeto correto', async () => {
     expect.assertions(1);
     const result = await fetchProducts('computador');
-    expect(result).toBe(computadorSearch);
+    expect(result).toEqual(computadorSearch);
   });
 
   it('Verifica se a função fetchProducts sem argumento retorna uma mensagem de erro', async () => {
