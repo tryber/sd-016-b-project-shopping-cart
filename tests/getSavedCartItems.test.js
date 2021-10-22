@@ -16,4 +16,9 @@ describe('4 - Teste a função getSavedCartItems', () => {
     getSavedCartItems();
     expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
   });
+
+  test('getSavedCartItems retorna undefined quando não há itens no localStorage', () => {
+    const actual = getSavedCartItems();
+    expect(actual).toBeUndefined();
+  });
 });
