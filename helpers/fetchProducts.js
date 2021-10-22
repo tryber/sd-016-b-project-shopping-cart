@@ -3,7 +3,7 @@ const fetchProducts = async (query) => {
 
   const result = await fetch(url)
   .then((response) => response.json())
-  .catch(() => new Error('You must provide a url'));
+  .catch(() => new Error('You must provide an url'));
   return result;
 };
 
