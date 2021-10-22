@@ -53,6 +53,7 @@ function cartItemClickListener(event) {
   if (event.target.classList.contains('cart__item')) {
     const parent = event.target.parentElement;
     parent.removeChild(event.target);
+    saveCartItems(parent);
   }
 }
 
@@ -77,6 +78,7 @@ async function addItemToCart(event) {
     };
     const li = createCartItemElement(productInfo);
     cartItems.appendChild(li);
+    saveCartItems(cartItems);
   }
 }
 
