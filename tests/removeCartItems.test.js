@@ -7,7 +7,10 @@ Object.defineProperty(window, 'localStorage', {
     }),
     removeItem: jest.fn(function () {
       delete this[arguments[0]];
-    })
+    }),
+    getItem: jest.fn(function () {
+      return this[arguments[0]] || null;
+    }),
   },
 });
 
@@ -21,5 +24,13 @@ describe('BONUS :) - Teste a função removeCartItems', () => {
     removeCartItems('item2');
     const actual = localStorage.cartItems;
     expect(actual).toEqual(expected);
+  });
+
+  test('removeCartItems remove a chave cartItems se esta ficar vazia após a remoção do item especificado', () => {
+    removeCartItems('item1');
+    removeCartItems('item2');
+    removeCartItems('item3');
+    expect(localStorage.getItem('cartItems')).toBeNull();
+    expect(localStorage.cartItems).toBeUndefined();
   });
 });
