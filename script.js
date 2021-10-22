@@ -44,7 +44,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 const buscarProduto = async (produto) => {
   const arrayItens = await fetchProducts(produto);
   const sessao = document.querySelector('.items');
-  arrayItens.results.forEach((item => {
+  arrayItens.results.forEach((item) => {
     const itemObj = {
       sku: item.id,
       name: item.title,
@@ -52,7 +52,7 @@ const buscarProduto = async (produto) => {
     };
     const productItem = createProductItemElement(itemObj);
     sessao.appendChild(productItem);
-  }));
+  });
 };
 
 const addToCart = () => {
