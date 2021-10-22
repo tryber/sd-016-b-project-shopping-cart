@@ -28,9 +28,12 @@ function sumPricesInCart() {
   const sumDiv = document.querySelector('.total-price');
   let sumPrices = 0;
   const cartItemList = document.getElementsByClassName('cart__item');
-  for (let i = 0; i < cartItemList.length; i += 1) {
-    sumPrices += Number(cartItemList[i].innerHTML.split('$').pop());
-  }
+
+  // obj: problem to use HOF with HTML elements ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
+  [...cartItemList].forEach((e) => {
+    sumPrices += Number(e.innerHTML.split('$').pop());
+  });
+
   sumDiv.innerHTML = sumPrices;
 }
 
