@@ -1,3 +1,6 @@
+const itemsSection = document.querySelector('.items');
+const cartItemsList = document.querySelector('.cart__items')
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -26,7 +29,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 // Item 1
-const itemsSection = document.querySelector('.items');
 const getProducts = () => {
   // Recupera o objeto do produto na API, cria o elemento e o adiciona à section no HTML.
   fetchProducts('computador')
@@ -43,7 +45,7 @@ function getSkuFromProductItem(item) {
   return sku.innerText; // Retorna o ID do produto, está correto.
 }
 
-function removeItemFromCartListener(event) {
+function cartItemClickListener(event) {
   // Recupera o elemento HTML e depois o remove usando `.remove()`.
   // https://www.w3schools.com/jsref/met_element_remove.asp
   // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
@@ -55,17 +57,22 @@ function createCartItemElement({ id: sku, title: name, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${price}`;
-  li.addEventListener('click', removeItemFromCartListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
-const cartItem = document.getElementsByClassName('cart__items')[0];
-
 const addToCart = async (id) => {
   // Recupera o objeto do produto específico na API e o adiciona à OL do Cart no HTML.
+  const cartItem = document.getElementsByClassName('cart__items')[0];
   const product = await fetchItem(id);
   const addProduct = createCartItemElement(product);
   cartItem.appendChild(addProduct);
+  saveCartItems(cartItemsList.innerHTML);
+};
+
+const loadCartItems = () => {
+  const a = getSavedCartItems();
+  cartItemsList.innerHTML = a;
 };
 
 const setupEventListener = () => {
@@ -83,4 +90,5 @@ const setupEventListener = () => {
 window.onload = () => {
   getProducts();
   setupEventListener();
+  loadCartItems();
 };
