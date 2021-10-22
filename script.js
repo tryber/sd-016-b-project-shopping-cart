@@ -1,6 +1,7 @@
 const sectionItems = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
+const buttonClear = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -89,9 +90,16 @@ const loadLocalStorage = () => {
   }
 };
 
+const buttonEmptyCart = () => {
+  cartItems.innerHTML = '';
+  totalPrice.innerHTML = 0;
+  saveCartItems(cartItems.innerHTML);
+};
+
 window.onload = () => { 
   loadProductsPage();
   sectionItems.addEventListener('click', addProductCart);
   cartItems.addEventListener('click', cartItemClickListener);
   loadLocalStorage();
+  buttonClear.addEventListener('click', buttonEmptyCart);
 };
