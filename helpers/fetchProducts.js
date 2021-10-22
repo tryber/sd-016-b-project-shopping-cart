@@ -1,20 +1,13 @@
-const fetchProducts = (QUERY = 'computador') => {
-const url = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
+const fetchProducts = async (query) => {
+  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
 
-return fetch(url)
-  .then((response) => response.json())
-  .then((data) => data.results)
-  .catch(() => new Error('You must provide an url'));
+  const listProducts = await fetch(url)
+    .then((response) => response.json())
+    // .then((data) => data.results) irei utilizar na função do script como chave do meu objeto.
+    .catch(() => new Error('You must provide an url'));
+  return listProducts;
 };
 
-// const fetchProducts = async () => {
-//   const result = await fetch(url)
-//     .then((response) => response.json())
-//     .then((data) => data.results)
-//     .catch((error) => console.log(error));
-//     return result;
-//   };
-  
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchProducts,

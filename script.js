@@ -43,17 +43,13 @@ function createCartItemElement({ sku, name, salePrice }) {
 // Inicio do meu código
 const items = document.querySelector('.items');
 
-const showProducts = () => {
-  fetchProducts()
-  .then((products) => {
-    products.forEach((product) => {
-      const createItem = createProductItemElement(product);
-      items.appendChild(createItem);
-    });
+const showProducts = async () => {
+  const products = await fetchProducts('computador');
+  products.results.forEach((product) => {
+    const createItem = createProductItemElement(product);
+    items.appendChild(createItem);
   });
 };
-// Uso do then é para pegar a promise que retorna da função fetchProduct, forEach para passar em casa objeto e criar os elementos.
-// fiz alteração do objeto diretamente na função createProductItemELement - Dica do colega Israel Santana no slack.
 
 window.onload = () => {
   showProducts();

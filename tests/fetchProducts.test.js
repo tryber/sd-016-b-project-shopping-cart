@@ -10,11 +10,9 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(typeFunction).toBe('function');
   });
 
-  test('Testar se função fetchProducts chama fetch para computador como argumento ', async () => {
-    expect.assertions(2);
-    await fecthProducts('computador');
-    expect(fetch).toHaveBeenCaleed();
-    // https://jestjs.io/pt-BR/docs/expect#tohavebeencalled
+  test('Testar se função fetchProducts chama fetch para computador como argumento ', () => {
+    fetchProducts('computador');
+    expect(fetch).toBeCalled();
   });
 
   test('Testar endpoint com argumento computador', () => {
@@ -24,8 +22,14 @@ describe('1 - Teste a função fecthProducts', () => {
     );
   });
 
-  test('Testar retorno fetchProducts = objeto computadorSearch', () => {
-    const product = await fetchProducts('computador');
-    expect(product).toEqual(computadorSearch);
-  })
-});
+  test('Testar retorno fetchProducts = objeto computadorSearch', async () => {
+    const products = await fetchProducts('computador');
+    expect(products).toEqual(computadorSearch);
+  });
+
+  test('Testar função fetchProducts sem parâmetros retorna erro', async () => {
+    const products = await fetchProducts();
+    const error = new Error('You must provide an url');
+    expect(products).toEqual(error);
+  });
+})
