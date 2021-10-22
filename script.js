@@ -1,5 +1,8 @@
 const elementItems = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
+const clearItems = document.querySelector('.empty-cart');
+
+function clearCart() {}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -9,7 +12,7 @@ function createProductImageElement(imageSource) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
