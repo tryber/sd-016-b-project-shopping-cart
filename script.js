@@ -1,5 +1,6 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
-
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+// const saveCartItems = require("./helpers/saveCartItems");
 // const { fetchItem } = require("./helpers/fetchItem");
 
 const itemClass = document.querySelector('.items');
@@ -38,6 +39,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const eventTarget = event.target;
   eventTarget.remove();
+  saveCartItems();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -70,8 +72,8 @@ const getCartElement = async (ID) => {
     name: title,
     salePrice: price,
   };
-
   cartItemsClass.appendChild(createCartItemElement(objOfReturnedItem));
+  saveCartItems();
 };
 
 const addElementToCart = (event) => {
@@ -82,6 +84,7 @@ const addElementToCart = (event) => {
 
 window.onload = () => { 
   getProductsSection();
-  itemClass.addEventListener('click', addElementToCart);
   cartItemsClass.addEventListener('click', cartItemClickListener);
+  itemClass.addEventListener('click', addElementToCart);
+  getSavedCartItems();
 };
