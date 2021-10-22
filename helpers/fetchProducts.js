@@ -3,7 +3,7 @@ const fetchProducts = () => {
   const itens = fetch(url)
     .then((response) => response.json())
     .then((data) => data.results)
-    .catch((error) => error.toString());
+    .catch(() => new Error('You must provide an url'));
   
   return itens; 
 };
