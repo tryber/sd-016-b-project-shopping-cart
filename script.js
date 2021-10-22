@@ -55,6 +55,24 @@ async function searchProducts(product) {
   });
 }
 
+async function selectedProduct(product) {
+  const selectedData = await fetchItem(product);
+  const ol = document.querySelector('.cart__items');
+  console.log(selectedData.id);
+
+  const itemSelected = {
+    sku: selectedData.id,
+    name: selectedData.title,
+    value: selectedData.price,
+  };
+
+  console.log(itemSelected);
+
+  const selectedItem = createCartItemElement(itemSelected);
+  ol.appendChild(selectedItem);
+}
+
 window.onload = () => { 
   searchProducts('computador');
+  selectedProduct('MLB1341706310');
 };
