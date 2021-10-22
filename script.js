@@ -54,7 +54,8 @@ const getItemElement = (event) => {
 };
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const fatherElement = event.target.parentNode;
+  fatherElement.removeChild(event.target);
 }
 
 const mapFetchItemAndReturnObj = async (itemId) => {
