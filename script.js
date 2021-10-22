@@ -81,7 +81,7 @@ const getfetchItem = async (id) => {
   return appendByClass('cart__items', itemElement);
 };
 
-const itemAdd = (event) => {
+const eventItemAdd = (event) => {
     event.lastElementChild.addEventListener('click', (element) => {
       const sku = element.target.parentElement.firstChild.innerText;
       getfetchItem(sku)
@@ -92,8 +92,25 @@ const itemAdd = (event) => {
     });
 };
 
+const createElementLoading = () => {
+  const sectionLoading = document.createElement('section');
+  sectionLoading.className = 'loading';
+  appendByClass('items', sectionLoading);
+
+  const itemElement = createProductItemElement({ sku: undefined, name: 'Carregando', image: '' });
+  appendByClass('loading', itemElement);
+};
+
+const clearElementLoading = () => {
+  const sectionLoading = getFirstElementsByClass('.loading');
+  sectionLoading.remove();
+};
+
 const getfetchProducts = async () => {
+  createElementLoading();
+
   const { results: products } = await fetchProducts('computador');
+  clearElementLoading();
 
   products.forEach((product) => {
     const { id: sku, title: name, thumbnail: image } = product;
@@ -101,10 +118,8 @@ const getfetchProducts = async () => {
 
     const elementCart = appendByClass('items', itemElement);
 
-    itemAdd(elementCart);
+    eventItemAdd(elementCart);
   });
-
-  calcTotalCart();
 };
 
 const restoreCartListOfLocalStorage = () => {
