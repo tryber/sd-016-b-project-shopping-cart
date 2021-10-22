@@ -25,13 +25,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
-function cartItemClickListener(event) {
-  // console.log('ola');
-}
+// function cartItemClickListener(event) {
+//   // console.log('ola');
+// }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
