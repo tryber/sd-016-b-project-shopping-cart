@@ -1,4 +1,5 @@
-const itemLi = document.querySelector('.cart__item');
+const ol = document.querySelector('.cart__items');
+const li = document.querySelectorAll('.cart__item');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -14,14 +15,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 function cartItemClickListener(event) {
+  const item = document.querySelector('.cart__items');
     item.removeChild(event.target);
+    saveCartItems(ol.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  const createLi = document.createElement('li');
+  createLi.className = 'cart__item';
+  createLi.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  createLi.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -32,7 +35,6 @@ function getSkuFromProductItem(item) {
 const addItem = async (event) => {
   const item = getSkuFromProductItem(event.target.parentNode);
   const obj = await fetchItem(item);
-  const ol = document.querySelector('.cart__items');
   const product = createCartItemElement(obj);
   ol.appendChild(product);
   saveCartItems(ol.innerHTML);
@@ -63,21 +65,17 @@ const fetchP = async () => {
 };
 
 const returnItems = () => {
-  const ol = document.querySelector('.cart__items');
   ol.innerHTML = getSavedCartItems();
-  li.forEach((li) => li.addEventListener('click', cartItemClickListener));
+  li.forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
 
-// function clearCart() {
-  // const button = document.querySelector('.empty-cart')
-  // const ol = document.querySelectorAll('.cart__items')
-  // button.addEventListener('click', () => {
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', () => {
+    ol.innerHTML = '';
+    saveCartItems(ol.innerHTML);   
+  });
 
-  //   ol.innerHTML = ''
-  // })
-// }
-
-window.onload = () => { 
+window.onload = () => {
   fetchP();
-  returnItems();
+  returnItems(); 
 };

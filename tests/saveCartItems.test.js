@@ -7,6 +7,10 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('4 - Teste a função saveCartItems', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('saveItemsTest', () => {
+    beforeEach(() => {
+      saveCartItems('<ol><li>Item</li></ol>')
+    })
+    expect(localStorage()).toHaveBeenCaledWith('<ol><li>Item</li></ol>' )
+  });
 });
