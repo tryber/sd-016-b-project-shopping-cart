@@ -65,7 +65,6 @@ function cartItemClickListener(event) {
   // https://www.w3schools.com/jsref/met_element_remove.asp
   // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
   event.target.remove();
-  saveCartItems(cartItemsList.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price }) {
@@ -88,15 +87,21 @@ const addToCart = async (id) => {
 const loadCartItems = () => {
   const a = getSavedCartItems();
   cartItemsList.innerHTML = a;
+  const b = document.querySelectorAll('.cart__item');
+  b.forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
 
 loadCartItems();
 
+const removeItemFromLocalStorage = () => {
+  localStorage.removeItem('cartItems');
+};
+
 const emptyCart = () => {
   emptyCartBtn.addEventListener('click', () => {
     cartItemsList.innerHTML = '';
+    removeItemFromLocalStorage();
   });
-  saveCartItems(cartItemsList.innerHTML);
 };
 
 const setupEventListener = () => {
@@ -117,3 +122,10 @@ window.onload = () => {
   emptyCart();
   loadCartItems();
 };
+
+// Foram usados como referência para solução de alguns pontos, os projetos de:
+// Victor Shin - T16B: https://github.com/tryber/sd-016-b-project-shopping-cart/pull/83
+// Gabriel Pinheiro - T16B: https://github.com/tryber/sd-016-b-project-shopping-cart/pull/20
+
+// Para Lara, obrigado por acreditar tanto em mim,
+// você não tem noção do quanto isso significa. <3
