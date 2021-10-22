@@ -12,4 +12,9 @@ describe('1 - Teste a função fetchProducts', () => {
     fetchProducts('computador');
     expect(fetch).toHaveBeenCalled();
   });
+  it('ao chamar fetchProducts com o argumento computador, verifica o endpoint do fetch', () => {
+    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+    fetchProducts('computador');
+    expect(fetch).toHaveBeenCalledWith(endpoint);
+  });
 });
