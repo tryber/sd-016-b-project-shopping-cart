@@ -43,7 +43,8 @@ fetchProducts('computador').then((dados) => {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-function cartItemClickListener(event) {
+function cartItemClickListener() {
+  // function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
