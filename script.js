@@ -1,3 +1,11 @@
+const getDBase = () => {
+  const dBase = localStorage.getItem('sSart');
+  if (dBase === undefined) return [];
+  return dBase;
+};
+
+const setDBase = (dBanco) => JSON.stringify(localStorage.setItem('sSart', dBanco));
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -13,7 +21,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  event.target.remove();
+  event.target.parentNode.remove();
 }
 
 const imgCartIten = (imgSrc) => {
@@ -26,7 +34,8 @@ const imgCartIten = (imgSrc) => {
 function createCartItemElement({ id: sku, title: name, price: salePrice, thumbnail: imG }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerHTML = `<p class="item_desc">
+  SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}</p> <p class="item_close"> X</p>`;
   li.appendChild(imgCartIten(imG));
   li.addEventListener('click', cartItemClickListener);
   return li;
