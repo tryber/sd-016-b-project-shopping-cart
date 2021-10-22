@@ -48,14 +48,14 @@ async function evento(event) {
   const id = pai.firstChild.innerText;
   
   fetchItem(id).then((dados) => {
-    const skuId = dados.id;
-    const nameItem = dados.title;
-    const preco = dados.price;
+    const sku = dados.id;
+    const name = dados.title;
+    const salePrice = dados.price;
 
     const add = document.querySelector('.cart__items');
-    add.appendChild(createCartItemElement({ skuId, nameItem, preco }));
+    add.appendChild(createCartItemElement({ sku, name, salePrice }));
 
-    console.log(skuId, nameItem, preco);
+    console.log(sku, name, salePrice);
   });
 }
 
