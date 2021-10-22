@@ -24,6 +24,29 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Parte do requisito II - insere item no carrinho ao clicar no botão
+function getSku() {
+  const items = document.querySelector('.items')
+  items.addEventListener('click', (event) => {
+    if (event.target.classList.contains('item__add')) {
+      const buttonTarget = event.target;
+      const sku = buttonTarget.parentNode.firstChild.innerText
+
+      InsertInCart(sku);
+    }
+  });
+}
+
+
+async function InsertInCart (sku) {
+  const dataItem = await fetchItem(sku);
+  const { title: name, price: salePrice } = dataItem;
+  const li = createCartItemElement({ sku, name, salePrice });
+
+  const cartItems = document.querySelector('.cart__items')
+  cartItems.appendChild(li);
+}
+
 // Parte do requisito 01 - criar os componentes HTML.
 async function appendItems() {
   const {results} = await fetchProducts('computador');
@@ -34,6 +57,8 @@ async function appendItems() {
     items.appendChild(createProductItemElement({ sku, name, image }))
   });
 }
+
+
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -51,4 +76,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { appendItems() };
+window.onload = () => { 
+  appendItems(),
+  getSku()
+};
