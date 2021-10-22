@@ -31,13 +31,30 @@ function getSkuFromProductItem(item) {
 const getItemsCart = () => {
   const cartList = document.querySelector('.cart__items');
   const cartListItems = cartList.innerHTML;
+
   saveCartItems(cartListItems);
+};
+
+// Fiz da forma abaixo para funcionar também, quando pegar do localstorage que é uma string;
+const calcTotalCart = () => {
+  const totalPriceCart = document.querySelector('.total-price');
+  const cartItem = document.getElementsByClassName('cart__item');
+
+  let total = 0;
+  for (let index = 0; index < cartItem.length; index += 1) {
+    const elementoItem = cartItem[index].innerText;
+    total += parseFloat(elementoItem.substring(elementoItem.indexOf('PRICE: $') + 8));
+  }
+
+  totalPriceCart.innerText = `$ ${total.toFixed(2)}`;
 };
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+
   getItemsCart();
+  calcTotalCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -65,7 +82,10 @@ const itemAdd = (event) => {
     event.lastElementChild.addEventListener('click', (element) => {
       const sku = element.target.parentElement.firstChild.innerText;
       getfetchItem(sku)
-        .then(() => getItemsCart());
+        .then(() => {
+          getItemsCart();
+          calcTotalCart();
+        });
     });
 };
 
@@ -92,7 +112,15 @@ const restoreCartList = () => {
   for (let index = 0; index < cartItem.length; index += 1) {
     cartItem[index].addEventListener('click', cartItemClickListener);
   }
+
+  calcTotalCart();
 };
+
+/* const calcTotalCart = (price) => {
+  const totalPriceCart = document.querySelector('.total-price');
+  const total = parseFloat(totalPriceCart.innerText) + price;
+  console.log(total);
+}; */
 
 window.onload = () => {
   getfetchProducts();
