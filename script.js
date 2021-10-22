@@ -58,6 +58,10 @@ const saveCart = () => {
   saveCartItems(cart.innerHTML);
 };
 
+const renderCart = () => {
+  cart.innerHTML = getSavedCartItems();
+};
+
 const addItemToCart = () => {
   const buttons = document.querySelectorAll('.item__add');
 
@@ -79,6 +83,7 @@ const addItemToCart = () => {
 
 window.onload = async () => {
   await renderProducts();
+  renderCart();
   
   addItemToCart();
 };
