@@ -115,9 +115,18 @@ const verifyItemAdd = (event) => {
   }
 };
 
+const clearCart = () => {
+  const cartItemsList = document.querySelector('.cart__items');
+  while (cartItemsList.firstChild) {
+    cartItemsList.removeChild(cartItemsList.lastChild);
+  }
+};
+
 window.onload = () => {
   const itemsContainer = document.querySelector('.items');
+  const emptyCartButton = document.querySelector('.empty-cart');
   createProductsSection('computador');
   itemsContainer.addEventListener('click', verifyItemAdd);
+  emptyCartButton.addEventListener('click', clearCart);
   getSavedItems();
 };
