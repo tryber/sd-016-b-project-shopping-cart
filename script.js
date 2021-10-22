@@ -28,8 +28,11 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const getFirstElementsByClass = (element) => document.querySelector(element);
+
+const cartList = getFirstElementsByClass('.cart__items');
+
 const saveItemsCartForLocalStorage = () => {
-  const cartList = document.querySelector('.cart__items');
   const cartListItems = cartList.innerHTML;
 
   saveCartItems(cartListItems);
@@ -37,7 +40,7 @@ const saveItemsCartForLocalStorage = () => {
 
 // Fiz da forma abaixo para funcionar também, quando pegar do localstorage que é uma string;
 const calcTotalCart = () => {
-  const totalPriceCart = document.querySelector('.total-price');
+  const totalPriceCart = getFirstElementsByClass('.total-price');
   const cartItem = document.getElementsByClassName('cart__item');
 
   let total = 0;
@@ -66,7 +69,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const appendByClass = (className, childName) => {
-  const father = document.querySelector(`.${className}`);
+  const father = getFirstElementsByClass(`.${className}`);
 
   return father.appendChild(childName);
 };
@@ -104,7 +107,6 @@ const getfetchProducts = async () => {
 
 const restoreCartListOfLocalStorage = () => {
   const elementListItem = getSavedCartItems();
-  const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = elementListItem;
 
   // O código abaixo foi necessário fazer pois, estou usando o innerHTML acima e não criando o item dinamicamente.
@@ -117,7 +119,6 @@ const restoreCartListOfLocalStorage = () => {
 };
 
 const clearCart = () => {
-  const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = '';
 
   saveItemsCartForLocalStorage();
@@ -125,7 +126,7 @@ const clearCart = () => {
 };
 
 const eventClearCart = () => {
-  const buttonClear = document.querySelector('.empty-cart');
+  const buttonClear = getFirstElementsByClass('.empty-cart');
 
   buttonClear.addEventListener('click', clearCart);
 };
