@@ -1,4 +1,4 @@
-const unstructure = async (url) => {
+const unstructureList = async (url) => {
   const result = await fetchProducts(url);
   const data = await result.results;
   const response = await data.map((item) => {
@@ -8,7 +8,14 @@ const unstructure = async (url) => {
   return response;
 };
 
-const itens = unstructure('computador');
+const itens = unstructureList('computador');
+
+const unstructureItem = async (idProduct) => {
+  const result = await fetchItem(idProduct);
+  const { id: sku, title: name, price: salePrice } = await result;
+  const response = await { sku, name, salePrice };
+  return response;
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -60,6 +67,18 @@ const createNavigation = () => {
   }));
 };
 
+const addItemCart = async (event) => {
+  const productCarts = document.querySelector('.cart__items');
+  const { sku, name, salePrice } = await unstructureItem(event);
+  productCarts.appendChild(createCartItemElement({ sku, name, salePrice }));
+};
+
 createNavigation();
 
-window.onload = () => { };
+window.onload = () => {
+  document.body.addEventListener('click', (event) => {
+    if (event.target.classList.contains('item__add')) {
+      return addItemCart(event.target.parentNode.firstChild.innerText);
+    }
+  });
+};
