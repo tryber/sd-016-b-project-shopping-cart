@@ -10,6 +10,8 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(typeof fetchProducts).toBe('function');
   });
 
+  // Os testes 2, 3 e 5 foram feitos seguindo o vídeo explicativo do professor Bernardo Salgueiro, postado nessa thread: https://trybecourse.slack.com/archives/C02B4PPBERE/p1634836814054200
+
   // teste 2 - VIDEO BERNARDO
   it('Verifica se ao chamar a função com o argumento "computador", fetch é chamada', () => {
     fetchProducts('computador');
@@ -31,15 +33,12 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(response).toEqual(computadorSearch);
   })
 
-  // // teste 5
+  // // teste 5 - VIDEO BERNARDO
   it('Verifica o erro da função em caso de chamada sem argumento',  async () => {
     const expectedError = new Error('You must provide an url');
     const response = await fetchProducts();
 
     expect.assertions(1);
     expect(response).toEqual(expectedError);
-
-    // expect(() => fetchProducts()).toThrow();
-    // expect(() => fetchProducts()).toThrowError(new Error('You must provide an url'));
   })
 });
