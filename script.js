@@ -40,7 +40,6 @@ const saveItemsCartForLocalStorage = () => {
 
 // Fiz da forma abaixo para funcionar também, quando pegar do localstorage que é uma string;
 const calcTotalCart = async () => {
-  // const totalPriceCart = getFirstElementsByClass('.value-total-price');
   const totalPriceCart = getFirstElementsByClass('.total-price');
   const cartItem = document.getElementsByClassName('cart__item');
 
@@ -49,9 +48,11 @@ const calcTotalCart = async () => {
     const elementoItem = cartItem[index].innerText;
     total += parseFloat(elementoItem.substring(elementoItem.indexOf('PRICE: $') + 8));
   }
-
-  // totalPriceCart.innerText = `$ ${total.toFixed(2)}`;
-  totalPriceCart.innerText = total;
+  if (total) {
+    totalPriceCart.innerText = total;
+  } else {
+    totalPriceCart.innerText = '';
+  }
 };
 
 function cartItemClickListener(event) {
@@ -84,8 +85,9 @@ const getfetchItem = async (id) => {
 };
 
 const eventItemAdd = (event) => {
-    event.lastElementChild.addEventListener('click', (element) => {
-      const sku = element.target.parentElement.firstChild.innerText;
+    event.lastElementChild.addEventListener('click', () => {
+      // const sku = element.target.parentElement.firstChild.innerText;
+      const sku = getSkuFromProductItem(event);
       getfetchItem(sku)
         .then(() => {
           saveItemsCartForLocalStorage();
