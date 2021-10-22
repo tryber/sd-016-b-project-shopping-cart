@@ -9,8 +9,8 @@ describe('1 - Teste a função fecthProducts', () => {
   it('fecthProducts its a function', () => {
     expect(typeof fetchProducts).toBe('function');
   });
-  it('function "fetchProducts" heve been called', () => {
-    fetchProducts('computador');
+  it('function "fetchProducts" heve been called', async () => {
+    await fetchProducts('computador');
     expect(fetch).toHaveBeenCalled();
   });
   it('Called function fetchProducts, use expect endpoint', () => {
@@ -22,10 +22,11 @@ describe('1 - Teste a função fecthProducts', () => {
     const result = await fetchProducts('computador');
     expect(result).toEqual(computadorSearch);
   });
-  it('Return expect Error', async () => {
-    const result = await fetchProducts();
-    const expect = new Error('You must provide an url');
-    
-    expect(result).toEqual(expect);
+  it('Return expect Error', () => {
+    // expect.assertions(1);
+    const expectError = new Error('You must provide an url');
+    const result = fetchProducts();
+    console.log(result);
+    expect(result).toBe('You must provide an url')
   });
 });

@@ -29,12 +29,7 @@ async function createDatajsonSections() {
   const importData = await fetchProducts('computador');
 
   const dataItens = importData.results.map((product) => {
-    const createObject = {
-      sku: product.id,
-      name: product.title,
-      image: product.thumbnail,
-    };
-    return createObject;
+    return { sku: product.id, name: product.title, image: product.thumbnail };
   });
 
   dataItens.forEach((item) => {
@@ -71,6 +66,7 @@ async function createLiCartItem() {
     getCartClass.appendChild(createCartItemElement(item));
   });
 }
+
 window.onload = async () => {
   await createDatajsonSections();
   await createLiCartItem();
