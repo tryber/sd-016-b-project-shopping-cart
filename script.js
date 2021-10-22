@@ -2,9 +2,21 @@ const cart = document.querySelector('.cart');
 const cartItems = document.querySelector('.cart__items');
 const ol = document.querySelector('#ol');
 
+const sum = (acc, number) => acc + number;
+
+const itemsTotal = () => {
+  const total = document.querySelector('.total-price');
+  const [...selectedItems] = cartItems.children;
+  const costArray = [];
+  selectedItems.map((item) => costArray.push(Number(item.innerHTML.split('$').pop())));
+  const totalCost = costArray.reduce(sum, 0);
+  total.innerHTML = totalCost;
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(cartItems.innerHTML);
+  itemsTotal();
 }
 const loadLocalStorage = () => {
   const loadCart = getSavedCartItems();
@@ -37,6 +49,7 @@ const appendCartItem = async (sku) => {
   const item = await fetchItem(sku);
   cartItems.appendChild(createCartItemElement(item));
   saveCartItems(cartItems.innerHTML);
+  itemsTotal();
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -70,21 +83,12 @@ const displayProducts = (SearchedProduct = 'computador') => {
 const appendTotal = () => {
   const newTotal = document.createElement('section');
   cart.appendChild(newTotal);
-  newTotal.className = 'total-cost';
-  newTotal.innerHTML = 'batata';
-};
-const sum = (acc, number) => acc +number;
-const itemsTotal = () => {
-  const total = document.querySelector('.total-cost');
-  const [...selectedItems] = cartItems.children;
-  const costArray = [];
-  selectedItems.map((item) => costArray.push(Number(item.innerHTML.split('$').pop())));
-  return costArray.reduce(sum, 0);
+  newTotal.className = 'total-price';
 };
 
 window.onload = () => { 
   displayProducts();
   loadLocalStorage();
   appendTotal();
-  console.log(itemsTotal());
+  itemsTotal();
 };
