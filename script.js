@@ -76,12 +76,12 @@ const fillItemList = async () => {
 };
 
 const addProductsToCart = () => {
-  const shoppingCart = document.querySelector('.cart');
+  const shoppingCartList = document.querySelector('.cart__items');
   const buttonsList = document.querySelectorAll('.item__add');
   buttonsList.forEach((button) => button.addEventListener('click', async () => {
       const id = button.previousSibling.previousSibling.previousSibling.innerText;
       const product = await createProductObjectById(id);
-      return shoppingCart.appendChild(createCartItemElement(product));
+      return shoppingCartList.appendChild(createCartItemElement(product));
   }));
 };
 
