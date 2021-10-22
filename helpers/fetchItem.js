@@ -1,14 +1,11 @@
 const fetchItem = (productID) => {
   const URL = `https://api.mercadolibre.com/items/${productID}`;
 
-  if (productID === undefined) {
-    throw new Error('You must provide an url');
-  }
-
-  const teste = fetch(URL)
+  const getFetch = fetch(URL)
     .then((response) => response.json())
-    .catch((error) => error.toString());
-  return teste;
+    .catch(() => new Error('You must provide an url'));
+    
+  return getFetch;
 };
 
 if (typeof module !== 'undefined') {

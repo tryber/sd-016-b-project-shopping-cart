@@ -96,6 +96,7 @@ getItemsSection.addEventListener('click', async (e) => {
 getButtonEmptyCart.addEventListener('click', () => {
   getCartItemsOL.innerText = '';
   saveCartItems(getCartItemsOL.innerHTML);
+  sumPrices();
 });
 
 function getSavedCart() {
