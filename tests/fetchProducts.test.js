@@ -23,7 +23,7 @@ describe('1 - Teste a função fecthProducts', () => {
 
   it('Retorna uma estrutura igual à de computadorSearch', async () => {
     const result = await fetchProducts('computador');
-    expect(result).toEqual(computadorSearch.results);
+    expect(result).toEqual(computadorSearch);
   });
 
   it('Sem argumento retorna um erro com a mensagem: You must provide an url', async () => {
