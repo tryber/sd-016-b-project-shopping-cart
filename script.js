@@ -29,8 +29,10 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+// remove o item do carrinho de compras caso ele seja clickado
 function cartItemClickListener(event) {
-  console.log(event);
+  const listCarrinho = document.querySelector('.cart__items');
+  listCarrinho.removeChild(event.target);
 }
 
 // cria o item para o carrinho de compras
@@ -78,6 +80,7 @@ async function SearchProducts(product) {
   });
 }
 
+// faz com que a pagina seja carregada com a lista de computadores disponiveis na API
 window.onload = () => {
   SearchProducts('computador');
 };
