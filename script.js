@@ -30,15 +30,13 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 const addProductsToCart = async (event) => {
   const identification = event.target.previousSibling.previousSibling.previousSibling.innerText;
-  await fetchItem(identification).then((response) => {
-        const element = createCartItemElement(response);
-        cartList.appendChild(element);
-        const valueToIncrease = response.price;
-        total += valueToIncrease;
-        renderTotalPrice();
-        localStorage.setItem('totalPrice', total.toFixed(2));
-        saveCartItems(cartList.innerHTML);
-  });
+  const item = await fetchItem(identification).then((response) => response);
+  const element = createCartItemElement(item);
+  cartList.appendChild(element);
+  total += item.price;
+  renderTotalPrice();
+  localStorage.setItem('totalPrice', total.toFixed(2));
+  saveCartItems(cartList.innerHTML);
 };
 
 function createCustomElement(element, className, innerText) {
