@@ -39,7 +39,7 @@ const saveItemsCartForLocalStorage = () => {
 };
 
 // Fiz da forma abaixo para funcionar também, quando pegar do localstorage que é uma string;
-const calcTotalCart = () => {
+const calcTotalCart = async () => {
   const totalPriceCart = getFirstElementsByClass('.total-price');
   const cartItem = document.getElementsByClassName('cart__item');
 
