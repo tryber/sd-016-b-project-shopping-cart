@@ -64,6 +64,12 @@ const fetchListItens = async (item) => {
 function onStart() {
   const bringBack = getSavedCartItems();
   theListShop.innerHTML = bringBack;
+  const oldList = document.querySelectorAll('.cart__item');
+  oldList.forEach((element) => element
+    .addEventListener('click', (e) => {
+      element.remove(e);
+      saveCartItems(theListShop.innerHTML);
+    }));
 }
 
 window.onload = () => { 
