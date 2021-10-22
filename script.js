@@ -28,9 +28,16 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const getItemsCart = () => {
+  const cartList = document.querySelector('.cart__items');
+  const cartListItems = cartList.innerHTML;
+  saveCartItems(cartListItems);
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  getItemsCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -57,7 +64,8 @@ const getfetchItem = async (id) => {
 const itemAdd = (event) => {
     event.lastElementChild.addEventListener('click', (element) => {
       const sku = element.target.parentElement.firstChild.innerText;
-      getfetchItem(sku);
+      getfetchItem(sku)
+        .then(() => getItemsCart());
     });
 };
 
@@ -74,6 +82,19 @@ const getfetchProducts = async () => {
   });
 };
 
+const restoreCartList = () => {
+  const elementListItem = getSavedCartItems();
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = elementListItem;
+
+  // O código abaixo foi necessário fazer pois, estou usando o innerHTML acima e não criando o item dinamicamente.
+  const cartItem = document.getElementsByClassName('cart__item');
+  for (let index = 0; index < cartItem.length; index += 1) {
+    cartItem[index].addEventListener('click', cartItemClickListener);
+  }
+};
+
 window.onload = () => {
   getfetchProducts();
+  restoreCartList();
 };
