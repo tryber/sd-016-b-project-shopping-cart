@@ -1,4 +1,6 @@
+const cart = document.querySelector('.cart');
 const cartItems = document.querySelector('.cart__items');
+const ol = document.querySelector('#ol');
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -65,7 +67,15 @@ const displayProducts = (SearchedProduct = 'computador') => {
   });
 };
 
+const appendTotal = () => {
+  const newTotal = document.createElement('section');
+  cart.appendChild(newTotal);
+  newTotal.className = 'total-cost';
+  newTotal.innerHTML = 'batata';
+};
+
 window.onload = () => { 
   displayProducts();
   loadLocalStorage();
+  appendTotal();
 };
