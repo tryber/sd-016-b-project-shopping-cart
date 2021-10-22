@@ -39,7 +39,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-//realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
+// realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
 async function productList(product) {
   const searchData = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
@@ -51,7 +51,7 @@ async function productList(product) {
     };
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
-  })
+  });
 }
 
 window.onload = () => {
