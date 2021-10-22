@@ -21,7 +21,6 @@ document.querySelector('.empty-cart').addEventListener('click', () => {
 
 function cartItemClickListener(event) {
   getOL.removeChild(event.target);
-  console.log(event.target.innerText.split('$')[1]);
   val -= event.target.innerText.split('$')[1];
   getP.innerHTML = val;
   saveCartItems(getOL.innerHTML);
