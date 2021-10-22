@@ -1,7 +1,20 @@
 const cart = document.querySelector('.cart');
 const cartItems = document.querySelector('.cart__items');
-const ol = document.querySelector('#ol');
 const emptybutton = document.querySelector('.empty-cart');
+const productsSection = document.querySelector('.container');
+/// Nota: em algumas funções para capturar os nodes como um array foi implementado o spread operator antes da node list [... nodelist]
+// essa recomendação foi dada pelos alunos Gabriel Pinheiro e Israel Santana que estavam na sala da mentória da Ellen, por volta das 17:00;
+const appendLoading = () => {
+  const loadingMsg = document.createElement('section');
+  loadingMsg.className = 'loading';
+  loadingMsg.innerText = 'carregando...';
+  productsSection.appendChild(loadingMsg);
+};
+
+const fadeLoading = () => {
+  const loading = document.querySelector('.loading');
+  loading.remove();
+};
 
 const sum = (acc, number) => acc + number;
 
@@ -99,8 +112,15 @@ emptybutton.addEventListener('click', () => {
   saveCartItems(JSON.stringify(''));
 });
 
+const loadProducts = async () => {
+  appendLoading();
+  setTimeout(() => fadeLoading(), 2000);
+  setTimeout(() => displayProducts(), 2001);
+};
+
 window.onload = () => { 
-  displayProducts();
+  // displayProducts() => agora tera que ter mensagem de loading;
+  loadProducts();
   loadLocalStorage();
   appendTotal();
   itemsTotal();
