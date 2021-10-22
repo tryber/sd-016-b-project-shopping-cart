@@ -79,11 +79,11 @@ const addProductsToCart = () => {
   const shoppingCart = document.querySelector('.cart');
   const buttonsList = document.querySelectorAll('.item__add');
   buttonsList.forEach((button) => button.addEventListener('click', async () => {
-      let id = button.previousSibling.previousSibling.previousSibling.innerText;
-      let product = await createProductObjectById(id);
+      const id = button.previousSibling.previousSibling.previousSibling.innerText;
+      const product = await createProductObjectById(id);
       return shoppingCart.appendChild(createCartItemElement(product));
   }));
-}
+};
 
 window.onload = async () => {
   await fillItemList();
