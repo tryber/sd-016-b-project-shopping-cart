@@ -6,8 +6,6 @@ Object.defineProperty(window, 'localStorage', {
       this[arguments[0]] = arguments[1];
     }),
     getItem: jest.fn(function () {
-      console.log(arguments[0]);
-      console.log(this[arguments[0]]);
       return this[arguments[0]];
     }),
     removeItem: jest.fn(function () {
