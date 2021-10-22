@@ -5,8 +5,45 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function cartItemClickListener(event) {
+
+}
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  console.log(li);
+  return li;
+}
+
+const cartItems = document.querySelector('.cart__items');
+function inputCartIntem(object) {
+  console.log(object);
+  cartItems.appendChild(createCartItemElement(object));
+}
+
+async function createCartItem(element) {
+  const resultFetch = await fetchItem(element);
+  console.log(resultFetch);
+  inputCartIntem(resultFetch);
+}
+
+// Tive a ajuda do Gbriel pinheiro no reuisito 2 para entender e desenvolver.
+function idElement(event) {
+  const idEvent = event.target
+    .parentElement
+    .firstElementChild
+    .innerText;
+  createCartItem(idEvent);
+}
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
+  if (element === 'button') {
+    e.addEventListener('click', idElement);
+  }
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -23,8 +60,8 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-
-const destructuringObject = async (itens) => {
+// Tive a ajuda do monitor Tales, Mariana e do Gabriel para entender e desenvolver esse parte do codigo.
+const createIten = async (itens) => {
   const resultFetch = await fetchProducts(itens);
    const retorno = resultFetch.results.map((value) => ({
     sku: value.id,
@@ -37,22 +74,10 @@ const destructuringObject = async (itens) => {
   }); 
 };
 
-destructuringObject('computador');
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-window.onload = () => { };
+window.onload = () => { 
+  createIten('computador');
+};
