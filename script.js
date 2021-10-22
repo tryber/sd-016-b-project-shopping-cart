@@ -70,6 +70,19 @@ const getID = async () => {
   });
 };
 
+const emptyCart = () => {
+  const emptyButton = document.querySelector('.empty-cart');
+  emptyButton.addEventListener('click', () => {
+    const ol = document.querySelector('.cart__items');
+    // Solução retirada de: https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    // Enquantp e minha ol ter um primeiro elemento filho, eu removo o ultimo.
+    while (ol.firstChild) {
+      ol.removeChild(ol.lastChild);
+    }
+  });
+};
+
 window.onload = () => {
   getID();
+  emptyCart();
 };
