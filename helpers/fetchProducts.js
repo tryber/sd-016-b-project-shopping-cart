@@ -4,8 +4,7 @@ const fetchProducts = (productName) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${productName}`;
 
   return fetch(endPoint)
-    .then((response) => response.json())
-    .then((data) => data.results);
+    .then((response) => response.json());
 };
 
 if (typeof module !== 'undefined') {
