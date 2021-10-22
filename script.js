@@ -29,7 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  const list = document.querySelector('.cart__items')
+  const list = document.querySelector('.cart__items');
   const item = event.target;
   item.parentNode.removeChild(item);
   return saveCartItems(list.outerHTML);
@@ -84,12 +84,24 @@ const addProductsToCart = () => {
   buttonsList.forEach((button) => button.addEventListener('click', async () => {
       const id = button.previousSibling.previousSibling.previousSibling.innerText;
       const product = await createProductObjectById(id);
-      shoppingCartList.appendChild(createCartItemElement(product));
+      const element = createCartItemElement(product);
+      shoppingCartList.appendChild(element);
       return saveCartItems(shoppingCartList.outerHTML);
   }));
 };
 
+checkItems = () => {
+  const items = document.querySelectorAll('.cart__item');
+  if (items.length !== 0) {
+    items.forEach((item) => {
+      item.addEventListener('click', cartItemClickListener);
+    });
+  }
+};
+
 window.onload = async () => {
   await fillItemList();
+  getSavedCartItems();
+  checkItems();
   addProductsToCart();
 };
