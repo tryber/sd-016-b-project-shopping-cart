@@ -4,21 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Trybe Shopping</title>
     <link rel="stylesheet" href="style.css" />
     <script src="./helpers/fetchItem.js" defer></script>
     <script src="./helpers/fetchProducts.js" defer></script>
-    <script src="script.js" defer></script>
     <script src="./helpers/saveCartItems.js" defer></script>
     <script src="./helpers/getSavedCartItems.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
   </head>
   <body>
+    <div class="header">
+      <section class="section-1">
+        <h1><span>trybe </span>shopping</h1>
+        <div><i class="fa-solid fa-cart-shopping"></i></div>
+      </section>
+      <section class="section-2">
+         <div class="cart-name">Meu Carrinho</div>
+      </section>
+    </div>
     <section class="container">
       <section class="items"></section>
       <section class="cart">
-        <span class="cart__title">Carrinho de compras</span>
-        <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
+          <button class="empty-cart">Esvaziar carrinho</button>
       </section>
     </section>
   </body>
