@@ -5,8 +5,8 @@ const fetchProducts = async (url) => {
 
   return fetch(url)
     .then((response) => response.json())
-    .then((item) => item)
-    .catch((error) => error);
+    .then((item) => item);
+  // .catch((error) => error);
 };
 
 if (typeof module !== 'undefined') {

@@ -5,7 +5,7 @@ const fetchItem = async (val) => {
   return fetch(`https://api.mercadolibre.com/items/${val}`)
     .then((response) => response.json())
     .then((item) => item)
-    .catch((error) => error);
+  // .catch((error) => error);
 };
 
 if (typeof module !== 'undefined') {

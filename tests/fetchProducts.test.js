@@ -8,8 +8,8 @@ describe('1 - Teste a função fecthProducts', () => {
   const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 
   it('1- Teste se fetchProducts é uma função', () => {
-    const tipoDaFunc = typeof fetchProducts;
-    expect(tipoDaFunc).toBe('function')
+    const tipo = typeof fetchProducts;
+    expect(tipo).toBe('function')
   })
   it('2- Execute a função fetchProducts com o argumento "computador" e teste se fetch foi chamada', async () => {
     await fetchProducts('computador');
