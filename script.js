@@ -51,10 +51,11 @@ function getSkuFromProductItem(item) {
 function totalPrice() {
   const currentValue = document.querySelector('.total-price');
   currentValue.innerText = 0;
+  const regExp = /MLB[0-9]{9}[0-9]?/;
+  
   document.querySelectorAll('.cart__item')
     .forEach(async (item) => {
       const itemInfo = item.innerText;
-      const regExp = /MLB[0-9]{9}[0-9]?/;
       const result = itemInfo.match(regExp);
       const product = await fetchItem(result[0]);
       currentValue.innerText = Number(currentValue.innerText) + product.price;
