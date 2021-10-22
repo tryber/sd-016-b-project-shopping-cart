@@ -1,3 +1,5 @@
+const listCarrinho = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,8 +32,7 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 // remove o item do carrinho de compras caso ele seja clickado
-function cartItemClickListener(event) {
-  const listCarrinho = document.querySelector('.cart__items');
+function cartItemClickListener(event) { 
   listCarrinho.removeChild(event.target);
 }
 
@@ -46,7 +47,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 // Identifica o ID do item pedido, separa os valores necessarios para a funcao createCartItemElement e adiciona o item ao carrinho
 async function addToCarrinho(event) {
-  const selectDOM = document.querySelector('.cart__items');
   const sectionID = event.target.parentNode.firstElementChild.innerText;
   const dadosID = await fetchItem(sectionID);
   const dadosObj = {
@@ -55,7 +55,7 @@ async function addToCarrinho(event) {
     salePrice: dadosID.price,
   };
   const newCarrinho = createCartItemElement(dadosObj);
-  selectDOM.appendChild(newCarrinho);
+  listCarrinho.appendChild(newCarrinho);
 }
 
 // faz com que os botoes "adicionar ao carrinho" funcionem e redireciona seu funcionamento para a funcao addToCarrinho
@@ -83,8 +83,6 @@ async function SearchProducts(product) {
 // habilita botao para limpar a lista de compra
 function clearButton() {
   const clean = document.querySelector('.empty-cart');
-  const listCarrinho = document.querySelector('.cart__items');
-
   clean.addEventListener('click', () => {
    listCarrinho.innerText = ' ';
   });
