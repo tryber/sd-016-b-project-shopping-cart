@@ -26,11 +26,13 @@ describe('1 - Teste a função fecthProducts', () => {
   });
 
   test('Testa se retorno da função é um objeto igual a computadorSearch', async () => {
+    expect.assertions(1);
     const search = await fetchProducts('computador');
     expect(search).toEqual(computadorSearch);
   });
 
   test('Testa se retorna erro quando fetchProduts é chamada sem argumento', async () => {
+    expect.assertions(1);
     const erro = new Error('You must provide an url');
     const search = await fetchProducts();
     expect(search).toEqual(erro);
