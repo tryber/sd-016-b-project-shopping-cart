@@ -80,7 +80,18 @@ async function SearchProducts(product) {
   });
 }
 
+// habilita botao para limpar a lista de compra
+function clearButton() {
+  const clean = document.querySelector('.empty-cart');
+  const listCarrinho = document.querySelector('.cart__items');
+
+  clean.addEventListener('click', () => {
+   listCarrinho.innerText = ' ';
+  });
+}
+
 // faz com que a pagina seja carregada com a lista de computadores disponiveis na API
 window.onload = () => {
   SearchProducts('computador');
+  clearButton();
 };
