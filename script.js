@@ -35,7 +35,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.remove();
 }
 
 // REVIEW - Cria o elemento que será adicionado ao carrinho, adiciona um eventListener de click no item. Após isso, retorna o appendChild do criado.
@@ -46,7 +46,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => cartItemClickListener(li));
 
   return cartItems.appendChild(li);
 }
