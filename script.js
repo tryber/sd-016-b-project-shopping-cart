@@ -102,16 +102,20 @@ const getSavedItems = () => {
     const li = document.createElement('li');
     li.className = 'cart__item';
     li.innerText = item;
+    li.addEventListener('click', cartItemClickListener);
     appendProductItemToCart(li);
   });
 };
 
+const verifyItemAdd = (event) => {
+  if (event.target && event.target.classList.contains('item__add')) {
+    addItemToCart(getItemElement(event));
+  }
+};
+
 window.onload = () => {
+  const itemsContainer = document.querySelector('.items');
   createProductsSection('computador');
-  document.addEventListener('click', (event) => {
-    if (event.target && event.target.classList.contains('item__add')) {
-      addItemToCart(getItemElement(event));
-    }
-  });
+  itemsContainer.addEventListener('click', verifyItemAdd);
   getSavedItems();
 };
