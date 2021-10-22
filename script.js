@@ -46,11 +46,11 @@ function getSkuFromProductItem(item) {
 
 // **********************
 // QUESTÃO 01 BACK END //
-// **********************
+// ***************************************************************************************************************************
 // 1- Criei uma função que irá fazer acesso a uma api utilizando a classe de conexão
 //    fetchProducts.js aqui temos uma primeira noção  de  orientação  objeto  quando 
 //    importamos  fetchProducts para dentro do arquivo index.html que é diferente do
-//    que conheço que essa classe deveria ser intanciada dentro desse arquivo por meio
+//    que conheço que essa classe deveria ser instanciada dentro desse arquivo por meio
 //    da instaciação de um objeto do tipo fetchProducts, ou seja, 
 //    FetchProducts fetch = new  FetchProducts() então faria acesso a essa classe e só 
 //    então poderia pega o método de conexão no caso o fetch e fazer meus teste no 
@@ -58,9 +58,9 @@ function getSkuFromProductItem(item) {
 //    trabalhase com a ideia de que ele esta importado aqui ou existe essse objeto instanciado 
 //    aqui e devemos trabalhar com o conceito de assinatura do método o que aumenta o grau de 
 //    abstração para esse caso pois de fato a fução ou os objetos criados todos serão invocados
-//    no arquivo index.html por meio de links referenciando arquivos scripst;
+//    no arquivo index.html por meio de links referenciando arquivos scripts.js;
 // 2- Em seguida pesando na ideia de assinatura e que irei fazer o teste dessa assinatura no 
-//    no momento que executar o index.htl utilizei uma estrutura de tratamento de erro também
+//    no momento que executar o index.html utilizei uma estrutura de tratamento de erro também
 //    utilizada no java chamada de try catch;
 // 3- Em seguida fiz um acesso por meio da assintaura fetchProducts a essa função passando como 
 //    parametro o tipo de dados string com o nome computador, pois, é o item que esperaremos o 
@@ -96,6 +96,7 @@ function getSkuFromProductItem(item) {
 //     os valores capturados pelo forEch percorrido e seguida capturamos o lugar onde queremos setar esse valor na página 
 //     HTML por meio do dom e por meio do método appendChild fazemos a inserção dos dados capturados exatamente no lugar 
 //     capturado no dom. 
+// ************************************************************************************************************************
 async function backEndCreateProductItem() {
    try {
     const { results } = await fetchProducts('computador');
@@ -110,14 +111,47 @@ async function backEndCreateProductItem() {
   }
 }
 
-// createCartItemElement({ sku, name, salePrice }) 
 // **********************
 // QUESTÃO 02 BACK END //
-// **********************
+// ********************************************************************************************************
+// 1- Criei uma função que irá fazer acesso a uma api utilizando a classe de conexão
+//    fetchItem.js aqui temos uma primeira noção  de  orientação  objeto  quando 
+//    importamos  fetchItem para dentro do arquivo index.html que é diferente do
+//    que conheço que essa classe deveria ser instanciada dentro desse arquivo por meio
+//    da instaciação de um objeto do tipo fetchItem, ou seja, 
+//    FetchItem fetch = new  FetchItem() então faria acesso a essa classe e só 
+//    então poderia pega o método de conexão no caso o fetch e fazer meus teste no 
+//    próprio arquivo, porém, o paradigma aqui é um pouco mais abstrato, pois, no caso 
+//    trabalhase com a ideia de que ele esta importado aqui ou existe essse objeto instanciado 
+//    aqui e devemos trabalhar com o conceito de assinatura do método o que aumenta o grau de 
+//    abstração para esse caso pois de fato a fução ou os objetos criados todos serão invocados
+//    no arquivo index.html por meio de links referenciando arquivos scripst.js;
+// 2- Em seguida pesando na ideia de assinatura e que irei fazer o teste dessa assinatura no 
+//    no momento que executar o index.html utilizei uma estrutura de tratamento de erro também
+//    utilizada no java chamada de try catch;
+// 3- Em seguida fiz um acesso por meio da assintaura fetchItem a essa função passando como 
+//    parametro o tipo de dados string com o id do Produto , pois, é o item que esperaremos o 
+//    retorno, de um unico produto que o end Point irá disponibilizar para alimentar nossa
+//    lista do carrinho de compra;
+// 4- Utilizei duas partículas ou palavras reservdas para fazer menção que esse método é assíncrono,
+//    pois, iremos fazer acesso a um servidor que nos servirá de dados hospedado, neste caso vamos 
+//    trabalhar com ideia de promisse, logo, em JavaScript automaticamente introduz-se o conceito 
+//    de assincronidade que de cara traz duas particulas importantes para serem trabalhadas na função
+//    primeira async e a segunda que é o awiat;
+// 5- Em seguida irei descontruir o objeto dataResult usando destructuring e puxando essa estrutura os
+//    valores das variáveis id, name, price e adicionando as variaveis sku, name, salePrice;
+// 6- Em seguida vou pegar a estrutura criada pelo Front-End createCartItemElement({sku,name,salePrice});
+//    que recebe como parametro um objeto contendo três valores onde irei passar os valores desestruturados
+//    e capturados do meu dataResult que irá alimentar essa estrutura no DOM do meu HTML;
+// 7- Agora irei capturar o local onde será acoplado essa estrutura createCartItemElement por meio do método
+//    querySelector referenciando a classe desse objeto;
+// 8- Por fim irei pegar item que é o local onde irei acoplar essa estrutura e utilizar o método appendChild
+//    passando elementChild como filho para essa este item.
+// **********************************************************************************************************
+
 async function backEndAdicioneCarrinhoDeCompras(codigoProduto) {
   try {
    const dataResult = await fetchItem(codigoProduto);
-    console.log(dataResult);
      const { id: sku, title: name, price: salePrice } = dataResult;
      const elementChild = createCartItemElement({ sku, name, salePrice });
      const itens = document.querySelector('.cart__items');
@@ -128,5 +162,5 @@ async function backEndAdicioneCarrinhoDeCompras(codigoProduto) {
 }
 window.onload = () => {
  backEndCreateProductItem();
- backEndAdicioneCarrinhoDeCompras('MLB1341706310');
+// backEndAdicioneCarrinhoDeCompras('MLB1341706310');
 };
