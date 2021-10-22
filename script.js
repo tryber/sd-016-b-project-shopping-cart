@@ -97,7 +97,7 @@ const loadShopItems = async () => {
 
 window.onload = () => {
   cart = document.querySelector('.cart__items');
-  totalPrice = document.querySelector('.total_price');
+  totalPrice = document.querySelector('.total-price');
   items = document.querySelector('.items');
 
   loadShopItems();
