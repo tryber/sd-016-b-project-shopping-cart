@@ -19,7 +19,8 @@ const addProductToCart = (sku) => {
   const cart = document.querySelector('.cart__items');
   fetchItem(sku)
     .then(createCartItemElement)
-    .then((item) => cart.appendChild(item));
+    .then((item) => cart.appendChild(item))
+    .then((_) => saveCartItems(sku));
 };
 
 function createCustomElement(element, className, innerText, callback) {
