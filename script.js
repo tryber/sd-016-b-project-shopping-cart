@@ -4,8 +4,13 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-
-// Ideia: https://stackoverflow.com/questions/37049136/javascript-how-to-remove-dom-elements-using-click-events-and-classes
+// ***********************
+// QUESTÃO 03 FRONT END *
+// *****************************************************************************
+// Remove o Elemento que possui eventos Click
+// recebido por  li.addEventListener('click', cartItemClickListener) 
+// Evento foi invocado em: createCartItemElement
+// *****************************************************************************
 function cartItemClickListener(event) {
        event.target.remove();
 }
@@ -43,13 +48,13 @@ function createCustomElement(element, className, innerText) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice.toFixed(2)}`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice.toFixed(1)}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-// ***********************
-// COMETÁRIO DA FUNÇÃO:  //
-// ********************* *
+// *****************************************************
+// COMETÁRIO DA FUNÇÃO: Não irei Utilizar essa função //
+// ********************* ******************************
 // 1- Recebe como parâmetro um item;
 // 2- Retorna item pegando por meio do querySelector o texto 
 //    que está na span propriedade item_sku.innerText;
