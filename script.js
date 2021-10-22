@@ -124,6 +124,17 @@ const loadCartItems = () => {
   }
 };
 
+const clearButton = document.querySelector('.empty-cart');
+clearButton.addEventListener('click', () => {
+  for (let index = 0; index < cartItems.children.length; index = 0) {
+    cartItems.removeChild(cartItems.children[index]);
+  }
+  cart.lastElementChild.lastElementChild
+    .innerText = 0;
+  localStorage.setItem('cartValue', cart.lastElementChild.innerHTML);
+  saveCartItems(cartItems.innerHTML);
+});
+
 window.onload = () => {
   createSections();
   loadCartItems();
