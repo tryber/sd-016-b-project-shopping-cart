@@ -13,10 +13,33 @@ function getSkuFromProductItem(item) {
     .sku;
 }
 
-const cartItemClickListener = (event) => {
-  const sku = getSkuFromProductItem(event.target);
+function getPriceFromProductItem(item) {
+  return item
+    .innerText
+    .match(/\w*: \$(?<price>\d*.\d{0,2})$/)
+    .groups
+    .price;
+}
+
+const updateCartSubTotal = (product, operation) => {
+  const totalPrice = document.getElementById('subtotal');
+  const totalPriceValue = parseFloat(totalPrice.innerText);
+  const productPrice = parseFloat(product.price);
+  if (operation === 'add') {
+    totalPrice.innerText = (totalPriceValue + productPrice).toFixed(2);
+  }
+  if (operation === 'subtract') {
+    totalPrice.innerText = (totalPriceValue - productPrice).toFixed(2);
+  }
+  return product;
+};
+
+const cartItemClickListener = ({ target }) => {
+  const sku = getSkuFromProductItem(target);
   removeCartItems(sku);
-  event.target.remove();
+  const price = getPriceFromProductItem(target);
+  updateCartSubTotal({ price }, 'subtract');
+  target.remove();
 };
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -30,6 +53,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 const addProductToCart = (sku) => {
   const cart = document.querySelector('.cart__items');
   fetchItem(sku)
+    .then((product) => updateCartSubTotal(product, 'add'))
     .then(createCartItemElement)
     .then((item) => cart.appendChild(item))
     .then((_) => saveCartItems(sku));
