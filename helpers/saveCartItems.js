@@ -1,7 +1,5 @@
 const saveCartItems = (saveList) => {
-  document.querySelector('.container').addEventListener('click', () => {
-    localStorage.setItem('shopList', saveList);
-  });
+    localStorage.setItem('cartItems', saveList);
 };
 
 if (typeof module !== 'undefined') {
