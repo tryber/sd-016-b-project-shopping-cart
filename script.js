@@ -28,11 +28,25 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-// Item 1
+const addLoadingMessage = () => {
+  const message = document.createElement('div');
+  message.classList.add('loading');
+  message.innerText = 'carregando...';
+  document.querySelector('body').appendChild(message);
+};
+
+const removeLoadingMessage = () => {
+  document.querySelector('.loading').remove();
+};
+
 const getProducts = () => {
   // Recupera o objeto do produto na API, cria o elemento e o adiciona à section no HTML.
+  addLoadingMessage();
+
   fetchProducts('computador')
     .then(({ results }) => {
+      removeLoadingMessage(); // Remove a mensagem de carregamento antes de exibir os produtos.
+
       for (let i = 0; i < results.length; i += 1) {
         const a = createProductItemElement(results[i]);
         itemsSection.appendChild(a);
