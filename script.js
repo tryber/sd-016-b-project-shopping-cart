@@ -76,7 +76,7 @@ const getCartTotalValue = (callback) => {
   let total;
   if (cartPrices.length > 0) {
     total = cartPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
-    return total.toFixed(2);
+    return total;
   } 
   total = 0;
   return total;
@@ -84,7 +84,7 @@ const getCartTotalValue = (callback) => {
 
 const renderCartTotalValue = (totalPrice) => {
   const totalArea = document.querySelector('.total-price');
-  totalArea.innerText = `Subtotal: R$ ${totalPrice}`;
+  totalArea.innerText = totalPrice;
 };
 
 function cartItemClickListener(event) {
