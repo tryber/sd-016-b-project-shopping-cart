@@ -44,6 +44,8 @@ async function InsertInCart (sku) {
 
   const cartItems = document.querySelector('.cart__items')
   cartItems.appendChild(li);
+
+  saveCartItems({ sku, name, salePrice });
 }
 
 // Parte do requisito 01 - criar os componentes HTML.
@@ -75,5 +77,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 window.onload = () => { 
   appendItems(),
-  getSku()
+  getSku(),
+  getSavedCartItems()
 };
