@@ -50,11 +50,10 @@ async function searchProducts(product) {
       image: item.thumbnail,
     };
     const productItem = createProductItemElement(itemObject);
-    sectionItems.appendChild(productItem)
+    sectionItems.appendChild(productItem);
   });
 }
 
 window.onload = () => {
   searchProducts('computador');
-
 };
