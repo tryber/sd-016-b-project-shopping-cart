@@ -30,4 +30,5 @@ describe('1 - Teste a função fecthProducts', () => {
       const erro = new Error('You must provide an url');
       expect( products ).toEqual(erro);
   });
+  fail('Teste vazio');
 });
