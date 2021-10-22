@@ -1,10 +1,13 @@
 const cartItems = document.querySelector('.cart__items');
 
 function cartItemClickListener(event) {
-  const et = event.target;
-  et.remove();
+  event.target.remove();
   saveCartItems(cartItems.innerHTML);
 }
+const loadLocalStorage = () => {
+  const loadCart = getSavedCartItems();
+  cartItems.innerHTML = loadCart;
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -64,4 +67,5 @@ const displayProducts = (SearchedProduct = 'computador') => {
 
 window.onload = () => { 
   displayProducts();
+  loadLocalStorage();
 };
