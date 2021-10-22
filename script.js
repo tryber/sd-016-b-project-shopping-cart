@@ -5,7 +5,19 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-const cartItemClickListener = (event) => event.target.remove();
+function getSkuFromProductItem(item) {
+  return item
+    .innerText
+    .match(/^(?:\w*: )(?<sku>\w*)/)
+    .groups
+    .sku;
+}
+
+const cartItemClickListener = (event) => {
+  const sku = getSkuFromProductItem(event.target);
+  removeCartItems(sku);
+  event.target.remove();
+};
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -45,10 +57,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
     { event: 'click', func: () => addProductToCart(sku) }));
 
   return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
 }
 
 const loadProducts = () => {
