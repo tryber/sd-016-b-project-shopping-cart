@@ -29,10 +29,11 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // console.log('ola');
-// }
+function cartItemClickListener(event) {
+  console.log(event);
+}
 
+// cria o item para o carrinho de compras
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -49,7 +50,7 @@ async function addToCarrinho(event) {
   const dadosObj = {
     sku: dadosID.id, 
     name: dadosID.title, 
-    salePrice: dadosID.base_price,
+    salePrice: dadosID.price,
   };
   const newCarrinho = createCartItemElement(dadosObj);
   selectDOM.appendChild(newCarrinho);
