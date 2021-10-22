@@ -65,6 +65,7 @@ function cartItemClickListener(event) {
   // https://www.w3schools.com/jsref/met_element_remove.asp
   // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
   event.target.remove();
+  saveCartItems(cartItemsList.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price }) {
@@ -95,6 +96,7 @@ const emptyCart = () => {
   emptyCartBtn.addEventListener('click', () => {
     cartItemsList.innerHTML = '';
   });
+  saveCartItems(cartItemsList.innerHTML);
 };
 
 const setupEventListener = () => {
@@ -113,4 +115,5 @@ window.onload = () => {
   getProducts();
   setupEventListener();
   emptyCart();
+  loadCartItems();
 };
