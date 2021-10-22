@@ -62,9 +62,31 @@ const getCartItems = () => {
   return cartItem;
 };
 
+const getCartPrices = () => {
+  const itemPrices = [];
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach((item) => itemPrices
+    .push(Number(item.innerText
+      .split('PRICE: $')[1])
+      .toFixed(2)));
+  return itemPrices;
+};
+
+const getCartTotalValue = (callback) => {
+  const cartPrices = callback();
+  let total;
+  if (cartPrices.length > 0) {
+    total = cartPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
+    return total;
+  } 
+  total = 0;
+  return total;
+};
+
 function cartItemClickListener(event) {
   const fatherElement = event.target.parentNode;
   fatherElement.removeChild(event.target);
+  getCartTotalValue(getCartPrices);
   saveCartItems(getCartItems());
 }
 
@@ -92,6 +114,7 @@ const addItemToCart = async (id) => {
   const itemInfos = await mapFetchItemAndReturnObj(skuItem);
   const itemLi = createCartItemElement(itemInfos);
   appendProductItemToCart(itemLi);
+  getCartTotalValue(getCartPrices);
   const items = getCartItems();
   saveCartItems(items);
 };
