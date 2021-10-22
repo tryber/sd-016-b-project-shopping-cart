@@ -14,6 +14,14 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
 const appendCartItem = async (sku) => {
   const item = await fetchItem(sku);
   cartItems.appendChild(createCartItemElement(item));
@@ -40,14 +48,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 //   const et = event.target;
 //   saveCartItems(cartItems.innerHTML);
 // }
-
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
 
 // como queria um código mais dinâmico, deixei um parametro default como computador, 
 // mas ainda com a possibilidade de chamar a função com outro parametro; 
