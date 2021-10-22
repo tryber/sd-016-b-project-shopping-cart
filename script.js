@@ -1,4 +1,5 @@
 const productsCarts = document.querySelector('.cart__items');
+let atualPrice;
 
 const unstructureList = async (url) => {
   const result = await fetchProducts(url);
@@ -17,6 +18,34 @@ const unstructureItem = async (idProduct) => {
   const { id: sku, title: name, price: salePrice } = await result;
   const response = await { sku, name, salePrice };
   return response;
+};
+
+const createSectionPriceCart = (priceSalve) => {
+  const sectionCart = document.querySelector('.cart');
+  const createDiv = document.createElement('div');
+  const createSpan = document.createElement('Span');
+  const createSpan2 = document.createElement('Span');
+  createSpan2.className = 'total-price';
+  createSpan.innerText = 'Valor Total: $ ';
+  createSpan2.innerText = priceSalve; 
+  createDiv.appendChild(createSpan);
+  createDiv.appendChild(createSpan2);
+  sectionCart.appendChild(createDiv);
+};
+
+const updatePricePlus = (itemPrice) => {
+/*   const atualPrice = document.querySelector('.total-price').lastChild; */
+  if (atualPrice.innerText === '') {
+    atualPrice.innerText = itemPrice;
+  } else {
+    atualPrice.innerText = parseFloat(atualPrice.innerText) + itemPrice;
+  }
+};
+
+const updatePriceLess = async (itemPrice) => {
+/*   const atualPrice = await document.querySelector('.total-price').lastChild; */
+  atualPrice.innerText = await parseFloat(atualPrice.innerText) - itemPrice;
+  return localStorage.setItem('priceSalve', atualPrice.innerText);
 };
 
 function createProductImageElement(imageSource) {
@@ -49,10 +78,12 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  localStorage.removeItem(event.target.id);
-  return event.target.remove();
-}
+const cartItemClickListener = async (event) => {
+  const { salePrice } = await unstructureItem(event.target.id);
+  event.target.remove();
+  saveCartItems(productsCarts.innerHTML);
+  return updatePriceLess(salePrice);
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -73,16 +104,30 @@ const createNavigation = () => {
 
 const addItemCart = async (event) => {
   const { sku, name, salePrice } = await unstructureItem(event);
+/*   const atualPrice = document.querySelector('.total-price').lastChild; */
   productsCarts.appendChild(createCartItemElement({ sku, name, salePrice }));
+  updatePricePlus(salePrice);
   saveCartItems(productsCarts.innerHTML);
+  localStorage.setItem('priceSalve', atualPrice.innerText);
 };
 
 createNavigation();
 
+const addListenerStorage = () => {
+  const lisCart = document.querySelectorAll('.cart__item');
+  for (let i = 0; i < lisCart.length; i += 1) {
+    lisCart[i].addEventListener('click', cartItemClickListener);
+  }
+};
+
 window.onload = () => {
   productsCarts.innerHTML = getSavedCartItems();
+  
+  createSectionPriceCart(localStorage.getItem('priceSalve'));
 
-  productsCarts.addEventListener('click', cartItemClickListener);
+  atualPrice = document.querySelector('.total-price');
+
+  addListenerStorage();
 
   document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('item__add')) {
