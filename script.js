@@ -28,9 +28,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const addProductsToCart = (event) => {
+const addProductsToCart = async (event) => {
   const identification = event.target.previousSibling.previousSibling.previousSibling.innerText;
-  fetchItem(identification).then((response) => {
+  await fetchItem(identification).then((response) => {
         const element = createCartItemElement(response);
         cartList.appendChild(element);
         const valueToIncrease = response.price;
