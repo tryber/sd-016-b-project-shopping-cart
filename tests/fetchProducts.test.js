@@ -20,5 +20,10 @@ describe('1 - Teste a função fetchProducts', () => {
   it('testa se o retorno da funcao é um objeto igual a computadorSearch', async () => {
     const result = await fetchProducts('computador');
     expect(result).toEqual(computadorSearch);
-  })
+  });
+  it('funcao sem argumento deve retornar um erro', async () => {
+    const expectError = new Error('You must provide an url');
+    const result = await fetchProducts();
+    expect(result).toEqual(expectError);
+  });
 });
