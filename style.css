@@ -55,3 +55,8 @@
   font-size: 16pt;
   text-align: center;
 }
+
+#total-valor p {
+  display: inline-block;
+  margin: 1px;
+}
