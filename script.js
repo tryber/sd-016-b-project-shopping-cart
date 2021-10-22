@@ -17,7 +17,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const limpaCar = document.querySelector('.cart__items');
+  limpaCar.addEventListener('click', () => {
+    limpaCar.removeChild(event.target);
+  });
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
