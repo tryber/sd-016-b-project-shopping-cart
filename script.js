@@ -14,6 +14,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const appendCartItem = async (sku) => {
+  const item = await fetchItem(sku);
+  cartItems.appendChild(createCartItemElement(item));
+  saveCartItems(cartItems.innerHTML);
+};
+
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -26,9 +32,9 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
   return section;
 }
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   const et = event.target;
@@ -42,12 +48,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-const appendCartItem = async (sku) => {
-  const item = await fetchItem(sku);
-  cartItems.appendChild(createCartItemElement(item));
-  saveCartItems(cartItems.innerHTML);
-};
 
 // como queria um código mais dinâmico, deixei um parametro default como computador, 
 // mas ainda com a possibilidade de chamar a função com outro parametro; 
