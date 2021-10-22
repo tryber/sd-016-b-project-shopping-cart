@@ -6,7 +6,6 @@ const creatElement = document.createElement('p');
 const catchCartSection = document.querySelector('.cart');
 creatElement.classList.add('total-price');
 catchCartSection.appendChild(creatElement);
-let prices = [];
 
 // functions project
 function createProductImageElement(imageSource) {
@@ -45,12 +44,15 @@ function cartItemClickListener(event) {
   saveCartItems(catchCart.innerHTML);
 }
 const counter = (test) => {
-  prices.push(test);
+  creatElement.innerText = parseFloat(Number(creatElement.innerText) + Number(test));
+
+  /* codigo original porem nao é viavel.Ao remover o item do carinho, esse valor nao é removido do array
+   prices.push(test);
   const totalPrice = prices.reduce((acc, price) => {
     const total = acc + price;
     return total; 
-});
-  creatElement.innerHTML = totalPrice;
+  });
+  creatElement.innerHTML = totalPrice; */
 };
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -58,11 +60,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   counter(salePrice);
-  
+
   return li;
 }
 // my functions
-
+// cria e remove loading
 const creatLoadingFeat = async () => {
   const span = document.createElement('span');
   span.classList.add('loading');
@@ -71,9 +73,9 @@ const creatLoadingFeat = async () => {
 };
 const removeLoadingFeat = async () => {
   const catchLoading = document.querySelector('.loading');
-   return catchLoading.remove();
+  return catchLoading.remove();
 };
-
+// cria itens na pagina
 const creatWithArrayItens = async () => {
   creatLoadingFeat();
   const itensList = await fetchProducts('computador');
@@ -83,7 +85,7 @@ const creatWithArrayItens = async () => {
   itensListFiltred.forEach((element) =>
     catchItens.appendChild(createProductItemElement(element)));
 };
-
+// cria os itens no carrinho
 const creatItensOnShoppingCart = async (id) => {
   creatLoadingFeat();
   const item = await fetchItem(id);
@@ -91,7 +93,8 @@ const creatItensOnShoppingCart = async (id) => {
   catchCart.appendChild(createCartItemElement(item));
   saveCartItems(catchCart.innerHTML);
 };
-const getIdItem = (item) => item.target.parentNode.firstChild.innerText;
+// codigo para escrever o nome dos itens no carrinho
+const getIdItem = (item) => item.target.parentNode.firstChild.innerHTML;
 const addItemOnShopCart = () =>
   /* usei o codigo a baixo do para fazer dinamicamente a inclusão de itens https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript 
   e tive a ajuda na mentoria */
