@@ -48,6 +48,26 @@ const takeProductsAndShowThem = async () => {
   });
 };
 
+const addToCart = (computer) => {
+  const ol = document.querySelector('.cart__items');
+  ol.appendChild(createCartItemElement(computer));
+};
+
+const addToCartClickListener = async (event) => {
+  const section = event.target.parentElement;
+  const id = section.firstChild.innerHTML;
+  const computer = await fetchItem(id);
+  addToCart(computer);
+};
+
+const getID = async () => {
+  await takeProductsAndShowThem();
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => {
+    button.addEventListener('click', addToCartClickListener);
+  });
+};
+
 window.onload = () => {
-  takeProductsAndShowThem();
+  getID();
 };
