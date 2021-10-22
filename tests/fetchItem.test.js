@@ -9,9 +9,9 @@ describe('2 - Teste a função fecthItem', () => {
     expect(typeof fetchItem).toEqual('function');
   });
   it('2. Executa a função fetchItem com o argumento do item "MLB1615760527" e testa se fetch foi chamada;', async () => {
-    expect.assertions(1);
     await fetchItem('MLB1615760527');
     expect(fetch).toHaveBeenCalled();
+    // https://jestjs.io/pt-BR/docs/expect#tohavebeencalled
   });
   it('3. Testa se, ao chamar a função fetchItem com o argumento do item "MLB1615760527", a função fetch utiliza o endpoint "https://api.mercadolibre.com/items/MLB1615760527";', async () => {
     await fetchItem('MLB1615760527');
@@ -21,7 +21,9 @@ describe('2 - Teste a função fecthItem', () => {
     expect(await fetchItem('MLB1615760527')).toEqual(item);
   });
   it('5. Testa se, ao chamar a função fetchItem sem argumento, retorna um erro com a mensagem: You must provide an url.', async () => {
-    await expect(fetchItem()).rejects.toEqual(new Error('You must provide an url')); 
+    const expectedError = new Error('You must provide an url');
+    const product = await fetchItem();
+     expect(product).toEqual(expectedError); 
   });
 
 });
