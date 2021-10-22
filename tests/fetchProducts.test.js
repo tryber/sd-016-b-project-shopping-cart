@@ -23,4 +23,7 @@ describe('1 - Teste a função fecthProducts', () => {
     const result = await fetchProducts('computador');
     expect(toType(result)).toEqual(toType(computadorSearch.results));
   });
+  it('Testa se fetchProducts retorna erro se não tiver parâmetro', async () => {
+    expect(fetchProducts).toThrow('You must provide an url');
+  });
 });

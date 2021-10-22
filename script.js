@@ -44,7 +44,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const applyItemElements = () => {
   const sectionItems = q('.items');
-  fetchProducts().then((items) => items
+  fetchProducts('computador').then((items) => items
   .forEach((item) => sectionItems.appendChild(createProductItemElement(item))));
 };
 
