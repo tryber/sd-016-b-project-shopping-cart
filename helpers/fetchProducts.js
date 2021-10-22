@@ -1,9 +1,9 @@
 const fetchProducts = (product) => {
   // seu código aqui
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  fetch(url)
+  return fetch(url)
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((JSONdata) => JSONdata.results);
 };
 
 if (typeof module !== 'undefined') {
