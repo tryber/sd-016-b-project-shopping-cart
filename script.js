@@ -31,7 +31,7 @@ function sumPricesInCart() {
   for (let i = 0; i < cartItemList.length; i += 1) {
     sumPrices += Number(cartItemList[i].innerHTML.split('$').pop());
   }
-  sumDiv.innerHTML = `Subtotal: <span>${sumPrices}</span`;
+  sumDiv.innerHTML = sumPrices;
 }
 
 function cartItemClickListener(event) {
