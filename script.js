@@ -1,5 +1,6 @@
 const itemsSection = document.querySelector('.items');
 const cartItemsList = document.querySelector('.cart__items');
+const emptyCartBtn = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -88,6 +89,14 @@ const loadCartItems = () => {
   cartItemsList.innerHTML = a;
 };
 
+loadCartItems();
+
+const emptyCart = () => {
+  emptyCartBtn.addEventListener('click', () => {
+    cartItemsList.innerHTML = '';
+  });
+};
+
 const setupEventListener = () => {
   // 'Seta' o event listener para adicionar um item ao Cart.
   // Não consegui adicionar apenas nos botões, então apliquei para a página toda, mas condicionando os botões.
@@ -103,5 +112,5 @@ const setupEventListener = () => {
 window.onload = () => {
   getProducts();
   setupEventListener();
-  loadCartItems();
+  emptyCart();
 };
