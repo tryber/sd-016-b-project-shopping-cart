@@ -1,10 +1,8 @@
-const fetchItem = async (ItemID) => {
-  try {
-  const itemUrl = await fetch(`https://api.mercadolibre.com/items/${ItemID}`)
-  return await itemUrl.json();
-} catch (error) {
-  return error;
-}
+// refazendo sem o try catch
+const fetchItem = async (itemID) => {
+  const awaitFetch = await fetch(`https://api.mercadolibre.com/items/${itemID}`);
+  const result = await awaitFetch.json();
+  return awaitFetch;
 };
 
 if (typeof module !== 'undefined') {

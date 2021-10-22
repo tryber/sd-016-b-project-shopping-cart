@@ -7,7 +7,6 @@ function createProductImageElement(imageSource) {
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
-  if (element === 'button') e.addEventListener('click', addItemCart);
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -29,11 +28,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  const cartItems = document.querySelector('.cart__items');
-  cartItems.removeChild(event.target);
+  // código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -53,20 +51,7 @@ async function productList(product) {
     sectionItems.appendChild(productItem);
   });
 
-  const addCart = (event) => {
-    const setId = event.target.parentElement.firstElementChild.innerText;
-    const addValue = () => {
-      console.log(aaa);
-    }
-    fetchItem(setId).then((data) => {
-      cartItems.appendChild(itemObject);
-    addValue(data.price, '+');
-});
-
-}
-
 window.onload = () => {
   productList('computador');
+}; 
 }
-
-};
