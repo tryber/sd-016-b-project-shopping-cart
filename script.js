@@ -64,4 +64,11 @@ const filterElementItems = async () => {
 };
 filterElementItems();
 
+const removeCartItems = () => {
+  const getParentNode = document.querySelector('.cart__items');
+  getParentNode.innerHTML = '';
+};
+
+const getRemoveButton = document.querySelector('.empty-cart');
+getRemoveButton.addEventListener('click', removeCartItems);
 window.onload = () => { };
