@@ -49,5 +49,12 @@ const createItems = async () => {
 
 createItems();
 
+const throwInCart = async () => {
+  const item = await fetchItem();
+  const cartList = document.querySelector('.cart___items');
+  const createElement = createCartItemElement(item);
+  cartList.append(createElement);
+}
+
 window.onload = () => {
 };
