@@ -26,7 +26,7 @@ describe('1 - Teste a função fecthProducts', () => {
 
   test('Testar se, ao chamar a função sem argumento, retorna um erro com a mensagem: You must provide an url', async () => {
     const fetchWithoutArg = await fetchProducts();
-    const errorMessage = 'You must to provide an url'
-    expect(fetchWithoutArg).toThrowError(new Error('yuck, octopus flavor'));
+    const error = new Error('You must provide an url')
+    expect(fetchWithoutArg).toEqual(error);
   });
 });
