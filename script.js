@@ -1,3 +1,5 @@
+const productsCarts = document.querySelector('.cart__items');
+
 const unstructureList = async (url) => {
   const result = await fetchProducts(url);
   const data = await result.results;
@@ -70,18 +72,17 @@ const createNavigation = () => {
 };
 
 const addItemCart = async (event) => {
-  const productCarts = document.querySelector('.cart__items');
   const { sku, name, salePrice } = await unstructureItem(event);
-  productCarts.appendChild(createCartItemElement({ sku, name, salePrice }));
-  saveCartItems(productCarts.innerHTML);
+  productsCarts.appendChild(createCartItemElement({ sku, name, salePrice }));
+  saveCartItems(productsCarts.innerHTML);
 };
 
 createNavigation();
 
 window.onload = () => {
-  document.querySelector('.cart__items').innerHTML = getSavedCartItems();
+  productsCarts.innerHTML = getSavedCartItems();
 
-  document.querySelector('.cart__items').addEventListener('click', cartItemClickListener);
+  productsCarts.addEventListener('click', cartItemClickListener);
 
   document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('item__add')) {
