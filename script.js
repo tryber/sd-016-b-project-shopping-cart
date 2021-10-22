@@ -65,7 +65,6 @@ const loadProductsPage = () => {
   });
 };
 
-
 const LoadProductCart = (id) => {
   fetchItem(id).then((item) => {
     const cartLi = createCartItemElement(item);
