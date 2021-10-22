@@ -2,6 +2,7 @@ const items = document.querySelector('.items');
 const cartItem = document.querySelector('.cart__items');
 const sumPrices = document.querySelector('.total-price');
 const clearCart = document.querySelector('.empty-cart');
+const body = document.querySelector('.container');
 
 const emptyCart = () => {
   cartItem.innerHTML = ' ';
@@ -72,8 +73,12 @@ const loadStorage = () => {
   totalPriceUpdate();
 };
 
-const loadPage = () => {
-  fetchProducts('computador')
+const loadPage = async () => {
+  const loagindAPI = document.createElement('div');
+  loagindAPI.className = 'loading';
+  loagindAPI.innerText = 'Carregando...';
+  body.appendChild(loagindAPI);
+  await fetchProducts('computador')
     .then((data) => data.results)
     .then((products) => {
     products.forEach((product) => {
@@ -81,6 +86,7 @@ const loadPage = () => {
       items.appendChild(item);
     });
   });
+  body.removeChild(loagindAPI);
 };
 
 const addItemOnCart = (id) => {
