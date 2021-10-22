@@ -97,14 +97,16 @@ const addItemToCart = async (id) => {
 };
 
 const getSavedItems = () => {
-  const cartItem = JSON.parse(getSavedCartItems());
-  cartItem.forEach((item) => {
-    const li = document.createElement('li');
-    li.className = 'cart__item';
-    li.innerText = item;
-    li.addEventListener('click', cartItemClickListener);
-    appendProductItemToCart(li);
-  });
+  if (getSavedCartItems()) {
+    const cartItem = JSON.parse(getSavedCartItems());
+    cartItem.forEach((item) => {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = item;
+      li.addEventListener('click', cartItemClickListener);
+      appendProductItemToCart(li);
+    });
+  }
 };
 
 const verifyItemAdd = (event) => {
