@@ -1,6 +1,3 @@
-const sectionProducts = document.querySelector('.items');
-const sectionCartItems = document.querySelector('.cart__items');
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -27,15 +24,15 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const sectionProducts = document.querySelector('.items');
+
 async function createDatajsonSections() {
   const getItemsClass = document.querySelector('.items');
   const importData = await fetchProducts('computador');
 
   const dataItens = importData.results.map((product) => {
-    return {
-      sku: product.id,
-      name: product.title,
-      image: product.thumbnail };
+    const createObject = { sku: product.id, name: product.title, image: product.thumbnail };
+    return createObject;
   });
 
   dataItens.forEach((item) => {
@@ -49,6 +46,9 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const itemTraget = event.target;
+
+  return itemTraget.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -58,6 +58,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const sectionCartItems = document.querySelector('.cart__items');
 
 async function importCartItem(event) {
   if (event.target.className !== 'item__add') return null;
