@@ -38,6 +38,7 @@ const appendProductItemElementToSection = (product) => {
 
 const createProductsSection = async (searchParam) => {
   const products = await mapProductsAndReturnObject(searchParam);
+  
   products.forEach((product) => {
     const productSection = createProductItemElement(product);
     appendProductItemElementToSection(productSection);
@@ -56,9 +57,11 @@ const getItemElement = (event) => {
 const getCartItems = () => {
   const cartItem = [];
   const cartItems = document.querySelectorAll('.cart__item');
+
   cartItems.forEach((item) => {
     cartItem.push(item.innerText);
   });
+
   return cartItem;
 };
 
@@ -91,16 +94,19 @@ const addItemToCart = async (id) => {
   const skuItem = getSkuFromProductItem(id);
   const itemInfos = await mapFetchItemAndReturnObj(skuItem);
   const itemLi = createCartItemElement(itemInfos);
-  appendProductItemToCart(itemLi);
   const items = getCartItems();
+
+  appendProductItemToCart(itemLi);
   saveCartItems(items);
 };
 
 const getSavedItems = () => {
   if (getSavedCartItems()) {
     const cartItem = JSON.parse(getSavedCartItems());
+
     cartItem.forEach((item) => {
       const li = document.createElement('li');
+
       li.className = 'cart__item';
       li.innerText = item;
       li.addEventListener('click', cartItemClickListener);
