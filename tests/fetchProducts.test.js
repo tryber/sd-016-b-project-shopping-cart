@@ -25,6 +25,6 @@ describe('1 - Teste a função fecthProducts', () => {
   it('Se chamada sem parâmetros retorna um erro', async () => {
     const errorReturn = new Error('You must provide an url');
     const result = await fetchProducts();
-    expect(result).not.toEqual(errorReturn);
+    expect(result).toEqual(errorReturn);
   });
 });

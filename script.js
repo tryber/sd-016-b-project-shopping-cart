@@ -40,7 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const createProductObject = async () => {
+const createProductsObjects = async () => {
   const products = await fetchProducts('computador');
   const list = products.results
     .map(({ id, title, thumbnail, price }) => {
@@ -55,8 +55,18 @@ const createProductObject = async () => {
   return list;
 };
 
+const createProductObjectById = async (id) => {
+  const product = await fetchItem(id);
+  return {
+    sku: id,
+    name: product.title,
+    image: product.thumbnail,
+    salePrice: product.price,
+  };
+};
+
 const fillItemList = async () => {
-  const list = await createProductObject();
+  const list = await createProductsObjects();
   const itemsSection = document.querySelector('.items');
   list.forEach((product) => {
     const ItemElement = createProductItemElement(product);
@@ -65,6 +75,17 @@ const fillItemList = async () => {
   return itemsSection;
 };
 
-window.onload = () => {
-fillItemList();
+const addProductsToCart = () => {
+  const shoppingCart = document.querySelector('.cart');
+  const buttonsList = document.querySelectorAll('.item__add');
+  buttonsList.forEach((button) => button.addEventListener('click', async () => {
+      let id = button.previousSibling.previousSibling.previousSibling.innerText;
+      let product = await createProductObjectById(id);
+      return shoppingCart.appendChild(createCartItemElement(product));
+  }));
+}
+
+window.onload = async () => {
+  await fillItemList();
+  addProductsToCart();
 };
