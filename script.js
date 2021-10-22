@@ -62,6 +62,13 @@ const loadProducts = () => {
     });
 };
 
+const loadCartItems = () => {
+  const products = getSavedCartItems();
+  if (!products) return;
+  products.forEach(addProductToCart);
+};
+
 window.onload = () => {
   loadProducts();
+  loadCartItems();
 };
