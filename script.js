@@ -103,6 +103,8 @@ const getfetchProducts = async () => {
 
     itemAdd(elementCart);
   });
+
+  calcTotalCart();
 };
 
 const restoreCartListOfLocalStorage = () => {
