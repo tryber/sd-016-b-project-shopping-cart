@@ -60,6 +60,27 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// REQUISITO 2 - funcao que adiciona os items ao carrinho
+async function addItemToCart(event) {
+  const cartItems = document.querySelector('.cart__items');
+  if (event.target.classList.contains('item__add')) {
+    const itemID = event.target.parentElement.firstChild.innerText;
+    const product = await fetchItem(itemID);
+    const productInfo = {
+      sku: itemID,
+      name: product.title,
+      salePrice: product.price,
+    };
+    const li = createCartItemElement(productInfo);
+    cartItems.appendChild(li);
+  }
+}
+
+function getCartProducts() {
+  return document.addEventListener('click', addItemToCart);
+}
+
 window.onload = () => {
   getProduct('computador');
+  getCartProducts();
  };
