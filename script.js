@@ -101,8 +101,19 @@ loadStorageCartItems = () => {
   renderTotalPrice();
 };
 
+const cleanCart = () => {
+cleanButton.addEventListener('click', () => {
+  cartList.innerText = '';
+  total = 0;
+  renderTotalPrice();
+  localStorage.clear();
+  localStorage.setItem('totalPrice', '0');
+});
+};
+
 window.onload = () => {
   renderListOfProducts();
   loadStorageCartItems();
   addClickListenerToStorageItems();
+  cleanCart();
 };
