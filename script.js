@@ -34,13 +34,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const cartList = document.querySelector('.cart__items');
+
 function cartItemClickListener(event) {
-  event.remove();
+  setTimeout(() => {
+    event.remove();
+    saveCartItems(cartList.innerHTML);
+  }, 1);
 }
 
 // REVIEW - Cria o elemento que será adicionado ao carrinho, adiciona um eventListener de click no item. Após isso, retorna o appendChild do criado.
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
   const li = document.createElement('li');
   const cartItems = document.querySelector('.cart__items');
 
@@ -48,8 +53,12 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', () => cartItemClickListener(li));
 
+  setTimeout(() => {
+    saveCartItems(cartList.innerHTML);
+  }, 1);
+
   return cartItems.appendChild(li);
-}
+};
 
 // REVIEW - Faz uma requisição a fetchProduts passando o parâmetro "computador". Percorre o array retornado, chamando a função createProductItemElement, passando como parâmetro cada item do array para solicitar a montagem da página.
 
@@ -76,9 +85,25 @@ const addCartItems = () => {
   });
 };
 
+// REVIEW - Salva
+
+const getCartFromLocalStorage = async () => {
+  const cartInStorage = await getSavedCartItems();
+
+  cartList.innerHTML = cartInStorage;
+
+  const listSavedProducts = document.querySelectorAll('.cart__item');
+
+  listSavedProducts.forEach((element) => {
+    element.addEventListener('click', (event) => cartItemClickListener(event.target));
+  });
+};
+
 // REVIEW - Inicia as funções criadas.
 
 window.onload = () => {
   callAppendSection();
   addCartItems();
+  getCartFromLocalStorage();
+  cartList.innerHTML = getSavedCartItems();
 };
