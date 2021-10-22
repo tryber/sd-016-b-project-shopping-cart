@@ -9,7 +9,7 @@ const totalPriceUpdate = async () => {
     value += Number(child.getAttribute('price'));
   }
   sumPrices.innerHTML = `${parseFloat(value)}`;
-}
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
