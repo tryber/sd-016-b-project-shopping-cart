@@ -32,12 +32,22 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
-window.onload = () => { };
+const takeProductsAndShowThem = async () => {
+  const computers = await fetchProducts('computador');
+  const section = document.querySelector('.items');
+  computers.forEach((computer) => {
+    section.appendChild(createCartItemElement(computer));
+  });
+};
+
+window.onload = () => {
+  takeProductsAndShowThem();
+};
