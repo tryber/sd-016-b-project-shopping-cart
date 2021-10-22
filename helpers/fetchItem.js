@@ -6,7 +6,7 @@ const fetchItem = async (itemID) => {
 
     return item;
   }
-  
+
   throw Error('You must provide an url');
 };
 

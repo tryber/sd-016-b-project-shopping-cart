@@ -1,5 +1,5 @@
 const itemsSection = document.querySelector('.items');
-const cartItemsList = document.querySelector('.cart__items')
+const cartItemsList = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -49,8 +49,7 @@ function cartItemClickListener(event) {
   // Recupera o elemento HTML e depois o remove usando `.remove()`.
   // https://www.w3schools.com/jsref/met_element_remove.asp
   // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
-  const a = event.target;
-  a.remove();
+  event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price }) {
