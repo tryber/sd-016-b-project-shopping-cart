@@ -40,4 +40,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+/**
+ * Consultei o código do Bernardo Salgueiro para resolver essa parte.
+ * Link: https://files.slack.com/files-tmb/TMDDFEPFU-F02KATKTLBS-a04e16cc19/primeiro_requisito_-_shopping_cart.mp4
+ */
+async function displayProducts(productName) {
+  const { results: products } = await fetchProducts(productName);
+  const itemsSection = document.querySelector('section.items');
+
+  products.forEach(({ id, title, thumbnail }) => {
+    const product = {
+      sku: id,
+      name: title,
+      image: thumbnail,
+    };
+    const productItemElement = createProductItemElement(product);
+    itemsSection.appendChild(productItemElement);
+  });
+}
+
+window.onload = () => {
+  displayProducts('computador');
+};
