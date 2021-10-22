@@ -1,3 +1,6 @@
+const sectionProducts = document.querySelector('.items');
+const sectionCartItems = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +32,10 @@ async function createDatajsonSections() {
   const importData = await fetchProducts('computador');
 
   const dataItens = importData.results.map((product) => {
-    return { sku: product.id, name: product.title, image: product.thumbnail };
+    return {
+      sku: product.id,
+      name: product.title,
+      image: product.thumbnail };
   });
 
   dataItens.forEach((item) => {
@@ -43,7 +49,6 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -54,20 +59,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function createLiCartItem() {
-  const getCartClass = document.querySelector('.cart__items');
-  const importData = await fetchProducts('computador');
+async function importCartItem(event) {
+  if (event.target.className !== 'item__add') return null;
+  
+  const elementTarget = event.target.parentNode;
+  const targetID = elementTarget.children[0].innerText;
+  
+  const shearchItem = await fetchItem(targetID);
+  const { id, title, price } = shearchItem;
+  const createObject = { sku: id, name: title, salePrice: price };
+  
+  const CartLi = createCartItemElement(createObject);
 
-  const getDataID = importData.results.map((product) => {
-    return { sku: product.id, name: product.title, salePrice: product.price };
-  });
-
-  getDataID.forEach((item) => {
-    getCartClass.appendChild(createCartItemElement(item));
-  });
+  return sectionCartItems.appendChild(CartLi);
 }
 
 window.onload = async () => {
+  sectionProducts.addEventListener('click', importCartItem);
+  
   await createDatajsonSections();
-  await createLiCartItem();
 };

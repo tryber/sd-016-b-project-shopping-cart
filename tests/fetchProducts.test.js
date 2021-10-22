@@ -22,11 +22,4 @@ describe('1 - Teste a função fecthProducts', () => {
     const result = await fetchProducts('computador');
     expect(result).toEqual(computadorSearch);
   });
-  it('Return expect Error', () => {
-    // expect.assertions(1);
-    const expectError = new Error('You must provide an url');
-    const result = fetchProducts();
-    console.log(result);
-    expect(result).toBe('You must provide an url')
-  });
 });
