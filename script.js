@@ -44,7 +44,7 @@ async function appendProductsToSection(productName) {
   const products = await fetchProducts(productName);
   const sectionItems = document.querySelector('.items');
 
-  products.forEach((product) => {
+  products.results.forEach((product) => {
     const productObject = {
       sku: product.id,
       name: product.title,
