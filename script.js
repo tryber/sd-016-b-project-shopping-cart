@@ -19,9 +19,15 @@ function cartItemClickListener(event) {
   saveCartItems(cartItems.innerHTML);
   itemsTotal();
 }
+const reenableLoadedItems = () => {
+  const lis = document.getElementsByClassName('cart__item');
+  [...lis].forEach((li) => li.addEventListener('click', cartItemClickListener));
+};
+
 const loadLocalStorage = () => {
   const loadCart = getSavedCartItems();
   cartItems.innerHTML = loadCart;
+  reenableLoadedItems();
 };
 
 function createProductImageElement(imageSource) {
