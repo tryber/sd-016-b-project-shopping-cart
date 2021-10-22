@@ -37,7 +37,6 @@ function getSku() {
   });
 }
 
-
 async function InsertInCart (sku) {
   const dataItem = await fetchItem(sku);
   const { title: name, price: salePrice } = dataItem;
@@ -58,14 +57,12 @@ async function appendItems() {
   });
 }
 
-
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
