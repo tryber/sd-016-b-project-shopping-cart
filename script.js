@@ -55,6 +55,7 @@ function cartItemClickListener(event) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
+  li.id = sku;
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
@@ -79,6 +80,8 @@ createNavigation();
 
 window.onload = () => {
   document.querySelector('.cart__items').innerHTML = getSavedCartItems();
+
+  document.querySelector('.cart__items').addEventListener('click', cartItemClickListener);
 
   document.body.addEventListener('click', (event) => {
     if (event.target.classList.contains('item__add')) {
