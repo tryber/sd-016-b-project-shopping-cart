@@ -14,14 +14,13 @@ function createCustomElement(element, className, innerText) {
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
-  const capturarClasseItems = document.querySelector('.items');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  capturarClasseItems.appendChild(section);
+  return section;
 }
 
 // function getSkuFromProductItem(item) {
@@ -32,7 +31,7 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   
   li.className = 'cart__item';
@@ -42,9 +41,18 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   classCartItems.appendChild(li);  
 }
 
-const criarProduto = async () => {
-  const arrayItens = await fetchProducts('computador');
-  arrayItens.results.forEach((item) => createProductItemElement(item));
+const buscarProduto = async (produto) => {
+  const arrayItens = await fetchProducts(produto);
+  const sessao = document.querySelector('.items');
+  arrayItens.results.forEach(item => {
+    const itemObj = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+    const productItem = createProductItemElement(itemObj);
+    sessao.appendChild(productItem);
+  });
 };
 
 const addToCart = () => {
@@ -57,7 +65,9 @@ const addToCart = () => {
   });
 };
 
-addToCart();
-criarProduto();
+//addToCart();
 
-window.onload = () => { };
+
+window.onload = () => { 
+  buscarProduto('computador');
+};
