@@ -73,9 +73,18 @@ const appendTotal = () => {
   newTotal.className = 'total-cost';
   newTotal.innerHTML = 'batata';
 };
+const sum = (acc, number) => acc +number;
+const itemsTotal = () => {
+  const total = document.querySelector('.total-cost');
+  const [...selectedItems] = cartItems.children;
+  const costArray = [];
+  selectedItems.map((item) => costArray.push(Number(item.innerHTML.split('$').pop())));
+  return costArray.reduce(sum, 0);
+};
 
 window.onload = () => { 
   displayProducts();
   loadLocalStorage();
   appendTotal();
+  console.log(itemsTotal());
 };
