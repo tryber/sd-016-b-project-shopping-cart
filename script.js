@@ -53,9 +53,19 @@ const getItemElement = (event) => {
   return itemElement;
 };
 
+const getCartItems = () => {
+  const cartItem = [];
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach((item) => {
+    cartItem.push(item.innerText);
+  });
+  return cartItem;
+};
+
 function cartItemClickListener(event) {
   const fatherElement = event.target.parentNode;
   fatherElement.removeChild(event.target);
+  saveCartItems(getCartItems());
 }
 
 const mapFetchItemAndReturnObj = async (itemId) => {
@@ -82,7 +92,18 @@ const addItemToCart = async (id) => {
   const itemInfos = await mapFetchItemAndReturnObj(skuItem);
   const itemLi = createCartItemElement(itemInfos);
   appendProductItemToCart(itemLi);
-  saveCartItems();
+  const items = getCartItems();
+  saveCartItems(items);
+};
+
+const getSavedItems = () => {
+  const cartItem = JSON.parse(getSavedCartItems());
+  cartItem.forEach((item) => {
+    const li = document.createElement('li');
+    li.className = 'cart__item';
+    li.innerText = item;
+    appendProductItemToCart(li);
+  });
 };
 
 window.onload = () => {
@@ -92,4 +113,5 @@ window.onload = () => {
       addItemToCart(getItemElement(event));
     }
   });
+  getSavedItems();
 };
