@@ -113,10 +113,7 @@ async function productsToBeCreated() { // fetch informations from ME and request
 
 function putEventOnLiWhenReload() { // reassign the event to itens in cart when the page reload
   const li = document.getElementsByClassName('cart__item');
-
-  for (let i = 0; i < li.length; i += 1) {
-    li[i].addEventListener('click', cartItemClickListener);
-  }
+  [...li].forEach((e) => e.addEventListener('click', cartItemClickListener));
 }
 
 function appendSumDiv() {
