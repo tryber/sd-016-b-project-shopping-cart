@@ -2,6 +2,7 @@ const itemsSection = document.querySelector('.items');
 const olList = document.querySelector('.cart__items');
 const cartSection = document.querySelector('section.cart');
 const createSpanPrice = document.createElement('span');
+const voidButton = document.querySelector('.empty-cart');
 createSpanPrice.classList = 'total-price';
 let totalPrice = 0;
 
@@ -9,7 +10,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const totalPricer = async (price, operator) => {
+const totalPricer = (price, operator) => {
   if (operator === '-') {
     totalPrice -= price;
   } else if (operator === '+') {
@@ -19,9 +20,16 @@ const totalPricer = async (price, operator) => {
   return (cartSection.appendChild(createSpanPrice));
 };
 
-async function cartItemClickListener(event) {
-  await totalPricer(event.target.id, '-');
+const cleanUpCart = () => {
+  voidButton.addEventListener('click', () => {
+    olList.innerHTML = ' ';
+    totalPricer(createSpanPrice.innerText, '-');
+  });
+};
+
+function cartItemClickListener(event) {
   event.target.remove();
+  totalPricer(event.target.id, '-');
 }
 
 function createProductImageElement(imageSource) {
@@ -92,4 +100,5 @@ const toCreateResultList = async (fetcher) => {
 window.onload = async () => {
   const resultsList = await fetchProducts('computador');
   await toCreateResultList(resultsList.results);
+  cleanUpCart();
 };
