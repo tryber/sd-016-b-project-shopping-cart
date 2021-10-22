@@ -26,10 +26,10 @@ const updateCartSubTotal = (product, operation) => {
   const totalPriceValue = parseFloat(totalPrice.innerText);
   const productPrice = parseFloat(product.price);
   if (operation === 'add') {
-    totalPrice.innerText = (totalPriceValue + productPrice).toFixed(2);
+    totalPrice.innerText = totalPriceValue + productPrice;
   }
   if (operation === 'subtract') {
-    totalPrice.innerText = (totalPriceValue - productPrice).toFixed(2);
+    totalPrice.innerText = totalPriceValue - productPrice;
   }
   return product;
 };
