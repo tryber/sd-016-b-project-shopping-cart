@@ -5,7 +5,6 @@ const fetchProducts = (query) => {
 
   return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
     .then((result) => result.json())
-    .catch(() => { });
 };
 
 if (typeof module !== 'undefined') {

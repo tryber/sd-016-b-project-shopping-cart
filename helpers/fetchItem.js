@@ -4,8 +4,7 @@ const fetchItem = (query) => {
   }
 
   return fetch(`https://api.mercadolibre.com/items/${query}`)
-    .then((result) => result.json())
-    .catch(() => { });
+    .then((result) => result.json());
 };
 
 if (typeof module !== 'undefined') {
