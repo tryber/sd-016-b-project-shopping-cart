@@ -5,31 +5,38 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// Ideia: https://stackoverflow.com/questions/37049136/javascript-how-to-remove-dom-elements-using-click-events-and-classes
+function cartItemClickListener(event) {
+       event.target.remove();
+}
+// *******************************************************************************
+// FRONT END - Essa funçã cria e retorna um Elemento HTML 
+// Etendimento: É a Segunda função mais abstrata a primeira
+// esta logo acima createProductImageElement
+// ******************************************************************************** */
+// 1- Primerio temos a função createCustomElement que recebe 
+//    03(três) parâmetro elemet -> que faz referencia ao elemento
+//    HTML que vocẽ irá criar. O segundo parâmetro é o className->
+//    que onde você deverá nomear o nome da classe que irá ser embutida
+//    na tag desse elemento HTML passado por parâmetro de igual modo 
+//    será deverá passar com parâmetro que irá compor o escopo desse 
+//    elemento;
+// 2- Foi criado uma constante e que irá recer o elemento que será 
+//    criado pelo método createElement vale ressaltar que esse elemento
+//    Pode ser qualquer elemento ao gosto do freguês
+// 3- Criado esse elemento e capturado esse elemento por meio da const e
+//    podemos embutir nesse elemento métodos inerentes ao javascript, para
+//    nosso exemplo estamos trabalhando com dois métodos(atributos) que podemos atribuir
+//    no escopo desse elemento: 1º - className e o 2º innerText
+// 4- passo é retornar esse elemento e podemos dizer que temo uma forma 
+//    Customizada para criar elementos dentro do DOM do nosso arquivo HTML
+// ***************************************************************************************       
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
 }
-
-// **********************
-// QUESTÃO 01 FRONT END //
-// **********************
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
-  return section;
-}
-
-function cartItemClickListener(event) {
- // coloque seu codigo agqui
-}
-
 // ***********************
 // QUESTÃO 02 FRONT END//
 // *********************
@@ -40,8 +47,80 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// ***********************
+// COMETÁRIO DA FUNÇÃO:  //
+// ********************* *
+// 1- Recebe como parâmetro um item;
+// 2- Retorna item pegando por meio do querySelector o texto 
+//    que está na span propriedade item_sku.innerText;
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
+}
+
+// **********************
+// QUESTÃO 02 BACK END //
+// ********************************************************************************************************
+// 1- Criei uma função que irá fazer acesso a uma api utilizando a classe de conexão
+//    fetchItem.js aqui temos uma primeira noção  de  orientação  objeto  quando 
+//    importamos  fetchItem para dentro do arquivo index.html que é diferente do
+//    que conheço que essa classe deveria ser instanciada dentro desse arquivo por meio
+//    da instaciação de um objeto do tipo fetchItem, ou seja, 
+//    FetchItem fetch = new  FetchItem() então faria acesso a essa classe e só 
+//    então poderia pega o método de conexão no caso o fetch e fazer meus teste no 
+//    próprio arquivo, porém, o paradigma aqui é um pouco mais abstrato, pois, no caso 
+//    trabalhase com a ideia de que ele esta importado aqui ou existe essse objeto instanciado 
+//    aqui e devemos trabalhar com o conceito de assinatura do método o que aumenta o grau de 
+//    abstração para esse caso pois de fato a fução ou os objetos criados todos serão invocados
+//    no arquivo index.html por meio de links referenciando arquivos scripst.js;
+// 2- Em seguida pesando na ideia de assinatura e que irei fazer o teste dessa assinatura no 
+//    no momento que executar o index.html utilizei uma estrutura de tratamento de erro também
+//    utilizada no java chamada de try catch;
+// 3- Em seguida fiz um acesso por meio da assintaura fetchItem a essa função passando como 
+//    parametro o tipo de dados string com o id do Produto , pois, é o item que esperaremos o 
+//    retorno, de um unico produto que o end Point irá disponibilizar para alimentar nossa
+//    lista do carrinho de compra;
+// 4- Utilizei duas partículas ou palavras reservdas para fazer menção que esse método é assíncrono,
+//    pois, iremos fazer acesso a um servidor que nos servirá de dados hospedado, neste caso vamos 
+//    trabalhar com ideia de promisse, logo, em JavaScript automaticamente introduz-se o conceito 
+//    de assincronidade que de cara traz duas particulas importantes para serem trabalhadas na função
+//    primeira async e a segunda que é o awiat;
+// 5- Em seguida irei descontruir o objeto dataResult usando destructuring e puxando essa estrutura os
+//    valores das variáveis id, name, price e adicionando as variaveis sku, name, salePrice;
+// 6- Em seguida vou pegar a estrutura criada pelo Front-End createCartItemElement({sku,name,salePrice});
+//    que recebe como parametro um objeto contendo três valores onde irei passar os valores desestruturados
+//    e capturados do meu dataResult que irá alimentar essa estrutura no DOM do meu HTML;
+// 7- Agora irei capturar o local onde será acoplado essa estrutura createCartItemElement por meio do método
+//    querySelector referenciando a classe desse objeto;
+// 8- Por fim irei pegar item que é o local onde irei acoplar essa estrutura e utilizar o método appendChild
+//    passando elementChild como filho para essa este item.
+// **********************************************************************************************************
+async function addShoppingCartBackEnd(event) {
+  const idProduto = event.target.parentNode.firstChild.innerText;
+  try {
+      const dataResult = await fetchItem(idProduto);
+      const { id: sku, title: name, price: salePrice } = dataResult;
+      const elementChild = createCartItemElement({ sku, name, salePrice });
+      const itens = document.querySelector('.cart__items');
+      itens.appendChild(elementChild);
+   } catch (error) {
+    console.log('Erro Function addShoppingCarBackEnd:', error);
+  }
+}
+
+// **********************
+// FRONT END //
+// **********************
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const buttonAdicionar = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  buttonAdicionar.addEventListener('click', addShoppingCartBackEnd);
+  section.appendChild(buttonAdicionar);
+
+  return section;
 }
 
 // **********************
@@ -98,69 +177,18 @@ function getSkuFromProductItem(item) {
 //     capturado no dom. 
 // ************************************************************************************************************************
 async function backEndCreateProductItem() {
-   try {
-    const { results } = await fetchProducts('computador');
-     results.forEach((item, position) => {
-     const { id: sku, title: name, thumbnail: image } = results[position];
-     const elementChild = createProductItemElement({ sku, name, image });
-     const itens = document.querySelector('.items');
-     itens.appendChild(elementChild);
-   });
-  } catch (error) {
-    console.log('Seu erro é:', error);
-  }
-}
-
-// **********************
-// QUESTÃO 02 BACK END //
-// ********************************************************************************************************
-// 1- Criei uma função que irá fazer acesso a uma api utilizando a classe de conexão
-//    fetchItem.js aqui temos uma primeira noção  de  orientação  objeto  quando 
-//    importamos  fetchItem para dentro do arquivo index.html que é diferente do
-//    que conheço que essa classe deveria ser instanciada dentro desse arquivo por meio
-//    da instaciação de um objeto do tipo fetchItem, ou seja, 
-//    FetchItem fetch = new  FetchItem() então faria acesso a essa classe e só 
-//    então poderia pega o método de conexão no caso o fetch e fazer meus teste no 
-//    próprio arquivo, porém, o paradigma aqui é um pouco mais abstrato, pois, no caso 
-//    trabalhase com a ideia de que ele esta importado aqui ou existe essse objeto instanciado 
-//    aqui e devemos trabalhar com o conceito de assinatura do método o que aumenta o grau de 
-//    abstração para esse caso pois de fato a fução ou os objetos criados todos serão invocados
-//    no arquivo index.html por meio de links referenciando arquivos scripst.js;
-// 2- Em seguida pesando na ideia de assinatura e que irei fazer o teste dessa assinatura no 
-//    no momento que executar o index.html utilizei uma estrutura de tratamento de erro também
-//    utilizada no java chamada de try catch;
-// 3- Em seguida fiz um acesso por meio da assintaura fetchItem a essa função passando como 
-//    parametro o tipo de dados string com o id do Produto , pois, é o item que esperaremos o 
-//    retorno, de um unico produto que o end Point irá disponibilizar para alimentar nossa
-//    lista do carrinho de compra;
-// 4- Utilizei duas partículas ou palavras reservdas para fazer menção que esse método é assíncrono,
-//    pois, iremos fazer acesso a um servidor que nos servirá de dados hospedado, neste caso vamos 
-//    trabalhar com ideia de promisse, logo, em JavaScript automaticamente introduz-se o conceito 
-//    de assincronidade que de cara traz duas particulas importantes para serem trabalhadas na função
-//    primeira async e a segunda que é o awiat;
-// 5- Em seguida irei descontruir o objeto dataResult usando destructuring e puxando essa estrutura os
-//    valores das variáveis id, name, price e adicionando as variaveis sku, name, salePrice;
-// 6- Em seguida vou pegar a estrutura criada pelo Front-End createCartItemElement({sku,name,salePrice});
-//    que recebe como parametro um objeto contendo três valores onde irei passar os valores desestruturados
-//    e capturados do meu dataResult que irá alimentar essa estrutura no DOM do meu HTML;
-// 7- Agora irei capturar o local onde será acoplado essa estrutura createCartItemElement por meio do método
-//    querySelector referenciando a classe desse objeto;
-// 8- Por fim irei pegar item que é o local onde irei acoplar essa estrutura e utilizar o método appendChild
-//    passando elementChild como filho para essa este item.
-// **********************************************************************************************************
-
-async function backEndAdicioneCarrinhoDeCompras(codigoProduto) {
   try {
-   const dataResult = await fetchItem(codigoProduto);
-     const { id: sku, title: name, price: salePrice } = dataResult;
-     const elementChild = createCartItemElement({ sku, name, salePrice });
-     const itens = document.querySelector('.cart__items');
-     itens.appendChild(elementChild);
-  } catch (error) {
+   const { results } = await fetchProducts('computador');
+    results.forEach((item, position) => {
+    const { id: sku, title: name, thumbnail: image } = results[position];
+    const elementChild = createProductItemElement({ sku, name, image });
+    const itens = document.querySelector('.items');
+    itens.appendChild(elementChild);
+  });
+ } catch (error) {
    console.log('Seu erro é:', error);
  }
 }
 window.onload = () => {
- backEndCreateProductItem();
-// backEndAdicioneCarrinhoDeCompras('MLB1341706310');
+  backEndCreateProductItem();
 };

@@ -14,6 +14,14 @@ const fetchItem = (item) => {
   return fetch(`https://api.mercadolibre.com/items/${item}`)
     .then((response) => response.json());
 };
+
+// const objetoMock = {
+//   id: 'MLB1341706310',
+//   title: 'Processador Amd Ryzen 5 2600 6 Núcleos 64 Gb',
+//   subtitle: null,
+//   price: 879,
+// };
+// const fetchItem = (item) => objetoMock;
 // ********************
 // COMENTANDO FUNÇÃO: 
 // ********************
