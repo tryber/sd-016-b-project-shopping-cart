@@ -24,28 +24,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// requisito 1
-fetchProducts('computador').then((dados) => {
-  const dado = dados.results;
-  
-  for (let index = 0; index < dado.length; index += 1) {
-    const sku = dado[index].id;
-    const name = dado[index].title;
-    const image = dado[index].thumbnail;
-
-    const add = document.querySelector('.items');
-    add.appendChild(createProductItemElement({ sku, name, image }));
-  }
-});
-
 // desabilitei por causa do lint ------------------------------------------------------
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-function cartItemClickListener() {
-  // function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   // coloque seu código aqui
+  console.log(event);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -57,13 +43,39 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 // requisito 2
-fetchItem('MLB1615760527').then((dados) => {
-  const skuId = dados.price;
-  const nameItem = dados.title;
-  const preco = dados.price;
+async function evento(event) {
+  const pai = event.target.parentNode;
+  const id = pai.firstChild.innerText;
   
-  const add = document.querySelector('.cart__items');
-  add.appendChild(createCartItemElement({ skuId, nameItem, preco }));
+  fetchItem(id).then((dados) => {
+    const skuId = dados.id;
+    const nameItem = dados.title;
+    const preco = dados.price;
+
+    const add = document.querySelector('.cart__items');
+    add.appendChild(createCartItemElement({ skuId, nameItem, preco }));
+
+    console.log(skuId, nameItem, preco);
+  });
+}
+
+// requisito 1
+fetchProducts('computador').then((dados) => {
+  const dado = dados.results;
+
+  for (let index = 0; index < dado.length; index += 1) {
+    const sku = dado[index].id;
+    const name = dado[index].title;
+    const image = dado[index].thumbnail;
+
+    const add = document.querySelector('.items');
+    add.appendChild(createProductItemElement({ sku, name, image }));
+  }
+  // adicionando botão para o requisito 2
+  const botoes = document.getElementsByClassName('item__add');
+  for (let index = 0; index < botoes.length; index += 1) {
+    botoes[index].addEventListener('click', evento);
+  }
 });
 
 window.onload = () => { };
