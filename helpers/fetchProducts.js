@@ -1,10 +1,10 @@
-const fetchProducts = async (par) => {
+const fetchProducts = (par) => {
   // seu código aqui
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${par}`;
   if (!par) {
     throw new Error('Informações Inválidas');
   }
-  const result = await fetch(url)
+  const result = fetch(url)
   .then((response) => response.json())
   .then((data) => data.results)
   .catch((error) => `seu erro ${error}`);
