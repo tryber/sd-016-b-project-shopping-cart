@@ -24,7 +24,9 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-fetchProducts('computador').then((dado) => {
+fetchProducts('computador').then((dados) => {
+  const dado = dados.results;
+  
   for (let index = 0; index < dado.length; index += 1) {
     const sku = dado[index].id;
     const name = dado[index].title;
