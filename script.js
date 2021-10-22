@@ -1,6 +1,7 @@
 const cart = document.querySelector('.cart');
 const cartItems = document.querySelector('.cart__items');
 const ol = document.querySelector('#ol');
+const emptybutton = document.querySelector('.empty-cart');
 
 const sum = (acc, number) => acc + number;
 
@@ -85,6 +86,12 @@ const appendTotal = () => {
   cart.appendChild(newTotal);
   newTotal.className = 'total-price';
 };
+
+emptybutton.addEventListener('click', () => {
+  cartItems.innerHTML = '';
+  itemsTotal();
+  saveCartItems(JSON.stringify(''));
+});
 
 window.onload = () => { 
   displayProducts();
