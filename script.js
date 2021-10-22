@@ -43,15 +43,19 @@ function getSkuFromProductItem(item) {
   return sku.innerText; // Retorna o ID do produto, está correto.
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function removeItemFromCartListener(event) {
+  // Recupera o elemento HTML e depois o remove usando `.remove()`.
+  // https://www.w3schools.com/jsref/met_element_remove.asp
+  // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
+  const a = event.target;
+  a.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', removeItemFromCartListener);
   return li;
 }
 
@@ -69,7 +73,7 @@ const setupEventListener = () => {
   // Não consegui adicionar apenas nos botões, então apliquei para a página toda, mas condicionando os botões.
   document.addEventListener('click', (event) => {
     const item = event.target;
-    if (item && item.classList.contains('item__add')) {
+    if (item.classList.contains('item__add')) {
       const id = getSkuFromProductItem(event);
       addToCart(id);
     }
