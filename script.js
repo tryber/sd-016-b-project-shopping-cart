@@ -1,6 +1,15 @@
 const items = document.querySelector('.items');
 const cartItem = document.querySelector('.cart__items');
 const sumPrices = document.querySelector('.total-price');
+const clearCart = document.querySelector('.empty-cart');
+
+const emptyCart = () => {
+  cartItem.innerHTML = ' ';
+  sumPrices.innerHTML = '0';
+  saveCartItems(cartItem.innerHTML);
+};
+
+clearCart.addEventListener('click', emptyCart);
 
 const totalPriceUpdate = async () => {
   let value = 0;
