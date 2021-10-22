@@ -29,7 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // adsf
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,7 +40,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => {  
+function sell(e) {
+  if (e.target.className.includes('item__add')) {
+    // console.log(getSkuFromProductItem(event.target.parentElement));
+    fetchItem(getSkuFromProductItem(e.target.parentElement))
+      .then((c) => document.querySelector('.cart__items')
+      .appendChild(createCartItemElement({ sku: c.id, name: c.title, salePrice: c.price })));
+  }
+  if (e.target.className.includes('cart__item')) {
+    e.target.parentElement.removeChild(e.target);
+  }
+}
+
+window.onload = () => {
+  // configura página
+  document.addEventListener('click', sell);
+
+  // carrega produtos
   fetchProducts('computador').then((d) => {
     d.results
       .map((i) => ({ sku: i.id, name: i.title, image: i.thumbnail }))
