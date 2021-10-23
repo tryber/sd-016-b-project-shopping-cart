@@ -92,13 +92,13 @@ async function getProducts(productName) {
 
 function recoverCart() {
   if (localStorage.length !== 0) {
-    const storageItem = getSavedCartItems();
+    const storageItems = getSavedCartItems();
     const cartList = getCartList();
     /*
     Consultei o link abaixo para entender como atribuir o elemento HTML salvo no localStorage a um elemento do DOM.
     ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
     */
-    cartList.innerHTML = storageItem;
+    cartList.innerHTML = storageItems;
     /*
     Consultei o link abaixo para entender como usar HOFs em Node List e HTML Collection.
     ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
