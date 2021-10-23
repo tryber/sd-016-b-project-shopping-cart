@@ -2,9 +2,12 @@
 // ----------------- C A R T ----------------------
 // ------------------------------------------------
 
+const cartList = document.querySelector('.cart__items');
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  saveCartItems(cartList.innerHTML);
 }
 
 function createCustomElement(element, className, innerText) {
@@ -21,12 +24,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function cartProducts(itemID) {
-  const cartItem = await fetchItem(itemID);
-  const cartList = document.querySelector('.cart__items');
+async function cartProducts(product) {
+  const cartItem = await fetchProducts(product);
+  // const cartList = document.querySelector('.cart__items');
 
   cartList.appendChild(createCartItemElement(cartItem));
 }
+
+const loadingSite = () => {
+  const load = getSavedCartItems();
+  cartList.innerHTML = load;
+
+  const list = document.querySelector('cart__items');
+
+  list.forEach((item) => item
+    .addEventListener('click', (e) => {
+      element.target.remove(e);
+      saveCartItems(cartList.innerHTML);
+    }));
+};
+
+const emptCart = document.querySelector('.empty-cart');
+
+const clear = () => {
+  emptCart.addEventListener('click', () => {
+    cartList.innerHTML = '';
+  });
+};
 
 // ------------------------------------------------
 // ----------------- S H O P ----------------------
@@ -73,8 +97,11 @@ async function searchProducts(product) {
   });
 }
 
+clear();
+
 window.onload = () => {
   searchProducts('computador');
+  loadingSite();
 };
 // function cartItemClickListener(event) {
 //   // coloque seu código aqui
