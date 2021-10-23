@@ -1,3 +1,5 @@
+const tagOl = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,7 +14,9 @@ function createProductImageElement(imageSource) {
 // Evento foi invocado em: createCartItemElement
 // *****************************************************************************
 function cartItemClickListener(event) {
-  event.target.remove();
+   const objecto = event.target;
+   objecto.remove();
+   saveCartItems(tagOl.innerHTML);
 }
 // *******************************************************************************
 // FRONT END - Essa funçã cria e retorna um Elemento HTML 
@@ -70,16 +74,13 @@ function createCustomElement(element, className, innerText) {
 
 const buttonClearShopping = document.querySelector('.empty-cart');
 buttonClearShopping.addEventListener('click', () => {
-  const tagOl = document.querySelector('.cart__items'); // tag OL
+  // const tagOl = document.querySelector('.cart__items'); // tag OL
   tagOl.innerHTML = '';
   saveCartItems(tagOl.innerHTML);
   // https://qastack.com.br/programming/7667958/clearing-localstorage-in-javascript
   localStorage.clear();
 });
 
-// ***********************
-// QUESTÃO 02 FRONT END//
-// *********************
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -236,7 +237,13 @@ async function backEndCreateProductItem() {
    console.log('Seu erro é:', error);
  }
 }
+
+function load() {
+  const recuperaLocalStorage = getSavedCartItems();
+  tagOl.innerHTML = recuperaLocalStorage;
+  tagOl.addEventListener('click', cartItemClickListener);
+}
 window.onload = () => {
   backEndCreateProductItem();
-  getSavedCartItems();
+  load();
 };
