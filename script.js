@@ -33,9 +33,9 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   const liItem = event.target;
-  const olCart = liItem.parentNode
+  const olCart = liItem.parentNode;
   olCart.removeChild(liItem);
-};
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -74,7 +74,7 @@ async function searchProduct(product) {
 });
 }
 
-function clearCart () {
+function clearCart() {
   cartItems.innerText = '';
 }
 
