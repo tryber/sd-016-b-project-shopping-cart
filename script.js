@@ -1,8 +1,10 @@
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
+// ------------------------------------------------
+// ----------------- C A R T ----------------------
+// ------------------------------------------------
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCustomElement(element, className, innerText) {
@@ -11,33 +13,49 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
-  return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+async function cartProducts(itemID) {
+  const cartItem = await fetchItem(itemID);
+  const cartList = document.querySelector('.cart__items');
+
+  cartList.appendChild(createCartItemElement(cartItem));
+}
+
+// ------------------------------------------------
+// ----------------- S H O P ----------------------
+// ------------------------------------------------
+
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
+}
+
+function createProductItemElement({ image, sku, name, salePrice }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createCustomElement('span', 'item__price', salePrice));
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  section.appendChild(button);
+  button.addEventListener('click', cartProducts);
+
+  return section;
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
 }
 
 async function searchProducts(product) {
@@ -48,6 +66,7 @@ async function searchProducts(product) {
       sku: item.id,
       name: item.title,
       image: item.thumbnail,
+      salePrice: item.price,
     };
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
@@ -57,3 +76,29 @@ async function searchProducts(product) {
 window.onload = () => {
   searchProducts('computador');
 };
+// function cartItemClickListener(event) {
+//   // coloque seu código aqui
+// }
+
+// function createCartItemElement({ sku, name, salePrice }) {
+//   const li = document.createElement('li');
+//   li.className = 'cart__item';
+//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+//   li.addEventListener('click', cartItemClickListener);
+//   return li;
+// }
+
+// async function cartProducts(product) {
+//   const searchData = await fetchProducts(product);
+//   const sectionItems = document.querySelector('.items');
+//   searchData.results.forEach((item) => {
+//     const itemObject = {
+//       sku: item.id,
+//       name: item.title,
+//       image: item.thumbnail,
+//       salePrice: item.price,
+//     };
+//     const productItem = createCartItemElement(itemObject);
+//     sectionItems.appendChild(productItem);
+//   });
+// }

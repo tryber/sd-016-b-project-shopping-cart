@@ -27,7 +27,7 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(result).toEqual(computadorSearch);
   });
   // requisito 5
-  it('deve reornar um erro', async () => {
+  it('Sem argumento deve retornar um erro', async () => {
     const expectedError = new Error('You must provide an url');
     const result = await fetchProducts();
     expect(result).toEqual(expectedError);    
