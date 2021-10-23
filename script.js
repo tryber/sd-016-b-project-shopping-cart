@@ -30,8 +30,30 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const catchNumbersPrice = (str) => {
+  // https://stackoverflow.com/questions/2555059/javascript-regular-expressions-replace-non-numeric-characters
+  // https://www.w3schools.com/jsref/jsref_regexp_not_0-9.asp
+  // https://gomakethings.com/converting-strings-to-numbers-with-vanilla-javascript/
+  const lastWords = str.slice(-15);
+  const getNumbers = lastWords.replace(/[^0-9.]/g, ''); 
+  const convertIntoNumber = Number(getNumbers);
+  return convertIntoNumber;
+};
+
+const sumCartItems = () => {
+  const allItems = [...document.querySelectorAll('.cart__item')];
+  const prices = allItems.map((item) => catchNumbersPrice(item.innerText));
+  const sumPrices = prices.reduce((acc, totalSum) => (acc + totalSum), 0);
+  return sumPrices;
+};
+
+const showTotalPrice = () => {
+  document.querySelector('.total-price').innerHTML = sumCartItems();
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+  showTotalPrice();
   saveCartItems(list.innerHTML);
 }
 
@@ -66,7 +88,7 @@ const addProductCart = async (id) => {
   const addProduct = createCartItemElement(product);
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(addProduct);
-
+  showTotalPrice();
   saveCartItems(list.innerHTML);
 };
 
