@@ -1,3 +1,5 @@
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -32,13 +34,11 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  
+  const li = document.createElement('li');  
   li.className = 'cart__item';
-  const classCartItems = document.querySelector('.cart__items');
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  classCartItems.appendChild(li);  
+  return li;
 }
 
 const buscarProduto = async (produto) => {
@@ -55,17 +55,25 @@ const buscarProduto = async (produto) => {
   });
 };
 
-const addToCart = () => {
-  const buttons = document.querySelector('.items');
-  buttons.addEventListener('click', (event) => {
-    if (event.target.className === 'item__add') { 
-    const idByParent = event.target.parentNode.querySelectorAll('.item__sku').innerText;
-    fetchItem(idByParent).then((data) => createCartItemElement(data));
+const carrinho = async (item) => {
+  const itemDoCarro = await fetchItem(item);
+  const capturarOl = document.querySelector('.cart__items');
+  const capturarBotao = document.querySelector('.item__add');
+  const capturarItens = document.querySelector('.items');
+  capturarBotao.addEventListener('click', () => {
+    const objCarro = {
+      sku: itemDoCarro.id,
+      name: itemDoCarro.title,
+      salePrice: itemDoCarro.price,
     }
+    const parametroCarro = createCartItemElement(objCarro);
+    capturarOl.appendChild(parametroCarro);
   });
-};
+}
+
 
 window.onload = () => { 
   buscarProduto('computador');
-  addToCart();
+  carrinho();
+   
 };
