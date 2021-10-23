@@ -1,5 +1,5 @@
 const getSavedCartItems = () => {
-  const saved = localStorage.getItem('cartItems').split(',');
+  const saved = localStorage.getItem('cartItems');
   return saved;
 };
 

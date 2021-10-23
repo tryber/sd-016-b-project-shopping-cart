@@ -121,7 +121,7 @@ window.onload = async () => {
   await toCreateResultList(resultsList.results);
   cleanUpCart();
   if (localStorage.cartItems !== undefined) {
-    await getSavedCartItems().forEach(async (id) => listen(await fetchItem(id)));
+    await getSavedCartItems().split(',').forEach(async (id) => listen(await fetchItem(id)));
   } 
   loader();
 };
