@@ -22,14 +22,14 @@ const fetchItem = (item) => {
 //   price: 879,
 // };
 // const fetchItem = (item) => objetoMock;
+
 // ********************
 // COMENTANDO FUNÇÃO: 
 // ********************
 // Aquifoi utilizado uma estrutura condicional simples onde foi utilizado o método 
 // typeof para verificar se o módule de exportação está diferente de undefine (vazio)
 // se tiver algo será uma função ou funções que estarão compondo seu corpo(estrutura)
-// neste caso deve ser todas exportadas para o arquivo que fizer seu requirede e serão 
-// exportadas de forma desestruturadas.
+// neste caso deve ser todas exportadas para o arquivo que fizer seu requirede; 
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchItem,
