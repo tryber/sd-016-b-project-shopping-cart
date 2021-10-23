@@ -81,7 +81,7 @@ const allItemsInCart = document.querySelector('.cart__items');
 const capturarSessaoCart = document.querySelector('.cart');
 const capturarBotaoEsvaziarCarro = document.querySelector('.empty-cart');
 
-capturarBotaoEsvaziarCarro.addEventListener('click', function () {
+capturarBotaoEsvaziarCarro.addEventListener('click', () => {
   allItemsInCart.innerHTML = '';
   document.querySelector('.total-price').innerText = '';
 });
