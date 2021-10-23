@@ -1,3 +1,5 @@
+const captureOl = document.getElementsByClassName(cart__items);
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,7 +14,6 @@ function createProductImageElement(imageSource) {
 // Evento foi invocado em: createCartItemElement
 // *****************************************************************************
 function cartItemClickListener(event) {
-  const captureOl = document.querySelector('.cart__items');
   event.target.remove();
   saveCartItems(captureOl.innerHTML);
 }
