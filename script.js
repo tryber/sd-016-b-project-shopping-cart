@@ -12,9 +12,7 @@ function createProductImageElement(imageSource) {
 // Evento foi invocado em: createCartItemElement
 // *****************************************************************************
 function cartItemClickListener(event) {
-  const captureOl = document.querySelector('cart__items');
   event.target.remove();
-  saveCartItems(captureOl.innerHTML);
 }
 // *******************************************************************************
 // FRONT END - Essa funçã cria e retorna um Elemento HTML 
