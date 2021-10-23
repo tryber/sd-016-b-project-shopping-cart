@@ -1,6 +1,7 @@
 const olItem = document.querySelector('.cart__items');
 const productItems = document.querySelector('.items');
 const emptyCart = document.querySelector('.empty-cart');
+const loading = document.querySelector('.loading');
 
 const empty = () => {
   olItem.innerHTML = '';
@@ -69,6 +70,7 @@ function eraseItems() {
 fetchProducts('computador')
 .then((data) => data.results
 .forEach((element) => productItems.appendChild(createProductItemElement(element))));
+loading.innerHTML = '';
 
 window.onload = () => {
   eraseItems();
