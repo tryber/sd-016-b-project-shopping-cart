@@ -1,4 +1,3 @@
-
 const getSavedCartItems = () => {
   const captureOl = document.querySelector('.cart__items'); // captuOL é a tag Ol onde estou refereciando 
   localStorage.getItem('cartItems');
