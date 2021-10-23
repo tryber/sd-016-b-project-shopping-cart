@@ -79,7 +79,7 @@ window.onload = () => {
     if (e.target && e.target.classList.contains('item__add')) {
       adicionarItemCarrinho(capturarId(e));
     }
-    if (e.target && e.target.classList.contains('cart__items')){
+    if (e.target && e.target.classList.contains('cart__items')) {
       cartItemClickListener(e);
     }
   });     
