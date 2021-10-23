@@ -45,7 +45,7 @@ function getTotalPrice() {
 function updateTotalPrice() {
   const totalPriceElement = document.querySelector('.total-price');
   const totalPrice = getTotalPrice();
-  totalPriceElement.innerText = `${totalPrice.toFixed(2)}`;
+  totalPriceElement.innerText = `${totalPrice}`;
 }
 
 function cartItemClickListener({ target: cartItem }) {
