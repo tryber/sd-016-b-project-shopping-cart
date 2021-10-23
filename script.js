@@ -44,13 +44,27 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function displayLoadingMessage(parentElement) {
+  const loadingMessage = document.createElement('p');
+  loadingMessage.innerText = 'carregando...';
+  loadingMessage.className = 'loading';
+  parentElement.appendChild(loadingMessage);
+}
+
+function removeLoadingMessage(parentElement) {
+  const loadingMessage = parentElement.querySelector('p.loading');
+  loadingMessage.remove();
+}
+
 /**
  * Consultei o código do instrutor Bernardo Salgueiro para resolver essa parte.
  * Link: https://files.slack.com/files-tmb/TMDDFEPFU-F02KATKTLBS-a04e16cc19/primeiro_requisito_-_shopping_cart.mp4
  */
 async function displayProducts(productName) {
+  displayLoadingMessage(itemsSection);
   const { results: products } = await fetchProducts(productName);
   const itemsSectionFragment = new DocumentFragment();
+  removeLoadingMessage(itemsSection);
 
   products.forEach(({ id, title, thumbnail }) => {
     const product = {
@@ -65,7 +79,9 @@ async function displayProducts(productName) {
 }
 
 async function displayCartItem(productItemElement) {
+  displayLoadingMessage(cartItemsSection);
   const item = await fetchItem(getSkuFromProductItem(productItemElement));
+  removeLoadingMessage(cartItemsSection);
 
   const cartItem = {
     sku: item.id,
