@@ -3,6 +3,21 @@ const olList = document.querySelector('.cart__items');
 const spanPrice = document.querySelector('.total-price');
 const voidButton = document.querySelector('.empty-cart');
 
+const rmvLoader = () => {
+  setTimeout(() => {
+    const load = document.querySelector('.loading');
+    load.remove();
+  }, '2000');
+};
+
+const loader = () => {
+  createLoader = document.createElement('span');
+  createLoader.innerHTML = 'carregando...';
+  createLoader.className = 'loading';
+  itemsSection.appendChild(createLoader);
+  rmvLoader();
+};
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -108,5 +123,5 @@ window.onload = async () => {
   if (localStorage.cartItems !== undefined) {
     await getSavedCartItems().forEach(async (id) => listen(await fetchItem(id)));
   } 
-  // olList.addEventListener('click', cartItemClickListener);
+  loader();
 };
