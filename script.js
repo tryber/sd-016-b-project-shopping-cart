@@ -26,10 +26,16 @@ function createProductItemElement({ sku, name, image }) {
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
+const somarItens = () => {
+  const itens = [...document.querySelectorAll('.cart__items')];
+  const map = itens.map((item) => price(item.innerText));
+  const somarPrecos = map.reduce((acum, next) => acum + next);
+  return somarPrecos;
+};
 
 const adicionarTotal = () => {
   document.querySelector('.total-price').innerText = somarItens();
-}
+};
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -61,7 +67,7 @@ const buscarProduto = async (produto) => {
 function capturarId(e) {
   const inner = e.target.parentNode.firstChild.innerText;
   return inner;
-};
+}
 
 const allItemsInCart = document.querySelector('.cart__items');
 const capturarSessaoCart = document.querySelector('.cart');
@@ -80,13 +86,6 @@ const price = (str) => {
   const valorTexto = precoTexto.replace(/[^0-9.]/g, '');
   const converterTexto = Number(valorTexto);
   return converterTexto;
-};
-
-const somarItens = () => {
-  const itens = [...document.querySelectorAll('.cart__items')];
-  const map = itens.map((item) => price(item.innerText));
-  const somarPrecos = map.reduce((acum, next) => acum + next);
-  return somarPrecos;
 };
 
 // function loadItemsInCart() {
