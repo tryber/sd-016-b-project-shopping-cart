@@ -29,7 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // coloque seu código aqui  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -38,20 +38,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
-
-async function searchProduct(product) {
-  const searchData = await fetchProducts(product);
-  const sectionItem = document.querySelector('.items');
-  searchData.results.forEach((item) => {
-    const obj = {      
-      sku: item.id,
-      name: item.title,
-      image: item.thumbnail,
-    };
-    const productItem = createProductItemElement(obj);
-    sectionItem.appendChild(productItem);
-  });
 }
 
 async function searchId(id) {
@@ -67,7 +53,30 @@ async function searchId(id) {
   return findId;
 }
 
+function createEventListener() {
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => button.addEventListener('click', (event) => {
+    const id = event
+      .target.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
+    searchId(id);
+  }));
+}
+
+async function searchProduct(product) {
+  const searchData = await fetchProducts(product);
+  const sectionItem = document.querySelector('.items');
+  searchData.results.forEach((item) => {
+    const obj = {      
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+    const productItem = createProductItemElement(obj);
+    sectionItem.appendChild(productItem);    
+  });
+  createEventListener();
+}
+
 window.onload = () => {
-  searchProduct('computador');
-  searchId('MLB1341706310');
+  searchProduct('computador');  
 };
