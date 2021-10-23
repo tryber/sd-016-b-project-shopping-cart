@@ -71,9 +71,11 @@ function eraseLoad() {
 }
 // 1
 fetchProducts('computador')
-.then((data) => data.results
-.forEach((element) => productItems.appendChild(createProductItemElement(element))));
+.then((data) => {
+  data.results
+.forEach((element) => productItems.appendChild(createProductItemElement(element)));
 eraseLoad();
+});
 
 window.onload = () => {
   eraseItems();
