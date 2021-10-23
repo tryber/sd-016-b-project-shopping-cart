@@ -53,22 +53,22 @@ const buscarProduto = async (produto) => {
   });
 };
 
-const carrinho = async (item) => {
-  const itemDoCarro = await fetchItem(item);
-  const capturarOl = document.querySelector('.cart__items');
-  const capturarBotao = document.querySelector('.item__add');
-  capturarBotao.addEventListener('click', () => {
-    const objCarro = {
-      sku: itemDoCarro.id,
-      name: itemDoCarro.title,
-      salePrice: itemDoCarro.price,
-    };
-    const parametroCarro = createCartItemElement(objCarro);
-    capturarOl.appendChild(parametroCarro);
-  });
+function capturarId(id) {
+  const inner = id.target.parentNode.firstChild.innerText;
+  return inner;
+}
+
+const adicionarItemCarrinho = async (id) => {
+  const produto = await fetchItem(id);
+  const adicionarProduto = createCartItemElement(produto);
+  document.getElementsByClassName('cart__items')[0].appendChild(adicionarProduto);
 };
 
 window.onload = () => { 
   buscarProduto('computador');
-  carrinho('MLB1341706310');   
+  document.addEventListener('click', function(event) {
+    if (event.target && event.target.classList.contains('item__add')){
+      adicionarItemCarrinho(capturarId(event));
+    }
+  });     
 };
