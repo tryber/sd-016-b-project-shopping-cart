@@ -9,8 +9,6 @@ const getNumber = (str) => {
   return Number(price);
 };
 
-
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -37,9 +35,19 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
+} */
+
+// https://stackoverflow.com/questions/63211646/can-you-use-reduce-on-a-nodelist 
+// usando reduce com queryselectorall ref
+const updateTotalPrice = () => {
+  const sumCart = [...document.querySelectorAll('.cart__item')]
+                      .reduce((a, c) => a + (getNumber(c.innerHTML)), 0);
+  const totalValue = sumCart;              
+  total.innerText = totalValue.toFixed(2);
+  return totalValue.toFixed(2);
+};
 
 function cartItemClickListener(event) {
   const obj = event.target;
@@ -47,7 +55,6 @@ function cartItemClickListener(event) {
   obj.remove();
   updateTotalPrice();
   saveCartItems(cartItems.innerHTML);
-  saveTotalValue(); 
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -78,8 +85,7 @@ if (event.target.className === 'item__add') {
   const getId = event.target.parentElement.querySelector('.item__sku').innerText;
   fetchItem(getId)
     .then((data) => createCartItemElement(data))
-    .then(() => saveCartItems(cartItems.innerHTML))
-    .then(() => saveTotalValue());
+    .then(() => saveCartItems(cartItems.innerHTML));
   }
 });
 };
@@ -94,33 +100,18 @@ const loadCart = () => {
 const cleanCart = () => {
 cartItems.innerHTML = '';
 saveCartItems(cartItems.innerHTML);
-saveTotalValue();
-updateTotalPrice()
+updateTotalPrice();
 };
 
 const cleanButton = document.querySelector('.empty-cart');
 cleanButton.addEventListener('click', cleanCart);
 
-const saveTotalValue = () => {
-  localStorage.setItem('total', totalValue.toFixed(2));
-  };
-
 const loadTotalValue = () => {
-  const total = document.querySelector('.total-price');
   total.innerHTML = updateTotalPrice();
 };
 
-const updateTotalPrice = () => {
-  totalValue = 0
-  document.querySelectorAll('.cart__item')
-  .forEach((element)=> totalValue += getNumber(element.innerHTML))
-
-  total.innerText = totalValue.toFixed(2)
-  return totalValue.toFixed(2)
-}
-
 window.onload = () => {
-  updateTotalPrice()
+  updateTotalPrice();
   appendProducts();
   addToCart();
   loadCart();
