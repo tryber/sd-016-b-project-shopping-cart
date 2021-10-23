@@ -1,6 +1,7 @@
 const elementItems = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
 const clearItems = document.querySelector('.empty-cart');
+const load = document.querySelector('.loading');
 
 function clearCart() {
   cartItems.innerHTML = '';
@@ -42,7 +43,7 @@ function getSkuFromProductItem(item) {
     .then((element) => {
       cartItems
         .appendChild(createCartItemElement(element));
-        saveCartItems(cartItems);
+      saveCartItems(cartItems);
     });
 }
 
@@ -70,13 +71,19 @@ function createProductItemElement({
   return section;
 }
 
-const solve = () =>
-  fetchProducts('computador')
-  .then((response) => response.results
+function removeLoadingResponse() { load.remove(); }
+
+const solve = () => {
+ fetchProducts('computador')
+  .then((response) => {
+ response.results
     .forEach((element) => {
       elementItems
         .appendChild(createProductItemElement(element));
-    }));
+    });  
+    removeLoadingResponse();
+  });  
+};
 
 const addEventClick = () => {
   cartItems.innerHTML = getSavedCartItems();
