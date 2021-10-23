@@ -12,12 +12,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// const imgCartIten = (imgSrc) => {
-//   img = document.createElement('img');
-//   img.className = 'item__image_cart';
-//   img.src = imgSrc;
-//   return img;
-// };
+const imgCartIten = (imgSrc) => {
+  img = document.createElement('img');
+  img.className = 'item__image_cart';
+  img.src = imgSrc;
+  return img;
+};
 
 // const cartItemClickListener = (event) => {
 //   console.log(event.target.parentNode);
@@ -29,18 +29,17 @@ function createCustomElement(element, className, innerText) {
 const cartItens = document.querySelector('.cart__items');
 cartItens.addEventListener('click', (event) => {
   const item = event.target;
-  if (item.tagName === 'LI') {
-    item.remove();
-    saveCartItems();
-  }
+  if (item.tagName === 'LI') { item.remove(); return saveCartItems(); }
+  if (item.tagName === 'P') { item.parentNode.remove(); return saveCartItems(); }
+  if (item.tagName === 'IMG') { item.parentNode.remove(); return saveCartItems(); }
 });
 
 function createCartItemElement({ id: sku, title: name, price: salePrice, thumbnail: imG }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.setAttribute('sku', `${sku}`);
-  li.innerHTML = `SKU: ${sku} | NAME: ${name} | PRICE: R$ ${salePrice}`;
-  // li.appendChild(imgCartIten(imG));
+  li.innerHTML = `<p class="item_desc">SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}</p>`;
+  li.appendChild(imgCartIten(imG));
   // li.addEventListener('click', cartItemClickListener);
   return li;
 }
