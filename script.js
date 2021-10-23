@@ -58,18 +58,29 @@ function capturarId(e) {
   return inner;
 }
 
+const allItemsInCart = document.querySelector('.cart__items');
+
 const adicionarItemCarrinho = async (id) => {
   const produto = await fetchItem(id);
   const obj = { sku: produto.id, name: produto.title, salePrice: produto.price };
   const adicionarProduto = createCartItemElement(obj);
   document.getElementsByClassName('cart__items')[0].appendChild(adicionarProduto);
+  saveCartItems(allItemsInCart.innerHTML);
 };
+
+function loadItemsInCart() {
+  const htmlCart = getSavedCartItems();  
+  allItemsInCart.innerHTML = htmlCart;
+}
 
 window.onload = () => { 
   buscarProduto('computador');
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       adicionarItemCarrinho(capturarId(e));
+    }
+    if (e.target && e.target.classList.contains('cart__items')){
+      cartItemClickListener(e);
     }
   });     
 };
