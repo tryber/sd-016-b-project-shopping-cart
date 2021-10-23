@@ -57,7 +57,6 @@ const carrinho = async (item) => {
   const itemDoCarro = await fetchItem(item);
   const capturarOl = document.querySelector('.cart__items');
   const capturarBotao = document.querySelector('.item__add');
-  const capturarItens = document.querySelector('.items');
   capturarBotao.addEventListener('click', () => {
     const objCarro = {
       sku: itemDoCarro.id,
@@ -71,5 +70,5 @@ const carrinho = async (item) => {
 
 window.onload = () => { 
   buscarProduto('computador');
-  carrinho();   
+  carrinho('MLB1341706310');   
 };
