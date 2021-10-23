@@ -1,7 +1,7 @@
 const olItem = document.querySelector('.cart__items');
 const productItems = document.querySelector('.items');
 const emptyCart = document.querySelector('.empty-cart');
-const loading = document.querySelector('.loading');
+const loading = document.querySelector('#carregando');
 
 const empty = () => {
   olItem.innerHTML = '';
@@ -66,11 +66,14 @@ function eraseItems() {
   localItems.forEach((element) => element.addEventListener('click', cartItemClickListener));
 }
 
+function eraseLoad() {
+  loading.innerHTML = '';
+}
 // 1
 fetchProducts('computador')
 .then((data) => data.results
 .forEach((element) => productItems.appendChild(createProductItemElement(element))));
-loading.innerHTML = '';
+eraseLoad();
 
 window.onload = () => {
   eraseItems();
