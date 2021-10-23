@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>🛍️ Project Shopping Cart 🛒 </title>
+    <title>Project Shopping Cart 🛍️ 🛒 </title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <!-- Favicon by FlatIcon.com https://www.flaticon.com/premium-icon/shopping-cart_3145827 -->
     <script src="./helpers/fetchItem.js" defer></script>
     <!-- <script src="./helpers/updateCart.js" defer></script> -->
     <script src="./helpers/fetchProducts.js" defer></script>
@@ -14,13 +16,17 @@
     <script src="./helpers/getSavedCartItems.js" defer></script>
   </head>
   <body>
-    <section class="container">
+    <header>
       <h1 class='page_title'>ShopTrybe</h1>
+      <span class="cart__title"> <div class="seta__title"></div>Carrinho de compras<div></div></span>
+    </header>
+
+    <section class="container">
       <section class="items">
 
       </section>
       <section class="cart">
-        <span class="cart__title">Carrinho de compras</span>
+
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items">
           <!-- Products here -->
