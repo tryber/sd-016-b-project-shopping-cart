@@ -17,18 +17,11 @@ const totalPricer = (price, operator) => {
   spanPrice.innerHTML = valorAtual;
 };
 
-const savePrice = () => {
-//   const savedPrice = spanPrice.innerHTML;
-//   localStorage.setItem('spanPrice', savedPrice);
-console.log('aaa');
-};
-
 const cleanUpCart = () => {
   voidButton.addEventListener('click', () => {
     olList.innerHTML = ' ';
     totalPricer(spanPrice.innerHTML, '-');
     saveCartItems();
-    savePrice();
   });
 };
 
@@ -39,7 +32,6 @@ function cartItemClickListener(event) {
     .match(/\$((?:\d|,)*\.?\d+)/g)[0]).replace('$', '')), '-');
   event.target.remove();
   saveCartItems(event.target.id);
-  savePrice();
 }
 
 function createProductImageElement(imageSource) {
@@ -58,11 +50,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   olList.appendChild(li);
   totalPricer(salePrice, '+');
   saveCartItems(li.id);
-  savePrice();
 }
 
 const toCreateItemCarts = async (fetcherObj) => {
-  console.log(fetcherObj);
   const params = {
     sku: fetcherObj.id,
     name: fetcherObj.title,
@@ -73,7 +63,6 @@ const toCreateItemCarts = async (fetcherObj) => {
 };
 
 const listen = async (param) => {
-  console.log(param);
   const result = (toCreateItemCarts(param));
   return result;
 };
