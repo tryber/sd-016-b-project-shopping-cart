@@ -30,6 +30,7 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 function cartItemClickListener(event) {
+  // consultei o site: https://pt.stackoverflow.com/questions/316367/como-remover-div-especifica-com-javascript
   event.target.remove();
 }
 
@@ -53,8 +54,6 @@ async function evento(event) {
 
     const add = document.querySelector('.cart__items');
     add.appendChild(createCartItemElement({ sku, name, salePrice }));
-
-    console.log(sku, name, salePrice);
   });
 }
 
@@ -76,5 +75,14 @@ fetchProducts('computador').then((dados) => {
     botoes[index].addEventListener('click', evento);
   }
 });
+
+// requisito 6
+const limpar = document.querySelector('.empty-cart');
+function esvaziar() {
+  const apagarLista = document.querySelector('.cart__items');
+  apagarLista.innerHTML = '';
+}
+
+limpar.addEventListener('click', esvaziar);
 
 window.onload = () => { };
