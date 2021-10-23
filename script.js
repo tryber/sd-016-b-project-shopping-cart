@@ -66,8 +66,8 @@ const adicionarItemCarrinho = async (id) => {
 
 window.onload = () => { 
   buscarProduto('computador');
-  document.addEventListener('click', function(event) {
-    if (event.target && event.target.classList.contains('item__add')){
+  document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('item__add')) {
       adicionarItemCarrinho(capturarId(event));
     }
   });     
