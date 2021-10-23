@@ -41,7 +41,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 /**
- * Consultei o código do Bernardo Salgueiro para resolver essa parte.
+ * Consultei o código do instrutor Bernardo Salgueiro para resolver essa parte.
  * Link: https://files.slack.com/files-tmb/TMDDFEPFU-F02KATKTLBS-a04e16cc19/primeiro_requisito_-_shopping_cart.mp4
  */
 async function displayProducts(productName) {
@@ -58,6 +58,27 @@ async function displayProducts(productName) {
     itemsSection.appendChild(productItemElement);
   });
 }
+
+async function displayCartItem(productItemElement) {
+  const item = await fetchItem(getSkuFromProductItem(productItemElement));
+  const cartItemsSection = document.querySelector('.cart__items');
+
+  const cartItem = {
+    sku: item.id,
+    name: item.title,
+    salePrice: item.price,
+  };
+  const cartItemElement = createCartItemElement(cartItem);
+  cartItemsSection.appendChild(cartItemElement);
+}
+
+const itemsSection = document.querySelector('section.items');
+
+itemsSection.addEventListener('click', (event) => {
+  if (event.target.matches('.item__add')) {
+    displayCartItem(event.target.parentElement);
+  }
+}, false);
 
 window.onload = () => {
   displayProducts('computador');
