@@ -12,7 +12,9 @@ function createProductImageElement(imageSource) {
 // Evento foi invocado em: createCartItemElement
 // *****************************************************************************
 function cartItemClickListener(event) {
-       event.target.remove();
+  const captureOl = document.querySelector('.cart__items');
+  event.target.remove();
+  saveCartItems(captureOl.innerHTML);
 }
 // *******************************************************************************
 // FRONT END - Essa funçã cria e retorna um Elemento HTML 
@@ -42,6 +44,41 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+// ********************* 
+// QUESTÃO 06 FRONT   
+// ****************************************************************//
+// Criar Funcionalidade: Botão de limpar todo carrinho de compras // 
+// **************************************************************//
+// 1- Capture o elemento button na estrutura na árvore DOM por meio do método querySelector
+//    passando como referência para essa captura a classe embebida na tag button empty-cart;
+// 2- Passo criar um evento para esse elemento para isso iremos colocar uma escuta click nele, 
+//    logo, iremos utilizar um evento addEventListerner para colocar essa escuta;  
+// 3- Bem se vamos limpar algo implica dizer que tem algo em algum lugar e no nosso projeto 
+//    equivale dizer que são itens dentro do meu carrinho de compras, logo, para lógica que 
+//    estou utilizando essa limpeza deve acontecer em dois momentos: 1º limpar as li(s) na 
+//    árvore DOM e também limpar tudo dentro de local storage. Para isso iremos escrever toda 
+//    essa lógica dentro da função anônima que está dentor do nosso escutados que já está referenciado 
+//    ao button esvaziar carrinho;
+// 4- Para desenvolvermos essa lógica de limpar a tag primeiro passo é pegarmos a referencia de onde essas
+//    li(s) estão acopladas em que nó Pai daí temos que captuar a tag <ol> 
+// 5- Em seguida criamos uma constante dentro da função anonima que faz referência a ol onde o innerHTML
+//    será limpo;
+// 6- limppamos o innerHTML da tagOL;   
+// 7- em seguida setamos o innerHtml limpo e fazemos a substituição da estrutur ano localStorage por meio
+//    da função saveCartItems passando o innerHTML limpo agora local storage ficará limpo;
+// 8- para garantir que o localStorage ficará totalmente limpo das chaves e values utilizei a função
+//    localStorage.clear() que apaga qualquer vestígio de qualquer arquivo no localStorage no java temos 
+//    um assistente que gerencia essa limpeza automaticamente já aqui temos que fazer no braço.
+
+const buttonClearShopping = document.querySelector('.empty-cart');
+buttonClearShopping.addEventListener('click', () => {
+  const tagOl = document.querySelector('.cart__items'); // tag OL
+  tagOl.innerHTML = '';
+  saveCartItems(tagOl.innerHTML);
+  // https://qastack.com.br/programming/7667958/clearing-localstorage-in-javascript
+  localStorage.clear();
+});
+
 // ***********************
 // QUESTÃO 02 FRONT END//
 // *********************
@@ -100,13 +137,20 @@ function getSkuFromProductItem(item) {
 //    passando elementChild como filho para essa este item.
 // **********************************************************************************************************
 async function addShoppingCartBackEnd(event) {
-  const idProduto = event.target.parentNode.firstChild.innerText;
-  try {
+    try {
+      const idProduto = event.target.parentNode.firstChild.innerText;
       const dataResult = await fetchItem(idProduto);
       const { id: sku, title: name, price: salePrice } = dataResult;
       const elementChild = createCartItemElement({ sku, name, salePrice });
       const itens = document.querySelector('.cart__items');
       itens.appendChild(elementChild);
+      // Nesse ponto irei fazer do meu localSotorage meu Banco de Dados Improvisado 
+      // Logo preciso invocar o método que está em script js saveCartItems.js e invocar
+      // sua assinatura nesse ponto, pois, ele só será chamado de fato no index html onde
+      // de fato ocorrera a mágia, porém, a lógica pode ficar nesse ponto
+      // saveCartItems(`id: ${dataResult.id} Produto: ${dataResult.title} Preço:${salePrice}`);
+      // console.log(elementChild);
+      saveCartItems(itens.innerHTML);
    } catch (error) {
     console.log('Erro Function addShoppingCarBackEnd:', error);
   }
@@ -196,4 +240,5 @@ async function backEndCreateProductItem() {
 }
 window.onload = () => {
   backEndCreateProductItem();
+  getSavedCartItems();
 };
