@@ -79,6 +79,12 @@ function capturarId(e) {
 
 const allItemsInCart = document.querySelector('.cart__items');
 const capturarSessaoCart = document.querySelector('.cart');
+const capturarBotaoEsvaziarCarro = document.querySelector('.empty-cart');
+
+capturarBotaoEsvaziarCarro.addEventListener('click', function () {
+  allItemsInCart.innerHTML = '';
+  document.querySelector('.total-price').innerText = '';
+});
 
 const adicionarItemCarrinho = async (id) => {
   const produto = await fetchItem(id);
