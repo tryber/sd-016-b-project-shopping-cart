@@ -32,8 +32,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-cartItems.innerText = '';
-}
+  const liItem = event.target;
+  const olCart = liItem.parentNode
+  olCart.removeChild(liItem);
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -72,7 +74,18 @@ async function searchProduct(product) {
 });
 }
 
+function clearCart () {
+  cartItems.innerText = '';
+}
+
+function eventClickList() {
+  for (let i = 0; i < document.getElementsByTagName('li').length; i += 1) {
+    document.getElementsByTagName('li')[i].addEventListener('click', cartItemClickListener);
+  }
+}
+
 window.onload = () => {
   searchProduct('computador'); 
-  cleanButtonCart.addEventListener('click', cartItemClickListener);
+  cleanButtonCart.addEventListener('click', clearCart);
+  eventClickList();
 };
