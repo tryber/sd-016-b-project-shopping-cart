@@ -28,8 +28,16 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function buttonRm(event) {
+  return event.target.remove();
+}
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui  
+  // coloque seu código aqui
+  const cartItem = document.querySelectorAll('.cart__item');
+  cartItem.forEach((item) => {
+    item.addEventListener('click', buttonRm(event));
+  });
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,6 +48,19 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function totalPrice() {
+  const cartItem = document.querySelectorAll('.cart__item');
+  let count = 0;  
+  cartItem.forEach((item) => {    
+    const splitString = item.innerText.split(' ');
+    const priceString = splitString.at(-1);
+    const priceWithoutChar = priceString.replace('$', '');
+    const priceInteger = parseInt(priceWithoutChar, 10);    
+    count += priceInteger;    
+  });
+  console.log(count);
+}
+
 async function searchId(id) {
   const findId = await fetchItem(id);
   const cartItem = document.querySelector('.cart__items');
@@ -48,8 +69,9 @@ async function searchId(id) {
     name: findId.title,
     salePrice: findId.price,
   };
-  const createCartItem = createCartItemElement(obj);
+  const createCartItem = createCartItemElement(obj);  
   cartItem.appendChild(createCartItem);
+  totalPrice();
   return findId;
 }
 
@@ -58,8 +80,8 @@ function createEventListener() {
   buttons.forEach((button) => button.addEventListener('click', (event) => {
     const id = event
       .target.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
-    searchId(id);
-  }));
+    searchId(id);    
+  }));  
 }
 
 async function searchProduct(product) {
@@ -74,7 +96,7 @@ async function searchProduct(product) {
     const productItem = createProductItemElement(obj);
     sectionItem.appendChild(productItem);    
   });
-  createEventListener();
+  createEventListener();  
 }
 
 window.onload = () => {
