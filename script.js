@@ -111,8 +111,19 @@ cleanButton.addEventListener('click', () => {
 });
 };
 
+const loadingListOfItems = () => {
+  const loading = document.createElement('p');
+  loading.classList.add('loading');
+  loading.innerText = 'carregando';
+  listOfItems.appendChild(loading);
+  setTimeout(() => {
+    listOfItems.removeChild(loading);
+    renderListOfProducts();
+  }, 1000);
+};
+
 window.onload = () => {
-  renderListOfProducts();
+  loadingListOfItems();
   loadStorageCartItems();
   addClickListenerToStorageItems();
   cleanCart();
