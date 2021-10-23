@@ -146,24 +146,19 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   padding: 0 0.1rem 0 0.5rem;
 }
 
-.item_close {
+.fa-times {
+  margin: 0.1rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
   align-self: center;
-  order: 2;
-  background-color: rgba(255, 255, 255, 0.76);
-  border: solid 0.1rem white;
-  color: rgba(0, 0, 0, 0.664);
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 0.2rem;
+  font-size: 1.3rem;
+  color: rgba(71, 71, 71, 0.61);
 }
 
-.item_close:hover {
-  background-color: rgba(185, 185, 185, 0.452);
-  color: rgba(31, 30, 30, 0.507);
-  border: solid 0.1rem rgba(71, 71, 71, 0.295);
-  font-weight: 900;
-  border-radius: 0.2rem;
+.fa-times:hover {
+  transform: scale(1.5);
+  color: rgba(230, 7, 7, 0.774);
 }
 
 .empty-cart {

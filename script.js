@@ -19,28 +19,25 @@ const imgCartIten = (imgSrc) => {
   return img;
 };
 
-// const cartItemClickListener = (event) => {
-//   console.log(event.target.parentNode);
-//   event.stopPropagation();
-//   event.target.parentNode.remove();
-//   // saveCartItems();
-// };
-
 const cartItens = document.querySelector('.cart__items');
 cartItens.addEventListener('click', (event) => {
   const item = event.target;
   if (item.tagName === 'LI') { item.remove(); return saveCartItems(); }
   if (item.tagName === 'P') { item.parentNode.remove(); return saveCartItems(); }
   if (item.tagName === 'IMG') { item.parentNode.remove(); return saveCartItems(); }
+  if (item.tagName === 'path') {
+    item.parentNode.previousSibling.parentNode.parentNode.remove();
+    return saveCartItems();
+  }
 });
 
-function createCartItemElement({ id: sku, title: name, price: salePrice, thumbnail: imG }) {
+function createCartItemElement({ id: sku, title: name, price: pice, thumbnail: imG }) {
   const li = document.createElement('li');
+  const xX = '<i class="fas fa-times"></i>';
   li.className = 'cart__item';
   li.setAttribute('sku', `${sku}`);
-  li.innerHTML = `<p class="item_desc">SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}</p>`;
+  li.innerHTML = `<p class="item_desc">SKU: ${sku} | NAME: ${name} | PRICE: $${pice}${xX}`;
   li.appendChild(imgCartIten(imG));
-  // li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
