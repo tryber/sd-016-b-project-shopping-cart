@@ -53,8 +53,8 @@ const buscarProduto = async (produto) => {
   });
 };
 
-function capturarId(id) {
-  const inner = id.target.parentNode.firstChild.innerText;
+function capturarId(e) {
+  const inner = e.target.parentNode.firstChild.innerText;
   return inner;
 }
 
@@ -66,9 +66,9 @@ const adicionarItemCarrinho = async (id) => {
 
 window.onload = () => { 
   buscarProduto('computador');
-  document.addEventListener('click', function (event) {
-    if (event.target && event.target.classList.contains('item__add')) {
-      adicionarItemCarrinho(capturarId(event));
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      adicionarItemCarrinho(capturarId(e));
     }
   });     
 };
