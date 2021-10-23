@@ -66,7 +66,7 @@ const carrinho = async (item) => {
     const parametroCarro = createCartItemElement(objCarro);
     capturarOl.appendChild(parametroCarro);
   });
-}
+};
 
 window.onload = () => { 
   buscarProduto('computador');
