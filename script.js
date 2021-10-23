@@ -1,5 +1,3 @@
-
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -65,15 +63,13 @@ const carrinho = async (item) => {
       sku: itemDoCarro.id,
       name: itemDoCarro.title,
       salePrice: itemDoCarro.price,
-    }
+    };
     const parametroCarro = createCartItemElement(objCarro);
     capturarOl.appendChild(parametroCarro);
   });
 }
 
-
 window.onload = () => { 
   buscarProduto('computador');
-  carrinho();
-   
+  carrinho();   
 };
