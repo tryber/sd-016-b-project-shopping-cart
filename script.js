@@ -1,5 +1,6 @@
 fetchProducts();
 const cartItems = document.querySelector('.cart__items');
+const total = document.querySelector('.total-price');
 
 const getNumber = (str) => {
   const m = str.split('R$');
@@ -8,19 +9,7 @@ const getNumber = (str) => {
   return Number(price);
 };
 
-const totalPrice = (price, operation) => {
-  const total = document.querySelector('.total-price');
-  
-  if (operation === 'clean') {
-    totalValue = 0;
-  }
-  if (operation === 'remove') {
-    totalValue -= price; 
-  } else {
-    totalValue += price;
-  }
-  total.innerText = totalValue.toFixed(2);
-  };
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -54,8 +43,9 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   const obj = event.target;
-  totalPrice(getNumber(obj.innerHTML), 'remove');
+  
   obj.remove();
+  updateTotalPrice();
   saveCartItems(cartItems.innerHTML);
   saveTotalValue(); 
 }
@@ -66,8 +56,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `${sku} ${name} | R$${salePrice.toFixed(2)}`;
   li.addEventListener('click', cartItemClickListener);
   cartItems.appendChild(li);
-  totalPrice(salePrice);
-  return li;
+  updateTotalPrice(); 
 }
 
 const appendProducts = () => {
@@ -104,9 +93,9 @@ const loadCart = () => {
 
 const cleanCart = () => {
 cartItems.innerHTML = '';
-totalPrice(null, 'clean');
 saveCartItems(cartItems.innerHTML);
 saveTotalValue();
+updateTotalPrice()
 };
 
 const cleanButton = document.querySelector('.empty-cart');
@@ -116,15 +105,22 @@ const saveTotalValue = () => {
   localStorage.setItem('total', totalValue.toFixed(2));
   };
 
-const getTotalValue = () => localStorage.getItem('total');
-
 const loadTotalValue = () => {
   const total = document.querySelector('.total-price');
-  total.innerHTML = getTotalValue();
+  total.innerHTML = updateTotalPrice();
 };
 
+const updateTotalPrice = () => {
+  totalValue = 0
+  document.querySelectorAll('.cart__item')
+  .forEach((element)=> totalValue += getNumber(element.innerHTML))
+
+  total.innerText = totalValue.toFixed(2)
+  return totalValue.toFixed(2)
+}
+
 window.onload = () => {
-  totalValue = getTotalValue();
+  updateTotalPrice()
   appendProducts();
   addToCart();
   loadCart();
