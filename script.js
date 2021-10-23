@@ -54,6 +54,12 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image, pric
   return section;
 }
 
+const btnClrCart = document.querySelector('.empty-cart');
+btnClrCart.addEventListener('click', () => {
+  document.querySelector('ol.cart__items').innerHTML = '';
+  return saveCartItems();
+});
+
 const start = () => {
   getSavedCartItems();
   const targetObserver = document.querySelectorAll('.cart__item');
