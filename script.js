@@ -37,7 +37,7 @@ const price = (str) => {
 const somarItens = () => {  
   const itens = [...document.querySelectorAll('.cart__item')];
   const map = itens.map((item) => price(item.innerText));
-  const somarPrecos = map.reduce((acum, next) => acum + next);
+  const somarPrecos = map.reduce((acum, next) => (acum + next), 0);
   return somarPrecos;
 };
 
