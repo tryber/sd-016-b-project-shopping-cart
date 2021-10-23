@@ -60,7 +60,7 @@ function capturarId(e) {
 
 const adicionarItemCarrinho = async (id) => {
   const produto = await fetchItem(id);
-  const obj = {sku: produto.id, name: produto.title, salePrice: produto.price};
+  const obj = { sku: produto.id, name: produto.title, salePrice: produto.price };
   const adicionarProduto = createCartItemElement(obj);
   document.getElementsByClassName('cart__items')[0].appendChild(adicionarProduto);
 };
