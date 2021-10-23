@@ -1,35 +1,45 @@
 const itemsSection = document.querySelector('.items');
 const olList = document.querySelector('.cart__items');
-const cartSection = document.querySelector('section.cart');
-const createSpanPrice = document.createElement('span');
+const spanPrice = document.querySelector('.total-price');
 const voidButton = document.querySelector('.empty-cart');
-createSpanPrice.classList = 'total-price';
-let totalPrice = 0;
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 const totalPricer = (price, operator) => {
+  let valorAtual = parseFloat(spanPrice.innerHTML);
   if (operator === '-') {
-    totalPrice -= price;
+    valorAtual -= price;
   } else if (operator === '+') {
-    totalPrice += price;
+    valorAtual += price;
   }
-  createSpanPrice.innerText = totalPrice;
-  return (cartSection.appendChild(createSpanPrice));
+  spanPrice.innerHTML = valorAtual;
+};
+
+const savePrice = () => {
+//   const savedPrice = spanPrice.innerHTML;
+//   localStorage.setItem('spanPrice', savedPrice);
+console.log('aaa');
 };
 
 const cleanUpCart = () => {
   voidButton.addEventListener('click', () => {
     olList.innerHTML = ' ';
-    totalPricer(createSpanPrice.innerText, '-');
+    totalPricer(spanPrice.innerHTML, '-');
+    saveCartItems();
+    savePrice();
   });
 };
 
+// ref sobre regex https://stackoverflow.com/questions/30973173/get-all-prices-with-from-string-into-an-array-in-javascript
+
 function cartItemClickListener(event) {
+  totalPricer(Number(((event.target.innerText)
+    .match(/\$((?:\d|,)*\.?\d+)/g)[0]).replace('$', '')), '-');
   event.target.remove();
-  totalPricer(event.target.id, '-');
+  saveCartItems(event.target.id);
+  savePrice();
 }
 
 function createProductImageElement(imageSource) {
@@ -42,24 +52,29 @@ function createProductImageElement(imageSource) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.id = salePrice;
+  li.id = sku;
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  olList.appendChild(li);
   totalPricer(salePrice, '+');
-  return (olList.appendChild(li));
+  saveCartItems(li.id);
+  savePrice();
 }
 
 const toCreateItemCarts = async (fetcherObj) => {
+  console.log(fetcherObj);
   const params = {
     sku: fetcherObj.id,
     name: fetcherObj.title,
     salePrice: fetcherObj.price,
   };
+
   return createCartItemElement(params);
 };
 
 const listen = async (param) => {
-  const result = (await toCreateItemCarts(await fetchItem(await getSkuFromProductItem(param))));
+  console.log(param);
+  const result = (toCreateItemCarts(param));
   return result;
 };
 
@@ -68,8 +83,8 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   if (element === 'button') {
-    e.addEventListener('click', (event) => {
-      listen(event.target.parentNode);
+    e.addEventListener('click', async (event) => {
+      listen(await fetchItem(getSkuFromProductItem(event.target.parentNode)));
     });
   }
   return e;
@@ -101,4 +116,8 @@ window.onload = async () => {
   const resultsList = await fetchProducts('computador');
   await toCreateResultList(resultsList.results);
   cleanUpCart();
+  if (localStorage.cartItems !== undefined) {
+    await getSavedCartItems().forEach(async (id) => listen(await fetchItem(id)));
+  } 
+  // olList.addEventListener('click', cartItemClickListener);
 };
