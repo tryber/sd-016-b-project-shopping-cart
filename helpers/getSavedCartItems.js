@@ -1,7 +1,7 @@
 const getSavedCartItems = () => {
   if (localStorage.cartItems !== undefined) {
     const cartItemsClass = document.querySelector('.cart__items');
-    const getCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    const getCartItems = localStorage.getItem('cartItems').split(',');
 
     getCartItems.forEach((item) => {
       const li = document.createElement('li');
