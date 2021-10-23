@@ -1,3 +1,6 @@
+const itemsSection = document.querySelector('section.items');
+const cartItemsSection = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,10 +31,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  const cartItem = event.target;
-  const cartItemsSection = cartItem.parentElement;
-
+function cartItemClickListener({ target: cartItem }) {
   cartItem.remove();
   saveCartItems(cartItemsSection.innerHTML);
 }
@@ -50,8 +50,6 @@ function createCartItemElement({ sku, name, salePrice }) {
  */
 async function displayProducts(productName) {
   const { results: products } = await fetchProducts(productName);
-  const itemsSection = document.querySelector('section.items');
-
   const itemsSectionFragment = new DocumentFragment();
 
   products.forEach(({ id, title, thumbnail }) => {
@@ -68,7 +66,6 @@ async function displayProducts(productName) {
 
 async function displayCartItem(productItemElement) {
   const item = await fetchItem(getSkuFromProductItem(productItemElement));
-  const cartItemsSection = document.querySelector('.cart__items');
 
   const cartItem = {
     sku: item.id,
@@ -81,8 +78,6 @@ async function displayCartItem(productItemElement) {
 }
 
 function initCartItems() {
-  const cartItemsSection = document.querySelector('.cart__items');
-
   cartItemsSection.innerHTML = getSavedCartItems();
   cartItemsSection.childNodes.forEach((child) => (
     child.addEventListener('click', cartItemClickListener)
@@ -90,12 +85,10 @@ function initCartItems() {
 }
 
 function emptyCart() {
-  const cartItemsSection = document.getElementsByClassName('cart__items');
   cartItemsSection.innerHTML = '';
   saveCartItems(cartItemsSection.innerHTML);
 }
 
-const itemsSection = document.querySelector('section.items');
 itemsSection.addEventListener('click', (event) => {
   if (event.target.matches('.item__add')) {
     displayCartItem(event.target.parentElement);
