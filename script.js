@@ -1,5 +1,12 @@
 const olItem = document.querySelector('.cart__items');
 const productItems = document.querySelector('.items');
+const emptyCart = document.querySelector('.empty-cart');
+
+const empty = () => {
+  olItem.innerHTML = '';
+  saveCartItems(olItem.innerHTML);
+};
+emptyCart.addEventListener('click', empty);
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
