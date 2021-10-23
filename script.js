@@ -28,10 +28,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  const itemsList = document.querySelector('.cart__items');
+function getCartList() {
+  return document.querySelector('.cart__items');
+}
 
+function cartItemClickListener(event) {
+  const itemsList = getCartList();
   itemsList.removeChild(event.target);
+  /*
+Consultei o link abaixo para entender como salvar um elemento HTML no localStorage.
+ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
+*/
+  saveCartItems(getCartList().innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -45,7 +53,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function appendItemToCart(event) {
   const itemId = event.target.parentElement.firstChild.innerText;
   const product = await fetchItem(itemId);
-  const itemsList = document.querySelector('.cart__items');
+  const itemsList = getCartList();
 
   const productObject = {
     sku: product.id,
@@ -54,6 +62,8 @@ async function appendItemToCart(event) {
   };
 
   itemsList.appendChild(createCartItemElement(productObject));
+
+  saveCartItems(getCartList().innerHTML);
 }
 
 function enableProductsButtonsClickEvent() {
@@ -80,6 +90,26 @@ async function getProducts(productName) {
   enableProductsButtonsClickEvent();
 }
 
+function recoverCart() {
+  if (localStorage.length !== 0) {
+    const storageItem = getSavedCartItems();
+    const cartList = getCartList();
+    /*
+    Consultei o link abaixo para entender como atribuir o elemento HTML salvo no localStorage a um elemento do DOM.
+    ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
+    */
+    cartList.innerHTML = storageItem;
+    /*
+    Consultei o link abaixo para entender como usar HOFs em Node List e HTML Collection.
+    ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
+    */
+    [...cartList.children].forEach((child) => {
+      child.addEventListener('click', cartItemClickListener);
+    });
+  }
+}
+
 window.onload = () => {
   getProducts('computador');
+  recoverCart();
 };
