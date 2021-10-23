@@ -48,6 +48,8 @@ async function displayProducts(productName) {
   const { results: products } = await fetchProducts(productName);
   const itemsSection = document.querySelector('section.items');
 
+  const itemsSectionFragment = new DocumentFragment();
+
   products.forEach(({ id, title, thumbnail }) => {
     const product = {
       sku: id,
@@ -55,8 +57,9 @@ async function displayProducts(productName) {
       image: thumbnail,
     };
     const productItemElement = createProductItemElement(product);
-    itemsSection.appendChild(productItemElement);
+    itemsSectionFragment.appendChild(productItemElement);
   });
+  itemsSection.appendChild(itemsSectionFragment);
 }
 
 async function displayCartItem(productItemElement) {
