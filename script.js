@@ -2,6 +2,7 @@ const staticElements = {
   cartItems: document.querySelector('.cart__items'),
   allItems: document.querySelector('.items'),
   btnEmptyCart: document.querySelector('.empty-cart'),
+  subTotal: document.querySelector('.total-price'),
 };
 
 let totalPrice = 0;
@@ -38,14 +39,25 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const saveSubTotal = () => {
+  const subTotal = staticElements.subTotal.innerText;
+  
+  localStorage.setItem('subTotal', subTotal);
+};
+
+const getSavedSubTotal = () => {
+  const subTotal = localStorage.getItem('subTotal');
+  staticElements.subTotal.innerText = subTotal;
+  totalPrice = Number.parseFloat(subTotal.split('$')[1]);
+};
+
 const saveCart = () => { // My func
   const allProducts = staticElements.cartItems.innerHTML;
   saveCartItems(JSON.stringify(allProducts));
+  saveSubTotal();
 };
 
 const updateTotalPrice = (value, { target }) => { // My func
-  const total = document.querySelector('.total-price');
-
   if (target.className === 'empty-cart') totalPrice = 0;
   if (target.className === 'cart__item') {
     totalPrice -= value;
@@ -53,7 +65,7 @@ const updateTotalPrice = (value, { target }) => { // My func
     totalPrice += value;
   }
 
-  total.innerText = `Sub-total: $${totalPrice}`;
+  staticElements.subTotal.innerText = `Sub-total: $${totalPrice}`;
 };
 
 function cartItemClickListener(event) { // My func
@@ -61,7 +73,7 @@ function cartItemClickListener(event) { // My func
   const priceRegex = new RegExp(/\w*: \$(?<price>\d*.\d{0,2})$/);
   const price = productOnCart.innerText.match(priceRegex)[1];
 
-  updateTotalPrice(Number.parseFloat(price, 10), event);
+  updateTotalPrice(Number.parseFloat(price), event);
   productOnCart.outerHTML = '';
   saveCart();
 }
@@ -69,6 +81,7 @@ function cartItemClickListener(event) { // My func
 const renderSavedCart = () => { // My func
   const cartItems = JSON.parse(getSavedCartItems());
   staticElements.cartItems.innerHTML = cartItems;
+  getSavedSubTotal();
   document.querySelectorAll('.cart__item')
     .forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
