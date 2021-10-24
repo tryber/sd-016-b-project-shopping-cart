@@ -92,15 +92,19 @@ const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
   return cartItems.appendChild(li);
 };
 
-// REVIEW - Faz uma requisição a fetchProduts passando o parâmetro "computador". Percorre o array retornado, chamando a função createProductItemElement, passando como parâmetro cada item do array para solicitar a montagem da página.
+// REVIEW - Faz uma requisição a fetchProduts passando o parâmetro "computador". Percorre o array retornado, chamando a função createProductItemElement, passando como parâmetro cada item do array para solicitar a montagem da página. Adiciona também a esta função, a funcionalidade de apagar o texto do loading após o carregamento da API.
 
 const callAppendSection = async () => {
   const arrItems = await fetchProducts('computador');
 
+  const divLoadFather = document.querySelector('.loading-father');
+  const divLoading = document.querySelector('.loading');
+
   arrItems.results.forEach((item) => {
     createProductItemElement(item);
   });
-  // deleta o carregando
+
+  divLoadFather.removeChild(divLoading);
 };
 
 // REVIEW - Encontra o seletor com classe .items, e adiciona um evento de click ao ser invocada. Verifica se no click, a classe invocada é um botão. Se for um botão, pega o id do elemento e chama fetchItem passando esse id como parâmetro. Com a resposta em mãos, retorna a função que cria cada elemento dentro do carrinho, passando a 'Promese' como parâmetro.
@@ -118,7 +122,7 @@ const addCartItems = () => {
   });
 };
 
-// REVIEW - Busca os dados em getSavedCartItems(), insere como innerHTML na OL (cartList), constrói um array com as LI's (cart__item), injeta em cada uma das LI's um addEventListener, tendo como retorno a função que apaga as LI's.
+// REVIEW - Busca os dados em getSavedCartItems() e insere como innerHTML na OL (cartList), constrói um array com as LI's (cart__item), injeta em cada uma das LI's um addEventListener, tendo como retorno a função que apaga as LI's. Também dentro do forEach realiza um split do element, pegando apenas o valor de cada produto, para mostrar na tela o valor contido no carrinho após o carregamento da página com os produtos que vieram do Storage.
 
 const getCartFromLocalStorage = async () => {
   const cartInStorage = await getSavedCartItems();
@@ -136,6 +140,8 @@ const getCartFromLocalStorage = async () => {
       cartItemClickListener(event.target, parseFloat(sumCartStorage)));
   });
 };
+
+// REVIEW - Função que cria o evento de click para o botão de limpar carrinho
 
 const buttonCartClear = () => {
   const emptyCart = document.querySelector('.empty-cart');
