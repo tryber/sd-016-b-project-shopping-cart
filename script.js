@@ -39,6 +39,11 @@ function takeLocalCartItens() {
   saveCartItems(string);
 }
 
+function cartItemClickListener(event) {
+  event.target.remove();
+  takeLocalCartItens();
+}
+
 /*
 - Transforma oq está no localStorage para string
 - Recupera o pai cart__items onde vai ser add os elementos que estão gravadas no locaStorage
@@ -47,12 +52,9 @@ function takeLocalCartItens() {
 function localStorageRender() {
   const string = JSON.parse(getSavedCartItems());
   containerCart.innerHTML = string;
-}
 
-function cartItemClickListener(event) {
-  event.target.remove();
-  takeLocalCartItens();
-  // console.log(localStorage.getItem("cartItens"));
+  const products = document.querySelectorAll('.cart__item');
+  products.forEach((product) => product.addEventListener('click', cartItemClickListener));
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
