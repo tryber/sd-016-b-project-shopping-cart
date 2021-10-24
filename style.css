@@ -169,3 +169,8 @@ h1 {
 .empty-cart:hover {
   background-color: #2fc18c;
 }
+
+.total-price {
+  font-family: var(--secondary-font);
+  margin: 0.5rem 0 1rem;
+}
