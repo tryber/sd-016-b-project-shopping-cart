@@ -45,7 +45,33 @@ async function InsertInCart (sku) {
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(li);
   saveCartItems(cartItems.innerHTML);
-  // console.log(cartItems.innerHTML);
+  sumPrices()
+}
+
+//Soma preços
+function sumPrices() {
+  const cartItems = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  
+  cartItems.forEach(cartItem => {
+    const text = cartItem.innerText;
+    const splitPrice = text.split('PRICE: $')
+    const priceNumber = parseFloat(splitPrice[1]);
+    sum += priceNumber;
+  });
+
+  displaysPrices(sum)
+}
+
+// Exibe preços
+function displaysPrices(total) {
+  const message = `Total: ${total}`;
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = '';
+  
+  const display = document.createElement('span');
+  display.innerText = message;
+  totalPrice.appendChild(display);
 }
 
 // Parte do requisito 01 - criar os componentes HTML.
@@ -77,6 +103,7 @@ function cartItemClickListener(event) {
   event.target.remove();
   const cartItems = document.querySelector('.cart__items')
   saveCartItems(cartItems.innerHTML);
+  sumPrices();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -95,5 +122,6 @@ function imprime(params) {
 window.onload = () => { 
   appendItems(),
   getSku(),
-  getSavedCartItems()
+  getSavedCartItems(),
+  sumPrices()
 };
