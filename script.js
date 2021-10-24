@@ -79,12 +79,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', cartItemClickListener);
   li.addEventListener('click', (event) => {
     cartItemClickListener(event);
     removeFromLocalStorage(sku);
   });
+
   return li;
+}
+
+function imprime(params) {
+  console.log(params);
 }
 
 window.onload = () => { 
