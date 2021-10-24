@@ -57,6 +57,11 @@ async function carItems(event) {
   saveCartItems(getOl.innerHTML);
 }
 
+const createLoading = () => {
+const getSection = document.querySelector('.remove-loading');
+getSection.innerHTML = '';
+};
+
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -66,6 +71,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(button);
+  createLoading();
     return section;
   }
 
@@ -86,6 +92,7 @@ const emptyCart = document.querySelector('.empty-cart');
 emptyCart.addEventListener('click', () => {
   getOl.innerHTML = '';
 });
+
 
 window.onload = () => {
   showItems();
