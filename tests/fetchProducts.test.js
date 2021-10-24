@@ -5,26 +5,26 @@ const computadorSearch = require('../mocks/search');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('1 - Teste a função fecthProducts', () => {
-  test('Teste se fetchProducts é uma função', () => {
+  it('Teste se fetchProducts é uma função', () => {
     expect(fetchProducts).toBeInstanceOf(Function)
   });
 
-  test('Testar se fetchProduct é executada quando passado o parâmetro "computador"', () => {
+  it('Testar se fetchProduct é executada quando passado o parâmetro "computador"', () => {
     fetchProducts('computador');
-    expect(fetch).toHaveBeenCalled();
+    expect(fetch).toBeCalled();
   })
 
-  test('Testar a função fetchProducts com o argumento "computador"', async () => {
-    fetchProducts('computador');
+  it('Testar a função fetchProducts com o argumento "computador"', async () => {
+    fetchProducts('computador')
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   })
 
-  test('Testar se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch', async () =>  {
+  it('Testar se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch', async () =>  {
     const oi = await fetchProducts('computador');
     expect(oi).toEqual(computadorSearch.results);
   })
 
-  test('Testar se, ao chamar a função sem argumento, retorna um erro com a mensagem: You must provide an url', async () => {
+  it('Testar se, ao chamar a função sem argumento, retorna um erro com a mensagem: You must provide an url', async () => {
     const fetchWithoutArg = await fetchProducts();
     const error = new Error('You must provide an url')
     expect(fetchWithoutArg).toEqual(error);
