@@ -68,24 +68,21 @@ $btnClrCart.addEventListener('click', () => {
 
 const loadStart = () => {
   document.querySelector('.items').style.display = 'none';
-  const load = document.querySelector('.loading');
-  load.innerText = 'carregando...';
-
-  // const display = document.querySelector('.container');
-  // display.appendChild(load);
+  const $load = document.querySelector('.loading');
+  $load.innerText = 'carregando...';
 };
 
 const loadStop = () => {
   document.querySelector('.items').style.display = 'flex';
-  const load = document.querySelector('.loading');
-  load.innerHTML = '';
+  const $loadText = document.querySelector('#loadtext');
+  $loadText.innerHTML = '';
 };
 
 window.onload = async () => {
+  loadStart();
   await fetchProducts('computador').then((inventory) => {
-    loadStart();
     inventory.results.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
-  }); setTimeout((loadStop), 3000);
+  }); loadStop();
   getSavedCartItems();
 };
