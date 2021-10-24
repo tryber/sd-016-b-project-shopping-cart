@@ -1,3 +1,4 @@
+const button = document.querySelector('.empty-cart');
 const list = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
@@ -108,8 +109,15 @@ const saveOnStorage = () => {
   list.innerHTML = inHTMLCart;
 };
 
+const emptyCart = () => {
+  const totalPrice = document.querySelector('.total-price');
+  list.innerHTML = '';
+  totalPrice.innerHTML = '';
+};
+
 window.onload = () => { 
   loadProducts();
   eventListenerToAddProduct();
   saveOnStorage();
+  button.addEventListener('click', emptyCart);
 };
