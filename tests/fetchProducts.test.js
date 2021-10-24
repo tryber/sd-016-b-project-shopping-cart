@@ -6,10 +6,6 @@ window.fetch = jest.fn(fetchSimulator);
 
 describe('1 - Teste a função fecthProducts', () => {
 
-  it('Check fetchProduct is defined', () => {
-    expect(fetchProducts).toBeDefined();
-  });
-
   it('Check fetchProducts is a function', () => {
     expect(fetchProducts).toBeInstanceOf(Function)
   });
@@ -35,7 +31,7 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(productsFetched).toEqual(computadorSearch);
   });
 
-  it('Check fetchProducts return a error when called without parameters', async () => {
-    expect(() => fetchProducts().toThrowError('You must provide an url'));
+  it('Check fetchProducts return a error when called without parameters', () => {
+    expect(() => fetchProducts().toThrow(new Error('You must provide an url')));
   });
 });
