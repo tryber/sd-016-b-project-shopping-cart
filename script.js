@@ -146,7 +146,7 @@ function load() {
   tagOl.innerHTML = recuperaLocalStorage;
   tagOl.addEventListener('click', cartItemClickListener);
   }
-  
+
 window.onload = () => {
   backEndCreateProductItem();
   load();
