@@ -57,7 +57,7 @@ async function addProductsToCart(event) {
   const itemObject = {
     sku: item.id,
     name: item.title,
-    image: item.thumbnail,
+    salePrice: item.price,
   };
   const items = createCartItemElement(itemObject);
   cartItems.appendChild(items);
