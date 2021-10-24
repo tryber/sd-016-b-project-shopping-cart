@@ -115,13 +115,22 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function imprime(params) {
-  console.log(params);
+// Botão que limpa carrinho
+function cleanCart() {
+  const emptyCart = document.querySelector('.empty-cart');
+
+  emptyCart.addEventListener('click', () => {
+    const cartItems = document.querySelector('.cart__items');
+    cartItems.innerHTML = '';
+    sumPrices();
+    saveCartItems(cartItems.innerHTML);
+  });
 }
 
 window.onload = () => { 
   appendItems(),
   getSku(),
   getSavedCartItems(),
-  sumPrices()
+  sumPrices(),
+  cleanCart()
 };
