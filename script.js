@@ -32,10 +32,21 @@ function createProductItemElement({ sku, name, image }) { // { sku, name, image 
 - Transforma os elemntos dentro do container em JSON, para não dar erro no cypress
 - Chama a função de salvar no localStorage passando o elemento que está no container
 */
-function takeLocalCartItens() { 
-  const containerCart = document.querySelector('.cart__items');
+const containerCart = document.querySelector('.cart__items');
+
+function takeLocalCartItens() {
   const string = JSON.stringify(containerCart.innerHTML);
   saveCartItems(string);
+}
+
+/*
+- Transforma oq está no localStorage para string
+- Recupera o pai cart__items onde vai ser add os elementos que estão gravadas no locaStorage
+- Add no pai com o innerHtml
+*/
+function localStorageRender() {
+  const string = JSON.parse(getSavedCartItems());
+  containerCart.innerHTML = string;
 }
 
 function cartItemClickListener(event) {
@@ -64,7 +75,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function addProductsToCart(event) {
   const idProduct = event.target.parentElement.firstElementChild.innerText;
   const item = await fetchItem(idProduct);
-  const cartItems = document.querySelector('.cart__items');
 
   const itemObject = {
     sku: item.id,
@@ -72,8 +82,9 @@ async function addProductsToCart(event) {
     salePrice: item.price,
   };
   const items = createCartItemElement(itemObject);
-  cartItems.appendChild(items);
+  containerCart.appendChild(items);
   takeLocalCartItens(); // Ao adicionar o produto no carrinho, invoca a função de add no LocalStorage
+  console.log(localStorage.getItem('cartItens'));
 }
 
 function buttonAddToCartItems() {
@@ -113,4 +124,5 @@ async function searchProducts(product) {
 
 window.onload = () => {
   searchProducts('computador');
+  localStorageRender();
 };
