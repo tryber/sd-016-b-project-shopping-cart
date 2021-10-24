@@ -38,8 +38,9 @@ const addProduct = async () => {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-function cartItemClickListener() {
-  // coloque seu código aqui
+function cartItemClickListener(event) {
+  const rm = event.target;
+  rm.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
