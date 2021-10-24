@@ -17,11 +17,11 @@ function createCustomElement(element, className, innerText) {
 // }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const li = event.currentTarget;
+  li.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  console.log({ sku, name, salePrice });
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
