@@ -17,7 +17,7 @@ function sumPriceTotalProducts() {
   for (let i = 0; i < tagsLis.length; i += 1) {
     sum += Number(tagsLis[i].innerHTML.split('$').pop());
   }
-  localPrice.innerHTML = sum;
+  localPrice.innerHTML = `Valor Total Carrinho: ${sum}`;
 }
 // ***********************
 // QUESTÃO 03 FRONT END *
@@ -81,8 +81,6 @@ function createCustomPriceTotal(element, innerText, idElement) {
 function createSectionPrice() {
   const sectionPriceTotal = document.createElement('section');
   sectionPriceTotal.className = 'total-price';
-  sectionPriceTotal.appendChild(createCustomPriceTotal('span', 'Soma Total R$', 'labelSomatotal'));
-  sectionPriceTotal.appendChild(createCustomPriceTotal('span', 'Price', 'localPrice'));
   sectionCarShopping.appendChild(sectionPriceTotal);
 }
 
