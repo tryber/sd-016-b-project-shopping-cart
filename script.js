@@ -133,14 +133,13 @@ const createProducts = ({ results: products }) => {
     });
 };
 
-const renderProducts = async () => {
+const renderProducts = () => {
   showLoadMesage();
 
-  await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(createProducts)
+    .then((_) => hideLoadMesage())
     .catch((error) => console.log(error));
-
-  hideLoadMesage();
 };
 
 const emptyCart = () => {
