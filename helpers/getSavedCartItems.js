@@ -10,15 +10,18 @@
 // };
 
 // const getSavedCartItems = () => {
-async function getSavedCartItems() {
-  const recoveredCartItems = await JSON.parse(localStorage.getItem("cartItems"));
-  const cartItems = document.querySelector('.cart__items')
-  cartItems.innerHTML = Object.values(recoveredCartItems);
+function getSavedCartItems() {
+  const recoveredCartItems = localStorage.getItem("cartItems");
+  const cartItems = document.querySelector('.cart__items');
 
-  cartItems.addEventListener('click', (event) => {
-    event.target.remove();
-    saveCartItems(cartItems)
-  });
+  if (cartItems !== null) {
+    cartItems.innerHTML = recoveredCartItems;
+  
+    cartItems.addEventListener('click', (event) => {
+      event.target.remove();
+      saveCartItems(cartItems.innerHTML);
+    });
+  }
 };
 
 

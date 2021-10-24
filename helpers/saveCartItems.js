@@ -10,8 +10,12 @@
 // };
 
 const saveCartItems = (cartItems) => {
-  const obj = { items: cartItems.innerHTML };
-  localStorage.setItem("cartItems", JSON.stringify(obj));
+ 
+
+  
+
+  localStorage.setItem("cartItems", cartItems);
+
 };
 
 if (typeof module !== 'undefined') {

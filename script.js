@@ -44,7 +44,8 @@ async function InsertInCart (sku) {
 
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(li);
-  saveCartItems(cartItems);
+  saveCartItems(cartItems.innerHTML);
+  // console.log(cartItems.innerHTML);
 }
 
 // Parte do requisito 01 - criar os componentes HTML.
@@ -75,7 +76,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   const cartItems = document.querySelector('.cart__items')
-  saveCartItems(cartItems)
+  saveCartItems(cartItems.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
