@@ -51,6 +51,15 @@ async function searchProducts(product) {
   });
 }
 
+function addItemToCart(itemId) {
+  const itemObj = fetchItem(itemId);
+  const itemData = { sku: itemObj.id, name: itemObj.title, salePrice: itemObj.price };
+  const cart = document.querySelector('.cart__items');
+  const itemElement = createCartItemElement(itemData);
+
+  cart.appendChild(itemElement);
+}
+
 window.onload = () => {
   searchProducts('computador');
 };
