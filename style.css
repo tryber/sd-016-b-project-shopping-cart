@@ -1,6 +1,6 @@
 :root {
-  --secondary-font: 'Mulish', sans-serif;
   --primary-font: 'Poppins', sans-serif;
+  --secondary-font: 'Mulish', sans-serif;
 }
 
 * {
@@ -25,7 +25,7 @@ body {
 }
 
 .item {
-  background-color: #fff;
+  background-color: white;
   border: none;
   border-radius: 5px;
   box-sizing: border-box;
@@ -57,7 +57,10 @@ body {
   background-color: #2FC18C;
   border: none;
   border-radius: 0 0 5px 5px;
+  color: white;
   cursor: pointer;
+  font-family: var(--secondary-font);
+  font-weight: bold;
   margin-top: 15px;
   padding: 8px 5px;
   width: 100%;
