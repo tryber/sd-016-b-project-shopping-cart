@@ -29,8 +29,9 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  const item = event.target;
+  const item = event.target;  
   item.parentNode.removeChild(item);
+  saveCartItems();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -49,6 +50,7 @@ async function pageItemClickListener(event) {
   const itemElement = createCartItemElement(itemData);
 
   cart.appendChild(itemElement);
+  saveCartItems();
 }
 
 async function searchProducts(product) {
@@ -63,6 +65,13 @@ async function searchProducts(product) {
   });
 }
 
+function restoreCart() {
+  getSavedCartItems();
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach((item) => item.addEventListener('click', cartItemClickListener));
+}
+
 window.onload = () => {
   searchProducts('computador');
+  restoreCart();
 };
