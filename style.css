@@ -219,9 +219,10 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
 .item_desc {
   display: flex;
   font-weight: 300;
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   order: 1;
-  padding: 0 0.1rem 0 0.5rem;
+  padding: 0.3rem;
+  margin: 0.1rem;
 }
 
 .fa-times {
