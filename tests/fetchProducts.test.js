@@ -15,16 +15,22 @@ describe('1 - Teste a função fecthProducts', () => {
   });
 
   it('Check fetchProduct call fetch() function', async () => {
+    expect.assertions(1);
+
     await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador');
     expect(fetch).toHaveBeenCalled();
   });
 
   it('Check fetchProduct call fetch() with params', async () => {
+    expect.assertions(1);
+
     await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador');
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   });
 
   it('Check fetchProducts return expected JSON', async () => {
+    expect.assertions(1);
+    
     const productsFetched = await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador');
     expect(productsFetched).toEqual(computadorSearch);
   });
