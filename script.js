@@ -1,3 +1,5 @@
+const btnEmptyCart = document.querySelector('.empty-cart');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -42,6 +44,15 @@ function cartItemClickListener(event) {
   const rm = event.target;
   rm.remove();
 }
+
+btnEmptyCart.addEventListener('click', () => {
+  const ol = document.querySelector('.cart__items');
+  const li = document.querySelectorAll('.cart__item');
+
+  for (let i = 0; i < li.length; i += 1) {
+    ol.removeChild(li[i]);
+  }
+});
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
