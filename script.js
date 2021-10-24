@@ -12,7 +12,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 /* Criando o produto a ser adicionado no carrinho de compras */
@@ -58,7 +58,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 /* Buscando produto na API e adicionando o produto na página */
 const objProduto = async () => {
-  const elementProduto = await fetchProducts();
+  const elementProduto = await fetchProducts('computador');
   const sectionPai = document.querySelector('.items');
   elementProduto.results.forEach((item) => {
   const criandoProduto = createProductItemElement(item);

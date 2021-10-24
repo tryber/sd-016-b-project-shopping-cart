@@ -1,10 +1,8 @@
-// eslint-disable-next-line import/no-unresolved
-// const fetch = require('node-fetch');
-
-const fetchProducts = () =>
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+const fetchProducts = (produto) =>
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${produto}`)
   .then((response) => response.json())
-  .then((data) => data);
+  .then((data) => data)
+  .catch((error) => error);
 
 if (typeof module !== 'undefined') {
   module.exports = {
