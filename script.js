@@ -34,16 +34,16 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
 const saveCart = () => { // My func
   const allProducts = staticElements.cartItems.innerHTML;
   saveCartItems(JSON.stringify(allProducts));
 };
 
-const updateTotalPrice = (value, { target }) => {
+const updateTotalPrice = (value, { target }) => { // My func
   const total = document.querySelector('.total-price');
 
   if (target.className === 'empty-cart') totalPrice = 0;
@@ -53,15 +53,15 @@ const updateTotalPrice = (value, { target }) => {
     totalPrice += value;
   }
 
-  total.innerText = totalPrice;
+  total.innerText = `Sub-total: $${totalPrice}`;
 };
 
-function cartItemClickListener(event) {
+function cartItemClickListener(event) { // My func
   const productOnCart = event.target; 
-  const priceRegex = new RegExp(/(?:)\$+[0-9]+[.]?[0-9]+/g);
-  const price = productOnCart.innerText.match(priceRegex).flat()[0].split('$')[1];
+  const priceRegex = new RegExp(/\w*: \$(?<price>\d*.\d{0,2})$/);
+  const price = productOnCart.innerText.match(priceRegex)[1];
 
-  updateTotalPrice(Number(price), event);
+  updateTotalPrice(Number.parseFloat(price, 10), event);
   productOnCart.outerHTML = '';
   saveCart();
 }
@@ -111,7 +111,7 @@ const renderCardProducts = (id, event) => {
 };
 
 const addProductOnCart = (event) => {
-  const productId = event.target.parentElement.firstElementChild.innerText;
+  const productId = getSkuFromProductItem(event.target.parentNode);
 
   renderCardProducts(productId, event)
     .then((product) => {
@@ -140,9 +140,9 @@ const renderProducts = () => {
 };
 
 const emptyCart = () => {
-    staticElements.btnEmptyCart.addEventListener('click', () => {
+    staticElements.btnEmptyCart.addEventListener('click', (event) => {
       staticElements.cartItems.innerHTML = '';
-      updateTotalPrice(0, 'clear');
+      updateTotalPrice(0, event);
       saveCart();
     });
 };
