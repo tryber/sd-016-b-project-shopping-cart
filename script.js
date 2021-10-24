@@ -28,17 +28,17 @@ function createProductItemElement({ sku, name, image }) { // { sku, name, image 
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  event.target.remove();
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 /* 
 - Chame a função fetchProducts.js
@@ -48,6 +48,28 @@ function createProductItemElement({ sku, name, image }) { // { sku, name, image 
   - Essa questão foi realizada com auxílio do vídeo que o Bê nos disponilizou
     - LINK: https://app.slack.com/client/TMDDFEPFU/CMT2P6CVC/files/F02JERCBK4M
 */
+
+async function addProductsToCart(event) {
+  const idProduct = event.target.parentElement.firstElementChild.innerText;
+  const item = await fetchItem(idProduct);
+  const cartItems = document.querySelector('.cart__items');
+
+  const itemObject = {
+    sku: item.id,
+    name: item.title,
+    image: item.thumbnail,
+  };
+  const items = createCartItemElement(itemObject);
+  cartItems.appendChild(items);
+}
+
+function buttonAddToCartItems() {
+  const buttonsAdd = document.querySelectorAll('.item__add');
+  buttonsAdd.forEach((button) => {
+    button.addEventListener('click', addProductsToCart);
+  });
+}
+
 async function searchProducts(product) {
   const search = await fetchProducts(product);
   const sectionItem = document.querySelector('.items');
@@ -60,6 +82,7 @@ async function searchProducts(product) {
     const searchItem = createProductItemElement(itemObject);
     sectionItem.appendChild(searchItem);
   });
+  buttonAddToCartItems();
 }
 
 window.onload = () => {
