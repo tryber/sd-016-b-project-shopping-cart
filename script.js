@@ -11,7 +11,7 @@ function createProductImageElement(imageSource) {
 // Função Soma Produtos do Cart //
 // ******************************
 function sumPriceTotalProducts() {
-  const localPrice = document.querySelector('#localPrice');
+  const localPrice = document.querySelector('.total-price');
   let sum = 0;
   const tagsLis = document.getElementsByClassName('cart__item');
   for (let i = 0; i < tagsLis.length; i += 1) {
