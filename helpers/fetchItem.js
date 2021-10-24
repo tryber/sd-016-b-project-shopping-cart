@@ -3,11 +3,10 @@
 const fetchItem = (itemId) => {
   const promise = fetch(`https://api.mercadolibre.com/items/${itemId}`)
     .then((response) => response.json())
-    .then((data) => data);
+    .then((data) => data)
+    .catch((error) => error);
   return promise;
 };
-
-// fetchItem('MLB1341706310');
 
 if (typeof module !== 'undefined') {
   module.exports = {
