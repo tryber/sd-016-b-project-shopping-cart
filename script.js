@@ -149,7 +149,7 @@ const createProducts = ({ results: products }) => {
 const renderProducts = () => {
   showLoadMesage();
 
-  fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  fetchProducts('computador')
     .then(createProducts)
     .then((_) => hideLoadMesage())
     .catch((error) => console.log(error));
