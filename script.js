@@ -48,9 +48,13 @@ const saveSubTotal = () => {
 };
 
 const getSavedSubTotal = () => {
-  const subTotal = localStorage.getItem('subTotal');
-  staticElements.subTotal.innerText = subTotal;
-  user.subTotal = Number.parseFloat(subTotal.split('$')[1]);
+  if (localStorage.getItem('subTotal')) {
+    const subTotal = localStorage.getItem('subTotal');
+    staticElements.subTotal.innerText = subTotal;
+    user.subTotal = Number.parseFloat(subTotal.split('$')[1]);
+  } else {
+    user.subTotal = 0;
+  }
 };
 
 const saveCart = () => { // My func
