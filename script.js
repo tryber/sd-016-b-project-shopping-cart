@@ -86,7 +86,7 @@ async function addProductsToCart(event) {
   const items = createCartItemElement(itemObject);
   containerCart.appendChild(items);
   takeLocalCartItens(); // Ao adicionar o produto no carrinho, invoca a função de add no LocalStorage
-  console.log(localStorage.getItem('cartItens'));
+  // console.log(localStorage.getItem('cartItens'));
 }
 
 function buttonAddToCartItems() {
@@ -111,6 +111,13 @@ async function searchProducts(product) {
   buttonAddToCartItems();
 }
 
+function emptyButton() {
+  const btnEmpty = document.querySelector('.empty-cart');
+  btnEmpty.addEventListener('click', () => {
+    containerCart.innerHTML = '';
+    takeLocalCartItens();
+  });
+}
 /*
 - Some o valor total dos itens do carrinho de compras:
 - Pegar a chave salePrace(preço)
@@ -127,4 +134,5 @@ async function searchProducts(product) {
 window.onload = () => {
   searchProducts('computador');
   localStorageRender();
+  emptyButton();
 };
