@@ -43,11 +43,11 @@ const saveCart = () => { // My func
   saveCartItems(JSON.stringify(allProducts));
 };
 
-const updateTotalPrice = (value, operation) => {
+const updateTotalPrice = (value, { target }) => {
   const total = document.querySelector('.total-price');
 
-  if (operation === 'clear') totalPrice = 0;
-  if (operation === 'remove') {
+  if (target.className === 'empty-cart') totalPrice = 0;
+  if (target.className === 'cart__item') {
     totalPrice -= value;
   } else {
     totalPrice += value;
@@ -61,7 +61,7 @@ function cartItemClickListener(event) {
   const priceRegex = new RegExp(/(?:)\$+[0-9]+[.]?[0-9]+/g);
   const price = productOnCart.innerText.match(priceRegex).flat()[0].split('$')[1];
 
-  updateTotalPrice(Number(price), 'remove');
+  updateTotalPrice(Number(price), event);
   productOnCart.outerHTML = '';
   saveCart();
 }
@@ -98,25 +98,22 @@ const productConstructor = ({ id: sku, title: name, thumbnail: image }) => ({ sk
 
 const itemConstructor = ({ id: sku, title: name, price: salePrice }) => ({ sku, name, salePrice });
 
-const renderCardProducts = async (id) => {  
+const renderCardProducts = (id, event) => {  
   showLoadMesage();
 
-  const cartItem = await fetchItem(id)
+  return fetchItem(id)
     .then((item) => itemConstructor(item))
     .then((item) => {
-      updateTotalPrice(item.salePrice);
+      updateTotalPrice(item.salePrice, event);
+      hideLoadMesage();
       return createCartItemElement(item);
     });
-
-  hideLoadMesage();
-
-  return cartItem;
 };
 
 const addProductOnCart = (event) => {
   const productId = event.target.parentElement.firstElementChild.innerText;
 
-  renderCardProducts(productId)
+  renderCardProducts(productId, event)
     .then((product) => {
       staticElements.cartItems.appendChild(product);
       saveCart();
