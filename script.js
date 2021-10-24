@@ -42,10 +42,9 @@ async function InsertInCart (sku) {
   const { title: name, price: salePrice } = dataItem;
   const li = createCartItemElement({ sku, name, salePrice });
 
-  const cartItems = document.querySelector('.cart__items')
+  const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(li);
-
-  saveCartItems({ sku, name, salePrice });
+  saveCartItems(cartItems);
 }
 
 // Parte do requisito 01 - criar os componentes HTML.
@@ -63,26 +62,27 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function removeFromLocalStorage(skuTarget) {
-  let cartItems = JSON.parse(localStorage.getItem('cartItems'));
-  const itemToRemove = cartItems.find(({ sku }) => sku === skuTarget );
-  const indexToRemove = cartItems.indexOf(itemToRemove);
-  cartItems.splice(indexToRemove, 1);
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-}
+// function removeFromLocalStorage(skuTarget) {
+//   // let cartItems = JSON.parse(localStorage.getItem('cartItems'));
+//   // const itemToRemove = cartItems.find(({ sku }) => sku === skuTarget );
+//   // const indexToRemove = cartItems.indexOf(itemToRemove);
+//   // cartItems.splice(indexToRemove, 1);
+//   // localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+  
+// }
 
 function cartItemClickListener(event) {
   event.target.remove();
+  const cartItems = document.querySelector('.cart__items')
+  saveCartItems(cartItems)
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', (event) => {
-    cartItemClickListener(event);
-    removeFromLocalStorage(sku);
-  });
+  li.addEventListener('click', cartItemClickListener);
 
   return li;
 }
