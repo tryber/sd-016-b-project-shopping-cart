@@ -12,26 +12,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  const but = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  but.addEventListener('click', () => addItemCart(sku));
-  section.appendChild(but);
-  return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
+// function cartItemClickListener(event) {
+//   // coloque seu código aqui
+// }
 
 function createCartItemElement({ sku, name, salePrice }) {
   console.log({ sku, name, salePrice });
@@ -43,16 +30,26 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const but = document.querySelectorAll('.item_add');
-console.log(but);
-
-async function addItemCart(sku) {
+async function addItemCart(id) {
   const olCart = document.querySelector('.cart__items');
-  await fetchItem(sku)
+  await fetchItem(id)
     .then((item) => {
       const { id: sku, title: name, price: salePrice } = item;
       return olCart.appendChild(createCartItemElement({ sku, name, salePrice }));
     });
+}
+
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const but = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  but.addEventListener('click', () => addItemCart(sku));
+  section.appendChild(but);
+  return section;
 }
 
 async function searchProducts(product) {
