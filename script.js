@@ -1,4 +1,6 @@
 let sumCartProducts = 0;
+const cartList = document.querySelector('.cart__items');
+const spanSumCartItems = document.querySelector('.total-price');
 
 // REVIEW - Função que cria um elemento de imagem quando invocada
 
@@ -40,12 +42,9 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-const cartList = document.querySelector('.cart__items');
-
-// REVIEW - Função que realiza a busca do seletor no HTML, e faz a alteração do innerText de spanSumCartItems para o valor que foi alterado nas funções de soma e subtração.
+// REVIEW - Função que faz a alteração do innerText de spanSumCartItems para o valor que foi alterado nas funções de soma e subtração.
 
 const changeValueCart = () => {
-  const spanSumCartItems = document.querySelector('.total-price');
   spanSumCartItems.innerText = sumCartProducts;
 };
 
@@ -129,22 +128,31 @@ const getCartFromLocalStorage = async () => {
   const listSavedProducts = document.querySelectorAll('.cart__item');
 
   listSavedProducts.forEach((element) => {
-    const sumCartStorage = element.innerText.split('$');
-    sumCartProducts += parseFloat(sumCartStorage[1]);
+    const sumCartStorage = element.innerText.split('$')[1];
+    sumCartProducts += parseFloat(sumCartStorage);
     changeValueCart();
 
     element.addEventListener('click', (event) =>
-      cartItemClickListener(event.target, parseInt(sumCartStorage[1], 10)));
+      cartItemClickListener(event.target, parseFloat(sumCartStorage)));
   });
 };
 
-// <li class="cart__item">SKU: MLB1607748387 | NAME: Pc Computador Cpu Intel Core I5 + Ssd 240gb, 8gb Memória Ram | PRICE: $1599.99</li>
+const buttonCartClear = () => {
+  const emptyCart = document.querySelector('.empty-cart');
+
+  emptyCart.addEventListener('click', () => {
+    cartList.innerHTML = '';
+    sumCartProducts = 0;
+    spanSumCartItems.innerText = sumCartProducts;
+  });
+};
 
 // REVIEW - Inicia as funções criadas.
 
 window.onload = () => {
-  callAppendSection();
   addCartItems();
+  buttonCartClear();
+  callAppendSection();
   getCartFromLocalStorage();
   cartList.innerHTML = getSavedCartItems();
 };
