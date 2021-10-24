@@ -59,11 +59,8 @@ const saveCart = () => { // My func
 
 const updateTotalPrice = (value, { target }) => { // My func
   if (target.className === 'empty-cart') totalPrice = 0;
-  if (target.className === 'cart__item') {
-    totalPrice -= value;
-  } else {
-    totalPrice += value;
-  }
+  if (target.className === 'cart__item') totalPrice -= value;
+  else totalPrice += value;
 
   staticElements.subTotal.innerText = `Sub-total: $${totalPrice}`;
 };
