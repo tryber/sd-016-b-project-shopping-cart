@@ -30,6 +30,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  // event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -75,4 +76,7 @@ async function addToCart(productId) {
 window.onload = () => {
   searchProducts('computador');
   addToCart('MLB1341706310');
+  addToCart('MLB1937267358');
+  addToCart('MLB2042688496');
+  addToCart('MLB1078149937');
 };
