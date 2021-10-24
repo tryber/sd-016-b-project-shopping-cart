@@ -68,7 +68,7 @@ const updateTotalPrice = (value, { target }) => { // My func
   if (target.className === 'cart__item') user.subTotal -= value;
   else user.subTotal += value;
 
-  staticElements.subTotal.innerText = `Sub-total: $${user.subTotal}`;
+  staticElements.subTotal.innerText = user.subTotal;
 };
 
 function cartItemClickListener(event) { // My func
