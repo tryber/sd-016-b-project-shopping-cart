@@ -27,11 +27,11 @@ describe('2 - Teste a função fecthItem', () => {
 
   it('Check fetchItem return expected JSON', async () => {
     expect.assertions(1);
-    
+
     expect(await fetchItem('MLB1615760527')).toEqual(item);
   });
 
   it('Check fetchItem throw errors when called without parameters', () => {
-    expect(() => fetchItem().toThrowError('You must provide an url'));
+    expect(() => fetchItem()).toThrow(new Error('You must provide an url'));
   });
 });

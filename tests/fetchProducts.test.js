@@ -31,7 +31,7 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(productsFetched).toEqual(computadorSearch);
   });
 
-  it('Check fetchProducts return a error when called without parameters', () => {
-    expect(() => fetchProducts().toThrow(new Error('You must provide an url')));
+  it('Check fetchProducts return a error when called without parameters', async () => {
+    expect(() => fetchProducts()).toThrow(new Error('You must provide an url'));
   });
 });
