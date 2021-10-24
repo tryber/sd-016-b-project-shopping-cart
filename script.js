@@ -93,7 +93,6 @@ emptyCart.addEventListener('click', () => {
   getOl.innerHTML = '';
 });
 
-
 window.onload = () => {
   showItems();
   saveCartItemsSelects();
