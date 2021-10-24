@@ -129,9 +129,16 @@ const getCartFromLocalStorage = async () => {
   const listSavedProducts = document.querySelectorAll('.cart__item');
 
   listSavedProducts.forEach((element) => {
-    element.addEventListener('click', (event) => cartItemClickListener(event.target));
+    const sumCartStorage = element.innerText.split('$');
+    sumCartProducts += parseFloat(sumCartStorage[1]);
+    changeValueCart();
+
+    element.addEventListener('click', (event) =>
+      cartItemClickListener(event.target, parseInt(sumCartStorage[1], 10)));
   });
 };
+
+// <li class="cart__item">SKU: MLB1607748387 | NAME: Pc Computador Cpu Intel Core I5 + Ssd 240gb, 8gb Memória Ram | PRICE: $1599.99</li>
 
 // REVIEW - Inicia as funções criadas.
 
