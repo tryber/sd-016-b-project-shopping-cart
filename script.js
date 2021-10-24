@@ -82,6 +82,7 @@ $btnClrCart.addEventListener('click', () => {
 });
 
 const loadStart = () => {
+  document.querySelector('.items').innerHTML = '';
   document.querySelector('.items').style.display = 'none';
   const $load = document.querySelector('.loading');
   $load.innerText = 'carregando...';
@@ -91,13 +92,37 @@ const loadStop = () => {
   document.querySelector('.items').style.display = 'flex';
   const $loadText = document.querySelector('#loadtext');
   $loadText.innerHTML = '';
+  document.querySelector('.load').style.display = 'none';
 };
 
-window.onload = async () => {
-  loadStart();
-  await fetchProducts('computador').then((inventory) => {
+const sharload = () => {
+  document.querySelector('.items').innerHTML = '';
+  document.querySelector('.items').style.display = 'none';
+  document.querySelector('.load').style.display = 'flex';
+};
+
+const search = async (item = 'computador') => {
+  sharload();
+  await fetchProducts(item).then((inventory) => {
     inventory.results.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
   }); loadStop();
   getSavedCartItems(); totalCartIten();
+};
+
+const toEnter = (e) => {
+  const { value } = e.target;
+  const key = e.keyCode;
+  if (key === 13) search(value);
+};
+
+const $search = document.querySelector('.searchI');
+$search.addEventListener('keydown', toEnter);
+$search.addEventListener('blur', () => {
+  search($search.value);
+});
+
+window.onload = () => {
+  loadStart();
+  search();
 };
