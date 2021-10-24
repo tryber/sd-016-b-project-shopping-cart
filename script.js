@@ -5,7 +5,9 @@ const staticElements = {
   subTotal: document.querySelector('.total-price'),
 };
 
-let totalPrice = 0;
+const user = {
+  subTotal: 0,
+};
 
 // Trybe functions
 
@@ -48,7 +50,7 @@ const saveSubTotal = () => {
 const getSavedSubTotal = () => {
   const subTotal = localStorage.getItem('subTotal');
   staticElements.subTotal.innerText = subTotal;
-  totalPrice = Number.parseFloat(subTotal.split('$')[1]);
+  user.subTotal = Number.parseFloat(subTotal.split('$')[1]);
 };
 
 const saveCart = () => { // My func
@@ -58,11 +60,11 @@ const saveCart = () => { // My func
 };
 
 const updateTotalPrice = (value, { target }) => { // My func
-  if (target.className === 'empty-cart') totalPrice = 0;
-  if (target.className === 'cart__item') totalPrice -= value;
-  else totalPrice += value;
+  if (target.className === 'empty-cart') user.subTotal = 0;
+  if (target.className === 'cart__item') user.subTotal -= value;
+  else user.subTotal += value;
 
-  staticElements.subTotal.innerText = `Sub-total: $${totalPrice}`;
+  staticElements.subTotal.innerText = `Sub-total: $${user.subTotal}`;
 };
 
 function cartItemClickListener(event) { // My func
