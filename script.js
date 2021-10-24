@@ -1,9 +1,15 @@
+let sumCartProducts = 0;
+
+// REVIEW - Função que cria um elemento de imagem quando invocada
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
+
+// REVIEW - Função que cria um elemento com classe defenida e o texto da tag, quando invocada
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -30,20 +36,46 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 const cartList = document.querySelector('.cart__items');
 
-function cartItemClickListener(event) {
+// REVIEW - Função que realiza a busca do seletor no HTML, e faz a alteração do innerText de spanSumCartItems para o valor que foi alterado nas funções de soma e subtração.
+
+const changeValueCart = () => {
+  const spanSumCartItems = document.querySelector('.total-price');
+  spanSumCartItems.innerText = sumCartProducts;
+};
+
+// REVIEW - Função que realiza o incremento da variável sumCartProducts e invoca a função changeValueCart.
+
+const sumFunction = (sum) => {
+  sumCartProducts += sum;
+
+  changeValueCart();
+};
+
+// REVIEW - Função que realiza o decremento da variável sumCartProducts e invoca a função changeValueCart.
+
+const decreaseFunction = (decrease) => {
+  sumCartProducts -= decrease;
+
+  changeValueCart();
+};
+
+// REVIEW - Quando invocada, exclui o item específico do carrinho, chama a função para subtrair o valor do carrinho, e salva a lista atualizada em localStorage
+
+const cartItemClickListener = (event, price) => {
   setTimeout(() => {
     event.remove();
+    decreaseFunction(price);
     saveCartItems(cartList.innerHTML);
   }, 1);
-}
+};
 
-// REVIEW - Cria o elemento que será adicionado ao carrinho, adiciona um eventListener de click no item. Após isso, retorna o appendChild do criado.
+// REVIEW - Cria o elemento que será adicionado ao carrinho, adiciona um eventListener de click no item que retorna ao ser clicado a função que apaga os items do carrinho. Após isso, retorna o appendChild do criado.
 
 const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
   const li = document.createElement('li');
@@ -51,11 +83,12 @@ const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
 
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', () => cartItemClickListener(li));
+  li.addEventListener('click', () => cartItemClickListener(li, salePrice));
 
   setTimeout(() => {
     saveCartItems(cartList.innerHTML);
   }, 1);
+  sumFunction(salePrice);
 
   return cartItems.appendChild(li);
 };
@@ -68,6 +101,7 @@ const callAppendSection = async () => {
   arrItems.results.forEach((item) => {
     createProductItemElement(item);
   });
+  // deleta o carregando
 };
 
 // REVIEW - Encontra o seletor com classe .items, e adiciona um evento de click ao ser invocada. Verifica se no click, a classe invocada é um botão. Se for um botão, pega o id do elemento e chama fetchItem passando esse id como parâmetro. Com a resposta em mãos, retorna a função que cria cada elemento dentro do carrinho, passando a 'Promese' como parâmetro.
@@ -85,7 +119,7 @@ const addCartItems = () => {
   });
 };
 
-// REVIEW - Salva
+// REVIEW - Busca os dados em getSavedCartItems(), insere como innerHTML na OL (cartList), constrói um array com as LI's (cart__item), injeta em cada uma das LI's um addEventListener, tendo como retorno a função que apaga as LI's.
 
 const getCartFromLocalStorage = async () => {
   const cartInStorage = await getSavedCartItems();
