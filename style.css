@@ -5,6 +5,24 @@
   box-sizing: border-box;
 }
 
+@keyframes loading {
+
+  to { transform: rotate(360deg); }
+}
+
+@keyframes items {
+
+	0% {
+    transform: scaleY(0);
+    opacity: 0;}
+	50% {
+    transform: scaleY(1);
+    opacity: 1;}
+	100% {
+    transform: scaleY(0);
+    opacity: 0;}
+}
+
 body {
   background-color: rgba(249, 249, 246, 255);
 }
@@ -15,6 +33,20 @@ header {
   text-align: center;
   height: 7vh;
 }
+
+.load {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  margin: 2rem;
+  border: 0.2rem solid rgba(80, 79, 79, 0.548);
+  border-top: 0.3rem solid green;
+  border-radius: 50%;
+  width: 20rem;
+  height: 20rem;
+  animation: loading 1.2s linear infinite;
+}
+
 
 .page_title {
   display: flex;
@@ -84,6 +116,7 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   height: auto;
   margin: 0.5rem;
   width: 13rem;
+  animation: loading 0.8s linear;
 }
 
 .item .item__sku {
@@ -134,6 +167,7 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   justify-content: space-between;
   background-color: white;
   border-radius: 0.5rem;
+  animation: loading 0.3s linear;
 }
 
 .item__image_cart {
