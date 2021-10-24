@@ -28,8 +28,20 @@ function createProductItemElement({ sku, name, image }) { // { sku, name, image 
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+/* Pega o container cart__itens, assim o LocalStorage consegue armazena e remover de acordo com oq tem no container
+- Transforma os elemntos dentro do container em JSON, para não dar erro no cypress
+- Chama a função de salvar no localStorage passando o elemento que está no container
+*/
+function takeLocalCartItens() { 
+  const containerCart = document.querySelector('.cart__items');
+  const string = JSON.stringify(containerCart.innerHTML);
+  saveCartItems(string);
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
+  takeLocalCartItens();
+  // console.log(localStorage.getItem("cartItens"));
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -61,6 +73,7 @@ async function addProductsToCart(event) {
   };
   const items = createCartItemElement(itemObject);
   cartItems.appendChild(items);
+  takeLocalCartItens(); // Ao adicionar o produto no carrinho, invoca a função de add no LocalStorage
 }
 
 function buttonAddToCartItems() {
@@ -84,6 +97,19 @@ async function searchProducts(product) {
   });
   buttonAddToCartItems();
 }
+
+/*
+- Some o valor total dos itens do carrinho de compras:
+- Pegar a chave salePrace(preço)
+- Criar um somatório
+- Apresentar o valor total da soma na página principal
+- Usar a classe (total-price)
+*/
+
+// function addTotalSumValue () {
+//   const carElement = createCartItemElement();
+//   carElement.filter((product) => product.salePrice)
+// }
 
 window.onload = () => {
   searchProducts('computador');
