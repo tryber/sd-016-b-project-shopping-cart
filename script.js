@@ -19,15 +19,30 @@ const imgCartIten = (imgSrc) => {
   return img;
 };
 
+const totalCartIten = () => {
+  const valueItems = [];
+  const total = document.querySelector('.price_itens');
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach((item) => valueItems.push(item.innerText.split('$')[1]));
+  valueItems.map((item) => Number(item));
+  const newTotal = valueItems.reduce((acc, crv) => Number(acc) + Number(crv), 0);
+  total.innerText = `Total price: $ ${newTotal}`;
+};
+
+const refresh = () => {
+  saveCartItems();
+  return totalCartIten();
+};
+
 const $cartItens = document.querySelector('.cart__items');
 $cartItens.addEventListener('click', (event) => {
   const $item = event.target;
-  if ($item.tagName === 'LI') { $item.remove(); return saveCartItems(); }
-  if ($item.tagName === 'P') { $item.parentNode.remove(); return saveCartItems(); }
-  if ($item.tagName === 'IMG') { $item.parentNode.remove(); return saveCartItems(); }
+  if ($item.tagName === 'LI') { $item.remove(); return refresh(); }
+  if ($item.tagName === 'P') { $item.parentNode.remove(); return refresh(); }
+  if ($item.tagName === 'IMG') { $item.parentNode.remove(); return refresh(); }
   if ($item.tagName === 'path') {
     $item.parentNode.previousSibling.parentNode.parentNode.remove();
-    return saveCartItems();
+    return refresh();
   }
 });
 
@@ -44,7 +59,7 @@ function createCartItemElement({ id: sku, title: name, price: pice, thumbnail: i
 async function getSkuFromProductItem(event) {
   const $rest = await fetchItem(event.target.parentNode.querySelector('span.item__sku').innerText);
   document.querySelector('ol.cart__items').appendChild(createCartItemElement($rest));
-  saveCartItems();
+  refresh();
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image, price: pice }) {
@@ -84,5 +99,5 @@ window.onload = async () => {
     inventory.results.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
   }); loadStop();
-  getSavedCartItems();
+  getSavedCartItems(); totalCartIten();
 };
