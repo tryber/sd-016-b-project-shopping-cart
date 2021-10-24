@@ -42,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function pageItemClickListener(event) {
-  const itemId = event.target.parentNode.firstChild.innerText;
+  const itemId = getSkuFromProductItem(event.target.parentNode);
   const itemObj = await fetchItem(itemId);
   const itemData = { sku: itemObj.id, name: itemObj.title, salePrice: itemObj.price };
   const cart = document.querySelector('.cart__items');
