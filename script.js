@@ -65,13 +65,6 @@ const loadProducts = async (category) => {
     });
 };
 
-const loadProductToCart = () => { 
-  const products = getProductsFromTheCart();
-  if (!products) return;
-  products.forEach(addProductToCart);
-};
-
 window.onload = () => { 
   loadProducts('computador'); 
-  loadProductToCart();
 };
