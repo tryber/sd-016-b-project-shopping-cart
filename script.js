@@ -3,7 +3,7 @@ const cartItems = document.querySelector('.cart__items');
 const total = document.querySelector('.total-price');
 
 const getNumber = (str) => {
-  const m = str.split('R$');
+  const m = str.split('$');
   const price = m.slice(-1);
 
   return Number(price);
@@ -35,6 +35,15 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+const createLoadingMessage = () => {
+  const body = document.querySelector('body');
+  body.appendChild(createCustomElement('div', 'loading', 'loading...'));
+};
+
+const removeLoadingmessage = () => {
+document.querySelector('.loading').remove();
+};
+
 /* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 } */
@@ -45,8 +54,8 @@ const updateTotalPrice = () => {
   const sumCart = [...document.querySelectorAll('.cart__item')]
                       .reduce((a, c) => a + (getNumber(c.innerHTML)), 0);
   const totalValue = sumCart;              
-  total.innerText = totalValue.toFixed(2);
-  return totalValue.toFixed(2);
+  total.innerText = totalValue;
+  return totalValue;
 };
 
 function cartItemClickListener(event) {
@@ -60,14 +69,16 @@ function cartItemClickListener(event) {
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `${sku} ${name} | R$${salePrice.toFixed(2)}`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   cartItems.appendChild(li);
   updateTotalPrice(); 
 }
 
-const appendProducts = () => {
-  fetchProducts('computador')
+const appendProducts = async () => {
+  createLoadingMessage();
+
+ await fetchProducts('computador')
   .then((data) => data.results)
     .then((products) => {
     const items = document.querySelector('.items');
@@ -76,6 +87,8 @@ const appendProducts = () => {
       items.appendChild(item);
     });
   });
+
+  removeLoadingmessage();
 };
 
 const addToCart = () => {

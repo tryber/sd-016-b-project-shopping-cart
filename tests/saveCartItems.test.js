@@ -7,8 +7,8 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('4 - Teste a função saveCartItems', () => {
-  it(' verifica se setItems e chamada',async ()=>{
-    const  result =  saveCartItems('<ol><li>Item</li></ol>')
+  it(' verifica se setItems e chamada', ()=>{
+   saveCartItems('<ol><li>Item</li></ol>')
     expect(localStorage.setItem).toBeCalled();
   })
   it(' verifica se setItems e chamada chamada com dois parametros', ()=>{
