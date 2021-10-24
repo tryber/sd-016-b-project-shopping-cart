@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
   margin: 0;
   border: 0;
@@ -19,6 +21,7 @@
 
 body {
   background-color: rgba(249, 249, 246, 255);
+  font-family: Poppins, sans-serif;
 }
 
 header {
@@ -75,6 +78,7 @@ header {
   display: flex;
   width: 30%;
   background-color: green;
+  color: rgb(13, 58, 2);
   justify-content: space-between;
   align-items: center;
   font-size: 16pt;
@@ -124,11 +128,11 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   height: auto;
   margin: 0.5rem;
   width: 13rem;
-  animation: items 1s linear;
+  animation: items 0.7s linear;
 }
 
 .item:hover {
-  animation: zoom 0.5s linear;
+  animation: zoom 0.2s linear;
   transform: scale(1.05);
 }
 
@@ -139,14 +143,23 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   100% { transform: scale(1.05); }
 }
 
+@keyframes zoom-off {
+
+  100% { transform: scale(1.05); }
+
+  0% { transform: scale(1); }
+}
+
 .item .item__sku {
   display: none;
 }
 
 .item .item__title {
   flex-grow: 1;
-  padding: 10px;
+  padding: 1rem;
   text-align: center;
+  font-weight: 400;
+  font-size: 0.8rem;
   height: 20%;
 }
 
@@ -154,7 +167,7 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   flex-grow: 1;
   padding: 1rem;
   font-weight: 600;
-  color: rgb(100, 4, 4);
+  color: rgb(13, 58, 2);
   text-align: center;
 }
 
@@ -168,8 +181,9 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   border: 0.1rem solid green;
   border-radius: 0 0 0.5rem 0.5rem;
   cursor: pointer;
+  font-weight: 800;
   margin: -2px;
-  padding: 0.5rem;
+  padding: 0.7rem;
 }
 
 .cart {
