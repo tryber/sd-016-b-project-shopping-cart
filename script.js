@@ -1,3 +1,4 @@
+/* Criando a imagem do produto */
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -5,25 +6,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-function createCustomElement(element, className, innerText) {
-  const e = document.createElement(element);
-  e.className = className;
-  e.innerText = innerText;
-  return e;
-}
-
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
-  return section;
-}
-
+/* Retorna o ID do produto */
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -32,7 +15,8 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+/* Criando o produto a ser adicionado no carrinho de compras */
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,6 +24,39 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+/* Adiciona o produto no carrinho de compras */
+const cartProdutoClick = async (event) => {
+  const id = getSkuFromProductItem(event.target.parentNode);
+  const elementProduto = await fetchItem(id);
+  const carrinho = createCartItemElement(elementProduto);
+  const ol = document.querySelector('.cart__items');
+  ol.appendChild(carrinho);
+};
+
+/* Criando o produto */
+function createCustomElement(element, className, innerText) {
+  const e = document.createElement(element);
+  e.className = className;
+  e.innerText = innerText;
+  return e;
+}
+
+/* Adicionando o produto na section */
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const butaozinho = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  butaozinho.addEventListener('click', cartProdutoClick);
+  section.appendChild(butaozinho);
+
+  return section;
+}
+
+/* Buscando produto na API e adicionando o produto na página */
 const objProduto = async () => {
   const elementProduto = await fetchProducts();
   const sectionPai = document.querySelector('.items');
