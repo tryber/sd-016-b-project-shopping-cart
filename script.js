@@ -32,9 +32,34 @@ function getCartList() {
   return document.querySelector('.cart__items');
 }
 
+function addCartSubtotal(cartSubtotal) {
+  const cart = document.querySelector('.cart');
+
+  if (cart.lastChild.className === 'total-price') cart.removeChild(cart.lastChild);
+
+  const spanSubtotal = document.createElement('span');
+  spanSubtotal.innerText = `Subtotal: $${cartSubtotal}`;
+  spanSubtotal.className = 'total-price';
+  cart.appendChild(spanSubtotal);
+
+  if (cartSubtotal === 0) cart.removeChild(cart.lastChild);
+}
+
+function calculateCartSubtotal() {
+  const cartList = getCartList();
+  const cartItems = [...cartList.children];
+  const subtotal = cartItems.reduce((acc, item) => {
+    const itemPrice = item.innerText.split('$')[1];
+    const parsedItemPrice = parseInt(itemPrice, 10);
+    return acc + parsedItemPrice;
+  }, 0);
+  addCartSubtotal(subtotal);
+}
+
 function cartItemClickListener(event) {
   const itemsList = getCartList();
   itemsList.removeChild(event.target);
+  calculateCartSubtotal();
   /*
 Consultei o link abaixo para entender como salvar um elemento HTML no localStorage.
 ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
@@ -52,17 +77,16 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 async function appendItemToCart(event) {
   const itemId = event.target.parentElement.firstChild.innerText;
-  const product = await fetchItem(itemId);
+  const item = await fetchItem(itemId);
   const itemsList = getCartList();
-
-  const productObject = {
-    sku: product.id,
-    name: product.title,
-    salePrice: product.price,
+  const itemObject = {
+    sku: item.id,
+    name: item.title,
+    salePrice: item.price,
   };
 
-  itemsList.appendChild(createCartItemElement(productObject));
-
+  itemsList.appendChild(createCartItemElement(itemObject));
+  calculateCartSubtotal();
   saveCartItems(getCartList().innerHTML);
 }
 
@@ -99,6 +123,7 @@ function recoverCart() {
     ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
     */
     cartList.innerHTML = storageItems;
+    calculateCartSubtotal();
     /*
     Consultei o link abaixo para entender como usar HOFs em Node List e HTML Collection.
     ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
