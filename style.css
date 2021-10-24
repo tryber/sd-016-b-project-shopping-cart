@@ -292,11 +292,12 @@ https://codepen.io/fernandaassis-dg/pen/VdXLBP
   justify-content: center;
   align-items: center;
   margin: 0.5rem;
+  width: 70%;
 }
 
 .searchI {
   padding: 0.5rem;
   border: 0.1rem solid rgba(15, 58, 7, 0.726);
   border-radius: 0.5rem;
-  width: 80%;
+  width: 100%;
 }

@@ -21,12 +21,12 @@ const imgCartIten = (imgSrc) => {
 
 const totalCartIten = () => {
   const valueItems = [];
-  const total = document.querySelector('.price_itens');
+  const total = document.querySelector('.total-price');
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach((item) => valueItems.push(item.innerText.split('$')[1]));
   valueItems.map((item) => Number(item));
   const newTotal = valueItems.reduce((acc, crv) => Number(acc) + Number(crv), 0);
-  total.innerText = `Total price: $ ${newTotal}`;
+  total.innerText = `${newTotal}`;
 };
 
 const refresh = () => {
@@ -78,7 +78,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image, pric
 const $btnClrCart = document.querySelector('.empty-cart');
 $btnClrCart.addEventListener('click', () => {
   document.querySelector('ol.cart__items').innerHTML = '';
-  return saveCartItems();
+  return refresh();
 });
 
 const loadStart = () => {
