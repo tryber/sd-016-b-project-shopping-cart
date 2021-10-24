@@ -7,15 +7,27 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-
+// ******************************** 
+// Função Soma Produtos do Cart //
+// ******************************
+function sumPriceTotalProducts() {
+  const localPrice = document.querySelector('#localPrice');
+  let sum = 0;
+  const tagsLis = document.getElementsByClassName('cart__item');
+  for (let i = 0; i < tagsLis.length; i += 1) {
+    sum += Number(tagsLis[i].innerHTML.split('$').pop());
+  }
+  localPrice.innerHTML = sum;
+}
 // ***********************
 // QUESTÃO 03 FRONT END *
 // **********************
 function cartItemClickListener(event) {
    const objecto = event.target;
    objecto.remove();
+   sumPriceTotalProducts();
    saveCartItems(tagOl.innerHTML);
-}
+  }
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -29,11 +41,11 @@ function createCustomElement(element, className, innerText) {
 // *******************
 const buttonClearShopping = document.querySelector('.empty-cart');
 buttonClearShopping.addEventListener('click', () => {
-  // const tagOl = document.querySelector('.cart__items'); // tag OL
   tagOl.innerHTML = '';
   saveCartItems(tagOl.innerHTML);
   // https://qastack.com.br/programming/7667958/clearing-localstorage-in-javascript
   localStorage.clear();
+  sumPriceTotalProducts();
 });
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -82,12 +94,11 @@ async function addShoppingCartBackEnd(event) {
       const idProduto = event.target.parentNode.firstChild.innerText;
       const dataResult = await fetchItem(idProduto);
       const { id: sku, title: name, price: salePrice } = dataResult;
-     // const priceProduct = salePrice;
-     // sumShoppingCart(parseFloat(salePrice));
       const elementChild = createCartItemElement({ sku, name, salePrice });
       const itens = document.querySelector('.cart__items');
       itens.appendChild(elementChild);
       saveCartItems(itens.innerHTML);
+      sumPriceTotalProducts();
    } catch (error) {
     console.log('Erro Function addShoppingCarBackEnd:', error);
   }
@@ -134,9 +145,11 @@ function load() {
   const recuperaLocalStorage = getSavedCartItems();
   tagOl.innerHTML = recuperaLocalStorage;
   tagOl.addEventListener('click', cartItemClickListener);
-}
+  }
+  
 window.onload = () => {
   backEndCreateProductItem();
   load();
   createSectionPrice();
+  sumPriceTotalProducts();
   };
