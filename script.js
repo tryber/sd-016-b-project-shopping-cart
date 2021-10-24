@@ -1,3 +1,14 @@
+fetchProducts();
+const cartItems = document.querySelector('.cart__items');
+const total = document.querySelector('.total-price');
+
+const getNumber = (str) => {
+  const m = str.split('$');
+  const price = m.slice(-1);
+
+  return Number(price);
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,7 +23,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -24,20 +35,98 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
+const createLoadingMessage = () => {
+  const body = document.querySelector('body');
+  body.appendChild(createCustomElement('div', 'loading', 'loading...'));
+};
+
+const removeLoadingmessage = () => {
+document.querySelector('.loading').remove();
+};
+
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
+} */
+
+// https://stackoverflow.com/questions/63211646/can-you-use-reduce-on-a-nodelist 
+// usando reduce com queryselectorall ref
+const updateTotalPrice = () => {
+  const sumCart = [...document.querySelectorAll('.cart__item')]
+                      .reduce((a, c) => a + (getNumber(c.innerHTML)), 0);
+  const totalValue = sumCart;              
+  total.innerText = totalValue;
+  return totalValue;
+};
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const obj = event.target;
+  
+  obj.remove();
+  updateTotalPrice();
+  saveCartItems(cartItems.innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  return li;
+  cartItems.appendChild(li);
+  updateTotalPrice(); 
 }
 
-window.onload = () => { };
+const appendProducts = async () => {
+  createLoadingMessage();
+
+ await fetchProducts('computador')
+  .then((data) => data.results)
+    .then((products) => {
+    const items = document.querySelector('.items');
+    products.forEach((product) => {
+      const item = createProductItemElement(product);
+      items.appendChild(item);
+    });
+  });
+
+  removeLoadingmessage();
+};
+
+const addToCart = () => {
+ const items = document.querySelector('.items');
+items.addEventListener('click', (event) => {
+if (event.target.className === 'item__add') {
+  const getId = event.target.parentElement.querySelector('.item__sku').innerText;
+  fetchItem(getId)
+    .then((data) => createCartItemElement(data))
+    .then(() => saveCartItems(cartItems.innerHTML));
+  }
+});
+};
+
+const loadCart = () => {  
+  const items = getSavedCartItems();
+  cartItems.innerHTML = items;
+  document.querySelectorAll('.cart__item')
+    .forEach((item) => item.addEventListener('click', cartItemClickListener));
+};
+
+const cleanCart = () => {
+cartItems.innerHTML = '';
+saveCartItems(cartItems.innerHTML);
+updateTotalPrice();
+};
+
+const cleanButton = document.querySelector('.empty-cart');
+cleanButton.addEventListener('click', cleanCart);
+
+const loadTotalValue = () => {
+  total.innerHTML = updateTotalPrice();
+};
+
+window.onload = () => {
+  updateTotalPrice();
+  appendProducts();
+  addToCart();
+  loadCart();
+  loadTotalValue();
+ };
