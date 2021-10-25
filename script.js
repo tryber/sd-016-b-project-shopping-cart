@@ -2,6 +2,9 @@
 
 // const { fetchItem } = require("./helpers/fetchItem");
 // console.log(buscarItem);
+
+const cartList = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -33,12 +36,8 @@ function getSkuFromProductItem(item) {
 }
 
 async function cartItemClickListener(event) {
-  // const id = event.target.parentNode.firstTarget.innerText;
-  // const item = await fetchItem(id);
-  // const addItem = document.querySelector('.cart__items');
-  // console.log(item);
-  // const { id: sku, title: name, price: salePrice } = item;
-  // return createCartItemElement({ sku, name, salePrice });
+  // console.log(event);
+  cartList.removeChild(event.target);
 }
 
 async function createCartItemElement({ sku, name, salePrice }) {
@@ -85,11 +84,10 @@ items.addEventListener('click', async (event) => {
   cartList.appendChild(addItem);
 });
 
-// adicionando no carrinho de compras
-// function addItemCart(item) {
-//   const cartList = document.querySelector('.cart_items');
-//   cartList.appendChild(searchItem);
-// }
+// Requisito 3
+cartList.addEventListener('click', async (event) => {
+  cartItemClickListener(event);
+  });
 
 window.onload = () => { 
   searchProducts('computador');
