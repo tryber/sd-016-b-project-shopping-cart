@@ -12,8 +12,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const cartItems = document.querySelector('.cart_items');
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const eT = event.target;
+  eT.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -25,7 +28,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const addCartItem = async (sku) => {
-  const cartItems = document.querySelector('.cart_items');
   const products = await fetchItems(sku);
   const createCartItem = createCartItemElement(products);
   cartItems.appendChild(createCartItem);
@@ -65,9 +67,4 @@ const showProducts = async () => {
 
 window.onload = () => {
   showProducts();
-  document.addEventListener('click', (event) => {
-    if (event.target && event.target.classLIst.contains('item_add')) {
-      addCartItem(idProduct(event));
-    }
-  });
  };
