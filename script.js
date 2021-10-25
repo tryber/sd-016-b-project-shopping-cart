@@ -2,9 +2,9 @@ const cartList = document.querySelector('.cart__items');
 const clearButton = document.querySelector('.empty-cart');
 const loadContainer = document.querySelector('.load-container');
 
-
 function cartItemClickListener(event) {
   cartList.removeChild(event.target);
+  saveCartItems(cartList.innerHTML);
 }
 
 const loading = () => {
@@ -73,9 +73,9 @@ const storage = () => {
   cartList.innerHTML = getSavedCartItems();
   const items = document.querySelectorAll('.cart__item');
   items.forEach((item) => {
-    item.addEventListener('click', cartItemClickListener)
-  })
-}
+    item.addEventListener('click', cartItemClickListener);
+  });
+};
 
 const clearList = () => {
   clearButton.addEventListener('click', () => {
