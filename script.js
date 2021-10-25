@@ -72,7 +72,15 @@ function restoreCart() {
   cartItems.forEach((item) => item.addEventListener('click', cartItemClickListener));
 }
 
+function emptyCartClickListener() {
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', () => {
+    cart.innerHTML = '';
+  });
+}
+
 window.onload = () => {
   searchProducts('computador');
   restoreCart();
+  emptyCartClickListener();
 };
