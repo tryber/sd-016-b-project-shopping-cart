@@ -12,6 +12,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// Meu código aqui
 const itemsCart = document.querySelector('.cart__items');
 
 function cartItemClickListener(event) {
@@ -68,8 +69,14 @@ const addCartItem = async (sku) => {
   saveCartItems(itemsCart.innerHTML);
 };
 
+const loadStore = () => {
+  const store = getSavedCartItems();
+  itemsCart.innerHTML = store;
+};
+
 window.onload = () => {
   showProducts();
+  loadStore();
   document.addEventListener('click', (event) => {
     if (event.target && event.target.classList.contains('item__add')) {
       addCartItem(itemId(event));
