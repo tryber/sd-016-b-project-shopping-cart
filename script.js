@@ -31,10 +31,10 @@ function getSkuFromProductItem(item) {
 }
 
 function atualizaTotal() {
-  const [p, s] = [[], document.querySelector('.total-price')];
+  const p = [];
   cart.childNodes.forEach((i) => p.push(i.data.salePrice));
-  s.innerText = 0;
-  if (p.length) s.innerText = p.reduce((a, c) => c);
+  document.querySelector('.total-price').innerText = 0;
+  if (p.length) document.querySelector('.total-price').innerText = p.reduce((a, c) => c);
 }
 
 function save() { 
