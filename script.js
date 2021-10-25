@@ -33,16 +33,18 @@ function getCartList() {
 }
 
 function addCartSubtotal(cartSubtotal) {
-  const cart = document.querySelector('.cart');
+  const subtotalContainer = document.querySelector('.cart__subtotal');
 
-  if (cart.lastChild.className === 'total-price') cart.removeChild(cart.lastChild);
+  if (subtotalContainer.lastChild.className === 'total-price') {
+    subtotalContainer.removeChild(subtotalContainer.lastChild);
+  }
 
   const spanSubtotal = document.createElement('span');
-  spanSubtotal.innerText = `Subtotal: $${cartSubtotal}`;
+  spanSubtotal.innerText = cartSubtotal;
   spanSubtotal.className = 'total-price';
-  cart.appendChild(spanSubtotal);
+  subtotalContainer.appendChild(spanSubtotal);
 
-  if (cartSubtotal === 0) cart.removeChild(cart.lastChild);
+  // if (cartSubtotal === 0) subtotalContainer.removeChild(subtotalContainer.lastChild);
 }
 
 function calculateCartSubtotal() {
@@ -50,7 +52,7 @@ function calculateCartSubtotal() {
   const cartItems = [...cartList.children];
   const subtotal = cartItems.reduce((acc, item) => {
     const itemPrice = item.innerText.split('$')[1];
-    const parsedItemPrice = parseInt(itemPrice, 10);
+    const parsedItemPrice = parseFloat(itemPrice, 10);
     return acc + parsedItemPrice;
   }, 0);
   addCartSubtotal(subtotal);
