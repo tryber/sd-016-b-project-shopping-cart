@@ -1,4 +1,5 @@
 const cartList = document.querySelector('.cart__items');
+const clearButton = document.querySelector('.empty-cart');
 
 function cartItemClickListener() {
   cartList.addEventListener('click', (e) => {
@@ -61,6 +62,14 @@ const putItens = async () => {
       });
   });
 };
+
+const clearList = () => {
+  clearButton.addEventListener('click', () => {
+    cartList.innerHTML = '';
+  });
+};
+
+clearList();
 
 window.onload = () => { 
   putItens();
