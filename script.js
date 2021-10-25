@@ -98,5 +98,5 @@ window.onload = () => {
   searchedProducts('computador');
   document.querySelector('.loading').innerText = 'carregando';
   cleanEntireCart();
-  getFromLocalStorage();
+  // getFromLocalStorage();
 };
