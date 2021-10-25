@@ -1,4 +1,5 @@
-const itemsInCart = document.querySelector('.cart__items');
+const allItemsInCart = document.querySelector('.cart__items');
+const cartItemsSection = document.querySelector('.cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -17,26 +18,45 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+// https://stackoverflow.com/questions/30607419/return-only-numbers-from-string/30607466
+
+const catchPrice = (str) => {
+  const priceTextHandly = str.slice(-10);
+  const valueText = priceTextHandly.replace(/[^0-9.]/g, '');
+  const valueNumber = Number(valueText);
+  return valueNumber;
+};
+
+const sumItems = () => {
+  const allItems = [...document.querySelectorAll('.cart__item')];
+  const mapValues = allItems.map((item) => catchPrice(item.innerText));
+  const prices = mapValues.reduce((sum, actPrice) => (sum + actPrice), 0);
+  return prices;
+};
+
+const addTotalToPage = () => {
+  document.querySelector('.total-price').innerText = sumItems();
+};
 
 function cartItemClickListener(event) {
-  const clearChart = event.target;
-  clearChart.remove();
-  saveCartItems(itemsInCart.innerHTML);
-  }
-
-// https://stackoverflow.com/questions/9799505/allow-only-numbers-and-dot-in-script
+  const eT = event.target;
+  eT.remove();
+  addTotalToPage();
+  saveCartItems(allItemsInCart.innerHTML);
+}
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -46,19 +66,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const loadProducts = async () => {
-  await fetchProducts('computador')
-  .then((data) => data.results)
-  .then((products) => {
-    const items = document.querySelector('.items');
-    products.forEach((product) => {
-      const item = createProductItemElement(product);
-      items.appendChild(item);
-    });
-  });
+const productsArray = async () => {
+  const products = await fetchProducts('computador');
+  const itemsElemente = document.getElementsByClassName('items')[0];
+  products.results.forEach((product) => {
+    const products2 = createProductItemElement(product);
+    itemsElemente.appendChild(products2);
+   });
 };
-// https://github.com/tryber/sd-016-b-project-shopping-cart/pull/83/commits/bc43666c2cb475550300a611cbed7fa5b7c441f2
-
 function getId(e) {
   const innerTxtId = e.target.parentNode.firstChild.innerText;
   return innerTxtId;
@@ -68,18 +83,20 @@ const addItemCartElement = async (id) => {
   const prod = await fetchItem(id);
   const prodAdded = createCartItemElement(prod);
   document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
-  saveCartItems(itemsInCart.innerHTML);
+  addTotalToPage();
+  saveCartItems(allItemsInCart.innerHTML);
 };
 
-function loadItemsCart() {
-  const cartItemList = getSavedCartItems();
-  itemsInCart.innerHTML = cartItemList;
+function loadItemsInCart() {
+  const iHTMLcartI = getSavedCartItems();
+  allItemsInCart.innerHTML = iHTMLcartI;
 }
+// https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
 
-window.onload = () => { 
-  loadProducts();
-  loadItemsCart();
-
+window.onload = () => {
+  productsArray();
+  loadItemsInCart();
+  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
