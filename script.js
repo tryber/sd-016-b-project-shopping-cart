@@ -36,6 +36,11 @@ const ol = document.querySelector('.cart__items');
 ol.appendChild(itemcar);
 }
 
+function loadingPage() {
+  const parentLoading = document.querySelector('.parentLoading');
+  parentLoading.innerHTML = '';
+}
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -46,7 +51,7 @@ function createProductItemElement({ sku, name, image }) {
   const buttonAddCart = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   buttonAddCart.addEventListener('click', addItemCart);
   section.appendChild(buttonAddCart);
-
+  loadingPage();
   return section;
 }
 
