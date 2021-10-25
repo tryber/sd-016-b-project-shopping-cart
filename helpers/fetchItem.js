@@ -1,6 +1,4 @@
-const fetchItem = () => {
-  // seu código aqui
-};
+const fetchItem = () => {};
 
 if (typeof module !== 'undefined') {
   module.exports = {
