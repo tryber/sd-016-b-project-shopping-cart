@@ -45,19 +45,6 @@ async function cartProducts(event) {
   saveCartItems(cartList.innerHTML);
 }
 
-const loadingSite = () => {
-  const load = getSavedCartItems();
-  cartList.innerHTML = load;
-
-  // const cartList = document.querySelector('cart__items');
-
-  cartList.forEach((item) => item
-    .addEventListener('click', (e) => {
-      element.remove(e);
-      saveCartItems(cartList.innerHTML);
-    }));
-};
-
 const emptCart = document.querySelector('.empty-cart');
 
 const clear = () => {
@@ -77,10 +64,19 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function loadingMensage() {
+  const body = document.querySelector('body');
+  body.appendChild(createCustomElement('div', 'loading', 'carregando...'));
+}
+
+function removeLoadingMessage() {
+  document.querySelector('.loading').remove();  
+}
+
 function createProductItemElement({ image, sku, name, salePrice }) {
   const section = document.createElement('section');
   section.className = 'item';
-
+  
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
@@ -88,14 +84,15 @@ function createProductItemElement({ image, sku, name, salePrice }) {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   section.appendChild(button);
   button.addEventListener('click', cartProducts);
-
+  
   return section;
 }
 
 async function searchProducts(product) {
+  loadingMensage();
   const searchData = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
-
+  
   searchData.results.forEach((item) => {
     const itemObject = {
       sku: item.id,
@@ -103,14 +100,28 @@ async function searchProducts(product) {
       image: item.thumbnail,
       salePrice: item.price,
     };
-
+    
     sectionItems.appendChild(createProductItemElement(itemObject));
   });
+  removeLoadingMessage();
 }
+
+const loadingSite = async () => {
+  const load = await getSavedCartItems();
+  cartList.innerHTML = load;
+
+  const list = document.querySelector('cart__item');
+
+  list.results.forEach((item) => item
+    .addEventListener('click', (e) => {
+      element.remove(e);
+      saveCartItems(cartList.innerHTML);
+    }));
+};
 
 clear();
 
 window.onload = () => {
   searchProducts('computador');
-  // loadingSite();
+  loadingSite();
 };
