@@ -25,7 +25,7 @@ describe('1 - Teste a função fecthProducts', () => {
   test('fetchProducts deve retornar uma estrutura igual à de computadorSearch', async () => {
     expect.assertions(1);
     const actual = await fetchProducts('computador');
-    expect(actual).toEqual(computadorSearch.results);
+    expect(actual).toEqual(computadorSearch);
   });
 
   test('fetchProducts deve retornar um erro com a mensagem: "You must provide an url" quando chamada sem argumentos.', () => {
