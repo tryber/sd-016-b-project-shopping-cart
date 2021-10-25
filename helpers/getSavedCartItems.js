@@ -1,4 +1,4 @@
-const getSavedCartItems = (cartItemClickListener) => {
+const getSavedCartItems = async (cartItemClickListener) => {
   const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = localStorage.getItem('cartItems');
   const allitens = document.querySelectorAll('.cart__item');

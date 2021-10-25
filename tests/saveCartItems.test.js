@@ -12,4 +12,9 @@ describe('4 - Teste a função saveCartItems', () => {
     saveCartItems('<ol><li>Item</li></ol>');
     expect(localStorage.setItem).toHaveBeenCalled();
   });
+
+  it('ao chamar saveCartItems com o argumento <ol><li>Item</li></ol>, verifica os argumentos passados ao setItem', () => {
+    saveCartItems('<ol><li>Item</li></ol>');
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', saveCartItems);
+  });
 });
