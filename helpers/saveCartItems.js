@@ -1,5 +1,4 @@
 const saveCartItems = (element) => {
-  localStorage.clear();
   localStorage.setItem('cartItems', element);
 };
 

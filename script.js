@@ -53,7 +53,7 @@ const takeProductsAndShowThem = async () => {
 const addToCart = (computer) => {
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(computer));
-  saveCartItems(ol);
+  saveCartItems(ol.innerHTML);
 };
 
 const addToCartClickListener = async (event) => {
@@ -80,10 +80,12 @@ const emptyCart = () => {
     while (ol.firstChild) {
       ol.removeChild(ol.lastChild);
     }
+    saveCartItems(ol.innerHTML);
   });
 };
 
 window.onload = () => {
   getID();
   emptyCart();
+  getSavedCartItems();
 };
