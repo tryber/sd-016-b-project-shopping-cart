@@ -123,7 +123,9 @@ async function addShoppingCartBackEnd(event) {
       const { id: sku, title: name, price: salePrice } = dataResult;
       const elementChild = createCartItemElement({ sku, name, salePrice });
       const itens = document.querySelector('.cart__items');
+      const tagHrStyle = document.createElement('hr');
       itens.appendChild(elementChild);
+      itens.appendChild(tagHrStyle);
       saveCartItems(itens.innerHTML);
       sumPriceTotalProducts();
    } catch (error) {
