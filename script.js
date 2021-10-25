@@ -53,6 +53,7 @@ const takeProductsAndShowThem = async () => {
 const addToCart = (computer) => {
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(computer));
+  saveCartItems(ol);
 };
 
 const addToCartClickListener = async (event) => {
