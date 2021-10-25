@@ -33,18 +33,8 @@ function getCartList() {
 }
 
 function addCartSubtotal(cartSubtotal) {
-  const subtotalContainer = document.querySelector('.cart__subtotal');
-
-  if (subtotalContainer.lastChild.className === 'total-price') {
-    subtotalContainer.removeChild(subtotalContainer.lastChild);
-  }
-
-  const spanSubtotal = document.createElement('span');
+  const spanSubtotal = document.querySelector('.total-price');
   spanSubtotal.innerText = cartSubtotal;
-  spanSubtotal.className = 'total-price';
-  subtotalContainer.appendChild(spanSubtotal);
-
-  // if (cartSubtotal === 0) subtotalContainer.removeChild(subtotalContainer.lastChild);
 }
 
 function calculateCartSubtotal() {
@@ -59,8 +49,8 @@ function calculateCartSubtotal() {
 }
 
 function cartItemClickListener(event) {
-  const itemsList = getCartList();
-  itemsList.removeChild(event.target);
+  const cartList = getCartList();
+  cartList.removeChild(event.target);
   calculateCartSubtotal();
   /*
 Consultei o link abaixo para entender como salvar um elemento HTML no localStorage.
@@ -75,6 +65,18 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+function clearCart() {
+  const cartList = getCartList();
+  cartList.innerHTML = '';
+  localStorage.clear();
+  calculateCartSubtotal();
+}
+
+function enableClearCartButton() {
+  const clearCartButton = document.querySelector('.empty-cart');
+  clearCartButton.addEventListener('click', clearCart);
 }
 
 async function appendItemToCart(event) {
@@ -139,4 +141,5 @@ function recoverCart() {
 window.onload = () => {
   getProducts('computador');
   recoverCart();
+  enableClearCartButton();
 };
