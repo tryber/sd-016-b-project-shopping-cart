@@ -1,7 +1,17 @@
+body {
+  background-color: rgb(211, 211, 211);
+}
+
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   width: 100%;
+}
+
+.container__items {
+  display: flex;
+  flex-direction: row;
 }
 
 .items {
@@ -12,13 +22,15 @@
 }
 
 .item {
-  border: 2px solid blue;
+  background-color: rgb(245, 245, 245);
+  border: 2px solid rgb(151, 151, 151);
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: auto;
   margin: 5px;
+  padding: 5px;
   width: 200px;
 }
 
@@ -28,30 +40,73 @@
 
 .item .item__title {
   flex-grow: 1;
+  font-family: 'Ubuntu', sans-serif;
   padding: 10px;
   text-align: center;
 }
 
 .item .item__image {
+  border-radius: 5px;
+  margin: 5px 0;
   width: 100%;
 }
 
 .item .item__add {
-  background-color: green;
-  border: 0;
+  background-color: rgb(0, 128, 0);
+  border: outset;
+  border-radius: 5px;
   cursor: pointer;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
   margin: 0;
   padding: 5px;
 }
 
 .cart {
+  align-items: center;
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
+  flex-direction: column;
 }
 
 .cart .cart__title {
   flex-basis: 1;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 16pt;
+  margin: 10px;
   text-align: center;
+}
+
+.cart__items {
+  margin: 10px;
+  padding: 0;
+}
+
+.cart__item {
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  list-style: none;
+  margin: 5px;
+}
+
+.empty-cart {
+  background-color: rgb(245, 245, 245);
+  border: outset;
+  border-radius: 5px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  max-width: 100px;
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 28pt;
+  justify-content: center;
 }
