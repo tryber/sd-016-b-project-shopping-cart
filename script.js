@@ -45,8 +45,12 @@ const somePrice = (price) => {
   getP.innerHTML = val;
 };
 
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
 const addItemCard = (event) => {
-  const idItem = event.target.parentElement.firstElementChild.innerText;
+  const idItem = getSkuFromProductItem(event.target.parentElement);
   fetchItem(idItem)
     .then((data) => { 
       getOL.appendChild(createCartItemElement({
@@ -77,10 +81,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
 }
 
 const removeLoad = () => {
