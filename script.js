@@ -10,7 +10,7 @@ let total = 0;
 function clearCart() {
   cartItems.innerHTML = '';
   totalCart.innerHTML = '0';
-  saveCartItems(cartItems);
+  saveCartItems(cartItems.innerHTML);
 }
 clearItems.addEventListener('click', clearCart);
 
@@ -28,7 +28,7 @@ function cartItemClickListener(event) {
   total -= event.target.innerText.split('$')[1];
   totalCart.innerText = total;
   cartItems.removeChild(event.target);
-  saveCartItems(cartItems);
+  saveCartItems(cartItems.innerHTML);
 }
 
 // Função para criar os itens no html.
@@ -59,11 +59,11 @@ async function getSkuFromProductItem(item) {
     .parentNode
     .querySelector('span.item__sku')
     .innerText;
- await fetchItem(itemID)
+  await fetchItem(itemID)
     .then((element) => {
       cartItems
         .appendChild(createCartItemElement(element));
-      saveCartItems(cartItems);
+      saveCartItems(cartItems.innerHTML);
       sumTotalPrice(element.price);
     });
 }
