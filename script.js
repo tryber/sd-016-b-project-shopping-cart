@@ -1,15 +1,15 @@
 const cartItems = document.querySelector('.cart__items');
 const emptyCartButton = document.querySelector('.empty-cart');
 const loading = document.createElement('p');
-const totalValue = document.querySelector('.total-price')
+const totalValue = document.querySelector('.total-price');
 
 const totalValueSaver = (element) => {
   localStorage.setItem('totalValue', element);
-}
+};
 
 const totalValueRetriever = () => (
   localStorage.getItem('totalValue')
-)
+);
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -68,15 +68,15 @@ const addPrice = async (event) => {
   const getPrice = await item.base_price;
   totalValue.innerHTML = parseFloat(totalValue.innerHTML) + getPrice;
   totalValueSaver(totalValue.innerHTML);
-}
+};
 
 const subtractPrice = async (event) => {
-  const getItemSku = event.target.innerHTML.slice(5,18);
+  const getItemSku = event.target.innerHTML.slice (5,18);
   const item = await fetchItem(getItemSku);
   const getPrice = item.base_price;
   totalValue.innerHTML = parseFloat(totalValue.innerHTML) - getPrice;
   totalValueSaver(totalValue.innerHTML);
-}
+};
 
 const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
