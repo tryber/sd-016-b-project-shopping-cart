@@ -71,7 +71,7 @@ const addPrice = async (event) => {
 };
 
 const subtractPrice = async (event) => {
-  const getItemSku = event.target.innerHTML.slice (5,18);
+  const getItemSku = event.target.innerHTML.slice(5, 18);
   const item = await fetchItem(getItemSku);
   const getPrice = item.base_price;
   totalValue.innerHTML = parseFloat(totalValue.innerHTML) - getPrice;
