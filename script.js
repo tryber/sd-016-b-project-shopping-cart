@@ -71,6 +71,6 @@ const applyItemElements = () => {
 
 window.onload = () => {
   applyItemElements();
-  getSavedCartItems();
+  cartItems.innerHTML = getSavedCartItems();
   addListenner();
 };
