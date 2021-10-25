@@ -20,5 +20,10 @@ describe('2 - Teste a função fecthItem', () => {
     expect(fetch).toHaveBeenCalledWith(
       'https://api.mercadolibre.com/items/MLB1615760527'
     );
+  })
+
+  test('Verificar se retorno da função fetchItem é uma estrutura json', async () => {
+    const result = await fetchItem('MLB1615760527');
+    expect(result).toEqual(item);
   });
 })
