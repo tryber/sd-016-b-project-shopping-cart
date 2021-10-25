@@ -46,7 +46,7 @@ const sumItems = () => {
   const allItems = [...document.querySelectorAll('.cart__item')];
   const mapValues = allItems.map((item) => catchPrice(item.innerText));
   const prices = mapValues.reduce((sum, actPrice) => (sum + actPrice), 0);
-  return prices;
+  return prices.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 };
 
 const addTotalToPage = () => {
@@ -95,10 +95,15 @@ function loadItemsInCart() {
 }
 // https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
 
-window.onload = () => {
-  productsArray();
-  loadItemsInCart();
-  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
+function showLoading() {
+  document.querySelector('body').appendChild(createCustomElement('div', 'loading', 'loading...'));
+}
+
+function removeLoading() {
+  document.querySelector('.loading').remove();
+}
+
+function eventListener() {
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       addItemCartElement(getId(e));
@@ -107,6 +112,19 @@ window.onload = () => {
       cartItemClickListener(e);
     }
   });
+}
+
+const inkoveOnLoad = () => {
+  showLoading();
+  productsArray()
+    .then(() => loadItemsInCart())
+    .then(() => eventListener())
+    .then(() => removeLoading());
+ };
+
+window.onload = () => {
+  inkoveOnLoad();
+  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
 };
 
 clearButton.addEventListener('click', function () {
