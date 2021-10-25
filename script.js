@@ -1,3 +1,16 @@
+const cartItems = document.querySelector('.cart__items');
+const emptyCartButton = document.querySelector('.empty-cart')
+const loading = document.createElement('p');
+
+const emptyCart = () => {
+  while(cartItems.firstChild) {
+    cartItems.removeChild(cartItems.firstChild);
+  }
+  saveCartItems(cartItems);
+}
+
+emptyCartButton.addEventListener('click', emptyCart);
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -18,9 +31,9 @@ function createCustomElement(element, className, innerText) {
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
+  li.addEventListener('click', cartItemClickListener);
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -30,6 +43,7 @@ const throwInCart = async (event) => {
   const cartList = document.querySelector('.cart__items');
   const createElement = createCartItemElement(item);
   cartList.appendChild(createElement);
+  saveCartItems(cartItems)
 }
 
 const createProductItemElement = ({ id: sku, title:name, thumbnail: image }) => {
@@ -44,19 +58,28 @@ const createProductItemElement = ({ id: sku, title:name, thumbnail: image }) => 
   return section;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
+const itemSection = document.querySelector('.items');
+loading.classList = 'loading';
+loading.innerText = 'carregando...';
+itemSection.appendChild(loading);
 
 const createItems = async () => {
   const allItems = await fetchProducts('computador');
-  const itemSection = document.querySelector('.items');
+  itemSection.removeChild(itemSection.firstChild)
   return allItems.forEach((item) => {
     const createElement = createProductItemElement(item)
     itemSection.append(createElement)
   })
 }
 
-window.onload = () => {
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveCartItems(cartItems)
+}
+
+
+window.onload = async () => {
   createItems();
+  cartItems.innerHTML = await getSavedCartItems();
+  cartItems.addEventListener('click', cartItemClickListener)
 };
