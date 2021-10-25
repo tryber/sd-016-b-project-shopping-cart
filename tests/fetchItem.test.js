@@ -12,9 +12,18 @@ describe('2 - Teste se a função fecthItem', () => {
     fetchItem('MLB1615760527');
     expect(fetch).toHaveBeenCalled();
   });
+  it('foi chamada com o argumento MLB1532308540', () => {
+    fetchItem('MLB1532308540');
+    expect(fetch).toHaveBeenCalled();
+  });
   it('utiliza o ENDPOINT esperado', () => {
     const endpoint = 'https://api.mercadolibre.com/items/MLB1615760527'
     fetchItem('MLB1615760527');
+    expect(fetch).toHaveBeenCalledWith(endpoint);
+  });
+  it('utiliza o ENDPOINT esperado', () => {
+    const endpoint = 'https://api.mercadolibre.com/items/MLB1532308540'
+    fetchItem('MLB1532308540');
     expect(fetch).toHaveBeenCalledWith(endpoint);
   });
   it('retorna um objeto igual a item ao receber o argumento MLB1615760527', async () => {
