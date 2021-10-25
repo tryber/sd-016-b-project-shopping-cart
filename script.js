@@ -34,7 +34,7 @@ function createProductItemElement({ sku, name, image }) {
 // remove o item do carrinho de compras caso ele seja clickado
 function cartItemClickListener(event) { 
   listCarrinho.removeChild(event.target);
-  saveCartItems();
+  saveCartItems(listCarrinho.innerHTML);
 }
 
 // cria o item para o carrinho de compras
@@ -57,7 +57,7 @@ async function addToCarrinho(event) {
   };
   const newCarrinho = createCartItemElement(dadosObj);
   listCarrinho.appendChild(newCarrinho);
-  saveCartItems();
+  saveCartItems(listCarrinho.innerHTML);
 }
 
 // faz com que os botoes "adicionar ao carrinho" funcionem e redireciona seu funcionamento para a funcao addToCarrinho
@@ -87,7 +87,7 @@ function clearButton() {
   const clean = document.querySelector('.empty-cart');
   clean.addEventListener('click', () => {
    listCarrinho.innerText = ' ';
-   saveCartItems();
+   saveCartItems(listCarrinho.innerText);
   });
 }
 
