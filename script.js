@@ -24,15 +24,6 @@ const totalPrice = () => {
   totalDiv.innerHTML = sum;
 };
 
-// const totalPrice = () => {
-//   const productsIds = JSON.parse(localStorage.getItem('cartItems'));
-//   if (productsIds.length > 0) {
-//     let acc = 0;
-//     productsIds.forEach((id) => fetchItem(id)
-//       .then((element) => { totalPriceHtml(acc += element.base_price); }));
-//   } else totalPriceHtml(0); // Faz com que o preço se atualize para 0 caso a condição acima não seja atendida
-// };
-
 const localStorageNull = () => {
   if (localStorage.getItem('cartItems') === null) localStorage.setItem('cartItems', '[]');
 };
@@ -105,9 +96,9 @@ const addToCart = () => {
   });
 };
 
-const cartOnRefresh = () => {
+const cartOnRefresh = async () => {
   const currOl = currentOl();
-  currOl.innerHTML = getSavedCartItems();
+  currOl.innerHTML = await getSavedCartItems();
   const childrenOfOl = currOl.children;
   for (let i = 0; i < childrenOfOl.length; i += 1) {
     childrenOfOl[i].addEventListener('click', cartItemClickListener);
@@ -124,16 +115,6 @@ const emptyCartBtn = () => {
     localStorage.setItem('cartItems', '[]');
   });
 };
-
-// const totalPrice = () => {
-//   const nodeFather = currentOl();
-//   if 
-// }
-
-// localStorageNull();
-// createProductRotation();
-// addToCart();
-// cartOnRefresh();
 
 window.onload = () => {
   localStorageNull();
