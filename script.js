@@ -74,7 +74,6 @@ const addCartItem = async (sku) => {
 function loadStore() {
   const store = getSavedCartItems();
   itemsInCart.innerHTML = store;
-  return store;
 }
 
 clearButton.addEventListener('click', () => {
