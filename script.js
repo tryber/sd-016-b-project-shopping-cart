@@ -1,7 +1,6 @@
 const olItem = document.querySelector('.cart__items');
 const productItems = document.querySelector('.items');
 const btnEmptyCart = document.querySelector('.empty-cart');
-const loading = document.querySelector('#loadingId');
 
 function itemsSavedLocalStorage() {
   const loadItems = getSavedCartItems();
@@ -26,6 +25,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  saveCartItems(olItem.innerHTML);
   return li;
 }
 
@@ -57,16 +57,11 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function loadEnd() {
-  loading.innerHTML = '';
-}
-
 function alheioS() {
   fetchProducts('computador')
     .then((data) => data.results
     .forEach((element) => productItems.appendChild(createProductItemElement(element))));
     saveCartItems(olItem.innerHTML);
-    loadEnd();
 }
 
 btnEmptyCart.addEventListener('click', () => {
