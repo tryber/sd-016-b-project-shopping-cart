@@ -18,5 +18,9 @@ describe('2 - Teste a função fecthItem', () => {
     const fetchCalled = await fetchItem('MLB1615760527');
     expect(fetch).toHaveBeenCalledWith(url);
   });
+  it('Teste se o retorno da função fetchItem com o argumento "MLB1615760527" é uma estrutura de dados igual ao objeto item, que já está importado no arquivo', async () => {
+    const fetchCalled = await fetchItem('MLB1615760527');
+    expect(fetchCalled).toEqual(item);
+  });
 
 });
