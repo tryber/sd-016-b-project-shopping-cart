@@ -8,7 +8,7 @@ const totalValueSaver = (element) => {
 };
 
 const totalValueRetriever = () => (
-  localStorage.getItem('totalValue')
+  Number(localStorage.getItem('totalValue'))
 );
 
 function cartItemClickListener(event) {
@@ -63,18 +63,19 @@ const throwInCart = async (event) => {
 };
 
 const addPrice = async (event) => {
+  console.log(event.target.parentNode);
   const getItemSku = getSkuFromProductItem(event.target.parentNode);
   const item = await fetchItem(getItemSku);
-  const getPrice = await item.base_price;
-  totalValue.innerHTML = parseFloat(totalValue.innerHTML) + getPrice;
+  const getPrice = await item.price;
+  totalValue.innerHTML = (parseFloat(totalValue.innerHTML) + getPrice);
   totalValueSaver(totalValue.innerHTML);
 };
 
 const subtractPrice = async (event) => {
-  const getItemSku = event.target.innerHTML.slice(5, 18);
+  const getItemSku = event.target.innerHTML.slice(5, 18).trim();
   const item = await fetchItem(getItemSku);
-  const getPrice = item.base_price;
-  totalValue.innerHTML = parseFloat(totalValue.innerHTML) - getPrice;
+  const getPrice = item.price;
+  totalValue.innerHTML = ((parseFloat(totalValue.innerHTML)) - getPrice);
   totalValueSaver(totalValue.innerHTML);
 };
 
