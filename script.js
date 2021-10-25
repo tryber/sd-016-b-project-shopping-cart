@@ -74,6 +74,11 @@ const loadStore = () => {
   itemsCart.innerHTML = store;
 };
 
+document.querySelector('.empty-cart').addEventListener('click', () => {
+  itemsCart.innerHTML = '';
+  saveCartItems(itemsCart.innerHTML);
+});
+
 window.onload = () => {
   showProducts();
   loadStore();
