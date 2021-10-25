@@ -80,7 +80,7 @@ const currentOl = () => document.querySelector('.cart__items');
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
-  saveCartItems(currentOl());
+  saveCartItems(currentOl().innerHTML);
   totalPrice();
 }
 
@@ -92,7 +92,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   cart.appendChild(li);
-  saveCartItems(currentOl());
+  saveCartItems(currentOl().innerHTML);
   totalPrice();
 }
 
@@ -106,10 +106,13 @@ const addToCart = () => {
 };
 
 const cartOnRefresh = () => {
-  const arrayFromLocal = JSON.parse(getSavedCartItems());
-  // console.log(arrayFromLocal);
-  arrayFromLocal.forEach((id) => fetchItem(id)
-    .then((element) => createCartItemElement(element)));
+  const currOl = currentOl();
+  currOl.innerHTML = getSavedCartItems();
+  const childrenOfOl = currOl.children;
+  for (let i = 0; i < childrenOfOl.length; i += 1) {
+    childrenOfOl[i].addEventListener('click', cartItemClickListener);
+  }
+  totalPrice();
 };
 
 const emptyCartBtn = () => {
