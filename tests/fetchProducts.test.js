@@ -5,6 +5,35 @@ const computadorSearch = require('../mocks/search');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('1 - Teste a função fecthProducts', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  // implemente seus testes aqui  
+  const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  it('1-Verificar se é uma function', () => {
+    expect.assertions(1);
+    const isFunction = typeof fetchProducts;
+    expect(isFunction).toBe('function');
+  })
+  it('2-Verifica se a função é chamada', async () => {
+    expect.assertions(1);
+    await fetchProducts(endPoint);
+    expect(fetch).toHaveBeenCalled();
+  });
+  it('3-Teste se, ao chamar a função fetchProducts com o argumento "computador", a função fetch utiliza o endpoint "https://api.mercadolibre.com/sites/MLB/search?q=computador"', () =>{
+    expect.assertions(1);
+    expect(fetch).toHaveBeenCalledWith(endPoint);
+  })
+  it('4-Teste se o retorno da função fetchProducts com o argumento "computador" é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.' , async () => {
+    expect.assertions(1);
+    expect(await fetchProducts(endPoint)).toEqual(computadorSearch);
+  });
+  it('5-Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url.' , async () => {
+    expect.assertions(1);
+    await expect(fetchProducts()).rejects.toEqual(new Error('You must provide an url'));
+  });
+  // it('teste se o catch funciona', async () => {
+  //   expect(await fetchProducts('https://api.mercadolibre.com/sites/MLB/search?q=')).toBe({});
+  // });
 });
+
+
+// test("Test description", () => { const t = () => { throw new TypeError("UNKNOWN ERROR"); }; 
+// expect(t).toThrow(TypeError); expect(t).toThrow("UNKNOWN ERROR"); }); 
