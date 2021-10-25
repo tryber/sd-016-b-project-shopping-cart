@@ -53,7 +53,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 function load() {
-  JSON.parse(getSavedCartItems()).forEach((o) => cart.appendChild(createCartItemElement(o)));
+  const l = getSavedCartItems();
+  if (l) JSON.parse(l).forEach((o) => cart.appendChild(createCartItemElement(o)));
 }
 
 function sell(e) {
