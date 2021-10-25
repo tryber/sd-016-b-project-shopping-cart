@@ -6,6 +6,7 @@ const cartList = document.querySelector('.cart__items');
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+
   event.target.remove();
   saveCartItems(cartList.innerHTML);
 }
@@ -24,25 +25,37 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function cartProducts(product) {
-  const cartItem = await fetchProducts(product);
-  // const cartList = document.querySelector('.cart__items');
-
-  cartList.appendChild(createCartItemElement(cartItem));
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
 }
 
-const loadingSite = () => {
-  const load = getSavedCartItems();
-  cartList.innerHTML = load;
+async function cartProducts(event) {
+  const itemID = getSkuFromProductItem(event.target.parentNode);
+  const item = await fetchItem(itemID);
+  // console.log(item); OBRIGADO TALES DA METORIA
 
-  const list = document.querySelector('cart__items');
+  const itemObject = {
+    sku: item.id,
+    name: item.title,
+    image: item.thumbnail,
+    salePrice: item.price,
+  };
+  
+  cartList.appendChild(createCartItemElement(itemObject));
+}
 
-  list.forEach((item) => item
-    .addEventListener('click', (e) => {
-      element.target.remove(e);
-      saveCartItems(cartList.innerHTML);
-    }));
-};
+// const loadingSite = async () => {
+//   const load = await getSavedCartItems();
+//   cartList.innerHTML = load;
+
+//   // const cartList = document.querySelector('cart__items');
+
+//   cartList.results.forEach((item) => item
+//     .addEventListener('click', (e) => {
+//       element.target.remove(e);
+//       saveCartItems(cartList.innerHTML);
+//     }));
+// };
 
 const emptCart = document.querySelector('.empty-cart');
 
@@ -78,13 +91,10 @@ function createProductItemElement({ image, sku, name, salePrice }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 async function searchProducts(product) {
   const searchData = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
+
   searchData.results.forEach((item) => {
     const itemObject = {
       sku: item.id,
@@ -92,8 +102,8 @@ async function searchProducts(product) {
       image: item.thumbnail,
       salePrice: item.price,
     };
-    const productItem = createProductItemElement(itemObject);
-    sectionItems.appendChild(productItem);
+
+    sectionItems.appendChild(createProductItemElement(itemObject));
   });
 }
 
@@ -101,7 +111,9 @@ clear();
 
 window.onload = () => {
   searchProducts('computador');
-  loadingSite();
+  // fetchItem();
+  // cartProducts();
+  // loadingSite();
 };
 // function cartItemClickListener(event) {
 //   // coloque seu código aqui
