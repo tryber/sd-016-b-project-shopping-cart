@@ -1,13 +1,18 @@
 const cartItems = document.querySelector('.cart__items');
-const emptyCartButton = document.querySelector('.empty-cart')
+const emptyCartButton = document.querySelector('.empty-cart');
 const loading = document.createElement('p');
 
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveCartItems(cartItems.innerHTML);
+}
+
 const emptyCart = () => {
-  while(cartItems.firstChild) {
+  while (cartItems.firstChild) {
     cartItems.removeChild(cartItems.firstChild);
   }
   saveCartItems(cartItems.innerHTML);
-}
+};
 
 emptyCartButton.addEventListener('click', emptyCart);
 
@@ -38,25 +43,25 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const throwInCart = async (event) => {
-  const getSku = getSkuFromProductItem(event.target.parentNode)
+  const getSku = getSkuFromProductItem(event.target.parentNode);
   const item = await fetchItem(getSku);
   const cartList = document.querySelector('.cart__items');
   const createElement = createCartItemElement(item);
   cartList.appendChild(createElement);
-  saveCartItems(cartItems.innerHTML)
-}
+  saveCartItems(cartItems.innerHTML);
+};
 
-const createProductItemElement = ({ id: sku, title:name, thumbnail: image }) => {
+const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
-  button.addEventListener('click', throwInCart)
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  button.addEventListener('click', throwInCart);
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(button);
   return section;
-}
+};
 
 const itemSection = document.querySelector('.items');
 loading.classList = 'loading';
@@ -65,21 +70,15 @@ itemSection.appendChild(loading);
 
 const createItems = async () => {
   const allItems = await fetchProducts('computador');
-  itemSection.removeChild(itemSection.firstChild)
+  itemSection.removeChild(itemSection.firstChild);
   return allItems.forEach((item) => {
-    const createElement = createProductItemElement(item)
-    itemSection.append(createElement)
-  })
-}
-
-function cartItemClickListener(event) {
-  event.target.remove();
-  saveCartItems(cartItems.innerHTML)
-}
-
+    const createElement = createProductItemElement(item);
+    itemSection.append(createElement);
+  });
+};
 
 window.onload = async () => {
   createItems();
   cartItems.innerHTML = await getSavedCartItems();
-  cartItems.addEventListener('click', cartItemClickListener)
+  cartItems.addEventListener('click', cartItemClickListener);
 };
