@@ -12,4 +12,9 @@ describe('4 - Teste a função getSavedCartItems', () => {
     getSavedCartItems();
     expect(localStorage.getItem).toHaveBeenCalled();
   });
+
+  it('ao chamar getSavedCartItems, verifica o argumento passado a getItem', () => {
+    getSavedCartItems();
+    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
+  });
 });
