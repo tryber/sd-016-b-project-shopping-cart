@@ -3,20 +3,6 @@ const productItems = document.querySelector('.items');
 const btnEmptyCart = document.querySelector('.empty-cart');
 const loading = document.querySelector('#loadingId');
 
-function totalPrice() {
-  const cartItem = document.querySelectorAll('.cart__item');
-  const priceText = document.querySelector('.total-price');
-  let count = 0;  
-  cartItem.forEach((item) => {    
-    const splitString = item.innerText.split(' ');
-    const priceString = splitString.at(-1);
-    const priceWithoutChar = priceString.replace('$', '');
-    const priceInteger = parseFloat(priceWithoutChar, 10);    
-    count += priceInteger;
-  });
-  priceText.innerText = count;
-}
-
 function itemsSavedLocalStorage() {
   const loadItems = getSavedCartItems();
   olItem.innerHTML = loadItems;
@@ -33,15 +19,13 @@ function cartItemClickListener(event) {
   const removeItem = event.target;
   removeItem.remove();
   saveCartItems(olItem.innerHTML);
-  totalPrice();
-}
+  }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  totalPrice();
   return li;
 }
 
@@ -52,15 +36,13 @@ function getSkuFromProductItem(event) {
 }
 
 function createCustomElement(element, className, innerText) {
-  totalPrice();
-  const e = document.createElement(element);
+    const e = document.createElement(element);
   if (element === 'button') {
     e.addEventListener('click', getSkuFromProductItem);
   }
   e.className = className;
   e.innerText = innerText;
-  totalPrice();
-  return e;
+    return e;
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -90,11 +72,9 @@ function alheioS() {
 btnEmptyCart.addEventListener('click', () => {
   olItem.innerHTML = '';
   localStorage.clear();
-  totalPrice();
-});
+  });
 
 window.onload = () => {
   itemsSavedLocalStorage();
   alheioS();
-  totalPrice();
- };
+   };
