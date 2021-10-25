@@ -76,6 +76,9 @@ const loadProductsInCart = () => {
 
 const addEventListener = () => {
   document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('item__add')) {
+      cartItemClickListener(event);
+    }
     if (event.target && event.target.classList.contains('cart__item')) {
       cartItemClickListener(event);
     }
