@@ -20,6 +20,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+
   return section;
 }
 
@@ -28,13 +29,14 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // código aqui
+  // coloque seu código aqui
 }
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 // realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
@@ -50,8 +52,8 @@ async function productList(product) {
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
   });
+}
 
 window.onload = () => {
   productList('computador');
-}; 
-}
+};
