@@ -7,6 +7,16 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function getSaveSumPrice() {
+  const getSaveSum = localStorage.getItem('sumPrice');
+  const price = document.querySelector('.price');
+  price.innerText = getSaveSum;
+}
+
+function saveSumPrice(param) {
+  localStorage.setItem('sumPrice', param);
+}
+
 function sumPrice() {
   const carts = document.querySelectorAll('.cart__item');
   console.log(carts);
@@ -15,8 +25,9 @@ function sumPrice() {
     console.log(cart.innerText.split('$').pop());
     result += Number(cart.innerText.split('$').pop());
   });
+  saveSumPrice(result);
   const price = document.querySelector('.price');
-  price.innerText = result.toFixed(2);
+  price.innerText = result;
 } 
 
 function cartItemClickListener(event) {
@@ -117,6 +128,7 @@ function btnCleanCartItem() {
 window.onload = () => { 
   createIten('computador');
   getSavedCartItems();
+  getSaveSumPrice();
   deleteItemCart();
   btn.addEventListener('click', btnCleanCartItem);
 };
