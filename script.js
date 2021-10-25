@@ -30,7 +30,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function atualizaTotal() {
+  const [p, s] = [[], document.querySelector('.total-price')];
+  cart.childNodes.forEach((i) => p.push(i.data.salePrice));
+  s.innerText = 0;
+  if (p.length) s.innerText = p.reduce((a, c) => c);
+}
+
 function save() { 
+  atualizaTotal();
   const n = [];
   cart.childNodes.forEach((i) => n.push(i.data));
   saveCartItems(JSON.stringify(n));
@@ -55,6 +63,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 function load() {
   const l = getSavedCartItems();
   if (l) JSON.parse(l).forEach((o) => cart.appendChild(createCartItemElement(o)));
+  atualizaTotal();
 }
 
 function sell(e) {
