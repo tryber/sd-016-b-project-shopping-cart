@@ -1,5 +1,4 @@
 const allProductsInCart = document.querySelector('.cart__items');
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -75,7 +74,16 @@ const loadProductsInCart = () => {
   allProductsInCart.innerHTML = allCachedProducts;
 };
 
+const addEventListener = () => {
+  document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('cart__item')) {
+      cartItemClickListener(event);
+    }
+  });
+};
+
 window.onload = () => { 
   loadProducts('computador'); 
   loadProductsInCart();
+  addEventListener();
 };
