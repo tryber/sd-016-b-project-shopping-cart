@@ -1,7 +1,9 @@
 const cartList = document.querySelector('.cart__items');
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function cartItemClickListener() {
+  cartList.addEventListener('click', (e) => {
+    cartList.removeChild(e.target);
+  });
 }
 
 function createProductImageElement(imageSource) {
