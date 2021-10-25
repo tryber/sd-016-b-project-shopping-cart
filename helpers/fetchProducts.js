@@ -13,7 +13,7 @@ const fetchProducts = async (query) => {
 // const fetchProducts = (query) => fetch(`${apiML}${query}`)
 //     .then((promise) => promise.json()
 //       .then((data) => data.results))
-//     .catch(() => new Error('You must provide an url'));
+//     .catch((Error) => Error);
 
 if (typeof module !== 'undefined') {
   module.exports = {
