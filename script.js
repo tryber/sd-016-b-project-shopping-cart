@@ -40,6 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// Requisito 1
 async function searchProducts(product) {
   const searchData = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
@@ -55,6 +56,36 @@ async function searchProducts(product) {
   });
 }
 
+// Requisito 2
+// pegar querySelector('.item.add) e colocar addEventListener, com click e chamar a função de colocar no carrinho
+
+async function addItem(id) {
+  const newFoundItem = await fetchItem(id);
+  const cartItem = document.querySelector('.cart__items');
+  const product = {
+    sku: newFoundItem.id,
+    name: newFoundItem.title,
+    salePrice: newFoundItem.price,
+  };
+
+  const productItem = createCartItemElement(product);
+  cartItem.appendChild(productItem);
+}
+
+function getSku() {
+  const items = document.querySelector('.items');
+  items.addEventListener('click', (event) => {
+    if (event.target.classList.contains('item__add')) {
+      const button = event.target;
+      const sku = button.parentNode.firstChild.innerText;
+
+      addItem(sku);
+    }
+  });
+}
+
 window.onload = () => {
   searchProducts('computador');
+  // addItem('MLB1341706310');
+  getSku();
 };
