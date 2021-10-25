@@ -74,6 +74,9 @@ window.onload = () => {
     if (event.target && event.target.classList.contains('item__add')) {
       addCartItem(itemId(event));
     }
+    if (event.target && event.target.classList.contains('cart_item')) {
+      cartItemClickListener(event);
+    }
   });
 
   // dinamismo nos eventos, não consegui colocar dentro de uma constante que conseguisse funcionar. Então deixei todo o caminho no window. https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
