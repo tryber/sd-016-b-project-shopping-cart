@@ -83,9 +83,17 @@ const addItemToCart = () => {
   });
 };
 
+const cleanCartListener = () => {
+  const cleanCartBtn = document.querySelector('.empty-cart');
+
+  cleanCartBtn.addEventListener('click', () => {
+    cart.innerHTML = '';
+  });
+};
+
 window.onload = async () => {
   await renderProducts();
   renderCart();
-  
+  cleanCartListener();
   addItemToCart();
 };
