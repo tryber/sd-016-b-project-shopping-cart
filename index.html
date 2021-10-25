@@ -9,6 +9,7 @@
     <script src="./helpers/fetchItem.js" defer></script>
     <script src="./helpers/fetchProducts.js" defer></script>
     <script src="script.js" defer></script>
+    <script src="./helpers/removeCartItems.js" defer></script>
     <script src="./helpers/saveCartItems.js" defer></script>
     <script src="./helpers/getSavedCartItems.js" defer></script>
   </head>
@@ -17,8 +18,9 @@
       <section class="items"></section>
       <section class="cart">
         <span class="cart__title">Carrinho de compras</span>
-        <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
+        <span>Subtotal: <strong>R$ <span id="subtotal" class="total-price">0,00</span></strong></span>
+        <button class="empty-cart">Esvaziar carrinho</button>
       </section>
     </section>
   </body>
