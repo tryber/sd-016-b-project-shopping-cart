@@ -89,7 +89,7 @@ const cleanCart = () => {
   cleanButton.addEventListener('click', () => {
     total = 0;
     localStorage.clear();
-    return cartList.innerText = '';
+    cartList.innerText = '';
   });
 };
 
