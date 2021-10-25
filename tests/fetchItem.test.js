@@ -9,4 +9,9 @@ describe('2 - Teste a função fecthItem', () => {
     expect(fetchItem).toBeInstanceOf(Function);
     // Utilizei diferente matcher do teste fetchProducts, para visualizar possibilidades.
   })
+
+  test('Veriificar se a função fetchItem é chamada', () => {
+    fetchItem('MLB1615760527');
+    expect(fetch).toBeCalled();
+  })
 });
