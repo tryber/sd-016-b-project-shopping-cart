@@ -57,6 +57,10 @@ async function carItems(event) {
   saveCartItems(getOl.innerHTML);
 }
 
+// 7. Adicione um texto de "carregando" durante uma requisição à API
+// Crie um elemento que contenha o texto "carregando...", que deve ser exibido em algum lugar da página;
+// Este elemento deve ser mostrado apenas durante a requisição à API;
+// Este elemento deve obrigatoriamente ter a classe loading;
 const createLoading = () => {
 const getSection = document.querySelector('.remove-loading');
 getSection.innerHTML = '';
