@@ -53,6 +53,9 @@ const bringListProducts = async () => {
   });
 };
 
+// function captureById(event) {
+
+// }
 window.onload = () => { 
   bringListProducts();
 };
