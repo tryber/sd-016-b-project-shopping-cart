@@ -15,8 +15,4 @@ const fetchProducts = async (query) => {
 //       .then((data) => data.results))
 //     .catch((Error) => Error);
 
-if (typeof module !== 'undefined') {
-  module.exports = {
-    fetchProducts,
-  };
-}
+if (typeof module !== 'undefined') module.exports = fetchProducts;

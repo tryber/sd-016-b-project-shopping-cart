@@ -1,5 +1,5 @@
 const fetchSimulator = require('../mocks/fetchSimulator');
-const { fetchProducts } = require('../helpers/fetchProducts');
+const fetchProducts = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
 const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 
