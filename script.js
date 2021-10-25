@@ -12,9 +12,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const itemsCart = document.querySelector('.cart__items');
+
 function cartItemClickListener(event) {
   const eT = event.target;
   eT.remove();
+  saveCartItems(itemsCart.innerHTML);
 }
 
 // fonte de pesquisa para remover evento: https://cursos.alura.com.br/forum/topico-funcao-remove-no-javascript-37253
@@ -62,6 +65,7 @@ const addCartItem = async (sku) => {
   const products = await fetchItem(sku);
   const createProduct = createCartItemElement(products);
   document.getElementsByClassName('cart__items')[0].appendChild(createProduct);
+  saveCartItems(itemsCart.innerHTML);
 };
 
 window.onload = () => {
