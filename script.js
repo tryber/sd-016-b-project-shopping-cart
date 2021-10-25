@@ -16,7 +16,7 @@ const totalPriceUpdate = () => {
   for (let i = 0; i < cartItem.children.length; i += 1) {
     const somar = cartItem.children[i]; 
     console.log(somar.innerText.split('PRICE: ')[1]);
-    value += Number(somar.innerText.split('PRICE: ')[1]);
+    value += Number(somar.innerText.split('PRICE: $')[1]);
   }
   sumPrices.innerHTML = `${parseFloat(value)}`;
 };
@@ -70,7 +70,7 @@ function cartItemClickListener(event) {
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice
   }`;
   return li;
 }
