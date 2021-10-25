@@ -59,6 +59,7 @@ function alheioS() {
   fetchProducts('computador')
     .then((data) => data.results
     .forEach((element) => productItems.appendChild(createProductItemElement(element))));
+    saveCartItems(olItem.innerHTML);
 }
 
 window.onload = () => {
