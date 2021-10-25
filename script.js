@@ -28,7 +28,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  // somaCarrinho(salePrice);
   return li;
 }
 // ajuda de grupo da mentoria do tales pra pegar o valor do botão criado
