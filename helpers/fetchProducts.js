@@ -5,7 +5,7 @@ const fetchProducts = (query) => {
 
   return fetch(queryUrl)
     .then((response) => response.json())
-    .then((data) => data.results);
+    .then((data) => data);
 };
 
 if (typeof module !== 'undefined') {

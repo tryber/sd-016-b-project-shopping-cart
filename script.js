@@ -102,6 +102,7 @@ const toggleLoading = () => {
 
 const loadProducts = () => {
   fetchProducts('computador')
+    .then((data) => data.results)
     .then((products) => {
       const items = document.querySelector('.items');
       products.forEach((product) => {
