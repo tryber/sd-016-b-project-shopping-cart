@@ -1,6 +1,15 @@
 const cartItems = document.querySelector('.cart__items');
 const emptyCartButton = document.querySelector('.empty-cart');
 const loading = document.createElement('p');
+const totalValue = document.querySelector('.total-price')
+
+const totalValueSaver = (element) => {
+  localStorage.setItem('totalValue', element);
+}
+
+const totalValueRetriever = () => (
+  localStorage.getItem('totalValue')
+)
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -11,7 +20,9 @@ const emptyCart = () => {
   while (cartItems.firstChild) {
     cartItems.removeChild(cartItems.firstChild);
   }
+  totalValue.innerHTML = 0;
   saveCartItems(cartItems.innerHTML);
+  totalValueSaver(totalValue.innerHTML);
 };
 
 emptyCartButton.addEventListener('click', emptyCart);
@@ -51,11 +62,28 @@ const throwInCart = async (event) => {
   saveCartItems(cartItems.innerHTML);
 };
 
+const addPrice = async (event) => {
+  const getItemSku = getSkuFromProductItem(event.target.parentNode);
+  const item = await fetchItem(getItemSku);
+  const getPrice = await item.base_price;
+  totalValue.innerHTML = parseFloat(totalValue.innerHTML) + getPrice;
+  totalValueSaver(totalValue.innerHTML);
+}
+
+const subtractPrice = async (event) => {
+  const getItemSku = event.target.innerHTML.slice(5,18);
+  const item = await fetchItem(getItemSku);
+  const getPrice = item.base_price;
+  totalValue.innerHTML = parseFloat(totalValue.innerHTML) - getPrice;
+  totalValueSaver(totalValue.innerHTML);
+}
+
 const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', throwInCart);
+  button.addEventListener('click', addPrice);
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -79,6 +107,8 @@ const createItems = async () => {
 
 window.onload = async () => {
   createItems();
+  totalValue.innerHTML = totalValueRetriever();
   cartItems.innerHTML = await getSavedCartItems();
   cartItems.addEventListener('click', cartItemClickListener);
+  cartItems.addEventListener('click', subtractPrice);
 };
