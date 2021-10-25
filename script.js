@@ -1,3 +1,5 @@
+const cart = document.querySelector('ol.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,7 +32,8 @@ const totalCartIten = () => {
 };
 
 const refresh = () => {
-  saveCartItems();
+  const $data = document.querySelector('.cart__items');
+  saveCartItems($data.innerHTML);
   return totalCartIten();
 };
 
@@ -58,7 +61,7 @@ function createCartItemElement({ id: sku, title: name, price: pice, thumbnail: i
 
 async function getSkuFromProductItem(event) {
   const $rest = await fetchItem(event.target.parentNode.querySelector('span.item__sku').innerText);
-  document.querySelector('ol.cart__items').appendChild(createCartItemElement($rest));
+  cart.appendChild(createCartItemElement($rest));
   refresh();
 }
 
@@ -77,7 +80,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image, pric
 
 const $btnClrCart = document.querySelector('.empty-cart');
 $btnClrCart.addEventListener('click', () => {
-  document.querySelector('ol.cart__items').innerHTML = '';
+  cart.innerHTML = '';
   return refresh();
 });
 
@@ -101,13 +104,17 @@ const sharload = () => {
   document.querySelector('.load').style.display = 'flex';
 };
 
+const reload = () => {
+  cart.innerHTML = getSavedCartItems();
+};
+
 const search = async (item = 'computador') => {
   sharload();
   await fetchProducts(item).then((inventory) => {
     inventory.results.forEach((product) => document.querySelector('.items')
       .appendChild(createProductItemElement(product)));
   }); loadStop();
-  getSavedCartItems(); totalCartIten();
+  reload(); totalCartIten();
 };
 
 const toEnter = (e) => {

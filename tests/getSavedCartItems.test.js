@@ -16,5 +16,5 @@ describe('4 - Teste a função getSavedCartItems', () => {
   it('Teste se, ao executar getSavedCartItems, o método localStorage.getItem é chamado:', () => {
     getSavedCartItems();
     expect(localStorage.getItem).toHaveBeenCalled();
-  })
+  });
 });
