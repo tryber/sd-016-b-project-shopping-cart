@@ -8,7 +8,6 @@ const clearButton = document.querySelector('.empty-cart');
 // ficaria: 
 // return prices.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
