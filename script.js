@@ -1,10 +1,14 @@
+// Minhas constantes
+const itemsCart = document.querySelector('.cart__items');
+const clearButton = document.querySelector('.empty-cart');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
-
+// Utilizei para criar elemento requisito 7
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -13,13 +17,6 @@ function createCustomElement(element, className, innerText) {
 }
 
 // Meu código aqui
-const itemsCart = document.querySelector('.cart__items');
-
-function cartItemClickListener(event) {
-  const eT = event.target;
-  eT.remove();
-  saveCartItems(itemsCart.innerHTML);
-}
 
 // fonte de pesquisa para remover evento: https://cursos.alura.com.br/forum/topico-funcao-remove-no-javascript-37253
 
@@ -43,9 +40,9 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 // Inicio do meu código
 const showProducts = async () => {
@@ -69,11 +66,16 @@ const addCartItem = async (sku) => {
   saveCartItems(itemsCart.innerHTML);
 };
 
-const loadStore = () => {
+function loadStore() {
   const store = getSavedCartItems();
   itemsCart.innerHTML = store;
-};
-const clearButton = document.querySelector('.empty-cart');
+}
+
+function cartItemClickListener(event) {
+  const eT = event.target;
+  eT.remove();
+  saveCartItems(itemsCart.innerHTML);
+}
 
 clearButton.addEventListener('click', () => {
   itemsCart.innerHTML = '';
