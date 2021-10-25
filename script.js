@@ -34,7 +34,8 @@ function totalPrice() {
   let count = 0;  
   cartItem.forEach((item) => {    
     const splitString = item.innerText.split(' ');
-    const priceString = splitString.at(-1);
+    console.log(splitString);
+    const priceString = splitString.pop();
     const priceWithoutChar = priceString.replace('$', '');
     const priceInteger = parseFloat(priceWithoutChar, 10);    
     count += priceInteger;
@@ -45,10 +46,9 @@ function totalPrice() {
   }
 }
 
-function buttonRm(event) {
-  const remove = event.target.remove();
+function buttonRm(event) {  
   totalPrice();
-  return remove;
+  return event.target.remove();
 }
 
 function cartItemClickListener(event) {
