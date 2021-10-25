@@ -1,10 +1,20 @@
-// const totalPriceHtml = (num) => {
-//   // console.log(num);
-//   const priceTag = document.querySelector('.total-price');
-//   priceTag.innerText = num.toFixed(2);
-// };
+const createLoading = () => {
+  const father = document.querySelector('.container');
+  const newDiv = document.createElement('div');
+  newDiv.innerText = 'carregando...';
+  newDiv.className = 'loading';
+  father.appendChild(newDiv);
+};
 
-// totalPriceHtml(0);
+const removeLoading = () => {
+  const curr = document.querySelector('.loading');
+  curr.remove();
+};
+
+// const loading = () => {
+//   createLoading();
+
+// }
 
 const appendSum = () => {
   const father = document.querySelector('.cart');
@@ -58,8 +68,10 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 const createProductRotation = async () => {
+  createLoading();
   const itensArray = await fetchProducts('computador');
   itensArray.results.forEach((item) => createProductItemElement(item));
+  removeLoading();
 };
 
 // function getSkuFromProductItem(item) {
