@@ -29,6 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function save() {
+  console.log([document.getElementsByClassName('cart__item')].map((i) => i));
   saveCartItems('aasdfasdfçalksdf');
 }
 
@@ -47,7 +48,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  li.value = { sku, name, salePrice };
   return li;
 }
 
