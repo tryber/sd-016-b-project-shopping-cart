@@ -97,6 +97,7 @@ const emptyCart = document.querySelector('.empty-cart');
 emptyCart.addEventListener('click', () => {
   getOl.innerHTML = '';
 });
+emptyCart();
 
 window.onload = () => {
   showItems();
