@@ -36,15 +36,19 @@ function totalPrice() {
     const splitString = item.innerText.split(' ');
     const priceString = splitString.at(-1);
     const priceWithoutChar = priceString.replace('$', '');
-    const priceInteger = parseInt(priceWithoutChar, 10);    
+    const priceInteger = parseFloat(priceWithoutChar, 10);    
     count += priceInteger;
   });
   priceText.innerText = count;
+  if (count === 0) {
+    priceText.innerText = '';
+  }
 }
 
 function buttonRm(event) {
+  const remove = event.target.remove();
   totalPrice();
-  return event.target.remove();  
+  return remove;
 }
 
 function cartItemClickListener(event) {
@@ -108,7 +112,18 @@ async function searchProduct(product) {
   createEventListener();  
 }
 
+function cleanCart() {
+  const cartItem = document.querySelector('.cart__items');
+  const priceText = document.querySelector('.total-price');
+  const cleanButton = document.querySelector('.empty-cart');
+  cleanButton.addEventListener('click', () => {
+    cartItem.innerHTML = '';
+    priceText.innerText = '';
+  });
+}
+
 window.onload = () => {
   searchProduct('computador');
   createPriceSection();
+  cleanCart();
 };
