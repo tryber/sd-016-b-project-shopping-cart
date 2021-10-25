@@ -12,13 +12,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function getFromLocalStorage() {
-  const getSavedItems = getSavedCartItems();
-  document.querySelector('.cart_items').innerHTML = getSavedItems;
-}
+// function getFromLocalStorage() {
+//   const getSavedItems = getSavedCartItems();
+//   document.querySelector('.cart_items').innerHTML = getSavedItems;
+// }
 
-function saveInLocalStorage() {
-  const itemsToSave = document.querySelector('.cart_items').innerHTML;
+async function saveInLocalStorage() {
+  const itemsToSave = await document.querySelector('.cart_items').innerHTML;
   saveCartItems(itemsToSave);
 }
 
