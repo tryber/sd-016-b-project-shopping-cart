@@ -18,7 +18,6 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   elementoCart.removeChild(event.target);
   const diminuir = parseFloat(event.target.innerText.split('$')[1], 10);
-  console.log(typeof diminuir);
   valorCart -= diminuir;
   valorTotal.innerText = valorCart;
   saveCartItems('carItems', elementoCart.innerHTML);
