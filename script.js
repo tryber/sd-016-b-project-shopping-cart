@@ -28,7 +28,7 @@ const sectionProducts = document.querySelector('.items');
 
 async function createDatajsonSections() {
   const getItemsClass = document.querySelector('.items');
-  const importData = await fetchProducts('computador');
+  const importData = await fetchProducts('computador  ');
 
   const dataItens = importData.results.map((product) => {
     const createObject = { sku: product.id, name: product.title, image: product.thumbnail };
@@ -49,6 +49,16 @@ const sectionCart = document.querySelector('.cart');
 const buttonRemove = document.querySelector('.empty-cart');
 let sumPrice = 0;
 
+function clearCartItems() {
+  const itemsElements = olCartItems.childNodes;
+  
+  for (let index = 0; index < itemsElements.length; index += 0) {
+    itemsElements[index].remove();
+  }
+
+  
+}
+
 function createTotalPriceElement() {
   const section = document.createElement('section');
   section.className = 'total-price';
@@ -60,7 +70,7 @@ function calculatePrice(number) {
   const sectionTotalPrice = document.querySelector('.total-price');
   sumPrice += number;
 
-  sectionTotalPrice.innerText = `Total: ${sumPrice.toFixed(2)}`;
+  sectionTotalPrice.innerText = `Total: $${sumPrice.toFixed(2)}`;
 }
 
 function cartItemClickListener(event) {
@@ -86,7 +96,7 @@ async function importCartItem(event) {
   if (event.target.className !== 'item__add') return null;
   
   const elementTarget = event.target.parentNode;
-  const targetID = elementTarget.children[0].innerText;
+  const targetID = elementTarget.firstChild.innerText;
   
   const shearchItem = await fetchItem(targetID);
   const { id, title, price } = shearchItem;
@@ -98,6 +108,7 @@ async function importCartItem(event) {
   return olCartItems.appendChild(CartLi);
 }
 
+buttonRemove.addEventListener('click', clearCartItems);
 sectionProducts.addEventListener('click', importCartItem);
 
 window.onload = async () => {
