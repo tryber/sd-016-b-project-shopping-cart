@@ -1,5 +1,11 @@
 const olItem = document.querySelector('.cart__items');
 const productItems = document.querySelector('.items');
+const btnEmptyCart = document.querySelector('.empty-cart');
+
+btnEmptyCart.addEventListener('click', () => {
+  olItem.innerHTML = '';
+  localStorage.clear();
+});
 
 function itemsSavedLocalStorage() {
   const loadItems = getSavedCartItems();
