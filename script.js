@@ -14,12 +14,18 @@ function createCustomElement(element, className, innerText) {
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
+  const title = createCustomElement('span', 'item__sku', sku);
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+
   section.className = 'item';
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(title);
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(button);
+  button.addEventListener('click', function () {
+    selectProduct(title.innerText);
+  });
 
   return section;
 }
@@ -55,7 +61,7 @@ async function searchProducts(product) {
   });
 }
 
-async function selectedProduct(product) {
+async function selectProduct(product) {
   const selectedData = await fetchItem(product);
   const ol = document.querySelector('.cart__items');
   console.log(selectedData.id);
@@ -63,10 +69,8 @@ async function selectedProduct(product) {
   const itemSelected = {
     sku: selectedData.id,
     name: selectedData.title,
-    value: selectedData.price,
+    salePrice: selectedData.price,
   };
-
-  console.log(itemSelected);
 
   const selectedItem = createCartItemElement(itemSelected);
   ol.appendChild(selectedItem);
@@ -74,5 +78,4 @@ async function selectedProduct(product) {
 
 window.onload = () => { 
   searchProducts('computador');
-  selectedProduct('MLB1341706310');
 };
