@@ -1,10 +1,8 @@
 const cartList = document.querySelector('.cart__items');
 const clearButton = document.querySelector('.empty-cart');
 
-function cartItemClickListener() {
-  cartList.addEventListener('click', (e) => {
-    cartList.removeChild(e.target);
-  });
+function cartItemClickListener(event) {
+  cartList.removeChild(event.target)
 }
 
 function createProductImageElement(imageSource) {
