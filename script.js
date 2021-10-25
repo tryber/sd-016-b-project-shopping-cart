@@ -34,14 +34,14 @@ function createProductItemElement({ sku, name, image }) { // { sku, name, image 
 */
 const containerCart = document.querySelector('.cart__items');
 
-function takeLocalCartItens() {
+function takeLocalCartItems() {
   const string = JSON.stringify(containerCart.innerHTML);
   saveCartItems(string);
 }
 
 function cartItemClickListener(event) {
   event.target.remove();
-  takeLocalCartItens();
+  takeLocalCartItems();
 }
 
 /*
@@ -85,8 +85,8 @@ async function addProductsToCart(event) {
   };
   const items = createCartItemElement(itemObject);
   containerCart.appendChild(items);
-  takeLocalCartItens(); // Ao adicionar o produto no carrinho, invoca a função de add no LocalStorage
-  // console.log(localStorage.getItem('cartItens'));
+  takeLocalCartItems(); // Ao adicionar o produto no carrinho, invoca a função de add no LocalStorage
+  // console.log(localStorage.getItem('cartItems'));
 }
 
 function buttonAddToCartItems() {
@@ -110,12 +110,17 @@ async function searchProducts(product) {
   });
   buttonAddToCartItems();
 }
-
+/*
+- Chama o botão, esvaziar carrinho
+- Add evento quando se clica no botão
+- No container do carrinho o HTML fica vazio com as aspas sem nada dentro
+- Salva oq realizou com a chamada da função takeLocalCartItems() que serve para salvar no LocalStorage
+*/
 function emptyButton() {
   const btnEmpty = document.querySelector('.empty-cart');
   btnEmpty.addEventListener('click', () => {
     containerCart.innerHTML = '';
-    takeLocalCartItens();
+    takeLocalCartItems();
   });
 }
 /*

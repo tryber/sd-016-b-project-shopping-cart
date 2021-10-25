@@ -4,7 +4,7 @@
 - Fazer a lista está sempre att(com adiões e remoções)
 */
 const saveCartItems = (item) => {
-  localStorage.setItem('cartItens', item);
+  localStorage.setItem('cartItems', item);
 };
 
 if (typeof module !== 'undefined') {
