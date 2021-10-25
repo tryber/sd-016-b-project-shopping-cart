@@ -1,7 +1,23 @@
 .container {
   display: flex;
-  justify-content: space-around;
   width: 100%;
+}
+
+.container-cabecalho {
+  height: 100px;
+  background-color: #fff159;
+  display: flex;
+  justify-content:center ;
+  
+}
+
+.container-barra-superior {
+  /* border: 1px solid black; */
+  display: flex;
+  width: 1000px;
+  
+  
+
 }
 
 .items {
@@ -54,4 +70,31 @@
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+#divBusca{
+  background-color:#fff159;
+  /* border:solid 1px; */
+  border-radius:10px;
+  height: 42px;
+  width:750px;
+  padding-top: 25px;
+}
+
+#txtBusca{
+  float:left;
+  background-color:white;
+  padding-left:5px;
+  font-style:italic;
+  font-size:18px;
+  /* border:none; */
+  height:35px;
+  width:560px;
+}
+
+#btnBusca{
+  padding-left: 5px;
+}
+
+#img-mercado{
+  padding-top: 10px;
 }
