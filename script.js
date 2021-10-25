@@ -50,26 +50,12 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // }
 
 // Inicio do meu código
-// Utilizei função já criada pela trybe para o projeto
-
-const loadMsg = () => {
-  document.querySelector('body')
-  .appendChild(createCustomElement('div', 'loading', 'carregando...'));
-};
-
-const errorLoading = () => {
-  const load = document.querySelector('.loading');
-  load.remove();
- };
-
 const showProducts = async () => {
-  loadMsg();
   const items = document.querySelector('.items');
   const products = await fetchProducts('computador');
   products.results.forEach((product) => {
     const createItem = createProductItemElement(product);
     items.appendChild(createItem);
-  errorLoading();
   });
 };
 
@@ -95,6 +81,17 @@ clearButton.addEventListener('click', () => {
   itemsCart.innerHTML = '';
   saveCartItems(itemsCart.innerHTML);
 });
+
+// Utilizei função já criada pela trybe para o projeto
+const loadMsg = () => {
+  document.querySelector('body')
+  .appendChild(createCustomElement('div', 'loading', 'carregando...'));
+};
+
+const errorLoading = () => {
+ const load = document.querySelector('.loading');
+ load.remove();
+};
 
 window.onload = () => {
   showProducts();
