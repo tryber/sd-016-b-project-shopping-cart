@@ -1,5 +1,5 @@
 const fetchProducts = async (QUERY) => {
-  if (!QUERY) return new Error('You must provide an url');
+  if (typeof QUERY !== 'string') return new Error('You must provide an url');
 
   const result = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`)
   .then((response) => response.json())
