@@ -33,22 +33,19 @@ function totalPrice() {
   const priceText = document.querySelector('.total-price');
   let count = 0;  
   cartItem.forEach((item) => {    
-    const splitString = item.innerText.split(' ');
-    console.log(splitString);
+    const splitString = item.innerText.split(' ');    
     const priceString = splitString.pop();
     const priceWithoutChar = priceString.replace('$', '');
     const priceInteger = parseFloat(priceWithoutChar, 10);    
-    count += priceInteger;
-  });
-  priceText.innerText = count;
-  if (count === 0) {
-    priceText.innerText = '';
-  }
+    count += priceInteger;    
+  });  
+  priceText.innerText = count;  
 }
 
-function buttonRm(event) {  
+function buttonRm(event) {
+  const remove = event.target.remove();
   totalPrice();
-  return event.target.remove();
+  return remove;
 }
 
 function cartItemClickListener(event) {
