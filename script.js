@@ -1,3 +1,7 @@
+const clearBtn = document.querySelector('.empty-cart');
+const cartListItems = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -5,8 +9,90 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function justNumbers(text) {
+  const numbers = text.replace(/[^0-9]/g, '');
+  return numbers;
+}
+
+const updatePrice = () => {
+  const items = cartListItems.children;
+  let sumItems = 0;
+  for (let index = 0; index < items.length; index += 1) {
+    const text = items[index].innerText;
+    const textSplit = text.split('|');
+    const catchPrice = textSplit[2];
+    // console.log(text.substr(-7));
+    sumItems += Number(justNumbers(catchPrice));
+  }
+  totalPrice.innerText = sumItems;
+  if (sumItems === 0) totalPrice.innerText = '';
+};
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  const prod = event.target;
+  prod.outerHTML = '';
+
+  saveCartItems(cartListItems.outerHTML);
+  updatePrice();
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+const sum = async (price) => {
+  const total = await totalPrice.innerText;
+  let subtotal = 0;
+  if (total !== '') {
+    subtotal = Number.parseFloat(total);
+  }
+  subtotal += Number.parseFloat(price);
+ //  console.log(subtotal);
+ totalPrice.innerText = subtotal;
+};
+
+const addToCart = async (event) => {
+  const id = event.target.parentElement.firstElementChild.innerText;
+  console.log(id);
+  const search = await fetchItem(id);
+  // console.log(search);
+  const obj = {
+    sku: search.id,
+    name: search.title,
+    salePrice: search.price.toFixed(2),
+  };
+  const result = createCartItemElement(obj);
+  cartListItems.appendChild(result);
+
+  sum(obj.salePrice);
+
+  saveCartItems(cartListItems.outerHTML);
+};
+
+// const addToCart = async (productId) => {
+//   const search = await fetchItem(productId);
+//   // console.log(search);
+//   const obj = {
+//     sku: search.id,
+//     name: search.title,
+//     salePrice: search.price.toFixed(2),
+//   };
+//   const result = createCartItemElement(obj);
+//   cartListItems.appendChild(result);
+
+//   sum(obj.salePrice);
+
+//   saveCartItems(cartListItems.outerHTML);
+// };
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
+  if (element === 'button') e.addEventListener('click', addToCart);
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -28,24 +114,10 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
 async function searchProducts(product) {
   const searchData = await fetchProducts(product);
 
   const sectionItems = document.querySelector('.items');
-
-  // console.log(searchData);
 
   searchData.results.forEach((element) => {
     const productItem = {
@@ -58,24 +130,22 @@ async function searchProducts(product) {
   });
 }
 
-async function addToCart(productId) {
-  const cartList = document.querySelector('.cart__items');
-  // console.log(cartList);
-  const search = await fetchItem(productId);
-  // console.log(search);
-  const obj = {
-    sku: search.id,
-    name: search.title,
-    salePrice: search.price.toFixed(2),
-  };
-  const result = createCartItemElement(obj);
-  cartList.appendChild(result);
-}
+/* Limpa o carrinho */
+clearBtn.addEventListener('click', function () {
+  cartListItems.innerHTML = '';
+  saveCartItems(cartListItems.innerHTML);
+  totalPrice.innerText = '';
+});
+
+const productListSave = () => {
+  const productsList = getSavedCartItems();
+  // console.log(productsList);
+  if (productsList) {
+    cartListItems.childNodes.innerHTML = productsList;
+  }
+};
 
 window.onload = () => {
+  productListSave();
   searchProducts('computador');
-  addToCart('MLB1341706310');
-  addToCart('MLB1937267358');
-  addToCart('MLB2042688496');
-  addToCart('MLB1078149937');
 };
