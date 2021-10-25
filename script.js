@@ -1,5 +1,7 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
+// const { fetchItem } = require("./helpers/fetchItem");
+// console.log(buscarItem);
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,15 +32,20 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+async function cartItemClickListener(event) {
+  // const id = event.target.parentNode.firstTarget.innerText;
+  // const item = await fetchItem(id);
+  // const addItem = document.querySelector('.cart__items');
+  // console.log(item);
+  // const { id: sku, title: name, price: salePrice } = item;
+  // return createCartItemElement({ sku, name, salePrice });
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+async function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  // li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -49,13 +56,40 @@ async function searchProducts(product) {
     const itemObj = {
       sku: item.id,
       name: item.title,
-      imagem: item.thumbnail,
+      image: item.thumbnail,
     };
     // const { id: sku, title: name, thumbnail: image} = item;
     const productItem = createProductItemElement(itemObj);
     sectionItem.appendChild(productItem);
   });
 }
+
+// requisito 2 - chamando o item
+async function searchItem(itemId) {
+  const item = await fetchItem(itemId);
+  // console.log(item.title);
+  const { id: sku, title: name, price: salePrice } = item;
+  const itemToCreate = await createCartItemElement({ sku, name, salePrice });
+  // console.log(itemToCreate);
+  return itemToCreate;  
+}
+
+// Criando o código que vai selecionar o item
+const items = document.querySelector('.items');
+items.addEventListener('click', async (event) => {
+  const itemId = event.target.parentNode.firstChild.innerText;
+  // console.log(itemId);
+  const addItem = await searchItem(itemId);
+  // console.log(addItem);
+  const cartList = document.querySelector('.cart__items');
+  cartList.appendChild(addItem);
+});
+
+// adicionando no carrinho de compras
+// function addItemCart(item) {
+//   const cartList = document.querySelector('.cart_items');
+//   cartList.appendChild(searchItem);
+// }
 
 window.onload = () => { 
   searchProducts('computador');
