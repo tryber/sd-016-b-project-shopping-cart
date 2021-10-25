@@ -28,7 +28,8 @@ function createProductItemElement({ sku, name, image }) {
 
 // Exibe preços
 function displaysPrices(total) {
-  const message = `Total: ${total}`;
+  // const message = `Total: ${total}`;
+  const message = `${total}`;
   const totalPrice = document.querySelector('.total-price');
   totalPrice.innerHTML = '';
   
