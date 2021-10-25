@@ -39,9 +39,43 @@ function takeLocalCartItems() {
   saveCartItems(string);
 }
 
+const p = document.querySelector('.total-price');
+
+/* Subtrai os valores retirados do carrinho de compras */
+function addTotalSubValue(event) {
+  const value = event.target.innerText;
+  const arr = value.split(' ');
+  const priceProduct = arr[arr.length - 1];
+  const number = priceProduct.replace('$', '');
+  let sum = Number(localStorage.getItem('valueBuy'));
+  sum -= number;
+  localStorage.setItem('valueBuy', sum);
+  p.innerText = sum.toFixed(2);
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
+  addTotalSubValue(event);
   takeLocalCartItems();
+}
+
+/*
+- Some o valor total dos itens do carrinho de compras:
+- Pegar a chave salePrace(preço)
+- Criar um somatório
+- Apresentar o valor total da soma na página principal
+- Usar a classe (total-price)
+*/
+function addTotalSumValue(price) {
+  let sumLocal = Number(localStorage.getItem('valueBuy'));
+  sumLocal += price;
+  localStorage.setItem('valueBuy', sumLocal);
+  p.innerText = sumLocal.toFixed(2);
+}
+
+/* Recupera o valor da chave valueBuy do localStorage ao resetar a página  */
+function getSumLocalStorage() {
+  p.innerHTML = localStorage.getItem('valueBuy');
 }
 
 /*
@@ -62,6 +96,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  addTotalSumValue(salePrice);
   return li;
 }
 
@@ -121,23 +156,14 @@ function emptyButton() {
   btnEmpty.addEventListener('click', () => {
     containerCart.innerHTML = '';
     takeLocalCartItems();
+    localStorage.clear();
+    p.innerText = '';
   });
 }
-/*
-- Some o valor total dos itens do carrinho de compras:
-- Pegar a chave salePrace(preço)
-- Criar um somatório
-- Apresentar o valor total da soma na página principal
-- Usar a classe (total-price)
-*/
-
-// function addTotalSumValue () {
-//   const carElement = createCartItemElement();
-//   carElement.filter((product) => product.salePrice)
-// }
 
 window.onload = () => {
   searchProducts('computador');
   localStorageRender();
   emptyButton();
+  getSumLocalStorage();
 };
