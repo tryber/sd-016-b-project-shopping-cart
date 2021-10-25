@@ -80,6 +80,17 @@ clearButton.addEventListener('click', () => {
   saveCartItems(itemsCart.innerHTML);
 });
 
+// Utilizei função já criada pela trybe para o projeto
+const loadMsg = () => {
+  document.querySelector('body')
+  .appendChild(createCustomElement('div', 'loading', 'carregando...'));
+};
+
+const errorLoading = () => {
+ const load = document.querySelector('.loading');
+ load.remove();
+};
+
 window.onload = () => {
   showProducts();
   loadStore();
