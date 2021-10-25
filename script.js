@@ -121,18 +121,6 @@ const emptyCart = () => {
   totalPrice.innerHTML = 0;
 };
 
-// const loading = () => {
-//   const createLoadingTag = document.createElement('div');
-//   createLoadingTag.className = 'loading';
-//   createLoadingTag.innerText = 'carregando...';
-//   const loadingTag = document.querySelector('.loading');
-//   body.appendChild(loadingTag);
-// };
-
-// const removeLoading = () => {
-//   document.querySelector('.loading').remove();
-// };
-
 window.onload = () => { 
   loadProducts();
   eventListenerToAddProduct();
