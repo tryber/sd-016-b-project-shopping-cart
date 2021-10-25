@@ -60,6 +60,8 @@ const saveCart = () => {
 
 const renderCart = () => {
   cart.innerHTML = getSavedCartItems();
+  const items = cart.childNodes;
+  items.forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
 
 const addItemToCart = () => {
