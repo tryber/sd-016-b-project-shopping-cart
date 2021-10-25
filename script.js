@@ -6,6 +6,29 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
+//   const list = '<li class="cart__item">SKU: MLB1532308540 | NAME: Computador Completo Fácil Intel I3 04 Gb Ddr3 Ssd 120 Gb | PRICE: $2079</li><li class="cart__item">SKU: MLB1607748387 | NAME: Pc Computador Cpu Intel Core I5 + Ssd 240gb, 8gb Memória Ram | PRICE: $1699.99</li>';
+//   const price = Number(list.split('$').pop())
+//   console.log(price);
+
+// function totalPrice() {
+// const listItems = document.getElementsByClassName('cart__item');
+
+// for (let i = 0; i < listItems.length; i += 1) {
+//   const arr = [];
+//   let string = listItems[i].innerText;
+
+//   let priceRegex = /PRICE:([0-12]+)/
+//   let match = string.match(priceRegex);
+//   arr.push(match[1])
+// }
+// return arr;
+
+// };
+
+function removeLoading() {
+  const section = document.querySelector('#remove');
+  section.innerHTML = '';
+}
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -49,7 +72,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(button);
-  
+  removeLoading();
   return section;
 }
 

@@ -13,12 +13,16 @@
     <script src="./helpers/getSavedCartItems.js" defer></script>
   </head>
   <body>
+    <section id="remove">
+      <h2 class="loading">Carregando...</h2>
+    </section>
     <section class="container">
       <section class="items"></section>
       <section class="cart">
         <span class="cart__title">Carrinho de compras</span>
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
+        <span id="total-price">Valor Total:</span>
       </section>
     </section>
   </body>
