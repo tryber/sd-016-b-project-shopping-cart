@@ -17,6 +17,11 @@ function createCustomElement(element, className, innerText) {
 }
 
 // Meu código aqui
+function cartItemClickListener(event) {
+  const eT = event.target;
+  eT.remove();
+  saveCartItems(itemsCart.innerHTML);
+}
 
 // fonte de pesquisa para remover evento: https://cursos.alura.com.br/forum/topico-funcao-remove-no-javascript-37253
 
@@ -69,12 +74,6 @@ const addCartItem = async (sku) => {
 function loadStore() {
   const store = getSavedCartItems();
   itemsCart.innerHTML = store;
-}
-
-function cartItemClickListener(event) {
-  const eT = event.target;
-  eT.remove();
-  saveCartItems(itemsCart.innerHTML);
 }
 
 clearButton.addEventListener('click', () => {
