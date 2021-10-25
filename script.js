@@ -47,7 +47,27 @@ function getSkuFromProductItem(item) {
 const olCartItems = document.querySelector('.cart__items');
 const sectionCart = document.querySelector('.cart');
 const buttonRemove = document.querySelector('.empty-cart');
-let sumPrice = 0;
+
+function createTotalPriceElement() {
+  const section = document.createElement('section');
+  section.className = 'total-price';
+  sectionCart.appendChild(section);
+  section.innerText = 'Total: 0';
+}
+
+function calculatePrice() {
+  const sectionTotalPrice = document.querySelector('.total-price');
+  const itemsElements = olCartItems.childNodes;
+  let sumPrice = 0;
+  
+  itemsElements.forEach((tem) => {
+    const targetString = tem.innerText;
+    const targetPrice = targetString.substring(targetString.indexOf('$') + 1);
+    sumPrice += parseFloat(targetPrice);
+  });
+  
+  sectionTotalPrice.innerText = `Total: $${sumPrice.toFixed(2)}`;
+}
 
 function clearCartItems() {
   const itemsElements = olCartItems.childNodes;
@@ -56,21 +76,7 @@ function clearCartItems() {
     itemsElements[index].remove();
   }
 
-  
-}
-
-function createTotalPriceElement() {
-  const section = document.createElement('section');
-  section.className = 'total-price';
-  sectionCart.appendChild(section);
-  section.innerText = `Total: ${sumPrice}`;
-}
-
-function calculatePrice(number) {
-  const sectionTotalPrice = document.querySelector('.total-price');
-  sumPrice += number;
-
-  sectionTotalPrice.innerText = `Total: $${sumPrice.toFixed(2)}`;
+  calculatePrice();
 }
 
 function cartItemClickListener(event) {
@@ -79,9 +85,9 @@ function cartItemClickListener(event) {
   const targetString = itemTarget.innerText;
   const targetPrice = targetString.substring(targetString.indexOf('$') + 1);
   
-  calculatePrice(parseFloat(-(targetPrice)));
+  itemTarget.remove();
   
-  return itemTarget.remove();
+  calculatePrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -103,9 +109,9 @@ async function importCartItem(event) {
   const createObject = { sku: id, name: title, salePrice: price };
   
   const CartLi = createCartItemElement(createObject);
-  calculatePrice(price);
+  olCartItems.appendChild(CartLi);
   
-  return olCartItems.appendChild(CartLi);
+  calculatePrice(price);
 }
 
 buttonRemove.addEventListener('click', clearCartItems);
