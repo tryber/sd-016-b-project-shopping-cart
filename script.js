@@ -2,6 +2,8 @@ const getItens = document.querySelector('.items');
 const getOl = document.querySelector('.cart__items');
 const deletButton = document.querySelector('.empty-cart');
 const load = document.querySelector('#local-loading');
+const pricetotal = document.querySelector('.total-price');
+let sum = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -23,11 +25,19 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+const summm = (data) => {
+  sum += data;
+  pricetotal.innerText = sum;
+};
+
 const funnn = async (e) => {
   const lalala = e.target.parentElement.firstChild.innerText;
   await fetchItem(lalala)
-    .then((reponse) => getOl.appendChild(createCartItemElement(reponse)));
-  saveCartItems(getOl.innerHTML);
+    .then((data) => {
+      getOl.appendChild(createCartItemElement(data));
+      summm(data.price);
+      saveCartItems(getOl.innerHTML);
+    });
 };
 
 function createCustomElement(element, className, innerText) {
