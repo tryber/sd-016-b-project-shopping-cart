@@ -22,6 +22,6 @@ describe('4 - Teste a função saveCartItems', () => {
     saveCartItems('<ol><li>Item</li></ol>');
     const mockTest = localStorage.setItem.mock.calls[0]
     expect(mockTest[0]).toEqual('cartItems');
-    expect(JSON.parse(mockTest[1])).toEqual('<ol><li>Item</li></ol>');
+    expect(JSON.parse(mockTest[1])).toEqual(['<ol><li>Item</li></ol>']);
   });
 });

@@ -85,7 +85,7 @@ const addElementToCart = (event) => {
 
 const deflateCart = () => {
   cartItemsClass.innerHTML = '';
-}
+};
 
 window.onload = () => { 
   getProductsSection();
