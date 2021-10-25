@@ -66,6 +66,22 @@ function getSkuFromProductItem(item) {
    // coloque código aqui
 }
 
+// ************************************
+// CRIANDO A FUNÇÃO LOAD CARREGANDO 
+// ************************************
+function loadBar() {
+  const pLoad = document.createElement('p');
+  pLoad.className = 'loading';
+  pLoad.innerText = 'carregando...';
+  pLoad.style.background = 'yellow';
+  sectionCarShopping.appendChild(pLoad);
+}
+// ************************************
+// CRIANDO A FUNÇÃO REMOVE LOAD BAR 
+// ************************************
+function removeLoadBar() {
+  document.querySelector('.loading').remove();
+}
  // ***************************************************** 
 // CRIANDO A FUNÇÃO DE CUSTOMIZAÇÃO DE PREÇO TOTAL 
 // ******************************************************
@@ -89,7 +105,7 @@ function createSectionPrice() {
   sectionPriceTotal.className = 'container-main';
   spanTexto.className = 'texto-indicativo';
   spanValue.className = 'total-price';
-
+  
   sectionPriceTotal.appendChild(spanTexto);
   sectionPriceTotal.appendChild(spanValue);
   sectionCarShopping.appendChild(sectionPriceTotal);
@@ -101,7 +117,9 @@ function createSectionPrice() {
 async function addShoppingCartBackEnd(event) {
     try {
       const idProduto = event.target.parentNode.firstChild.innerText;
+      loadBar();
       const dataResult = await fetchItem(idProduto);
+      removeLoadBar();
       const { id: sku, title: name, price: salePrice } = dataResult;
       const elementChild = createCartItemElement({ sku, name, salePrice });
       const itens = document.querySelector('.cart__items');
@@ -110,6 +128,7 @@ async function addShoppingCartBackEnd(event) {
       sumPriceTotalProducts();
    } catch (error) {
     console.log('Erro Function addShoppingCarBackEnd:', error);
+    removeLoadBar();
   }
 }
 
@@ -134,7 +153,9 @@ function createProductItemElement({ sku, name, image }) {
 // **********************
 async function backEndCreateProductItem() {
   try {
+    loadBar();
    const { results } = await fetchProducts('computador');
+   removeLoadBar();
     results.forEach((item, position) => {
     const { id: sku, title: name, thumbnail: image } = results[position];
     const elementChild = createProductItemElement({ sku, name, image });
@@ -143,6 +164,7 @@ async function backEndCreateProductItem() {
   });
  } catch (error) {
    console.log('Seu erro é:', error);
+   removeLoadBar();
  }
 }
 
