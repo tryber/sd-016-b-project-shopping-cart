@@ -73,8 +73,9 @@ const loadStore = () => {
   const store = getSavedCartItems();
   itemsCart.innerHTML = store;
 };
+const clearButton = document.querySelector('.empty-cart');
 
-document.querySelector('.empty-cart').addEventListener('click', () => {
+clearButton.addEventListener('click', () => {
   itemsCart.innerHTML = '';
   saveCartItems(itemsCart.innerHTML);
 });
