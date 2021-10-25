@@ -12,8 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const cartItems = document.querySelector('.cart_items');
-
 function cartItemClickListener(event) {
   const eT = event.target;
   eT.remove();
@@ -25,17 +23,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
-
-const addCartItem = async (sku) => {
-  const products = await fetchItems(sku);
-  const createCartItem = createCartItemElement(products);
-  cartItems.appendChild(createCartItem);
-};
-
-function idProduct(event) {
-  const innerTextId = event.target.parentNode.firstChild.innerText;
-  return innerTextId;
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -55,9 +42,8 @@ function getSkuFromProductItem(item) {
 }
 
 // Inicio do meu código
-const items = document.querySelector('.items');
-
 const showProducts = async () => {
+  const items = document.querySelector('.items');
   const products = await fetchProducts('computador');
   products.results.forEach((product) => {
     const createItem = createProductItemElement(product);
@@ -65,6 +51,24 @@ const showProducts = async () => {
   });
 };
 
+function itemId(event) {
+  const innerTxtId = event.target.parentNode.firstChild.innerText;
+  return innerTxtId;
+}
+
+const addCartItem = async (sku) => {
+  const products = await fetchItem(sku);
+  const createProduct = createCartItemElement(products);
+  document.getElementsByClassName('cart__items')[0].appendChild(createProduct);
+};
+
 window.onload = () => {
   showProducts();
+  document.addEventListener('click', (event) => {
+    if (event.target && event.target.classList.contains('item__add')) {
+      addCartItem(itemId(event));
+    }
+  });
+
+  // dinamismo nos eventos, não consegui colocar dentro de uma constante que conseguisse funcionar. Então deixei todo o caminho no window. https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
  };
