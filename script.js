@@ -1,6 +1,5 @@
 const btnEmptyCart = document.querySelector('.empty-cart');
 const ol = document.querySelector('.cart__items');
-const liItems = document.querySelectorAll('.cart__item');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
