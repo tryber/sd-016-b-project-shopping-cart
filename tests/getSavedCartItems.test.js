@@ -7,6 +7,14 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('4 - Teste a função getSavedCartItems', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  // Teste #1
+  it('Check if execute getSavedCartItems the localStorage.getItem method is called', () => {
+    getSavedCartItems();
+    expect(localStorage.getItem).toBeCalled();
+  });
+  // Teste #2
+  it('Check if execute getSavedCartItems the localStorage.setItem method is called with cartItems params', () => {
+    getSavedCartItems();
+    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
+  });
 });
