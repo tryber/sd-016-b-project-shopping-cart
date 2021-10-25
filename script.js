@@ -49,10 +49,11 @@ function cartItemClickListener(event) {
 }
 
 btnEmptyCart.addEventListener('click', () => {
+  // for (let i = liItems.length - 1; i >= 0; i -= 1) {
+  //   ol.removeChild(liItems[i]);
+  // }
+  ol.innerHTML = '';
   localStorage.clear();
-  for (let i = 0; i < liItems.length; i += 1) {
-    ol.removeChild(liItems[i]);
-  }
 });
 
 function persistOlItems() {
