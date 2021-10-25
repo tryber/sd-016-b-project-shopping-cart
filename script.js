@@ -9,7 +9,7 @@ function createProductImageElement(imageSource) {
 
 function getSaveSumPrice() {
   const getSaveSum = localStorage.getItem('sumPrice');
-  const price = document.querySelector('.price');
+  const price = document.querySelector('.total-price');
   price.innerText = getSaveSum;
 }
 
@@ -26,7 +26,7 @@ function sumPrice() {
     result += Number(cart.innerText.split('$').pop());
   });
   saveSumPrice(result);
-  const price = document.querySelector('.price');
+  const price = document.querySelector('.total-price');
   price.innerText = result;
 } 
 
