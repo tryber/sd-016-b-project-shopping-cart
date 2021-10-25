@@ -34,7 +34,7 @@ function atualizaTotal() {
   const p = [];
   cart.childNodes.forEach((i) => p.push(i.data.salePrice));
   document.querySelector('.total-price').innerText = 0;
-  if (p.length) document.querySelector('.total-price').innerText = p.reduce((a, c) => c);
+  if (p.length) document.querySelector('.total-price').innerText = p.reduce((a, c) => a + c);
 }
 
 function save() { 
@@ -77,10 +77,8 @@ function sell(e) {
 }
 
 window.onload = () => {
-  // carrega o armazenamento local se houver
   load();
 
-  // configura página
   document.addEventListener('click', sell);
 
   document.querySelector('.empty-cart').addEventListener('click', () => { 
@@ -93,5 +91,7 @@ window.onload = () => {
     d.results
       .map((i) => ({ sku: i.id, name: i.title, image: i.thumbnail }))
       .forEach((p) => document.querySelector('.items').appendChild(createProductItemElement(p)));
+      document.querySelector('.loading').parentElement
+        .removeChild(document.querySelector('.loading'));
   });
 };
