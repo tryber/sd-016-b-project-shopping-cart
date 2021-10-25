@@ -3,7 +3,7 @@ const fetchItem = async (itemID) => {
 
   const idProduct = await fetch(url)
   .then((response) => response.json())
-  .catch((error) => console.log(error));
+  .catch(() => new Error('You must provide an url'));
   return idProduct;
 };
 
