@@ -17,5 +17,5 @@ describe('4 - Teste a função saveCartItems', () => {
     saveCartItems('<ol><li>Item</li></ol>');
     expect( localStorage.setItem ).toHaveBeenCalledWith('cartItems', '<ol><li>Item</li></ol>');
   });
-  fail('Teste vazio');
+  // fail('Teste vazio');
 });

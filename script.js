@@ -11,8 +11,6 @@ const unstructureList = async (url) => {
   return response;
 };
 
-const itens = unstructureList('computador');
-
 const unstructureItem = async (idProduct) => {
   const result = await fetchItem(idProduct);
   const { id: sku, title: name, price: salePrice } = await result;
@@ -94,12 +92,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const loadingMsg = () => {
+  const createMsg = document.createElement('h3');
+  createMsg.innerText = 'Carregando...';
+  createMsg.classList = 'loading';
+  const sectionItems = document.querySelector('.items');
+  sectionItems.appendChild(createMsg);
+};
+
 const createNavigation = () => {
+  loadingMsg();
+  const itens = unstructureList('computador');
   const productList = document.querySelector('.items');
-  itens.then((item) => item.forEach((element) => {
+  itens.then((item) => {
+    item.forEach((element) => {
     const { sku, name, image } = element;
     productList.appendChild(createProductItemElement({ sku, name, image }));
-  }));
+  });
+  document.querySelector('.loading').remove();
+});
 };
 
 const addItemCart = async (event) => {
@@ -120,6 +131,13 @@ const addListenerStorage = () => {
   }
 };
 
+const clearCart = () => {
+  productsCarts.innerText = '';
+  localStorage.setItem('priceSalve', 0);
+  localStorage.setItem('cartItems', '');
+  atualPrice.innerText = 0;
+};
+
 window.onload = () => {
   productsCarts.innerHTML = getSavedCartItems();
   
@@ -134,4 +152,6 @@ window.onload = () => {
       return addItemCart(event.target.parentNode.firstChild.innerText);
     }
   });
+
+  document.querySelector('.empty-cart').addEventListener('click', clearCart);
 };
