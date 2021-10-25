@@ -3,7 +3,7 @@ const fetchProducts = (product) =>
     .then((data) => data.json())
     .catch((error) => error);
 
-// Todo o requisito 1 foi feito utilizando o vídeo postado no slack, feito pelo instrutor Bernardo. Onde ele resolveu a questão por completo.  
+// Requisito 1 feito pelo vídeo do instrutor Bernardo.
 
 if (typeof module !== 'undefined') {
   module.exports = {

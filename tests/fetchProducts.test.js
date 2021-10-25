@@ -17,7 +17,7 @@ describe('1 - Teste a função fecthProducts', () => {
     fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith(endpoint)    
   });
-  it('testa deo retorno da função é um obj igual a computadorSearch', async () => {
+  it('testa se o retorno da função é um obj igual a computadorSearch', async () => {
     const results = await fetchProducts('computador');
     expect(results).toEqual(computadorSearch);
   });

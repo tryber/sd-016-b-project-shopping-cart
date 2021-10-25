@@ -49,30 +49,41 @@ async function searchProducts(product) {
       name: item.title,
       image: item.thumbnail,
     };
-    // const { id: sku, title: name, thumbnail: image } = item;
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
   });
 }
 
-async function getItem (id) {
-  const dataItem = await fetchItem(item);
-  const classItem = document.querySelector('.cart__item')
+// const id criada durante mentoria do Tales Coelho.
+// Resolução de um problema com o results do fetchItem (não precisava do results), com auxilio do Gabriel Pinheiro e Ellen Santos durante a mentoria.
+async function getItemId(item) {
+  const id = item.target.parentNode.firstChild.innerText;
+  const dataItem = await fetchItem(id);
   const objItem = {
-    sku: item.id, 
-    name: item.title,  
-    salePrice: item.price,
-  }
-  classItem.appendChild();
+    sku: dataItem.id,
+    name: dataItem.title,
+    salePrice: dataItem.price,
+  };
+  const cartItem = createCartItemElement(objItem);
+  document.querySelector('.cart__items').appendChild(cartItem);
 }
 
-function clickButton (item) {
-  const button = document.querySelector('.item__add');
-  const id = item.id;
-  button.addEventListener('click',getItem(id))
-};
+// Capturar botões e add escutador em cada um. 
+function clickButton() {
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      getItemId(event);
+    });
+  });
+}
+
+// código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
+async function allFunc() {
+  await searchProducts('computador')
+    .then(() => clickButton());
+}
 
 window.onload = () => {
-  searchProducts('computador');
-  clickButton();
+  allFunc();
 };
