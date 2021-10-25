@@ -57,13 +57,13 @@ const addToCart = (computer) => {
 };
 
 const addToCartClickListener = async (event) => {
-  const section = event.target.parentElement;
-  const id = section.firstChild.innerHTML;
+  const product = event.target.parentElement;
+  const id = getSkuFromProductItem(product);
   const computer = await fetchItem(id);
   addToCart(computer);
 };
 
-const getID = async () => {
+const getButtons = async () => {
   await takeProductsAndShowThem();
   const buttons = document.querySelectorAll('.item__add');
   buttons.forEach((button) => {
@@ -76,7 +76,7 @@ const emptyCart = () => {
   emptyButton.addEventListener('click', () => {
     const ol = document.querySelector('.cart__items');
     // Solução retirada de: https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-    // Enquantp e minha ol ter um primeiro elemento filho, eu removo o ultimo.
+    // Enquanto e minha ol ter um primeiro elemento filho, eu removo o ultimo.
     while (ol.firstChild) {
       ol.removeChild(ol.lastChild);
     }
@@ -84,8 +84,16 @@ const emptyCart = () => {
   });
 };
 
+const eraseCartItem = () => {
+  const cartLi = document.querySelectorAll('.cart__item');
+  cartLi.forEach((element) => element.addEventListener('click', (event) => {
+    event.target.remove();
+  }));
+};
+
 window.onload = () => {
-  getID();
+  getButtons();
   emptyCart();
   getSavedCartItems();
+  eraseCartItem();
 };
