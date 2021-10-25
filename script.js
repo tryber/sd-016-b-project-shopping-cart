@@ -60,6 +60,7 @@ function createProductItemElement({ sku, name, image }) {
 
 async function searchedProducts(product) {
   const searchData = await fetchProducts(product);
+  document.querySelector('.loading').remove()
   const sectionItems = document.querySelector('.items');
   searchData.results.forEach((item) => {
     const itemObject = {
@@ -83,5 +84,6 @@ cleanBttn.addEventListener('click', cleanEntireCart);
 
 window.onload = () => {
   searchedProducts('computador');
+  document.querySelector('.loading').innerText = 'carregando'
   cleanEntireCart();
 };
