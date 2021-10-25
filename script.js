@@ -46,19 +46,21 @@ function getSkuFromProductItem(item) {
 
 const olCartItems = document.querySelector('.cart__items');
 const sectionCart = document.querySelector('.cart');
-const sectionTotalPrice = document.querySelector('.total-price');
 const buttonRemove = document.querySelector('.empty-cart');
 let sumPrice = 0;
 
-function calculatePrice(number) {
+function createTotalPriceElement() {
   const section = document.createElement('section');
-  
   section.className = 'total-price';
   sectionCart.appendChild(section);
-  
+  section.innerText = `Total: ${sumPrice}`;
+}
+
+function calculatePrice(number) {
+  const sectionTotalPrice = document.querySelector('.total-price');
   sumPrice += number;
 
-  // sectionTotalPrice.innerText = sumPrice;
+  sectionTotalPrice.innerText = `Total: ${sumPrice.toFixed(2)}`;
 }
 
 function cartItemClickListener(event) {
@@ -66,9 +68,9 @@ function cartItemClickListener(event) {
   const itemTarget = event.target;
   const targetString = itemTarget.innerText;
   const targetPrice = targetString.substring(targetString.indexOf('$') + 1);
-
+  
   calculatePrice(parseFloat(-(targetPrice)));
-
+  
   return itemTarget.remove();
 }
 
@@ -91,7 +93,7 @@ async function importCartItem(event) {
   const createObject = { sku: id, name: title, salePrice: price };
   
   const CartLi = createCartItemElement(createObject);
-  await calculatePrice(+(createObject.price));
+  calculatePrice(price);
   
   return olCartItems.appendChild(CartLi);
 }
@@ -100,4 +102,5 @@ sectionProducts.addEventListener('click', importCartItem);
 
 window.onload = async () => {
   await createDatajsonSections();
+  createTotalPriceElement();
 };
