@@ -64,6 +64,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function emptyCart() {
+ const buttonEmpty = document.querySelector('.empty-cart');
+ buttonEmpty.addEventListener('click', function () {
+   ol.innerHTML = '';
+ });
+}
+emptyCart();
+
 async function searchProduct(product) {
   const resultSearch = await fetchProducts(product);
   const sectionProduct = document.querySelector('.items');
