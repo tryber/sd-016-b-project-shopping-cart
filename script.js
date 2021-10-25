@@ -12,8 +12,9 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener() {
-  // coloque seu código aqui
+function cartItemClickListener(event) {
+  const clickElementItem = event.target;
+  clickElementItem.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -68,4 +69,7 @@ function onloadPage() {
 
 window.onload = () => {
   onloadPage();
+
+  // const removeButton = document.querySelector('.empty-cart');
+  // removeButton.addEventListener('click', cartItemClickListener)
 };
