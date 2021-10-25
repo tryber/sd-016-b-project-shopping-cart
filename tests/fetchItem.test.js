@@ -11,7 +11,9 @@ describe('2 - Teste a função fecthItem', () => {
   it('1 - Teste se fetchItem é uma função;', () => {
     expect(fetchItem).toBeInstanceOf(Function);
   })
-
+  it('1.2 - Verificar se o fetchProducts.js é realmente uma Function:', () => {
+    expect(typeof fetchItem).toEqual('function');
+  });
   it('2 - Execute a função fetchItem com o argumento do item "MLB1615760527" e teste se fetch foi chamada;', async () => {
     expect.assertions(1)
     await fetchItem('MLB1615760527');
