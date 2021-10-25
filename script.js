@@ -20,6 +20,7 @@ function getSkuFromProductItem(item) {
 // 3 requisito
 function cartItemClickListener(event) {
   olValue.removeChild(event.target);
+  saveCartItems(olValue.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -27,6 +28,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  // somaCarrinho(salePrice);
   return li;
 }
 // ajuda de grupo da mentoria do tales pra pegar o valor do botão criado
@@ -38,6 +40,12 @@ const carrinhoItem = async (event) => {
   saveCartItems(olValue.innerHTML);
 };
 
+// Requisito 7 do API / para remover a filho da section quando carregar
+function criaLoading() {
+  const pegaSection = document.querySelector('.loading-container');
+  pegaSection.innerHTML = '';
+}
+
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -47,7 +55,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(buttonItem);
-  
+  criaLoading();
   return section;
 }
 
@@ -74,6 +82,17 @@ function removeTudoCar() {
   });
 }
 removeTudoCar();
+
+// function somaCarrinho(param) {
+//   const price = document.querySelector('#total__price');
+//   let array = [];
+//   array = array.push(param);
+//   console.log(array);
+//   // array.reduce((sum, price) => )
+//   // console.log(param);
+//   // price.innerText = `Total: ${param}`;
+//   ol.appendChild(price);
+// }
 
 window.onload = () => { 
   itensCompras();
