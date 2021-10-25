@@ -20,7 +20,7 @@ function cartItemClickListener(event) {
   const diminuir = parseFloat(event.target.innerText.split('$')[1], 10);
   valorCart -= diminuir;
   valorTotal.innerText = valorCart;
-  saveCartItems('carItems', elementoCart.innerHTML);
+  saveCartItems(elementoCart.innerHTML);
   // saveCartItems('valor', valorTotal.innerText);
 }
 
@@ -41,7 +41,7 @@ const addItemCart = async (event) => {
       valorTotal.innerText = valorCart;
       // saveCartItems('valor', valorTotal.innerText);
     });
-    saveCartItems('carItems', elementoCart.innerHTML);
+    saveCartItems(elementoCart.innerHTML);
 };
 
 function createCustomElement(element, className, innerText) {
@@ -77,7 +77,7 @@ const getItems = (objeto) => {
 const funcCarregaPg = () => {
   fetchProducts('computador')
     .then((response) => getItems(response.results));
-  elementoCart.innerHTML = getSavedCartItems('carrinho');
+  elementoCart.innerHTML = getSavedCartItems('cartItems');
   valorTotal.innerHTML = getSavedCartItems('valor');
   const carrinho = document.querySelectorAll('.cart__item');
   carrinho.forEach((elemen) => {
@@ -87,7 +87,7 @@ const funcCarregaPg = () => {
 
 const clearCart = () => {
   elementoCart.innerHTML = '';
-  saveCartItems('carItems', elementoCart.innerHTML);
+  saveCartItems(elementoCart.innerHTML);
 };
 
 clearCartButton.addEventListener('click', clearCart);
