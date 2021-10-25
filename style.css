@@ -65,8 +65,10 @@
 
 .cart .cart__title {
   flex-basis: 1;
-  font-size: 16pt;
+  font-size: 22pt;
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
 }
 
 #divBusca {
