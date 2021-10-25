@@ -9,21 +9,21 @@
 //   }
 // };
 
-// const getSavedCartItems = () => {
 function getSavedCartItems() {
-  const recoveredCartItems = localStorage.getItem("cartItems");
-  const cartItems = document.querySelector('.cart__items');
+  return localStorage.getItem('cartItems');
 
-  if (cartItems !== null) {
-    cartItems.innerHTML = recoveredCartItems;
+  // const recoveredCartItems = localStorage.getItem('cartItems');
+  // const cartItems = document.querySelector('.cart__items');
   
-    cartItems.addEventListener('click', (event) => {
-      event.target.remove();
-      saveCartItems(cartItems.innerHTML);
-    });
-  }
-};
-
+  // if (cartItems !== null) {
+  //   cartItems.innerHTML = recoveredCartItems;
+  
+  //   cartItems.addEventListener('click', (event) => {
+  //     event.target.remove();
+  //     saveCartItems(cartItems.innerHTML);
+  //   });
+  // }
+}
 
 if (typeof module !== 'undefined') {
   module.exports = getSavedCartItems;

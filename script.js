@@ -1,3 +1,5 @@
+const cartItems = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -24,45 +26,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// Parte do requisito II - insere item no carrinho ao clicar no botão
-function getSku() {
-  const items = document.querySelector('.items')
-  items.addEventListener('click', (event) => {
-    if (event.target.classList.contains('item__add')) {
-      const buttonTarget = event.target;
-      const sku = buttonTarget.parentNode.firstChild.innerText
-
-      InsertInCart(sku);
-    }
-  });
-}
-
-async function InsertInCart (sku) {
-  const dataItem = await fetchItem(sku);
-  const { title: name, price: salePrice } = dataItem;
-  const li = createCartItemElement({ sku, name, salePrice });
-
-  const cartItems = document.querySelector('.cart__items');
-  cartItems.appendChild(li);
-  saveCartItems(cartItems.innerHTML);
-  sumPrices()
-}
-
-//Soma preços
-function sumPrices() {
-  const cartItems = document.querySelectorAll('.cart__item');
-  let sum = 0;
-  
-  cartItems.forEach(cartItem => {
-    const text = cartItem.innerText;
-    const splitPrice = text.split('PRICE: $')
-    const priceNumber = parseFloat(splitPrice[1]);
-    sum += priceNumber;
-  });
-
-  displaysPrices(sum)
-}
-
 // Exibe preços
 function displaysPrices(total) {
   const message = `Total: ${total}`;
@@ -74,20 +37,46 @@ function displaysPrices(total) {
   totalPrice.appendChild(display);
 }
 
+// Soma preços
+function sumPrices() {
+  const cartItem = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  
+  cartItem.forEach((item) => {
+    const text = item.innerText;
+    const splitPrice = text.split('PRICE: $');
+    const priceNumber = parseFloat(splitPrice[1]);
+    sum += priceNumber;
+  });
+
+  displaysPrices(sum);
+}
+
+// Texto carregando
+function loadingOnOff(param) {
+  const loading = document.querySelector('.loading');
+  let text = '';
+  if (param === 'on') { text = 'carregando...'; }
+  loading.innerText = text;
+}
+
 // Parte do requisito 01 - criar os componentes HTML.
 async function appendItems() {
-  const {results} = await fetchProducts('computador');
+  loadingOnOff('on');
+  const { results } = await fetchProducts('computador');
 
-  results.forEach(result => {
+  results.forEach((result) => {
     const { id: sku, title: name, thumbnail: image } = result;
-    const items = document.querySelector('.items')
-    items.appendChild(createProductItemElement({ sku, name, image }))
+    const items = document.querySelector('.items');
+    items.appendChild(createProductItemElement({ sku, name, image }));
   });
+
+  loadingOnOff('');
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 // function removeFromLocalStorage(skuTarget) {
 //   // let cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -95,13 +84,11 @@ function getSkuFromProductItem(item) {
 //   // const indexToRemove = cartItems.indexOf(itemToRemove);
 //   // cartItems.splice(indexToRemove, 1);
 //   // localStorage.setItem("cartItems", JSON.stringify(cartItems));
-
-  
 // }
 
 function cartItemClickListener(event) {
   event.target.remove();
-  const cartItems = document.querySelector('.cart__items')
+  // const cartItems = document.querySelector('.cart__items_remove');
   saveCartItems(cartItems.innerHTML);
   sumPrices();
 }
@@ -115,22 +102,60 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+async function InsertInCart(sku) {
+  const dataItem = await fetchItem(sku);
+  const { title: name, price: salePrice } = dataItem;
+  const li = createCartItemElement({ sku, name, salePrice });
+
+  // const cartItems = document.querySelector('.cart__items');
+  cartItems.appendChild(li);
+  saveCartItems(cartItems.innerHTML);
+  sumPrices();
+}
+
+// Parte do requisito II - insere item no carrinho ao clicar no botão
+function getSku() {
+  const items = document.querySelector('.items');
+  items.addEventListener('click', (event) => {
+    if (event.target.classList.contains('item__add')) {
+      const buttonTarget = event.target;
+      const sku = buttonTarget.parentNode.firstChild.innerText;
+
+      InsertInCart(sku);
+    }
+  });
+}
+
 // Botão que limpa carrinho
 function cleanCart() {
   const emptyCart = document.querySelector('.empty-cart');
 
   emptyCart.addEventListener('click', () => {
-    const cartItems = document.querySelector('.cart__items');
+    // const cartItems = document.querySelector('.cart__items');
     cartItems.innerHTML = '';
     sumPrices();
     saveCartItems(cartItems.innerHTML);
   });
 }
 
+function readStorage() {
+  const recoveredCartItems = getSavedCartItems();
+  // const cartItems = document.querySelector('.cart__items');
+  
+  if (cartItems !== null) {
+    cartItems.innerHTML = recoveredCartItems;
+    cartItems.addEventListener('click', (event) => {
+      event.target.remove();
+      saveCartItems(cartItems.innerHTML);
+    });
+  }
+}
+
 window.onload = () => { 
-  appendItems(),
-  getSku(),
-  getSavedCartItems(),
-  sumPrices(),
-  cleanCart()
+  appendItems();
+  getSku();
+  // getSavedCartItems();
+  readStorage();
+  sumPrices();
+  cleanCart();
 };
