@@ -1,3 +1,4 @@
+// algumas discutidas em grupo
 const getOl = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
