@@ -1,4 +1,5 @@
 const q = (id) => document.querySelector(id);
+// const qAll = (id) => document.querySelectorAll(id);
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -34,7 +35,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -42,10 +43,22 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const applyCarItem = (event) => {
+  const ol = q('.cart__items');
+  const id = event.target.parentNode.firstChild.innerText;
+  fetchItem(id).then((data) => ol.appendChild(createCartItemElement(data)));
+};
+
 const applyItemElements = () => {
   const sectionItems = q('.items');
   fetchProducts('computador').then((items) => items
-  .forEach((item) => sectionItems.appendChild(createProductItemElement(item))));
+  .forEach((item) => {
+    sectionItems.appendChild(createProductItemElement(item));
+    const currButton = q('.items').lastChild.lastChild;
+    currButton.addEventListener('click', (e) => applyCarItem(e));
+  }));
 };
 
-window.onload = () => applyItemElements();
+window.onload = () => {
+  applyItemElements();
+};
