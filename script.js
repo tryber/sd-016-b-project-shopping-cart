@@ -1,3 +1,5 @@
+const { fetchProducts } = require('./helpers/fetchProducts');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -23,6 +25,16 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+// Função que cria os componentes HTML referentes a um produto.
+const objectAppend = async () => {
+  const allJsonData = await fetchProducts();
+    return allJsonData.forEach((arr) => {
+      const selectSection = document.querySelector('.items');
+      const getFunction = createProductItemElement(arr);
+      selectSection.appendChild(getFunction);
+    });
+};
+objectAppend(); // chama função
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -40,4 +52,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => {
+  fetchListItens('computador')
+ };
