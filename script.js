@@ -32,10 +32,10 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// async function cartItemClickListener(event) {
-//   // coloque seu código aqui
-//   event.target.remove();
-// }
+async function cartItemClickListener(event) {
+  // coloque seu código aqui
+  return event.target.remove();
+}
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -77,4 +77,5 @@ function getID(e) {
 window.onload = () => { 
 searchObject('computador');
 items.addEventListener('click', getID);
+cartItem.addEventListener('click', cartItemClickListener);
 };
