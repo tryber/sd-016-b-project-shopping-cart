@@ -55,3 +55,19 @@
   font-size: 16pt;
   text-align: center;
 }
+
+.loading {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  display: flex;
+  font-family: sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
