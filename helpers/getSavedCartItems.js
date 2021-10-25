@@ -1,5 +1,5 @@
 const getSavedCartItems = () => {
-  const $data = localStorage.getItem('cesta');
+  const $data = localStorage.getItem('cartItems');
     document.querySelector('ol.cart__items').innerHTML = $data;
 };
 
