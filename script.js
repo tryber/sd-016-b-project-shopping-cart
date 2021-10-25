@@ -24,13 +24,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
+// function cartItemClickListener(event) {
+//   // coloque seu código aqui
+// }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -40,4 +40,36 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const searchProducts = async (products) => {
+  const searchData = await fetchProducts(products);
+  const sectionItems = document.querySelector('.items');
+  searchData.results.forEach((item) => {
+    const itemObject = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+
+    const productItem = createProductItemElement(itemObject);
+    sectionItems.appendChild(productItem);
+  });
+};
+
+const addProduct = async (product) => {
+  const addData = await fetchItem(product);
+  const cartProduct = document.querySelector('.cart__items');
+
+  const addItem = {
+    sku: addData.id,
+    name: addData.title,
+    salePrice: addData.price,
+  };
+
+  const itemSelect = createCartItemElement(addItem);
+  cartProduct.appendChild(itemSelect);
+};
+
+window.onload = () => {
+  searchProducts('computador');
+  addProduct('MLB1341706310');
+};
