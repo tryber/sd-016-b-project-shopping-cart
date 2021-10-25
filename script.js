@@ -3,7 +3,7 @@ const getOl = document.querySelector('.cart__items');
 const deletButton = document.querySelector('.empty-cart');
 const load = document.querySelector('#local-loading');
 const pricetotal = document.querySelector('.total-price');
-let sum = 0;
+let total = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,6 +13,9 @@ function createProductImageElement(imageSource) {
 }
 
 function cartItemClickListener(e) {
+  const subbb = e.target.innerText.split('$')[1];
+  total -= subbb;
+  pricetotal.innerText = total;
   getOl.removeChild(e.target);
   saveCartItems(getOl.innerHTML);
 }
@@ -26,10 +29,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const summm = (data) => {
-  sum += data;
-  pricetotal.innerText = sum;
+  total += data;
+  pricetotal.innerText = total;
 };
 
+// cria carrinho de compra no cli 
 const funnn = async (e) => {
   const lalala = e.target.parentElement.firstChild.innerText;
   await fetchItem(lalala)
