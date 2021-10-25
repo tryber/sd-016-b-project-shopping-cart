@@ -1,3 +1,9 @@
+// Declarações
+const itemsSection = document.querySelector('.items');
+const cartItemsList = document.querySelector('.cart_items');
+const clearCartBtn = document.querySelector('.empty_cart');
+
+// Funções
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -24,6 +30,18 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+async function fetchComputer() {
+  const fetchResult = await fetchProducts('computador');
+  fetchResult.results.forEach((item) => {
+    const itemObj = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+    itemsSection.appendChild(createProductItemElement(itemObj));
+  });
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -40,4 +58,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+window.onload = () => {
+  fetchComputer();
+};
