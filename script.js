@@ -1,3 +1,5 @@
+const listaCarrinho = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -32,6 +34,8 @@ function createProductItemElement({ sku, name, image }) {
 function cartItemClickListener(event) {
   // consultei o site: https://pt.stackoverflow.com/questions/316367/como-remover-div-especifica-com-javascript
   event.target.remove();
+
+  saveCartItems(listaCarrinho.innerHTML); // requisito 4
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,8 +46,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// requisito 5
+// const adicionados = [];
+// function soma(valor) {
+//   const h2 = document.querySelector('h3');
+//   adicionados.push(valor);
+//   const resultado = adicionados.reduce((acumulador, atual) => acumulador + atual);
+//   h2.innerText = resultado;
+// }
+
 // requisito 2
-async function evento(event) {
+function evento(event) {
   const pai = event.target.parentNode;
   const id = pai.firstChild.innerText;
   
@@ -52,8 +65,9 @@ async function evento(event) {
     const name = dados.title;
     const salePrice = dados.price;
 
-    const add = document.querySelector('.cart__items');
-    add.appendChild(createCartItemElement({ sku, name, salePrice }));
+    listaCarrinho.appendChild(createCartItemElement({ sku, name, salePrice }));
+
+    saveCartItems(listaCarrinho.innerHTML); // requisito 4
   });
 }
 
@@ -69,7 +83,7 @@ fetchProducts('computador').then((dados) => {
     const add = document.querySelector('.items');
     add.appendChild(createProductItemElement({ sku, name, image }));
   }
-  // adicionando botão para o requisito 2
+  // adicionando escuta para o botão para o requisito 2
   const botoes = document.getElementsByClassName('item__add');
   for (let index = 0; index < botoes.length; index += 1) {
     botoes[index].addEventListener('click', evento);
@@ -81,8 +95,18 @@ const limpar = document.querySelector('.empty-cart');
 function esvaziar() {
   const apagarLista = document.querySelector('.cart__items');
   apagarLista.innerHTML = '';
+  saveCartItems(listaCarrinho.innerHTML); // requisito 4
 }
-
 limpar.addEventListener('click', esvaziar);
 
-window.onload = () => { };
+// requisito 4
+function escutaApagarItens() {
+  const itens = document.getElementsByClassName('cart__item');
+  for (let index = 0; index < itens.length; index += 1) {
+    itens[index].addEventListener('click', cartItemClickListener);
+  }
+}
+
+window.onload = () => {
+  getSavedCartItems(escutaApagarItens);
+};
