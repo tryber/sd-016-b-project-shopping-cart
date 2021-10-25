@@ -2,6 +2,13 @@ const allItemsInCart = document.querySelector('.cart__items');
 const cartItemsSection = document.querySelector('.cart');
 const clearButton = document.querySelector('.empty-cart');
 
+// Havia criado uma maneira para aparecer R$ no total dos produtos, porém foi rejeitado pelo Slint. Segue
+// onde seria:
+// return prices; >>>> linha 34 
+// ficaria: 
+// return prices.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -46,7 +53,7 @@ const sumItems = () => {
   const allItems = [...document.querySelectorAll('.cart__item')];
   const mapValues = allItems.map((item) => catchPrice(item.innerText));
   const prices = mapValues.reduce((sum, actPrice) => (sum + actPrice), 0);
-  return prices.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  return prices;
 };
 
 const addTotalToPage = () => {
