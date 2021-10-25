@@ -80,7 +80,7 @@ items.addEventListener('click', async (event) => {
   // console.log(itemId);
   const addItem = await searchItem(itemId);
   // console.log(addItem);
-  const cartList = document.querySelector('.cart__items');
+  // const cartList = document.querySelector('.cart__items');
   cartList.appendChild(addItem);
 });
 
