@@ -126,6 +126,8 @@ async function addShoppingCartBackEnd(event) {
       itens.appendChild(elementChild);
       saveCartItems(itens.innerHTML);
       sumPriceTotalProducts();
+      const tagHr = document.createElement('hr');
+      itens.appendChild(tagHr);
    } catch (error) {
     console.log('Erro Function addShoppingCarBackEnd:', error);
     removeLoadBar();
