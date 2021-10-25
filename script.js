@@ -74,6 +74,11 @@ window.onload = () => {
   // configura página
   document.addEventListener('click', sell);
 
+  document.querySelector('.empty-cart').addEventListener('click', () => { 
+    cart.innerHTML = '';
+    save(); 
+  });
+
   // carrega produtos
   fetchProducts('computador').then((d) => {
     d.results
