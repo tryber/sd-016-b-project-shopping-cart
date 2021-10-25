@@ -35,7 +35,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const currChild = event.target;
   cartItems.removeChild(currChild);
-  saveCartItems();
+  saveCartItems(cartItems.innerHTML);
 }
 
 function addListenner() {
@@ -55,13 +55,13 @@ const applyCarItem = (event) => {
   const id = event.target.parentNode.firstChild.innerText;
   fetchItem(id).then((data) => {
     ol.appendChild(createCartItemElement(data));
-    saveCartItems();
+    saveCartItems(cartItems.innerHTML);
   });
 };
 
 const applyItemElements = () => {
   const sectionItems = q('.items');
-  fetchProducts('computador').then((items) => items
+  fetchProducts('computador').then((el) => el
   .forEach((item) => {
     sectionItems.appendChild(createProductItemElement(item));
     const currButton = q('.items').lastChild.lastChild;
