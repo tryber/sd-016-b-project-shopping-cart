@@ -1,3 +1,6 @@
+const items = document.querySelector('.items');
+const cartItem = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,6 +17,7 @@ function createCustomElement(element, className, innerText) {
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
+  // const button = document.querySelectorAll('.item_add')
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
@@ -28,20 +32,22 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
+// async function cartItemClickListener(event) {
 //   // coloque seu código aqui
+//   event.target.remove();
 // }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice}`;
+  li.setAttribute('price', salePrice);
+  return li;
+}
 
 async function searchObject(products) {
   const objectList = await fetchProducts(products);
+  console.log(objectList);
   const section = document.querySelector('.items');
 objectList.results.forEach((item) => {
   const object = {
@@ -54,6 +60,21 @@ objectList.results.forEach((item) => {
 });
 }
 
+async function searchItem(id) {
+  const objectItem = await fetchItem(id);
+  const productAdd = createCartItemElement(objectItem);
+  console.log(productAdd);
+    cartItem.appendChild(productAdd);
+}
+
+function getID(e) {
+  if (e.target.classList.contains('item__add')) {
+    id = e.target.parentNode.firstChild.innerText;
+    searchItem(id);
+  }
+}
+
 window.onload = () => { 
 searchObject('computador');
+items.addEventListener('click', getID);
 };
