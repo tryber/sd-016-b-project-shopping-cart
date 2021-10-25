@@ -1,10 +1,9 @@
 const getSavedCartItems = async (cartItemClickListener) => {
   const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = localStorage.getItem('cartItems');
+
   const allitens = document.querySelectorAll('.cart__item');
-  for (let index = 0; index < allitens.length; index += 1) {
-    allitens[index].addEventListener('click', cartItemClickListener);
-  }
+  allitens.forEach((acc) => acc.addEventListener('click', cartItemClickListener));
 };
 
 if (typeof module !== 'undefined') {
