@@ -9,8 +9,8 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetchProducts).toBeInstanceOf(Function)
   });
 
-  it('Testar se fetchProduct é executada quando passado o parâmetro "computador"', () => {
-    fetchProducts('computador');
+  it('Testar se fetchProduct é executada quando passado o parâmetro "computador"', async () => {
+    await fetchProducts('computador');
     expect(fetch).toBeCalled();
   })
 
