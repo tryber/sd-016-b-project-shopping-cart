@@ -41,6 +41,5 @@ describe('2 - Teste a função fecthItem', () => {
     expect(await fetchItem()).toEqual(errorMessage);
     expect(await fetchItem()).not.toEqual('qualquerCoisa');
   });
-
 });
 

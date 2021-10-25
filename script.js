@@ -55,10 +55,17 @@ function sumPrices() {
 
 // Texto carregando
 function loadingOnOff(param) {
-  const loading = document.querySelector('.loading');
-  let text = '';
-  if (param === 'on') { text = 'carregando...'; }
-  loading.innerText = text;
+  if (param === 'on') {
+    const loading = document.createElement('span');
+    loading.className = 'loading';
+    loading.id = 'toRemove';
+    loading.innerText = 'carregando...';
+    const cart = document.querySelector('.cart');
+    cart.appendChild(loading);    
+  } else {
+    const loading = document.querySelector('#toRemove');
+    loading.remove();
+  }
 }
 
 // Parte do requisito 01 - criar os componentes HTML.
@@ -74,18 +81,6 @@ async function appendItems() {
 
   loadingOnOff('');
 }
-
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
-// function removeFromLocalStorage(skuTarget) {
-//   // let cartItems = JSON.parse(localStorage.getItem('cartItems'));
-//   // const itemToRemove = cartItems.find(({ sku }) => sku === skuTarget );
-//   // const indexToRemove = cartItems.indexOf(itemToRemove);
-//   // cartItems.splice(indexToRemove, 1);
-//   // localStorage.setItem("cartItems", JSON.stringify(cartItems));
-// }
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -108,7 +103,6 @@ async function InsertInCart(sku) {
   const { title: name, price: salePrice } = dataItem;
   const li = createCartItemElement({ sku, name, salePrice });
 
-  // const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(li);
   saveCartItems(cartItems.innerHTML);
   sumPrices();
@@ -132,7 +126,6 @@ function cleanCart() {
   const emptyCart = document.querySelector('.empty-cart');
 
   emptyCart.addEventListener('click', () => {
-    // const cartItems = document.querySelector('.cart__items');
     cartItems.innerHTML = '';
     sumPrices();
     saveCartItems(cartItems.innerHTML);
@@ -141,7 +134,6 @@ function cleanCart() {
 
 function readStorage() {
   const recoveredCartItems = getSavedCartItems();
-  // const cartItems = document.querySelector('.cart__items');
   
   if (cartItems !== null) {
     cartItems.innerHTML = recoveredCartItems;
@@ -155,7 +147,6 @@ function readStorage() {
 window.onload = () => { 
   appendItems();
   getSku();
-  // getSavedCartItems();
   readStorage();
   sumPrices();
   cleanCart();
