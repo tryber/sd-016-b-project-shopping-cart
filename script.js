@@ -36,6 +36,8 @@ function cartItemClickListener(event) {
   saveCartItems(itemsInCart.innerHTML);
   }
 
+// https://stackoverflow.com/questions/9799505/allow-only-numbers-and-dot-in-script
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
