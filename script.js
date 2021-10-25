@@ -12,12 +12,15 @@ function createProductImageElement(imageSource) {
 // ******************************
 function sumPriceTotalProducts() {
   const localPrice = document.querySelector('.total-price');
+  const localTexto = document.querySelector('.texto-indicativo');
+  
   let sum = 0;
   const tagsLis = document.getElementsByClassName('cart__item');
   for (let i = 0; i < tagsLis.length; i += 1) {
     sum += Number(tagsLis[i].innerHTML.split('$').pop());
   }
-  localPrice.innerHTML = `Valor Total Carrinho: ${sum}`;
+  localTexto.innerText = 'Valor Total';
+  localPrice.innerHTML = sum;
 }
 // ***********************
 // QUESTÃO 03 FRONT END *
@@ -80,7 +83,15 @@ function createCustomPriceTotal(element, innerText, idElement) {
 // **********************************************************
 function createSectionPrice() {
   const sectionPriceTotal = document.createElement('section');
-  sectionPriceTotal.className = 'total-price';
+  const spanTexto = document.createElement('span');
+  const spanValue = document.createElement('span');
+  
+  sectionPriceTotal.className = 'container-main';
+  spanTexto.className = 'texto-indicativo';
+  spanValue.className = 'total-price';
+
+  sectionPriceTotal.appendChild(spanTexto);
+  sectionPriceTotal.appendChild(spanValue);
   sectionCarShopping.appendChild(sectionPriceTotal);
 }
 
