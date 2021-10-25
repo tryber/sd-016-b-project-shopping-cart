@@ -1,3 +1,13 @@
+const allItemsInCart = document.querySelector('.cart__items');
+const cartItemsSection = document.querySelector('.cart');
+const clearButton = document.querySelector('.empty-cart');
+
+// Havia criado uma maneira para aparecer R$ no total dos produtos, porém foi rejeitado pelo Slint. Segue
+// onde seria:
+// return prices; >>>> linha 34 
+// ficaria: 
+// return prices.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,27 +22,51 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+// https://stackoverflow.com/questions/30607419/return-only-numbers-from-string/30607466
+// https://stackoverflow.com/questions/9799505/allow-only-numbers-and-dot-in-script
+
+const catchPrice = (str) => {
+  const priceTextHandly = str.slice(-10);
+  const valueText = priceTextHandly.replace(/[^0-9.]/g, '');
+  const valueNumber = Number(valueText);
+  return valueNumber;
+};
+
+const sumItems = () => {
+  const allItems = [...document.querySelectorAll('.cart__item')];
+  const mapValues = allItems.map((item) => catchPrice(item.innerText));
+  const prices = mapValues.reduce((sum, actPrice) => (sum + actPrice), 0);
+  return prices;
+};
+
+const addTotalToPage = () => {
+  document.querySelector('.total-price').innerText = sumItems();
+};
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const eT = event.target;
+  eT.remove();
+  addTotalToPage();
+  saveCartItems(allItemsInCart.innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,4 +74,67 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const productsArray = async () => {
+  const products = await fetchProducts('computador');
+  const itemsElemente = document.getElementsByClassName('items')[0];
+  products.results.forEach((product) => {
+    const products2 = createProductItemElement(product);
+    itemsElemente.appendChild(products2);
+   });
+};
+function getId(e) {
+  const innerTxtId = e.target.parentNode.firstChild.innerText;
+  return innerTxtId;
+}
+
+const addItemCartElement = async (id) => {
+  const prod = await fetchItem(id);
+  const prodAdded = createCartItemElement(prod);
+  document.getElementsByClassName('cart__items')[0].appendChild(prodAdded);
+  addTotalToPage();
+  saveCartItems(allItemsInCart.innerHTML);
+};
+
+function loadItemsInCart() {
+  const iHTMLcartI = getSavedCartItems();
+  allItemsInCart.innerHTML = iHTMLcartI;
+}
+// https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript event delegation.
+
+function showLoading() {
+  document.querySelector('body').appendChild(createCustomElement('div', 'loading', 'loading...'));
+}
+
+function removeLoading() {
+  document.querySelector('.loading').remove();
+}
+
+function eventListener() {
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      addItemCartElement(getId(e));
+    }
+    if (e.target && e.target.classList.contains('cart__item')) {
+      cartItemClickListener(e);
+    }
+  });
+}
+
+const inkoveOnLoad = () => {
+  showLoading();
+  productsArray()
+    .then(() => loadItemsInCart())
+    .then(() => eventListener())
+    .then(() => removeLoading());
+ };
+
+window.onload = () => {
+  inkoveOnLoad();
+  cartItemsSection.appendChild(createCustomElement('div', 'total-price', ''));
+};
+
+clearButton.addEventListener('click', function () {
+  allItemsInCart.innerHTML = '';
+  document.querySelector('.total-price').innerHTML = '';
+  saveCartItems(allItemsInCart.innerHTML);
+});
