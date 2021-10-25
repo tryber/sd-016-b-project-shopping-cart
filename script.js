@@ -6,7 +6,7 @@ const emptyCart = () => {
   while(cartItems.firstChild) {
     cartItems.removeChild(cartItems.firstChild);
   }
-  saveCartItems(cartItems);
+  saveCartItems(cartItems.innerHTML);
 }
 
 emptyCartButton.addEventListener('click', emptyCart);
@@ -43,7 +43,7 @@ const throwInCart = async (event) => {
   const cartList = document.querySelector('.cart__items');
   const createElement = createCartItemElement(item);
   cartList.appendChild(createElement);
-  saveCartItems(cartItems)
+  saveCartItems(cartItems.innerHTML)
 }
 
 const createProductItemElement = ({ id: sku, title:name, thumbnail: image }) => {
@@ -74,7 +74,7 @@ const createItems = async () => {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  saveCartItems(cartItems)
+  saveCartItems(cartItems.innerHTML)
 }
 
 
