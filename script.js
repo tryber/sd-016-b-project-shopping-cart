@@ -55,6 +55,24 @@ async function searchProducts(product) {
   });
 }
 
+async function getItem (id) {
+  const dataItem = await fetchItem(item);
+  const classItem = document.querySelector('.cart__item')
+  const objItem = {
+    sku: item.id, 
+    name: item.title,  
+    salePrice: item.price,
+  }
+  classItem.appendChild();
+}
+
+function clickButton (item) {
+  const button = document.querySelector('.item__add');
+  const id = item.id;
+  button.addEventListener('click',getItem(id))
+};
+
 window.onload = () => {
   searchProducts('computador');
+  clickButton();
 };
