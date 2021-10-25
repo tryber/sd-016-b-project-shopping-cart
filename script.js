@@ -1,5 +1,5 @@
 // Minhas constantes
-const itemsCart = document.querySelector('.cart__items');
+const itemsInCart = document.querySelector('.cart__items');
 const clearButton = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
@@ -20,7 +20,7 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   const eT = event.target;
   eT.remove();
-  saveCartItems(itemsCart.innerHTML);
+  saveCartItems(itemsInCart.innerHTML);
 }
 
 // fonte de pesquisa para remover evento: https://cursos.alura.com.br/forum/topico-funcao-remove-no-javascript-37253
@@ -50,12 +50,26 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // }
 
 // Inicio do meu código
+// Utilizei função já criada pela trybe para o projeto
+
+const loadMsg = () => {
+  document.querySelector('body')
+  .appendChild(createCustomElement('div', 'loading', 'carregando...'));
+};
+
+const errorLoading = () => {
+  const load = document.querySelector('.loading');
+  load.remove();
+ };
+
 const showProducts = async () => {
+  loadMsg();
   const items = document.querySelector('.items');
   const products = await fetchProducts('computador');
   products.results.forEach((product) => {
     const createItem = createProductItemElement(product);
     items.appendChild(createItem);
+  errorLoading();
   });
 };
 
@@ -68,29 +82,19 @@ const addCartItem = async (sku) => {
   const products = await fetchItem(sku);
   const createProduct = createCartItemElement(products);
   document.getElementsByClassName('cart__items')[0].appendChild(createProduct);
-  saveCartItems(itemsCart.innerHTML);
+  saveCartItems(itemsInCart.innerHTML);
 };
 
 function loadStore() {
   const store = getSavedCartItems();
-  itemsCart.innerHTML = store;
+  itemsInCart.innerHTML = store;
+  return store;
 }
 
 clearButton.addEventListener('click', () => {
   itemsCart.innerHTML = '';
   saveCartItems(itemsCart.innerHTML);
 });
-
-// Utilizei função já criada pela trybe para o projeto
-const loadMsg = () => {
-  document.querySelector('body')
-  .appendChild(createCustomElement('div', 'loading', 'carregando...'));
-};
-
-const errorLoading = () => {
- const load = document.querySelector('.loading');
- load.remove();
-};
 
 window.onload = () => {
   showProducts();
