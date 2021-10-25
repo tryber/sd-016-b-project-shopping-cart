@@ -81,6 +81,12 @@ const storageSave = () => {
   itensCart.innerHTML = cartSave;
 };
 
+const buttonempty = document.querySelector('.empty-cart');
+
+buttonempty.addEventListener('click', () => {
+  itensCart.innerHTML = '';
+});
+
 window.onload = () => {   
   cartAddtems();
   storageSave();
