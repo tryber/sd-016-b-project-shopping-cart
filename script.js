@@ -1,3 +1,4 @@
+const clearButtonCart = document.querySelector('empty-cart');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,8 +30,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  const removeItem = event.target;
-  removeItem.remove();
+  // código aqui
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -41,17 +41,23 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 // realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
-  const productList = async () => {
-    const searchData = await fetchProducts('computador');
+  async function productList(products) {
+    const searchData = await fetchProducts(products);
     const sectionItems = document.querySelector('.items');
-    const itemsSearch = searchData.results.map(({ id, title, thumbnail }) =>
-    ({ sku: id, name: title, image: thumbnail }));
-  itemsSearch.forEach((element) =>
-    sectionItems.appendChild(createProductItemElement(element)));
-};
+    searchData.results.forEach((item) => {
+      const itemObj = {
+        sku: item.id, 
+        name: item.title, 
+        image: item.thumbnail, 
+      };
 
-  async function setId(element) {
-    const setIdTxt = element.target.parentNode.firstChild.innerText;
+      const productItem = createProductItemElement(itemObj);
+      sectionItems.appendChild(productItem);
+    });
+}
+
+  function setId(event) {
+    const setIdTxt = event.target.parentNode.firstChild.innerText;
     return setIdTxt;
   }
 
@@ -63,10 +69,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 // código event delegation https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
 window.onload = () => {
-  productList();
+  productList('computador');
   document.addEventListener('click', function (element) {
     if (element.target && element.target.classList.contains('item__add')) {
       addItemCart(setId(element));
     }
+    cartItemClickListener();
   });
 };
