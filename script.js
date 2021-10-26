@@ -85,5 +85,6 @@ btnClear.addEventListener('click', removeAll);
 
 window.onload = () => {
   render('computador');
-  ol.innerHTML = getSavedCartItems(); 
+  ol.innerHTML = getSavedCartItems();
+  saveCartItems(ol.innerHTML);
 };  
