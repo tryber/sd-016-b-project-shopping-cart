@@ -111,7 +111,7 @@ const createTotalPriceClass = () => {
   p.className = 'total-price';
   p.innerText = 0;
   cartClass.appendChild(p);
-}
+};
 
 window.onload = () => { 
   getProductsSection();
