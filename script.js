@@ -36,7 +36,7 @@ const addToCart = async (event) => {
   const itemObject = {
     sku: itemInfo.id,
     name: itemInfo.title,
-    salePrice: itemInfo.base_price,
+    salePrice: itemInfo.price,
   };
 
   const cartList = document.querySelector('.cart__items');
