@@ -1,4 +1,6 @@
 const price = document.querySelector('.total-price');
+const ol = document.querySelector('.cart__items');
+const emptyCart = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,6 +15,15 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+
+// botão de esvaziar o carrinho de compras
+function clear() {
+  ol.innerHTML = '';
+  price.innerHTML = 0;
+  saveCartItems(ol.innerHTML); 
+}
+
+emptyCart.addEventListener('click', clear);
 
 // remove itens do carrinho
 function cartItemClickListener(event) {
@@ -42,7 +53,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 // objeto (produto) criado
 async function selectProduct(product) {
   const selectedData = await fetchItem(product);
-  const ol = document.querySelector('.cart__items');
   console.log(selectedData.id);
 
   const itemSelected = {
