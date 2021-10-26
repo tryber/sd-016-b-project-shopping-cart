@@ -8,14 +8,14 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('4 - Teste a função saveCartItems', () => {
   it('setItem should be called', () => {
-    saveCartItems('<ol><li>Item</li></ol>')
+    saveCartItems('<ol><li>Item</li></ol>');
 
-    expect(localStorage.setItem).toHaveBeenCalled()
-  })
-  
+    expect(localStorage.setItem).toHaveBeenCalled();
+  });
+
   it('setItem should be called with the correct arguments', () => {
-    saveCartItems('<ol><li>Item</li></ol>')
+    saveCartItems('cartItems', '<ol><li>Item</li></ol>');
 
-    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', '<ol><li>Item</li></ol>')
-  })
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', '<ol><li>Item</li></ol>');
+  });
 });
