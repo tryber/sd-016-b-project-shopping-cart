@@ -52,7 +52,9 @@ const emptCart = document.querySelector('.empty-cart');
 
 const clear = () => {
   emptCart.addEventListener('click', () => {
-    cartList.innerHTML = '';
+    cartList.remove();
+    // cartList.innerHTML = '';
+    saveCartItems(cartList.innerHTML = '');
   });
 };
 
