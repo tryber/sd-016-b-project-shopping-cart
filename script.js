@@ -29,15 +29,78 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const item = document.querySelector('.cart__items');
+    item.removeChild(event.target);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function clearCartItems() {
+  const getItems = document.querySelector('.cart__items');
+  const getButton = document.querySelector('.empty-cart');
+  getButton.addEventListener('click', () => {
+    while (getItems.firstChild) {
+      getItems.firstChild.remove();
+    }
+  });
+}
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// realizado com auxílio do vídeo do professor Bernardo Salgueiro, explicando como fazer o requisito 1.
+  async function productList(products) {
+    const searchData = await fetchProducts(products);
+    const sectionItems = document.querySelector('.items');
+    searchData.results.forEach((item) => {
+      const itemObj = {
+        sku: item.id, 
+        name: item.title, 
+        image: item.thumbnail, 
+      };
 
-window.onload = () => { };
+      const productItem = createProductItemElement(itemObj);
+      sectionItems.appendChild(productItem);
+    });
+}
+
+  function setId(event) {
+    const setIdTxt = event.target.parentNode.firstChild.innerText;
+    return setIdTxt;
+  }
+
+  const addItemCart = async (id) => {
+    const item = await fetchItem(id);
+    const addProduct = createCartItemElement(item);
+    document.getElementsByClassName('cart__items')[0].appendChild(addProduct);
+};
+
+  const load = async () => {
+    const creatingTag = document.createElement('h1');
+    creatingTag.className = 'loading';
+    creatingTag.innerText = 'carregando...';
+    document.querySelector('body').appendChild(creatingTag);
+    await fetchProducts('computador')
+    .then((data) => data.results)
+    .then((products) => {
+      const items = document.querySelector('.items');
+      products.forEach((product) => {
+        const item = createCartItemElement(product);
+        items.appendChild(item);
+      });
+    });
+    document.querySelector('body').removeChild(creatingTag);
+  };
+// código event delegation https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
+window.onload = () => {
+  load();
+  productList('computador');
+  document.addEventListener('click', function (element) {
+    if (element.target && element.target.classList.contains('item__add')) {
+      addItemCart(setId(element));
+    }
+    clearCartItems();
+  });
+};
