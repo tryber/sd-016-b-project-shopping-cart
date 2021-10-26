@@ -107,7 +107,31 @@ const addItems = async (product) => {
   });
 };
 
+const loadMesage = () => {
+  const mesage = document.createElement('div');
+  mesage.classList.add('loading');
+  mesage.innerText = 'carregando...';
+  document.querySelector('body').appendChild(mesage);
+};
 
+const closeLoadMesage = () => {
+  document.querySelector('.loading').remove();
+};
+
+const fillWithItems = (id, event) => {
+  loadMesage();
+
+  return fetchItem(id)
+    .then((item) => {
+      actualTotalPrice(item.salePrice, event);
+      closeLoadMesage();
+      return createCartItemElement(item);
+    });
+}
+const addItemToCart = (event) => {
+  const itemId = getSkuFromProductItem(event.target.parentNode);
+
+}
 window.onload = () => {
   addItems('computador');
 };
