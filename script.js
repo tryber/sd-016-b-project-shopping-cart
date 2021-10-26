@@ -43,10 +43,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 const renderProductList = async () => {
   const listItems = await fetchProducts('computador');
-  // console.log(listItems);
   listItems.forEach((item) => createProductItemElement(item));
 };
-// Ajuda do Gabriel Silvestre
+// Feito com mentoria do Gabriel Silvestre
 const add = async (event) => {
   const sku = getSkuFromProductItem(event.target.parentNode);
   const cartItems = await fetchItem(sku);
@@ -60,7 +59,6 @@ const addProductToCart = () => {
     btn.addEventListener('click', add);
   });
 };
-// addProductToCart();
 
 window.onload = async () => {
  await renderProductList();
