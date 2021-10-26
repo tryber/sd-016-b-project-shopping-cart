@@ -46,15 +46,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// requisito 5
-// const adicionados = [];
-// function soma(valor) {
-//   const h2 = document.querySelector('h3');
-//   adicionados.push(valor);
-//   const resultado = adicionados.reduce((acumulador, atual) => acumulador + atual);
-//   h2.innerText = resultado;
-// }
-
 // requisito 2
 function evento(event) {
   const pai = event.target.parentNode;
