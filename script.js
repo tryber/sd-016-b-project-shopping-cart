@@ -5,6 +5,10 @@ const importantElements = {
   subTotal: document.querySelector('.total-price'),
 };
 
+const client = {
+  subTotal: 0,
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,14 +48,41 @@ const actualSubTotal = () => {
 const getActualSubTotal = () => {
   if (localStorage.getItem('subTotal')) {
     const subTotal = localStorage.getItem('subTotal');
+    importantElements.subTotal.innerText = subTotal;
+    client.subTotal = Number.parseFloat(subTotal.split('$')[1]);
+  } else {
+    client.subTotal = 0;
   }
-}
+};
+
+const cart = () => {
+  const allCartItems = importantElements.cartItems.innerHTML;
+  saveCartItems(JSON.stringify(allCartItems));
+  actualSubTotal();
+};
+
+const actualTotalPrice = (value, { target }) => {
+  if (target.className === 'empty-cart') client,subTotal = 0;
+  if ( target.className === 'cart_item') client.subTotal -= value;
+  else client.subTotal += value;
+
+  importantElements.subTotal.innerText = client.subTotal;
+};
+
 // https://github.com/tryber/sd-016-b-project-shopping-cart/pull/9/files
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 function cartItemClickListener(event) {
   const cartProduct = event.target;
   const regexToCompair = new RegExp(/\w*: \$(?<price>\d*.\d{0,2})$/);
   const price = cartProduct.innerText.match((regexToCompair)[1]);
+
+  actualTotalPrice(Number.parseFloat(price), event);
+  cartProduct.outerHTML = '';
+  cart();
+};
+
+const fillCart = () => {
+  const cartItems = JSON.parse(getSaved)
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -71,12 +102,6 @@ const addItems = async (product) => {
     });
   });
 };
-
-const addItemToCart = (sku) => {
-  const cart = document.querySelector('.cart_items');
-  fetchItem(sku)
-    .then((product) =>)
-}
 window.onload = () => {
   addItems('computador');
 };
