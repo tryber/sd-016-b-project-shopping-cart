@@ -31,7 +31,9 @@ function getSkuFromProductItem(item) {
 // Requisito 3
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  // Noções do remove() tiradas de https://developer.mozilla.org/en-US/docs/Web/API/Element/remove
   event.target.remove();
+  saveCartItems();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -72,9 +74,11 @@ async function addItem(id) {
 
   const productItem = createCartItemElement(product);
   cartItem.appendChild(productItem);
+  saveCartItems();
 }
 
-function getSku() {
+// Noções de parentNode obtidas em https://developer.mozilla.org/pt-BR/docs/Web/API/Node/parentNode
+function getId() {
   const items = document.querySelector('.items');
   items.addEventListener('click', (event) => {
     if (event.target.classList.contains('item__add')) {
@@ -89,5 +93,6 @@ function getSku() {
 window.onload = () => {
   searchProducts('computador');
   // addItem('MLB1341706310');
-  getSku();
+  getId();
+  saveCartItems()
 };
