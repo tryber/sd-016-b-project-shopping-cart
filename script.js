@@ -1,4 +1,5 @@
 const ol = document.querySelector('.cart__items');
+const allCartItems = document.querySelectorAll('cart__item');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -31,7 +32,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  ol.removeChild(event.target);
+  event.target.remove();
+  saveCartItems(ol.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -81,10 +83,25 @@ function clickButton() {
   });
 }
 
+function recoverLocalStorage() {
+  ol.innerHTML = getSavedCartItems();
+  ol.addEventListener('click', cartItemClickListener);
+}
+
+// Código desenvolvido com auxilio do colega Tonis Torres, refatorado para a função recoverLocalStorage.
+// function getLocal() {
+//   const getInfoLocal = getSavedCartItems();
+//   // console.log(getInfoLocal);
+//   ol.innerHTML = getInfoLocal;
+//   ol.addEventListener('click', cartItemClickListener);
+// }
+
 // código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
+
 async function allFunc() {
   await searchProducts('computador')
-    .then(() => clickButton());
+    .then(() => clickButton())
+    .then(() => recoverLocalStorage());
 }
 
 window.onload = () => {
