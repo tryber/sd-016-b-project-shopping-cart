@@ -62,8 +62,17 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function load() {
   const l = getSavedCartItems();
-  if (l) JSON.parse(l).forEach((o) => cart.appendChild(createCartItemElement(o)));
-  atualizaTotal();
+  if (l) {
+    JSON.parse(l).forEach((o) => {
+    // cart.appendChild(createCartItemElement(o)));
+      fetchItem(o.sku)
+        .then((c) => {
+          cart.appendChild(createCartItemElement({ sku: c.id, name: c.title, salePrice: c.price }));
+          save();
+        });
+    });
+    atualizaTotal();
+  }
 }
 
 function sell(e) {
@@ -76,22 +85,20 @@ function sell(e) {
   }
 }
 
-window.onload = () => {
-  load();
-
+window.onload = async () => {
   document.addEventListener('click', sell);
-
   document.querySelector('.empty-cart').addEventListener('click', () => { 
     cart.innerHTML = '';
     save(); 
   });
 
-  // carrega produtos
-  fetchProducts('computador').then((d) => {
+  await fetchProducts('computador').then((d) => {
     d.results
-      .map((i) => ({ sku: i.id, name: i.title, image: i.thumbnail }))
+    .map((i) => ({ sku: i.id, name: i.title, image: i.thumbnail }))
       .forEach((p) => document.querySelector('.items').appendChild(createProductItemElement(p)));
-      document.querySelector('.loading').parentElement
-        .removeChild(document.querySelector('.loading'));
+    document.querySelector('.loading').parentElement
+      .removeChild(document.querySelector('.loading'));
   });
+  
+  load();
 };
