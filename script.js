@@ -34,7 +34,7 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -44,17 +44,25 @@ function createCartItemElement({ sku, name, salePrice }) {
 const renderProductList = async () => {
   const listItems = await fetchProducts('computador');
   // console.log(listItems);
-  listItems.map((item) => createProductItemElement(item));
+  listItems.forEach((item) => createProductItemElement(item));
 };
-// renderProductList();
+// Ajuda do Gabriel Silvestre
+const add = async (event) => {
+  const sku = getSkuFromProductItem(event.target.parentNode);
+  const cartItems = await fetchItem(sku);
+  const getItem = document.querySelector('.cart__items');
+  getItem.appendChild(createCartItemElement(cartItems));
+};
 
 const addProductToCart = () => {
   const itemBtn = document.querySelectorAll('.item__add');
+  itemBtn.forEach((btn) => {
+    btn.addEventListener('click', add);
+  });
 };
-addProductToCart();
+// addProductToCart();
 
 window.onload = async () => {
  await renderProductList();
  addProductToCart();
-  // fetchItem();
 };
