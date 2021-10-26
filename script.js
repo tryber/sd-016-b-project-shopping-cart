@@ -20,10 +20,17 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const totalPrice = document.querySelector('.price');
+  const value = event.target.innerText.substring(
+    event.target.innerText.indexOf('$') + 1, event.target.innerText.length,
+  );
+  totalPrice.innerText = parseFloat(totalPrice.innerText) - value;
   event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const totalPrice = document.querySelector('.price');
+  totalPrice.innerText = parseFloat(totalPrice.innerText) + salePrice;
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -31,7 +38,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-async function morena(event) {
+async function addItemToCart(event) {
   const li = event.target.parentElement.firstChild.innerText;
   await fetchItem(li)
   .then((data) => {
@@ -48,7 +55,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   section.appendChild(button);
-  button.addEventListener('click', morena);
+  button.addEventListener('click', addItemToCart);
   
   return section;
 }
@@ -73,6 +80,7 @@ function emptyCart() {
   while (ol.firstChild) {
     ol.removeChild(ol.firstChild);
   }
+  document.querySelector('.price').innerText = 0;
 }
 
 function emptyShoppingCart() {
