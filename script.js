@@ -15,29 +15,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const customRequestPromise = (element) =>
-  new Promise((resolve) => setTimeout(resolve, 700)).then(() => {
-    const itemsList = element.parentNode.innerHTML;
-    const itemPrice = element.getAttribute('data-price');
-
-    handleDisplayTotalPrice(itemPrice, 'sub');
-    element.remove();
-    saveCartItems(SAVE_ITEMS_KEY, itemsList);
-  });
-
-async function cartItemClickListener(event) {
-  await handleAPIRequest(customRequestPromise, event.target);
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.setAttribute('data-price', salePrice);
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
 function sumToTotalPrice(amount) {
   const currentAmount = Number(localStorage.getItem('totalPrice')) || 0;
   const newAmount = (currentAmount + amount).toFixed(2);
@@ -89,6 +66,16 @@ function handleDisplayTotalPrice(amount, operation) {
   displayCartTotalPrice(totalPrice);
 }
 
+const customRequestPromise = (element) =>
+  new Promise((resolve) => setTimeout(resolve, 700)).then(() => {
+    const itemsList = element.parentNode.innerHTML;
+    const itemPrice = element.getAttribute('data-price');
+
+    handleDisplayTotalPrice(itemPrice, 'sub');
+    element.remove();
+    saveCartItems(SAVE_ITEMS_KEY, itemsList);
+  });
+
 function handleRequestLoading(isLoading) {
   const loadingElement = createCustomElement('section', 'loading', 'Carregando...');
   const documentBody = document.querySelector('body');
@@ -107,6 +94,19 @@ function handleAPIRequest(request, ...args) {
     .catch((error) => {
       console.log('[Error on fetching data]: ', error);
     });
+}
+
+async function cartItemClickListener(event) {
+  await handleAPIRequest(customRequestPromise, event.target);
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.setAttribute('data-price', salePrice);
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 }
 
 async function addItemsToCart(sku) {
@@ -161,8 +161,7 @@ window.onload = () => {
   const savedItemsList = getSavedCartItems();
   const parsedItemsList = document.createRange().createContextualFragment(savedItemsList);
 
-  if (typeof parsedItemsList.firstChild === 'ChildNode') {
-    console.log('Oi', parsedItemsList.firstChild);
+  if (parsedItemsList.querySelector('li')) {
     cartItemsWrapper.appendChild(parsedItemsList);
   }
 
