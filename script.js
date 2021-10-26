@@ -77,6 +77,22 @@ async function searchItem(itemId) {
   return itemToCreate;  
 }
 
+// Requisito 5
+async function sumItemPrices() {
+  const liList = document.getElementsByTagName('li');
+  const totalPrice = document.querySelector('.total-price');
+  let totalValue = 0;
+  // if (liList.length === 0) {
+  //   totalPrice.innerText = 'Valot total: 0';
+  // }
+  for (let index = 0; index < liList.length; index += 1) {
+    const li = liList[index];
+    const price = parseFloat(li.innerText.split('|')[2].split('$')[1]);
+    // console.log(price);
+    totalValue += price;    
+  }
+  totalPrice.innerText = `Valor total: ${totalValue}`;    
+}
 // Criando o código que vai selecionar o item
 // Salvando no localstorage
 const items = document.querySelector('.items');
@@ -86,6 +102,12 @@ items.addEventListener('click', async (event) => {
   const addItem = await searchItem(itemId);  
   cartList.appendChild(addItem);
   saveCartItems(cartListAsync.innerHTML);
+  sumItemPrices();
+  // let totalValue += await sumItemPrices(itemId);
+  // totalValue += await sumItemPrices(itemId);
+  // console.log(totalValue);
+  // totalValue += sumItemPrices(itemId);
+  // console.log(totalValue);
 });
 
 // Requisito 3
@@ -93,8 +115,10 @@ cartList.addEventListener('click', async (event) => {
   cartItemClickListener(event);
   });
 
-window.onload = () => { 
+window.onload = async () => { 
   searchProducts('computador');  
   cartList.innerHTML = getSavedCartItems();
     // console.log(cartList.innerHTML);  
+  // const totalValue = 0;
+  sumItemPrices();
 };

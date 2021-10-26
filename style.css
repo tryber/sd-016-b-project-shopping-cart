@@ -55,3 +55,10 @@
   font-size: 16pt;
   text-align: center;
 }
+
+.total-price {
+  flex-basis: 1;
+  font-size: 16pt;
+  text-align: center;
+}
+}

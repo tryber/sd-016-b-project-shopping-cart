@@ -1,6 +1,6 @@
 const saveCartItems = (items) => {
   // chave: carItems
-  console.log(items);
+  // console.log(items);
   localStorage.setItem('cartItems', items);
 };
 
