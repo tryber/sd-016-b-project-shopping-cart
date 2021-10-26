@@ -31,23 +31,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-  const ol = event.target.parentElement;
-  ol.removeChild(event.target);
-  saveCartItems(cartOl.innerHTML);
-}
-
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-// SEPARAÇÃO DAS FUNÇÕES PRÉ PRONTAS
-
 async function takeProductsAndShowThem() {
   const computers = await fetchProducts('computador');
   const section = document.querySelector('.items');
@@ -65,6 +48,22 @@ async function sumCartItems() {
     totalPrice.innerHTML = Number(totalPrice.innerHTML) + itemPrice;
   });
   saveCartItems(cartOl.innerHTML, totalPrice.innerHTML);
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  const ol = event.target.parentElement;
+  ol.removeChild(event.target);
+  saveCartItems(cartOl.innerHTML);
+  sumCartItems();
+}
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 }
 
 function addToCart(computer) {
