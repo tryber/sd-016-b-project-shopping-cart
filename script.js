@@ -110,13 +110,7 @@ const loadingSite = async () => {
   const load = await getSavedCartItems();
   cartList.innerHTML = load;
 
-  const list = document.querySelector('cart__item');
-
-  list.results.forEach((item) => item
-    .addEventListener('click', (e) => {
-      element.remove(e);
-      saveCartItems(cartList.innerHTML);
-    }));
+  cartList.addEventListener('click', (event) => event.target.remove());
 };
 
 clear();

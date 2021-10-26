@@ -1,6 +1,6 @@
 const saveCartItems = (cartList) => {
   // seu código aqui
-  // localStorage.clear();
+  // localStorage.removeItem('cartitem');
   localStorage.setItem('cartItems', cartList);
 };
 
