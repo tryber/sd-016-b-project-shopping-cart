@@ -1,5 +1,9 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
+// const saveCartItems = require('./helpers/saveCartItems');
+
 // const { fetchItem } = require("./helpers/fetchItem");
 // console.log(buscarItem);
 
@@ -74,14 +78,14 @@ async function searchItem(itemId) {
 }
 
 // Criando o código que vai selecionar o item
+// Salvando no localstorage
 const items = document.querySelector('.items');
 items.addEventListener('click', async (event) => {
   const itemId = event.target.parentNode.firstChild.innerText;
-  // console.log(itemId);
-  const addItem = await searchItem(itemId);
-  // console.log(addItem);
-  // const cartList = document.querySelector('.cart__items');
+  const cartListAsync = document.querySelector('.cart__items')
+  const addItem = await searchItem(itemId);  
   cartList.appendChild(addItem);
+  saveCartItems(cartListAsync.innerHTML);
 });
 
 // Requisito 3
@@ -90,5 +94,7 @@ cartList.addEventListener('click', async (event) => {
   });
 
 window.onload = () => { 
-  searchProducts('computador');
+  searchProducts('computador');  
+  cartList.innerHTML = getSavedCartItems();
+    // console.log(cartList.innerHTML);  
 };
