@@ -131,8 +131,18 @@ function buttonAddToCartItems() {
   });
 }
 
+/* 
+- Criar o texto de carregamento durante a requisição de uma API
+*/
+const load = document.querySelector('.loading');
+function loading() {
+  load.innerHTML = 'carregando';
+}
+
 async function searchProducts(product) {
+  loading();
   const search = await fetchProducts(product);
+  load.remove();
   const sectionItem = document.querySelector('.items');
   search.results.forEach((item) => {
     const itemObject = {
@@ -160,14 +170,6 @@ function emptyButton() {
     p.innerText = '';
   });
 }
-
-/* 
-- Criar o texto de carregamento durante a requisição de uma API
-*/
-
-// function loading() {
-
-// }
 
 window.onload = () => {
   searchProducts('computador');
