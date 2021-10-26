@@ -1,3 +1,19 @@
+/* Recuperando os elementos HTML */
+const listCarts = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price');
+const loadingRequest = document.querySelector('.loading');
+
+/* Ao clicar no botão esvazia o carrinho de compras */
+const botaoEsvaziarCart = () => {
+  const botao = document.querySelector('.empty-cart');
+
+  botao.addEventListener('click', () => {
+    listCarts.innerHTML = '';
+    totalPrice.innerText = '';
+    localStorage.clear();
+  });
+};
+
 /* Criando a imagem do produto */
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -11,9 +27,52 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+/* Salva e atualiza os produtos no Local Storage */
+const saveLocalStorage = () => {
+  const produto = listCarts.innerHTML;
+  saveCartItems(JSON.stringify(produto));
+};
+
+/* Quando recarrega a página recupera o valor do produto no Local Storage */
+const getValueProductLocalStorage = () => {
+  totalPrice.innerHTML = localStorage.getItem('valueProduct');
+};
+
+/* Subtraindo os valores dos produtos */
+const subProducts = (event) => {
+  const textProduct = event.target.innerText;
+  const arrProduct = textProduct.split(' ');
+  const arrLengthPosition = arrProduct[arrProduct.length - 1];
+  const valueProduct = arrLengthPosition.replace('$', '');
+  let soma = Number(localStorage.getItem('valueProduct'));
+  soma -= valueProduct;
+  localStorage.setItem('valueProduct', soma);
+  totalPrice.innerText = soma;
+};
+
+/* Removendo produto do carrinho de compras */
 function cartItemClickListener(event) {
   event.target.remove();
+  subProducts(event);
+  saveLocalStorage();
 }
+
+/* Reenderiza o carrinho de compras com o dados no Local Storage */
+const getLocalStorage = () => {
+  const produtos = JSON.parse(getSavedCartItems());
+  listCarts.innerHTML = produtos;
+
+  const lis = document.querySelectorAll('.cart__item');
+  lis.forEach((li) => li.addEventListener('click', cartItemClickListener));
+};
+
+/* Somando os valores dos produtos */
+const sumProducts = (price) => {
+  let soma = Number(localStorage.getItem('valueProduct'));
+  soma += price;
+  localStorage.setItem('valueProduct', soma);
+  totalPrice.innerText = soma;
+};
 
 /* Criando o produto a ser adicionado no carrinho de compras */
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -21,6 +80,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumProducts(salePrice);
   return li;
 }
 
@@ -29,8 +89,8 @@ const cartProdutoClick = async (event) => {
   const id = getSkuFromProductItem(event.target.parentNode);
   const elementProduto = await fetchItem(id);
   const carrinho = createCartItemElement(elementProduto);
-  const ol = document.querySelector('.cart__items');
-  ol.appendChild(carrinho);
+  listCarts.appendChild(carrinho);
+  saveLocalStorage();
 };
 
 /* Criando o produto */
@@ -41,7 +101,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-/* Adicionando o produto na section */
+/* Adicionando o produto na section da página principal */
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -58,7 +118,9 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 /* Buscando produto na API e adicionando o produto na página */
 const objProduto = async () => {
+  loadingRequest.innerHTML = 'carregando';
   const elementProduto = await fetchProducts('computador');
+  loadingRequest.remove();
   const sectionPai = document.querySelector('.items');
   elementProduto.results.forEach((item) => {
   const criandoProduto = createProductItemElement(item);
@@ -68,4 +130,7 @@ const objProduto = async () => {
 
 window.onload = () => {
   objProduto();
+  getLocalStorage();
+  botaoEsvaziarCart();
+  getValueProductLocalStorage();
 };
