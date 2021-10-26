@@ -82,7 +82,7 @@ async function searchItem(itemId) {
 const items = document.querySelector('.items');
 items.addEventListener('click', async (event) => {
   const itemId = event.target.parentNode.firstChild.innerText;
-  const cartListAsync = document.querySelector('.cart__items')
+  const cartListAsync = document.querySelector('.cart__items');
   const addItem = await searchItem(itemId);  
   cartList.appendChild(addItem);
   saveCartItems(cartListAsync.innerHTML);
