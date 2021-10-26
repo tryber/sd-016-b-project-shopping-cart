@@ -1,4 +1,5 @@
 const SAVE_ITEMS_KEY = 'cartItems';
+const cartItemsWrapper = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -44,8 +45,9 @@ function displayCartTotalPrice(total) {
 
   if (total <= 0) return;
 
-  if (totalPriceElement) {
-    return (totalPriceElement.querySelector('p').innerText = total);
+  if (totalPriceElement) { 
+    totalPriceElement.querySelector('p').innerText = total;
+    return;
   }
 
   const totalPriceWrapper = createCustomElement('section', 'total-price', '');
@@ -82,7 +84,6 @@ function handleAPIRequest(request, ...args) {
 }
 
 async function addItemsToCart(sku) {
-  const cartItemsWrapper = document.querySelector('.cart__items');
   const product = await handleAPIRequest(fetchItem, sku);
   const { id, title: name, price: salePrice } = product;
   const itemCart = createCartItemElement({ sku: id, name, salePrice });
@@ -120,9 +121,9 @@ async function getInitialProducts(query) {
   });
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function convertSavedListToDomElements(string) {
   const parser = new DOMParser();
@@ -132,15 +133,22 @@ function convertSavedListToDomElements(string) {
 }
 
 function reloadCurrentCartItemsList(cartItemsList) {
-  const cartItemsWrapper = document.querySelector('.cart__items');
-
   cartItemsList.forEach((item) => cartItemsWrapper.append(item));
+}
+
+function handleEmptyCart() {
+  const emptyCartButton = document.querySelector('.empty-cart');
+
+  emptyCartButton.addEventListener('click', () => {
+    cartItemsWrapper.innerHTML = '';
+  });
 }
 
 window.onload = () => {
   const savedList = getSavedCartItems('cartItems');
   const cartItemsList = convertSavedListToDomElements(savedList);
 
+  handleEmptyCart();
   handleDisplayTotalPrice(0);
   getInitialProducts('computador');
   reloadCurrentCartItemsList(cartItemsList);
