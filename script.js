@@ -30,7 +30,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // código aqui
+  const item = document.querySelector('.cart__items');
+    item.removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -74,6 +75,5 @@ window.onload = () => {
     if (element.target && element.target.classList.contains('item__add')) {
       addItemCart(setId(element));
     }
-    cartItemClickListener();
   });
 };
