@@ -9,8 +9,7 @@ const fetchItem = (ids) => {
   .then((data) => {
     const { id, title, price } = data;
     return { sku: id, name: title, salePrice: price };
-  })
-  .catch((error) => `seu erro é ${error}`);
+  });
   return result;
 };
 

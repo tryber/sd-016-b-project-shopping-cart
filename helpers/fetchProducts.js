@@ -6,8 +6,7 @@ const fetchProducts = (par) => {
   }
   const result = fetch(url)
   .then((response) => response.json())
-  .then((data) => data.results)
-  .catch((error) => `seu erro ${error}`);
+  .then((data) => data.results);
   
   return result;
 };
