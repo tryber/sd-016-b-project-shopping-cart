@@ -44,7 +44,7 @@ const elementItem = async () => {
   const getItens = document.querySelector('.itens');
   const products = await fetchProducts('computador');
   const endResults = products.results
-  .map((product) => ({ sku: product.id, name: product.tittle, salePrice: product.price }));
+  .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
   endResults.forEach((element) => getItens.appendChild(createProductItemElement(element)));
   console.log(arrProducts);
 };
