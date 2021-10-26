@@ -34,7 +34,7 @@ function getCartList() {
 
 function addCartSubtotal(cartSubtotal) {
   const spanSubtotal = document.querySelector('.total-price');
-  spanSubtotal.innerText = cartSubtotal;
+  spanSubtotal.innerText = cartSubtotal.toFixed(2);
 }
 
 function calculateCartSubtotal() {
@@ -134,7 +134,7 @@ async function getProducts(productName) {
   enableProductsButtonsClickEvent();
 }
 
-async function recoverCartItems() {
+async function recoverSavedCartItems() {
   const storageItems = getSavedCartItems();
   const cartList = getCartList();
   /*
@@ -153,7 +153,7 @@ async function recoverCartItems() {
 }
 
 async function checkLocalStorage() {
-  if (localStorage.length !== 0) await recoverCartItems();
+  if (localStorage.length !== 0) await recoverSavedCartItems();
 }
 
 window.onload = () => {
