@@ -54,6 +54,20 @@ async function researchProduct(product) {
   });
 }
 
+async function searchId(id) {
+  const getId = await fetchItem(id);
+  const cartItem = document.querySelector('.cart__items');
+  const obj = {      
+    sku: getId.id,
+    name: getId.title,
+    salePrice: getId.price,
+  };
+  const createCartItem = createCartItemElement(obj);
+  cartItem.appendChild(createCartItem);
+  return getId;
+}
+
 window.onload = () => {
-  researchProduct('computador');  
+  researchProduct('computador');
+  searchId('MLB1341706310'); 
 };

@@ -5,6 +5,18 @@ const item = require('../mocks/item');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('2 - Teste a função fecthItem', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('fetchItem é uma função', () => {
+    expect(typeof fetchItem).toBe('function');
+  });
+
+  it('A endpoint foi usada', () => {
+    fetchItem('MLB1615760527');
+    expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1615760527');
+  });
+
+  it('fetchItem foi chamado', () => {  
+    fetchItem('MLB1615760527');  
+    expect(fetch).toHaveBeenCalled();
+  });
+
 });
