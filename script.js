@@ -116,6 +116,14 @@ cartList.addEventListener('click', async (event) => {
   sumItemPrices();
   });
 
+// requisito 6
+const cleatButton = document.querySelector('.empty-cart');
+cleatButton.addEventListener('click', () => {
+  cartList.innerHTML = '';
+  localStorage.clear();
+  sumItemPrices();
+});
+
 window.onload = async () => { 
   searchProducts('computador');  
   cartList.innerHTML = getSavedCartItems();
