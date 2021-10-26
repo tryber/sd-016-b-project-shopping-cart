@@ -1,3 +1,10 @@
+const importantElements = {
+  cartItems: document.querySelector('.cart_items'),
+  allItems: document.querySelector('.items'),
+  emptyCart: document.querySelector('.empty-cart'),
+  subTotal: document.querySelector('.total-price'),
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,11 +35,26 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const actualSubTotal = () => {
+  const subTotal = importantElements.subTotal.innerText;
+
+  localStorage.setItem('subTotal', subTotal);
+};
+
+const getActualSubTotal = () => {
+  if (localStorage.getItem('subTotal')) {
+    const subTotal = localStorage.getItem('subTotal');
+  }
+}
+// https://github.com/tryber/sd-016-b-project-shopping-cart/pull/9/files
+// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const cartProduct = event.target;
+  const regexToCompair = new RegExp(/\w*: \$(?<price>\d*.\d{0,2})$/);
+  const price = cartProduct.innerText.match((regexToCompair)[1]);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -49,6 +71,12 @@ const addItems = async (product) => {
     });
   });
 };
+
+const addItemToCart = (sku) => {
+  const cart = document.querySelector('.cart_items');
+  fetchItem(sku)
+    .then((product) =>)
+}
 window.onload = () => {
   addItems('computador');
 };
