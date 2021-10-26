@@ -41,14 +41,14 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const elementItem = async () => {
-  const getItens = document.querySelector('.itens');
-  const products = await fetchProducts('computador');
-  const endResults = products.results
+  const getItems = document.querySelector('.items');
+  const arrProducts = await fetchProducts('computador');
+  const arrResults = arrProducts.results
   .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
-  endResults.forEach((element) => getItens.appendChild(createProductItemElement(element)));
-  console.log(products);
-};
-
-window.onload = () => {
-  elementItem();
+  arrResults.forEach((element) => getItems.appendChild(createProductItemElement(element)));
+  console.log(arrProducts);
+  };
+  
+  window.onload = () => {
+    elementItem();
  };
