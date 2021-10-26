@@ -40,4 +40,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+// Função desenvolvida com base no vídeo disponibilizado no Slack por Bernardo Salgueiro.
+async function renderItems(product) {
+  const itemsSection = document.querySelector('.items');
+
+  const data = await fetchProducts(product);
+  data.results.forEach((item) => {
+    const itemObject = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+
+    const productItem = createProductItemElement(itemObject);
+    itemsSection.appendChild(productItem);
+  });
+}
+
+window.onload = () => {
+  renderItems('computador');
+};
