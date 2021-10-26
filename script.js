@@ -12,6 +12,44 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function cartItemClickListener(event) {
+  const price = document.querySelector('.price');
+  const evt = event.target;
+  evt.remove();
+  const productPrice = evt.innerText.split('PRICE: $')[1];
+
+  price.innerText = Number(price.innerText) - Number(productPrice);
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const price = document.querySelector('.price');
+  const li = document.createElement('li');
+
+  price.innerText = Number(price.innerText) + salePrice;
+
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+
+  return li;
+}
+
+async function selectProduct(product) {
+  const selectedData = await fetchItem(product);
+  const ol = document.querySelector('.cart__items');
+  console.log(selectedData.id);
+
+  const itemSelected = {
+    sku: selectedData.id,
+    name: selectedData.title,
+    salePrice: selectedData.price,
+  };
+
+  const selectedItem = createCartItemElement(itemSelected);
+  ol.appendChild(selectedItem);
+  saveCartItems(ol.innerHTML);
+}
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   const title = createCustomElement('span', 'item__sku', sku);
@@ -34,19 +72,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  const evt = event.target;
-  evt.remove();
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
 async function searchProducts(product) {
   const searchData = await fetchProducts(product);
   const sectionItem = document.querySelector('.items');
@@ -62,21 +87,13 @@ async function searchProducts(product) {
   });
 }
 
-async function selectProduct(product) {
-  const selectedData = await fetchItem(product);
-  const ol = document.querySelector('.cart__items');
-  console.log(selectedData.id);
-
-  const itemSelected = {
-    sku: selectedData.id,
-    name: selectedData.title,
-    salePrice: selectedData.price,
-  };
-
-  const selectedItem = createCartItemElement(itemSelected);
-  ol.appendChild(selectedItem);
+function sumAllPrices() {
+  const cart = document.querySelector('ol');
+  console.log(cart);
 }
 
 window.onload = () => { 
+  const cart = document.querySelector('ol');
   searchProducts('computador');
+  cart.innerHTML = getSavedCartItems();
 };
