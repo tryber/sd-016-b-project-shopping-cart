@@ -1,4 +1,4 @@
-const fetchItem = () => {
+const fetchItem = () => { 
   // seu código aqui
 };
 
