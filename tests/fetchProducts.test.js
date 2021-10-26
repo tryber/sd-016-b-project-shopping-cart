@@ -9,4 +9,9 @@ describe('1 - Teste a função fecthProducts', () => {
   it('Se fetchProducts é uma função', () => {
     expect(typeof fetchProducts).toBe('function');
   });
+
+  it('Se fetch foi chamado ao executar `fetchProducts` com o parametro "computador".', () => {
+    fetchProducts('computador');
+    expect(fetch).toHaveBeenCalled();
+  });
 });
