@@ -45,6 +45,11 @@ function cartItemClickListener(event) {
 
 function addListenner() {
   qAll('.cart__items').forEach((e) => e.addEventListener('click', cartItemClickListener));
+  q('.empty-cart').addEventListener('click', () => {
+    cartItems.innerHTML = '';
+    saveCartItems(cartItems.innerHTML);
+    cartSum();
+  });
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
