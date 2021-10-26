@@ -91,7 +91,7 @@ async function sumItemPrices() {
     // console.log(price);
     totalValue += price;    
   }
-  totalPrice.innerText = `Valor total: ${totalValue}`;    
+  totalPrice.innerText = totalValue;    
 }
 // Criando o código que vai selecionar o item
 // Salvando no localstorage
@@ -113,6 +113,7 @@ items.addEventListener('click', async (event) => {
 // Requisito 3
 cartList.addEventListener('click', async (event) => {
   cartItemClickListener(event);
+  sumItemPrices();
   });
 
 window.onload = async () => { 
