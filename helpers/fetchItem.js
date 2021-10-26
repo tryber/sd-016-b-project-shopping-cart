@@ -1,5 +1,8 @@
 const fetchItem = (ids) => {
   // seu código aqui
+  if (!ids) {
+    throw new Error('You must provide an url');
+  }
   const url = `https://api.mercadolibre.com/items/${ids}`;
   const result = fetch(url)
   .then((response) => response.json())
