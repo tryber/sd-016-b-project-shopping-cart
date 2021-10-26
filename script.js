@@ -165,9 +165,9 @@ function emptyButton() {
 - Criar o texto de carregamento durante a requisição de uma API
 */
 
-function loading() {
+// function loading() {
 
-}
+// }
 
 window.onload = () => {
   searchProducts('computador');
