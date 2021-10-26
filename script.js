@@ -1,4 +1,3 @@
-const clearButtonCart = document.querySelector('empty-cart');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -67,7 +66,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
     const addProduct = createCartItemElement(item);
     document.getElementsByClassName('cart__items')[0].appendChild(addProduct);
 };
-
 // código event delegation https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
 window.onload = () => {
   productList('computador');
