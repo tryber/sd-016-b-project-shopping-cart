@@ -1,6 +1,6 @@
 const mlApiUrl = 'https://api.mercadolibre.com/sites/MLB/search?q=';
 
-const fetchProducts = async (item) => {
+const fetchProducts = (item) => {
   if (!item) throw new Error('You must provide an url');
   
   const itemUrl = `${mlApiUrl}${item}`;

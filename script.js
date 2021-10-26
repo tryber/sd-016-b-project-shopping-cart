@@ -1,14 +1,17 @@
-const importantElements = {
-  cartItems: document.querySelector('.cart_items'),
-  allItems: document.querySelector('.items'),
-  emptyCart: document.querySelector('.empty-cart'),
-  subTotal: document.querySelector('.total-price'),
-};
+// Get elements HTML
+const cartItems = document.querySelector('.cart_items');
+const totalPrice = document.querySelector('.total-price');
+const loading = document.querySelector('.loading');
 
-const client = {
-  subTotal: 0,
+// Clean Cart
+const cleanCart = () => {
+  const btn = document.querySelector('.empty-cart');
+  btn.addEventListener('click', () => {
+    cartItems.innerHTML = '';
+    totalPrice.innerText = '';
+    localStorage.clear();
+  });
 };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -39,54 +42,8 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const actualSubTotal = () => {
-  const subTotal = importantElements.subTotal.innerText;
-
-  localStorage.setItem('subTotal', subTotal);
-};
-
-const getActualSubTotal = () => {
-  if (localStorage.getItem('subTotal')) {
-    const subTotal = localStorage.getItem('subTotal');
-    importantElements.subTotal.innerText = subTotal;
-    client.subTotal = Number.parseFloat(subTotal.split('$')[1]);
-  } else {
-    client.subTotal = 0;
-  }
-};
-
-const cart = () => {
-  const allCartItems = importantElements.cartItems.innerHTML;
-  saveCartItems(JSON.stringify(allCartItems));
-  actualSubTotal();
-};
-
-const actualTotalPrice = (value, { target }) => {
-  if (target.className === 'empty-cart') client,subTotal = 0;
-  if ( target.className === 'cart_item') client.subTotal -= value;
-  else client.subTotal += value;
-
-  importantElements.subTotal.innerText = client.subTotal;
-};
-
-// https://github.com/tryber/sd-016-b-project-shopping-cart/pull/9/files
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 function cartItemClickListener(event) {
-  const cartProduct = event.target;
-  const regexToCompair = new RegExp(/\w*: \$(?<price>\d*.\d{0,2})$/);
-  const price = cartProduct.innerText.match((regexToCompair)[1]);
-
-  actualTotalPrice(Number.parseFloat(price), event);
-  cartProduct.outerHTML = '';
-  cart();
-};
-
-const fillCart = () => {
-  const cartItems = JSON.parse(getSavedCartItems());
-  importantElements.cartItems.innerHTML = cartItems;
-  getActualSubTotal();
-  document.querySelectorAll('.cart_item')
-  .forEach((item) => item.addEventListener('click', cartItemClickListener));
+  // coloque seu código aqui
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -106,32 +63,6 @@ const addItems = async (product) => {
     });
   });
 };
-
-const loadMesage = () => {
-  const mesage = document.createElement('div');
-  mesage.classList.add('loading');
-  mesage.innerText = 'carregando...';
-  document.querySelector('body').appendChild(mesage);
-};
-
-const closeLoadMesage = () => {
-  document.querySelector('.loading').remove();
-};
-
-const fillWithItems = (id, event) => {
-  loadMesage();
-
-  return fetchItem(id)
-    .then((item) => {
-      actualTotalPrice(item.salePrice, event);
-      closeLoadMesage();
-      return createCartItemElement(item);
-    });
-}
-const addItemToCart = (event) => {
-  const itemId = getSkuFromProductItem(event.target.parentNode);
-
-}
 window.onload = () => {
   addItems('computador');
 };
