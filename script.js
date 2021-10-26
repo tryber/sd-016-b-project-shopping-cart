@@ -27,17 +27,27 @@ function createProductItemElement({ sku, name, image }) {
 const sectionProducts = document.querySelector('.items');
 const olCartItems = document.querySelector('.cart__items');
 
+function setLoading(boolean, local) {
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'carregando...';
+  const spanLoading = document.querySelector('.loading');
+  
+  if (boolean) { local.appendChild(span); }
+  if (!boolean) { spanLoading.remove(); }
+}
+
 async function createDatajsonSections() {
-  const getItemsClass = document.querySelector('.items');
+  setLoading(true, sectionProducts);
   const importData = await fetchProducts('computador  ');
 
   const dataItens = importData.results.map((product) => {
     const createObject = { sku: product.id, name: product.title, image: product.thumbnail };
     return createObject;
   });
-
+  setLoading(false);
   dataItens.forEach((item) => {
-    getItemsClass.appendChild(createProductItemElement(item));
+    sectionProducts.appendChild(createProductItemElement(item));
   });
 }
 
@@ -106,9 +116,11 @@ async function importCartItem(event) {
   const elementTarget = event.target.parentNode;
   const targetID = elementTarget.firstChild.innerText;
   
+  setLoading(true, olCartItems);
   const shearchItem = await fetchItem(targetID);
   const { id, title, price } = shearchItem;
   const createObject = { sku: id, name: title, salePrice: price };
+  setLoading(false);
   
   const CartLi = createCartItemElement(createObject);
   olCartItems.appendChild(CartLi);
