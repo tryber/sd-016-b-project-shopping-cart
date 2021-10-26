@@ -1,4 +1,5 @@
 const itemsInCart = document.querySelector('.cart__items');
+const erase = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -87,6 +88,12 @@ function loadItemsCart() {
   const cartItemList = getSavedCartItems();
   itemsInCart.innerHTML = cartItemList;
 }
+
+function eraseCart() {
+  itemsInCart.innerHTML = '';
+}
+
+erase.addEventListener('click', eraseCart);
 
 window.onload = () => { 
   searchProducts('computador');
