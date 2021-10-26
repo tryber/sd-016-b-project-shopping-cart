@@ -42,7 +42,6 @@ function clearCartItems() {
   });
 }
 
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
