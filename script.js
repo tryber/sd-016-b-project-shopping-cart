@@ -1,6 +1,5 @@
 // Minhas constantes
 const itemsInCart = document.querySelector('.cart__items');
-const clearButton = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -71,17 +70,16 @@ const addCartItem = async (sku) => {
   saveCartItems(itemsInCart.innerHTML);
 };
 
-function loadStore() {
-  const store = getSavedCartItems();
-  itemsInCart.innerHTML = store;
-}
+// Requisito 6
+const clearButton = document.querySelector('.empty-cart');
 
 clearButton.addEventListener('click', () => {
-  itemsCart.innerHTML = '';
-  saveCartItems(itemsCart.innerHTML);
+  itemsInCart.innerHTML = '';
+  saveCartItems(itemsInCart.innerHTML);
 });
 
 // Utilizei função já criada pela trybe para o projeto
+// Requisito 7
 const loadMsg = () => {
   document.querySelector('body')
   .appendChild(createCustomElement('div', 'loading', 'carregando...'));
@@ -91,6 +89,11 @@ const errorLoading = () => {
  const load = document.querySelector('.loading');
  load.remove();
 };
+
+function loadStore() {
+  const store = getSavedCartItems();
+  itemsInCart.innerHTML = store;
+}
 
 // fonte de pesquisa https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
 // criei função para poder utilizar no requisito 7
@@ -115,5 +118,4 @@ const allFunction = () => {
 
 window.onload = () => {
   allFunction();
-  loadStore();
  };
