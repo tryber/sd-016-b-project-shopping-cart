@@ -33,9 +33,9 @@ function getSkuFromProductItem(item) {
 }
 
 async function cartProducts(event) {
+  // console.log(item); OBRIGADO TALES DA METORIA
   const itemID = getSkuFromProductItem(event.target.parentNode);
   const item = await fetchItem(itemID);
-  // console.log(item); OBRIGADO TALES DA METORIA
 
   const itemObject = {
     sku: item.id,
@@ -52,8 +52,8 @@ const emptCart = document.querySelector('.empty-cart');
 
 const clear = () => {
   emptCart.addEventListener('click', () => {
-    cartList.remove();
-    // cartList.innerHTML = '';
+    // cartList.remove();
+    cartList.innerHTML = '';
     saveCartItems(cartList.innerHTML = '');
   });
 };
