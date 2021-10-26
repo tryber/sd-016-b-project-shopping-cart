@@ -1,10 +1,64 @@
-.container {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Rubik', sans-serif;
+}
+
+.navbar-end, .navbar-menu, .navbar-start {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.navbar-item {
+  color: white;
+}
+
+.navbar-brand {
+  width: 70%;
+  background-color: rgb(0, 59, 47);
+}
+
+.navbar-item .brand {
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.navbar-item .icon {
+  font-size: 20px;
+}
+
+.navbar-item .special-arrow {
+  font-size: 50px;
+  color: rgb(26, 136, 81);
+}
+
+.navbar-end {
+  padding-right: 0;
+  position: relative;
+  right: -5px;
+}
+
+.navbar-start {
+  width: 30%;
+  background-color: rgb(26, 136, 81);
+}
+
+.navbar-start span {
+  font-size: 20px;
+}
+
+.wrapper {
   display: flex;
   justify-content: space-around;
   width: 100%;
 }
 
 .items {
+  padding: 3%;
   display: flex;
   flex-basis: 70%;
   flex-wrap: wrap;
