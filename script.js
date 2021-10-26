@@ -1,3 +1,5 @@
+const { fetchProducts } = require('./helpers/fetchProducts');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -23,22 +25,32 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+// Função que cria os componentes HTML referentes a um produto.
+const objectAppend = async () => {
+  const allJsonData = await fetchProducts();
+    return allJsonData.forEach((arr) => {
+      const selectSection = document.querySelector('.items');
+      const getFunction = createProductItemElement(arr);
+      selectSection.appendChild(getFunction);
+    });
+};
+objectAppend(); // chama função
 
-function getSkuFromProductItem(item) {
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
+} */
 
-function cartItemClickListener(event) {
+/* function cartItemClickListener(event) {
   // coloque seu código aqui
-}
+} */
 
-function createCartItemElement({ sku, name, salePrice }) {
+/* function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
+} */
 
 window.onload = () => {
  };
