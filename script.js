@@ -118,28 +118,52 @@ async function getProducts(productName) {
   enableProductsButtonsClickEvent();
 }
 
-function recoverCart() {
-  if (localStorage.length !== 0) {
-    const storageItems = getSavedCartItems();
-    const cartList = getCartList();
-    /*
-    Consultei o link abaixo para entender como atribuir o elemento HTML salvo no localStorage a um elemento do DOM.
-    ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
-    */
-    cartList.innerHTML = storageItems;
-    calculateCartSubtotal();
-    /*
-    Consultei o link abaixo para entender como usar HOFs em Node List e HTML Collection.
-    ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
-    */
-    [...cartList.children].forEach((child) => {
-      child.addEventListener('click', cartItemClickListener);
-    });
-  }
+async function recoverCartItems() {
+  const storageItems = getSavedCartItems();
+  const cartList = getCartList();
+  /*
+  Consultei o link abaixo para entender como atribuir o elemento HTML salvo no localStorage a um elemento do DOM.
+  ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
+  */
+  cartList.innerHTML = storageItems;
+  calculateCartSubtotal();
+  /*
+  Consultei o link abaixo para entender como usar HOFs em Node List e HTML Collection.
+  ref: https://css-tricks.com/snippets/javascript/loop-queryselectorall-matches/
+  */
+  [...cartList.children].forEach((child) => {
+    child.addEventListener('click', cartItemClickListener);
+  });
+}
+
+async function checkLocalStorage() {
+  if (localStorage.length !== 0) await recoverCartItems();
+}
+
+function appendLoadingMessage() {
+  const sectionItems = document.querySelector('.items');
+  const sectionItemsParent = sectionItems.parentElement;
+  const section = document.createElement('section');
+  section.className = 'loading';
+  section.innerText = 'carregando';
+  sectionItemsParent.insertBefore(section, sectionItems);
+}
+
+async function removeLoadingMessage() {
+  const sectionLoading = document.querySelector('.loading');
+  const sectionLoadingParent = sectionLoading.parentElement;
+  sectionLoadingParent.removeChild(sectionLoading);
+}
+
+async function checkAPIResponseArraived() {
+  const sectionItems = document.querySelector('.items');
+  if (sectionItems.children.length === 0) await removeLoadingMessage();
 }
 
 window.onload = () => {
   getProducts('computador');
-  recoverCart();
+  appendLoadingMessage();
+  checkAPIResponseArraived();
+  checkLocalStorage();
   enableClearCartButton();
 };
