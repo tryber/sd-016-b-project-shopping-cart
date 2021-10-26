@@ -28,31 +28,39 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function getCartItems() {
+  return document.querySelectorAll('.cart__item');
+}
+
 function totalPrice() {
-  const cartItem = document.querySelectorAll('.cart__item');
+  const newCartItem = getCartItems();
   const priceText = document.querySelector('.total-price');
   let count = 0;  
-  cartItem.forEach((item) => {    
+  newCartItem.forEach((item) => {    
     const splitString = item.innerText.split(' ');    
     const priceString = splitString.pop();
     const priceWithoutChar = priceString.replace('$', '');
     const priceInteger = parseFloat(priceWithoutChar, 10);    
     count += priceInteger;    
-  });  
-  priceText.innerText = count;  
+  });
+  priceText.innerText = count;
+  if (count === 0) { // se der erro pode ser isso req 3
+    priceText.innerText = '';
+  }
 }
 
 function buttonRm(event) {
   const remove = event.target.remove();
   totalPrice();
+  saveCartItems();
   return remove;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-  const cartItem = document.querySelectorAll('.cart__item');
-  cartItem.forEach((item) => {
-    item.addEventListener('click', buttonRm(event));
+function cartItemClickListener(listener) {
+  // coloque seu código aqui  
+  const newCartItem = getCartItems();
+  newCartItem.forEach((item) => {
+    item.addEventListener('click', buttonRm(listener));
   });
 }
 
@@ -82,6 +90,7 @@ async function searchId(id) {
   const createCartItem = createCartItemElement(obj);  
   cartItem.appendChild(createCartItem);
   totalPrice();
+  saveCartItems();
   return findId;
 }
 
@@ -106,21 +115,65 @@ async function searchProduct(product) {
     const productItem = createProductItemElement(obj);
     sectionItem.appendChild(productItem);    
   });
-  createEventListener();  
+  createEventListener();
 }
 
-function cleanCart() {
-  const cartItem = document.querySelector('.cart__items');
+function cleanCart() {  
   const priceText = document.querySelector('.total-price');
   const cleanButton = document.querySelector('.empty-cart');
   cleanButton.addEventListener('click', () => {
-    cartItem.innerHTML = '';
-    priceText.innerText = '';
+    const newCartItem = getCartItems();    
+    newCartItem.forEach((item) => {
+      item.remove();
+      saveCartItems();
+    });
+    priceText.innerText = '';    
+  });  
+}
+
+function teste() {
+  // coloque seu código aqui  
+  const newCartItem = getCartItems();
+  newCartItem.forEach((item) => {
+    item.addEventListener('click', () => {
+      item.remove();
+      totalPrice();
+      saveCartItems();
+    });    
   });
+}
+
+function storageCart() {
+  const getItem = getSavedCartItems();  
+  const getItemSplit = getItem.split(',SKU:');
+  const cartItems = document.querySelector('.cart__items');
+  for (let index = 0; index < getItemSplit.length; index += 1) {
+    if (index !== 0) {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = `SKU:${getItemSplit[index]}`;
+      cartItems.appendChild(li);        
+    } else {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = getItemSplit[index]; 
+      cartItems.appendChild(li);  
+    }
+  }
+  teste();  
+  totalPrice();   
+}
+
+function storageItem() {
+  const getItem = getSavedCartItems();
+  if (getItem !== null && getItem !== '') {
+    storageCart();
+  }
 }
 
 window.onload = () => {
   searchProduct('computador');
   createPriceSection();
-  cleanCart();
+  cleanCart(); 
+  storageItem();
 };
