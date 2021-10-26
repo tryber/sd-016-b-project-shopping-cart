@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 .container {
   display: flex;
   justify-content: space-around;
@@ -54,4 +58,36 @@
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+
+.subtotal-container {
+  display: flex;
+}
+
+.subtotal-container p {
+  margin-right: 5px;
+}
+
+.loading-container {
+  /* border: 2px solid red; */
+  position: fixed;
+  /* top: 50%; */
+  /* left: 50%; */
+  height: 100%;
+  width: 100%;
+  /* margin: -50% 0 0 -50%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
+.loading {
+  font-size: 2.5rem;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: azure;
+}
+
+.invisible {
+  visibility: hidden;
 }
