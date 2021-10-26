@@ -1,4 +1,5 @@
 const ol = document.querySelector('.cart__items');
+// const btnClear = document.querySelector('.empty-cart');
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -10,8 +11,9 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-function cartItemClickListener() {
-  
+
+function cartItemClickListener(event) {
+ol.removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
