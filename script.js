@@ -145,8 +145,9 @@ function appendLoadingMessage() {
   const sectionItemsParent = sectionItems.parentElement;
   const section = document.createElement('section');
   section.className = 'loading';
-  section.innerText = 'carregando';
+  section.innerText = 'carregando...';
   sectionItemsParent.insertBefore(section, sectionItems);
+  // console.log(section.innerText);
 }
 
 async function removeLoadingMessage() {
@@ -161,8 +162,8 @@ async function checkAPIResponseArraived() {
 }
 
 window.onload = () => {
-  getProducts('computador');
   appendLoadingMessage();
+  getProducts('computador');
   checkAPIResponseArraived();
   checkLocalStorage();
   enableClearCartButton();
