@@ -65,6 +65,7 @@ async function searchItem(id) {
   const productAdd = createCartItemElement(objectItem);
   console.log(productAdd);
     cartItem.appendChild(productAdd);
+    saveCartItems(cartItem.innerHTML);
 }
 
 function getID(e) {
@@ -74,8 +75,14 @@ function getID(e) {
   }
 }
 
+function carregandoPagina() {
+  const itemSalvos = getSavedCartItems();
+  cartItem.innerHTML = itemSalvos;
+}
+
 window.onload = () => { 
 searchObject('computador');
 items.addEventListener('click', getID);
 cartItem.addEventListener('click', cartItemClickListener);
+carregandoPagina();
 };
