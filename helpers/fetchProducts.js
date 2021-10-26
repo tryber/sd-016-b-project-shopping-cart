@@ -1,5 +1,7 @@
-const fetchProducts = () => {
-  // seu código aqui
+const fetchProducts = (product) => {
+  return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${product}`)
+    .then((data) => data.json())
+    .catch((error) => error);
 };
 
 if (typeof module !== 'undefined') {
@@ -7,3 +9,6 @@ if (typeof module !== 'undefined') {
     fetchProducts,
   };
 }
+
+
+// Primeira questão feita com a ajuda do professor Bernardo.
