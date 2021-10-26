@@ -21,7 +21,7 @@ const itemsPrice = async () => {
   const pricesArray = newArray.map((price) => (price[price.length - 1]).substring(1));
   const numbersArray = pricesArray.map((number) => parseFloat(number));
   const result = numbersArray.reduce((acc, number) => acc + number);
-  totalPriceClass.innerText = `Total: $${result}`;
+  totalPriceClass.innerText = result;
 };
 
 function createProductImageElement(imageSource) {
