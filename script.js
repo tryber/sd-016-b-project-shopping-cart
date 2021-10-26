@@ -46,7 +46,7 @@ const elementItem = async () => {
   const endResults = products.results
   .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
   endResults.forEach((element) => getItens.appendChild(createProductItemElement(element)));
-  console.log(arrProducts);
+  console.log(products);
 };
 
 window.onload = () => {
