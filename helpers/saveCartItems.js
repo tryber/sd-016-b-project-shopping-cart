@@ -1,5 +1,10 @@
-const saveCartItems = () => {
-  // seu código aqui
+/*
+- Salvar os itens do carrinho no localStorage
+- em uma chave:(cartItens)
+- Fazer a lista está sempre att(com adiões e remoções)
+*/
+const saveCartItems = (item) => {
+  localStorage.setItem('cartItems', item);
 };
 
 if (typeof module !== 'undefined') {
