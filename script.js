@@ -71,10 +71,14 @@ function handleRequestLoading(isLoading) {
 
 function handleAPIRequest(request, ...args) {
   handleRequestLoading(true);
-  return request(...args).then((response) => {
-    handleRequestLoading(false);
-    return response;
-  });
+  return request(...args)
+    .then((response) => {
+      handleRequestLoading(false);
+      return response;
+    })
+    .catch((error) => {
+      console.log('[Error on fetching data]: ', error);
+    });
 }
 
 async function addItemsToCart(sku) {
