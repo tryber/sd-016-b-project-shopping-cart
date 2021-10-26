@@ -20,21 +20,26 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const totalPrice = document.querySelector('.price');
-  const value = event.target.innerText.substring(
-    event.target.innerText.indexOf('$') + 1, event.target.innerText.length,
-  );
-  totalPrice.innerText = parseFloat(totalPrice.innerText) - value;
+  const uiui = JSON.parse(localStorage.getItem('cartItems'));
+  const lepoLepo = [];
+  let bool = false;
+  for (let i = 0; i < uiui.length; i += 1) {
+    if (uiui[i].includes(event.target.innerText.slice(0, 19)) && bool === false) { 
+      bool = true;
+    } else {
+      lepoLepo.push(uiui[i]);
+    }  
+  }
+  localStorage.cartItems = JSON.stringify(lepoLepo);
   event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const totalPrice = document.querySelector('.price');
-  totalPrice.innerText = parseFloat(totalPrice.innerText) + salePrice;
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  saveCartItems(li);
   return li;
 }
 
@@ -49,7 +54,6 @@ async function addItemToCart(event) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-  
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -76,11 +80,11 @@ async function searchProducts(product) {
 }
 
 function emptyCart() {
+  localStorage.clear();
   const ol = document.querySelector('.cart__items');
   while (ol.firstChild) {
     ol.removeChild(ol.firstChild);
   }
-  document.querySelector('.price').innerText = 0;
 }
 
 function emptyShoppingCart() {
@@ -91,4 +95,5 @@ function emptyShoppingCart() {
 window.onload = () => { 
   searchProducts('computador');
   emptyShoppingCart();
+  getSavedCartItems();
 };

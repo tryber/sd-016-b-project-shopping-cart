@@ -7,6 +7,7 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 describe('4 - Teste a função saveCartItems', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('is it a function', () => {
+    expect(typeof saveCartItems).toBe('function');
+  });
 });
