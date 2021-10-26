@@ -8,13 +8,15 @@ describe('1 - Teste a função fecthProducts', () => {
   // implemente seus testes aqui
   it('teste', async () => {
     const response = await fetchProducts('computador')
+    const responseError = await fetchProducts()
+    const error = new Error('You must provide an url')
     expect.assertions(5)
 
     expect(fetchProducts).toBeInstanceOf(Function)
     expect(fetch).toHaveBeenCalled()
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     expect( await fetchProducts('computador')).toEqual(computadorSearch)
-    await expect(fetchProducts()).rejects.toEqual(new Error('You must provide an url'))
+    expect(responseError).toEqual(error)
 
   })
 });

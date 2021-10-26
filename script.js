@@ -16,7 +16,6 @@ function totalPrice() {
   }
   totalHTML.innerText = total;
 }
-totalPrice();
 
 function removeLoading() {
   const section = document.querySelector('#remove');
@@ -85,7 +84,6 @@ const returnItems = () => {
   ol.innerHTML = getSavedCartItems();
   const lis = document.querySelectorAll('.cart__item');
   lis.forEach((li) => li.addEventListener('click', cartItemClickListener));
-  totalPrice();
 };
 
   const button = document.querySelector('.empty-cart');
@@ -98,4 +96,5 @@ const returnItems = () => {
 window.onload = () => {
   fetchP();
   returnItems();
+  totalPrice();
 };

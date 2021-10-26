@@ -5,7 +5,7 @@ const fetchProducts = (item) => {
   return fetch(url)
   .then((response) => response.json())
   .then((data) => data)
-  .catch((error) => error);
+  .catch(() => new Error('You must provide an url'));
 };
 
 if (typeof module !== 'undefined') {
