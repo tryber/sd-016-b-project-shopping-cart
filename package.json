@@ -16,6 +16,7 @@
       "text",
       "html"
     ],
+    "testEnvironment": "jsdom",
     "collectCoverageFrom": [
       "**/helpers/**"
     ],

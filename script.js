@@ -31,9 +31,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
+  event.target.remove();
 }
 
-function createCartItemElement({ id: sku, tilte: name, price: salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -43,11 +44,17 @@ function createCartItemElement({ id: sku, tilte: name, price: salePrice }) {
 const renderProductList = async () => {
   const listItems = await fetchProducts('computador');
   // console.log(listItems);
-  listItems.results.map((item) => createProductItemElement(item));
+  listItems.map((item) => createProductItemElement(item));
 };
-renderProductList();
+// renderProductList();
 
-window.onload = () => {
-  // renderProductList();
+const addProductToCart = () => {
+  const itemBtn = document.querySelectorAll('.item__add');
+};
+addProductToCart();
+
+window.onload = async () => {
+ await renderProductList();
+ addProductToCart();
   // fetchItem();
 };
