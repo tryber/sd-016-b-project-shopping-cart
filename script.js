@@ -92,9 +92,9 @@ const errorLoading = () => {
  load.remove();
 };
 
-window.onload = () => {
-  showProducts();
-  loadStore();
+// fonte de pesquisa https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
+// criei função para poder utilizar no requisito 7
+function clicksEvent() {
   document.addEventListener('click', (event) => {
     if (event.target && event.target.classList.contains('item__add')) {
       addCartItem(itemId(event));
@@ -103,6 +103,17 @@ window.onload = () => {
       cartItemClickListener(event);
     }
   });
+}
 
-  // dinamismo nos eventos, não consegui colocar dentro de uma constante que conseguisse funcionar. Então deixei todo o caminho no window. https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript
+const allFunction = () => {
+  loadMsg();
+  showProducts()
+  .then(() => loadStore())
+  .then(() => clicksEvent())
+  .then(() => errorLoading());
+};
+
+window.onload = () => {
+  allFunction();
+  loadStore();
  };
