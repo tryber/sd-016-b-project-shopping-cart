@@ -1,3 +1,6 @@
+// Referências: https://stackoverflow.com/ e https://developer.mozilla.org/en-US/
+// Referências: Para execução de todos os requisitos desse projeto, obtive ajuda do grupo de estudos formado pelos alunos (Airton Silva, Breno Lopes e Hugo Daniel) da turma 16 - tribo B.  
+
 const listCartItens = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
 
