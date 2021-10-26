@@ -164,6 +164,7 @@ function checkAPIResponseArraived() {
 window.onload = () => {
   appendLoadingMessage();
   getProducts('computador');
+  removeLoadingMessage();
   // checkAPIResponseArraived();
   checkLocalStorage();
   enableClearCartButton();
