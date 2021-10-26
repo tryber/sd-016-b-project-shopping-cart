@@ -33,7 +33,7 @@ const cartSum = async () => {
     const price = curr.innerText.split('PRICE: $')[1];
     return prev + parseFloat(price);
   }, 0);
-  q('.total-price').innerText = `Preço final - R$ ${result.toFixed(2)}`;
+  q('.total-price').innerText = `${result}`;
 };
 
 function cartItemClickListener(event) {
