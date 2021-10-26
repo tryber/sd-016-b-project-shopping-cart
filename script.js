@@ -1,3 +1,6 @@
+const itemsInCart = document.querySelector('.cart__items');
+const erase = document.querySelector('.empty-cart');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,10 +32,12 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const removeItem = event.target;
+  removeItem.remove();
+  saveCartItems(itemsInCart.innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,4 +45,66 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+async function searchProducts(products) {
+  const searchData = await fetchProducts(products);
+  const sectionItem = document.querySelector('.items');
+  searchData.results.forEach((item) => {
+    const itemObject = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+
+    const productItem = createProductItemElement(itemObject);
+    sectionItem.appendChild(productItem);
+  });
+}
+
+const loadProducts = async () => {
+  await fetchProducts('computador')
+  .then((data) => data.results)
+  .then((products) => {
+    const items = document.querySelector('.items');
+    products.forEach((product) => {
+      const item = createProductItemElement(product);
+      items.appendChild(item);
+    });
+  });
+};
+
+function getId(e) {
+  const innerTxtId = e.target.parentNode.firstChild.innerText;
+  return innerTxtId;
+}
+
+const addItemToCart = async (id) => {
+  const product = await fetchItem(id);
+  const productAdd = createCartItemElement(product);
+  document.getElementsByClassName('cart__items')[0].appendChild(productAdd);
+  saveCartItems(itemsInCart.innerHTML);
+};
+
+function loadItemsCart() {
+  const cartItemList = getSavedCartItems();
+  itemsInCart.innerHTML = cartItemList;
+}
+
+function eraseCart() {
+  itemsInCart.innerHTML = '';
+}
+
+erase.addEventListener('click', eraseCart);
+
+window.onload = () => { 
+  searchProducts('computador');
+  loadItemsCart();
+  
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      addItemToCart(getId(e));
+    }
+    if (e.target && e.target.classList.contains('cart__item')) {
+      cartItemClickListener(e);
+    }
+  });
+};
