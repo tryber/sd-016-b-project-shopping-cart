@@ -34,7 +34,7 @@ function getCartList() {
 
 function addCartSubtotal(cartSubtotal) {
   const spanSubtotal = document.querySelector('.total-price');
-  spanSubtotal.innerText = cartSubtotal.toFixed(2);
+  spanSubtotal.innerText = cartSubtotal;
 }
 
 function calculateCartSubtotal() {
@@ -82,14 +82,14 @@ function enableClearCartButton() {
 async function appendItemToCart(event) {
   const itemId = event.target.parentElement.firstChild.innerText;
   const item = await fetchItem(itemId);
-  const itemsList = getCartList();
+  const cartList = getCartList();
   const itemObject = {
     sku: item.id,
     name: item.title,
     salePrice: item.price,
   };
 
-  itemsList.appendChild(createCartItemElement(itemObject));
+  cartList.appendChild(createCartItemElement(itemObject));
   calculateCartSubtotal();
   saveCartItems(getCartList().innerHTML);
 }
