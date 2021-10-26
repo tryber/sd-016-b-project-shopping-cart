@@ -28,12 +28,12 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-const cartSum = () => {
-  const result = Array.from(cartItems.childNodes).reduce((prev, curr) => {
+const cartSum = async () => {
+  const result = await Array.from(cartItems.childNodes).reduce((prev, curr) => {
     const price = curr.innerText.split('PRICE: $')[1];
     return prev + parseFloat(price);
   }, 0);
-  q('.total-price').innerText = `Preço final - R$ ${result}`;
+  q('.total-price').innerText = `Preço final - R$ ${result.toFixed(2)}`;
 };
 
 function cartItemClickListener(event) {
