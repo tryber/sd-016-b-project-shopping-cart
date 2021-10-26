@@ -1,3 +1,5 @@
+const ol = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +31,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  document.querySelector('.cart__items').removeChild(event.target);
+  ol.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -65,7 +67,8 @@ async function getItemId(item) {
     salePrice: dataItem.price,
   };
   const cartItem = createCartItemElement(objItem);
-  document.querySelector('.cart__items').appendChild(cartItem);
+  ol.appendChild(cartItem);
+  saveCartItems(ol.innerHTML);
 }
 
 // Capturar botões e add escutador em cada um. 
