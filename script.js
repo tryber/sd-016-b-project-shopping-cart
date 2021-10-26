@@ -68,6 +68,18 @@ async function searchProduct(product) {
   });
 }
 
+function clearCart() {
+  const getList = document.querySelector('.cart__items');
+  const getButt = document.querySelector('.empty-cart');
+  getButt.addEventListener('click', () => {
+    // retirado de: https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    while (getList.firstChild) {
+      getList.firstChild.remove();
+    }
+  });
+}
+
 window.onload = () => { 
   searchProduct('computador');
+  clearCart();
 };
