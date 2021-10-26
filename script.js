@@ -4,11 +4,14 @@
 
 const cartList = document.querySelector('.cart__items');
 
-function cartItemClickListener(event) {
+function cartItemClickListener() {
   // coloque seu código aqui
+  // OBRIGADO Gian (mentoria)
 
-  event.target.remove();
-  saveCartItems(cartList.innerHTML);
+  cartList.addEventListener('click', (event) => {
+    event.target.remove();
+    saveCartItems(cartList.innerHTML);
+  });
 }
 
 function createCustomElement(element, className, innerText) {
@@ -110,7 +113,7 @@ const loadingSite = async () => {
   const load = await getSavedCartItems();
   cartList.innerHTML = load;
 
-  cartList.addEventListener('click', (event) => event.target.remove());
+  cartItemClickListener();
 };
 
 clear();
