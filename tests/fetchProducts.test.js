@@ -16,6 +16,5 @@ describe('1 - Teste a função fecthProducts', () => {
     expect( await fetchProducts('computador')).toEqual(computadorSearch)
     await expect(fetchProducts()).rejects.toEqual(new Error('You must provide an url'))
 
-
   })
 });

@@ -6,24 +6,17 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-//   const list = '<li class="cart__item">SKU: MLB1532308540 | NAME: Computador Completo Fácil Intel I3 04 Gb Ddr3 Ssd 120 Gb | PRICE: $2079</li><li class="cart__item">SKU: MLB1607748387 | NAME: Pc Computador Cpu Intel Core I5 + Ssd 240gb, 8gb Memória Ram | PRICE: $1699.99</li>';
-//   const price = Number(list.split('$').pop())
-//   console.log(price);
 
-// function totalPrice() {
-// const listItems = document.getElementsByClassName('cart__item');
-
-// for (let i = 0; i < listItems.length; i += 1) {
-//   const arr = [];
-//   let string = listItems[i].innerText;
-
-//   let priceRegex = /PRICE:([0-12]+)/
-//   let match = string.match(priceRegex);
-//   arr.push(match[1])
-// }
-// return arr;
-
-// };
+function totalPrice() {
+  const totalHTML = document.getElementById('total-price');
+  let total = 0;
+  const liCart = document.querySelectorAll('.cart__item');
+  for (let i = 0; i < liCart.length; i += 1) {
+    total += Number(liCart[i].innerText.split('$').pop());
+  }
+  totalHTML.innerText = `Valor Total: R$ ${total}`;
+}
+totalPrice();
 
 function removeLoading() {
   const section = document.querySelector('#remove');
@@ -40,6 +33,7 @@ function cartItemClickListener(event) {
   const item = document.querySelector('.cart__items');
     item.removeChild(event.target);
     saveCartItems(ol.innerHTML);
+    totalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -60,6 +54,7 @@ const addItem = async (event) => {
   const product = createCartItemElement(obj);
   ol.appendChild(product);
   saveCartItems(ol.innerHTML);
+  totalPrice();
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -90,12 +85,14 @@ const returnItems = () => {
   ol.innerHTML = getSavedCartItems();
   const lis = document.querySelectorAll('.cart__item');
   lis.forEach((li) => li.addEventListener('click', cartItemClickListener));
+  totalPrice();
 };
 
   const button = document.querySelector('.empty-cart');
   button.addEventListener('click', () => {
     ol.innerHTML = '';
     saveCartItems(ol.innerHTML);   
+    totalPrice();
   });
 
 window.onload = () => {

@@ -8,9 +8,9 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('4 - Teste a função saveCartItems', () => {
   it('saveItemsTest', () => {
-    beforeEach(() => {
       saveCartItems('<ol><li>Item</li></ol>')
-    })
-    expect(localStorage()).toHaveBeenCaledWith('<ol><li>Item</li></ol>' )
+    expect(localStorage.setItem).toHaveBeenCalled()
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', '<ol><li>Item</li></ol>')
+
   });
 });
