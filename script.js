@@ -42,6 +42,10 @@ function calculateCartSubtotal() {
   const cartItems = [...cartList.children];
   const subtotal = cartItems.reduce((acc, item) => {
     const itemPrice = item.innerText.split('$')[1];
+    /*
+    Consultei o site abaixo para checar sintaxe do parseFloat.
+    ref: https://www.w3schools.com/Jsref/jsref_parsefloat.asp
+    */
     const parsedItemPrice = parseFloat(itemPrice, 10);
     return acc + parsedItemPrice;
   }, 0);
@@ -53,9 +57,9 @@ function cartItemClickListener(event) {
   cartList.removeChild(event.target);
   calculateCartSubtotal();
   /*
-Consultei o link abaixo para entender como salvar um elemento HTML no localStorage.
-ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
-*/
+  Consultei o link abaixo para entender como salvar um elemento HTML no localStorage.
+  ref: https://gomakethings.com/saving-html-to-localstorage-with-vanilla-js/
+  */
   saveCartItems(getCartList().innerHTML);
 }
 
@@ -107,6 +111,10 @@ function appendLoadingMessage() {
   const section = document.createElement('section');
   section.className = 'loading';
   section.innerText = 'carregando...';
+  /*
+  Consultei o link abaixo para relembrar a sintaxe do método insertBefore.
+  ref: https://developer.mozilla.org/pt-BR/docs/Web/API/Node/insertBefore
+  */
   sectionItemsParent.insertBefore(section, sectionItems);
 }
 
