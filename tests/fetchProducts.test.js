@@ -15,7 +15,7 @@ describe('1 - Teste a função fecthProducts', () => {
   it('ao chamá-la com parametro computador, testa se fetch foi chamada com o endpoit correto', () => {
     const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetchProducts('computador');
-    expect(fetch).toHaveBeenCalledWith(endpoint)    
+    expect(fetch).toHaveBeenCalledWith(endpoint)
   });
   it('testa se o retorno da função é um obj igual a computadorSearch', async () => {
     const results = await fetchProducts('computador');
