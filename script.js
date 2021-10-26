@@ -73,8 +73,8 @@ const applyCarItem = (event) => {
   });
 };
 
-const applyItemElements = () => {
-  fetchProducts('computador').then((el) => el
+const applyItemElements = (query = 'computador') => {
+  fetchProducts(query).then((el) => el
   .forEach((item) => {
     sectionItems.appendChild(createProductItemElement(item));
     const currButton = q('.items').lastChild.lastChild;
@@ -83,8 +83,7 @@ const applyItemElements = () => {
 };
 
 window.onload = () => {
-  applyItemElements();
-  // setTimeout(applyItemElements, 500);
+  applyItemElements('demon slayer');
   cartItems.innerHTML = getSavedCartItems();
   addListenner();
   cartSum();
