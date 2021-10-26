@@ -10,19 +10,15 @@ describe('2 - Teste a função fetchItem', () => {
   });
 
   it('Testa se fetch foi chamada após executar a função fetchItem com o argumento do item "MLB1615760527"', async () => {
-    const itemInfo = await fetchItem('MLB1615760527');
+    await fetchItem('MLB1615760527');
 
     expect(fetch).toHaveBeenCalled();
   });
 
   it('Testa se, ao chamar a função fetchItem com o argumento do item "MLB1615760527", a função fetch utiliza o endpoint "https://api.mercadolibre.com/items/MLB1615760527"', async () => {
-    const itemInfo = await fetchItem('MLB1615760527');
+    await fetchItem('MLB1615760527');
 
-    fetch('https://api.mercadolibre.com/items/MLB1615760527')
-      .then((response) => response.json())
-      .then((data) => {
-        expect(itemInfo).toEqual(data);
-      });
+    expect(fetch).toHaveBeenCalledWith("https://api.mercadolibre.com/items/MLB1615760527");
   });
 
   it(' Testa se o retorno da função fetchItem com o argumento do item "MLB1615760527" é uma estrutura de dados igual ao objeto item que já está importado no arquivo', async () => {
