@@ -19,10 +19,8 @@ function saveSumPrice(param) {
 
 function sumPrice() {
   const carts = document.querySelectorAll('.cart__item');
-  console.log(carts);
   let result = 0;
   carts.forEach((cart) => {
-    console.log(cart.innerText.split('$').pop());
     result += Number(cart.innerText.split('$').pop());
   });
   saveSumPrice(result);
@@ -94,20 +92,23 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// Tive a ajuda do monitor Tales, Mariana e do Gabriel para entender e desenvolver esse parte do codigo.
-const createIten = async (itens) => {
-  /* const divLoading = document.createAttribute('div');
+function createLoading() {
+  const divLoading = document.createElement('div');
   divLoading.className = 'loading';
   divLoading.innerText = 'Carregando...';
   document.querySelector('body').appendChild(divLoading);
-  console.log(divLoading); */
+}
+
+// Tive a ajuda do monitor Tales, Mariana e do Gabriel para entender e desenvolver esse parte do codigo.
+const createIten = async (itens) => {
+  createLoading();
   const resultFetch = await fetchProducts(itens);
    const retorno = resultFetch.results.map((value) => ({
     sku: value.id,
     name: value.title,
     image: value.thumbnail,
   }));
-  /* document.querySelector('.loading').remove();  */
+  document.querySelector('.loading').remove();
   const items = document.querySelector('.items');
   retorno.forEach((value) => {
     items.appendChild(createProductItemElement(value));
