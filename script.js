@@ -69,4 +69,5 @@ async function researchProduct(product) {
 
 window.onload = () => {
   researchProduct('computador');
+  searchId('MLB1341706310'); 
 };
