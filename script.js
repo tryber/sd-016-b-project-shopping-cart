@@ -8,13 +8,13 @@ function createProductImageElement(imageSource) {
 }
 
 function totalPrice() {
-  const totalHTML = document.getElementById('total-price');
+  const totalHTML = document.querySelector('.total-price');
   let total = 0;
   const liCart = document.querySelectorAll('.cart__item');
   for (let i = 0; i < liCart.length; i += 1) {
     total += Number(liCart[i].innerText.split('$').pop());
   }
-  totalHTML.innerText = `Valor Total: R$ ${total}`;
+  totalHTML.innerText = total;
 }
 totalPrice();
 
