@@ -32,12 +32,40 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+async function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+} 
+
+async function searchProducts(product) {
+  const dataProducts = await fetchProducts(product);
+  const sectionItems = document.querySelector('.items');
+  dataProducts.results.forEach((item) => {
+    const prodObject = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+    const prodItem = createProductItemElement(prodObject);
+    sectionItems.appendChild(prodItem);
+  });
 }
 
-window.onload = () => { };
+async function addProduct(id) {
+  const dataItem = await fetchItem(id);
+    const itemObj = {
+      sku: `${id}`,
+      name: dataItem.title,
+      salePrice: dataItem.price,
+    }; 
+    console.log(itemObj);
+    await createCartItemElement({ sku: dataItem.id, name: dataItem.title, salePrice: dataItem.price });
+}
+
+window.onload = () => {
+  searchProducts('computador');
+  addProduct('MLB1615760527');
+};
