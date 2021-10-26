@@ -101,8 +101,24 @@ function enableProductsButtonsClickEvent() {
   });
 }
 
+function appendLoadingMessage() {
+  const sectionItems = document.querySelector('.items');
+  const sectionItemsParent = sectionItems.parentElement;
+  const section = document.createElement('section');
+  section.className = 'loading';
+  section.innerText = 'carregando...';
+  sectionItemsParent.insertBefore(section, sectionItems);
+}
+
+function removeLoadingMessage() {
+  const sectionLoading = document.querySelector('.loading');
+  const sectionLoadingParent = sectionLoading.parentElement;
+  sectionLoadingParent.removeChild(sectionLoading);
+}
+
 async function getProducts(productName) {
   const products = await fetchProducts(productName);
+  removeLoadingMessage();
   const sectionItems = document.querySelector('.items');
 
   products.results.forEach((product) => {
@@ -140,32 +156,9 @@ async function checkLocalStorage() {
   if (localStorage.length !== 0) await recoverCartItems();
 }
 
-function appendLoadingMessage() {
-  const sectionItems = document.querySelector('.items');
-  const sectionItemsParent = sectionItems.parentElement;
-  const section = document.createElement('section');
-  section.className = 'loading';
-  section.innerText = 'carregando...';
-  sectionItemsParent.insertBefore(section, sectionItems);
-  // console.log(section.innerText);
-}
-
-function removeLoadingMessage() {
-  const sectionLoading = document.querySelector('.loading');
-  const sectionLoadingParent = sectionLoading.parentElement;
-  sectionLoadingParent.removeChild(sectionLoading);
-}
-
-function checkAPIResponseArraived() {
-  const sectionItems = document.querySelector('.items');
-  if (sectionItems.children.length === 0) removeLoadingMessage();
-}
-
 window.onload = () => {
   appendLoadingMessage();
   getProducts('computador');
-  removeLoadingMessage();
-  // checkAPIResponseArraived();
   checkLocalStorage();
   enableClearCartButton();
 };
