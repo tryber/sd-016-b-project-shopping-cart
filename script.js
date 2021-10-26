@@ -1,3 +1,5 @@
+const price = document.querySelector('.total-price');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,7 +16,6 @@ function createCustomElement(element, className, innerText) {
 
 // remove itens do carrinho
 function cartItemClickListener(event) {
-  const price = document.querySelector('.total-price');
   const evt = event.target;
   evt.remove();
   const productPrice = evt.innerText.split('PRICE: $')[1];
@@ -24,7 +25,7 @@ function cartItemClickListener(event) {
 
 // cria o objeto (produto) do carrinho
 function createCartItemElement({ sku, name, salePrice }) {
-  const price = document.querySelector('.total-price');
+  // const price = document.querySelector('.total-price');
   const li = document.createElement('li');
 
   price.innerText = Number(price.innerText) + salePrice;
@@ -94,7 +95,7 @@ async function searchProducts(product) {
 
 window.onload = () => { 
   const cart = document.querySelector('ol');
-  const price = document.querySelector('.total-price');
+  // const price = document.querySelector('.total-price');
 
   searchProducts('computador');
   cart.innerHTML = getSavedCartItems('obj');
