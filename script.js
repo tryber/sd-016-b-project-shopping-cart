@@ -1,8 +1,28 @@
+function createLoadScreen() {
+  const body = document.querySelectorAll('body');
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'loading...';
+  body[0].insertBefore(span, body[0].children[0]);  
+}
+
+function removeLoadScreen() {
+  const loadScreen = document.querySelector('.loading');
+  loadScreen.remove();
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
+}
+
+function getItemsCart() {
+  const arr = [];
+  const items = document.querySelectorAll('.cart__item');
+  items.forEach((currV, index) => arr.push(items[index].innerText));
+  return arr;
 }
 
 function createCustomElement(element, className, innerText) {
@@ -52,7 +72,7 @@ function totalPrice() {
 function buttonRm(event) {
   const remove = event.target.remove();
   totalPrice();
-  saveCartItems();
+  saveCartItems(getItemsCart());
   return remove;
 }
 
@@ -90,7 +110,7 @@ async function searchId(id) {
   const createCartItem = createCartItemElement(obj);  
   cartItem.appendChild(createCartItem);
   totalPrice();
-  saveCartItems();
+  saveCartItems(getItemsCart());
   return findId;
 }
 
@@ -106,6 +126,7 @@ function createEventListener() {
 async function searchProduct(product) {
   const searchData = await fetchProducts(product);
   const sectionItem = document.querySelector('.items');
+  removeLoadScreen();
   searchData.results.forEach((item) => {
     const obj = {      
       sku: item.id,
@@ -125,7 +146,7 @@ function cleanCart() {
     const newCartItem = getCartItems();    
     newCartItem.forEach((item) => {
       item.remove();
-      saveCartItems();
+      saveCartItems(getItemsCart());
     });
     priceText.innerText = '';    
   });  
@@ -138,7 +159,7 @@ function teste() {
     item.addEventListener('click', () => {
       item.remove();
       totalPrice();
-      saveCartItems();
+      saveCartItems(getItemsCart());
     });    
   });
 }
@@ -172,6 +193,7 @@ function storageItem() {
 }
 
 window.onload = () => {
+  createLoadScreen();
   searchProduct('computador');
   createPriceSection();
   cleanCart(); 
