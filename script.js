@@ -50,7 +50,7 @@ function addTotalSubValue(event) {
   let sum = Number(localStorage.getItem('valueBuy'));
   sum -= number;
   localStorage.setItem('valueBuy', sum);
-  p.innerText = sum.toFixed(2);
+  p.innerText = sum;
 }
 
 function cartItemClickListener(event) {
@@ -70,7 +70,7 @@ function addTotalSumValue(price) {
   let sumLocal = Number(localStorage.getItem('valueBuy'));
   sumLocal += price;
   localStorage.setItem('valueBuy', sumLocal);
-  p.innerText = sumLocal.toFixed(2);
+  p.innerText = sumLocal;
 }
 
 /* Recupera o valor da chave valueBuy do localStorage ao resetar a página  */
@@ -159,6 +159,14 @@ function emptyButton() {
     localStorage.clear();
     p.innerText = '';
   });
+}
+
+/* 
+- Criar o texto de carregamento durante a requisição de uma API
+*/
+
+function loading() {
+
 }
 
 window.onload = () => {
