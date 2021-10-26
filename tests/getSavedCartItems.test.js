@@ -12,8 +12,8 @@ describe('4 - Teste a função getSavedCartItems', () => {
     expect(localStorage.getItem).toHaveBeenCalled();
   });
 
-  it('localStorage.setItem é chamado com dois parêmetros', () =>{
+  it('localStorage.getItem é chamado com dois parêmetros', () =>{
     getSavedCartItems();
-    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
+    expect(localStorage.getItem).toBeCalledTimes(2);
   });
 });
