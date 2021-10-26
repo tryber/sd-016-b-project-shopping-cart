@@ -1,5 +1,5 @@
-const fetchItem = (newId) => { 
-  //seu código aqui
+const fetchItem = () => { 
+  // seu código aqui
 };
 
 if (typeof module !== 'undefined') {
