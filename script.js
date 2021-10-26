@@ -87,11 +87,6 @@ async function searchProducts(product) {
   });
 }
 
-function sumAllPrices() {
-  const cart = document.querySelector('ol');
-  console.log(cart);
-}
-
 window.onload = () => { 
   const cart = document.querySelector('ol');
   searchProducts('computador');
