@@ -12,8 +12,9 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// remove itens do carrinho
 function cartItemClickListener(event) {
-  const price = document.querySelector('.price');
+  const price = document.querySelector('.total-price');
   const evt = event.target;
   evt.remove();
   const productPrice = evt.innerText.split('PRICE: $')[1];
@@ -21,8 +22,9 @@ function cartItemClickListener(event) {
   price.innerText = Number(price.innerText) - Number(productPrice);
 }
 
+// cria o objeto (produto) do carrinho
 function createCartItemElement({ sku, name, salePrice }) {
-  const price = document.querySelector('.price');
+  const price = document.querySelector('.total-price');
   const li = document.createElement('li');
 
   price.innerText = Number(price.innerText) + salePrice;
@@ -31,9 +33,12 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
 
+  saveCartItems('valueCart', price.innerText);
+
   return li;
 }
 
+// objeto (produto) criado
 async function selectProduct(product) {
   const selectedData = await fetchItem(product);
   const ol = document.querySelector('.cart__items');
@@ -47,7 +52,7 @@ async function selectProduct(product) {
 
   const selectedItem = createCartItemElement(itemSelected);
   ol.appendChild(selectedItem);
-  saveCartItems(ol.innerHTML);
+  saveCartItems('obj', ol.innerHTML);
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -89,6 +94,9 @@ async function searchProducts(product) {
 
 window.onload = () => { 
   const cart = document.querySelector('ol');
+  const price = document.querySelector('.total-price');
+
   searchProducts('computador');
-  cart.innerHTML = getSavedCartItems();
+  cart.innerHTML = getSavedCartItems('obj');
+  price.innerHTML = getSavedCartItems('valueCart');
 };
