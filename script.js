@@ -15,15 +15,18 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener(event) {
-  const itemsList = event.target.parentNode.innerHTML;
-  const itemPrice = event.target.getAttribute('data-price');
+const customRequestPromise = (element) =>
+  new Promise((resolve) => setTimeout(resolve, 700)).then(() => {
+    const itemsList = element.parentNode.innerHTML;
+    const itemPrice = element.getAttribute('data-price');
 
-  console.log({ itemClicado: event.target, itemPrice });
+    handleDisplayTotalPrice(itemPrice, 'sub');
+    element.remove();
+    saveCartItems(SAVE_ITEMS_KEY, itemsList);
+  });
 
-  handleDisplayTotalPrice(itemPrice, 'sub');
-  event.target.remove();
-  saveCartItems(SAVE_ITEMS_KEY, itemsList);
+async function cartItemClickListener(event) {
+  await handleAPIRequest(customRequestPromise, event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -47,8 +50,6 @@ function sumToTotalPrice(amount) {
 function removeFromTotalPrice(amount) {
   const currentAmount = Number(localStorage.getItem('totalPrice')) || 0;
   let newAmount = 0;
-
-  console.log({ currentAmount, amount });
 
   if (currentAmount <= 0 || currentAmount < amount) {
     localStorage.setItem('totalPrice', 0);
@@ -146,35 +147,26 @@ async function getInitialProducts(query) {
   });
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
-function convertSavedListToDomElements(string) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(string, 'text/html');
-
-  return Array.from(doc.body.children);
-}
-
-function reloadCurrentCartItemsList(cartItemsList) {
-  cartItemsList.forEach((item) => cartItemsWrapper.append(item));
-}
-
 function handleEmptyCart() {
   const emptyCartButton = document.querySelector('.empty-cart');
 
   emptyCartButton.addEventListener('click', () => {
+    localStorage.clear();
     cartItemsWrapper.innerHTML = '';
+    handleDisplayTotalPrice(0, 'sub');
   });
 }
 
 window.onload = () => {
-  const savedList = getSavedCartItems('cartItems');
-  const cartItemsList = convertSavedListToDomElements(savedList);
+  const savedItemsList = getSavedCartItems();
+  const parsedItemsList = document.createRange().createContextualFragment(savedItemsList);
+
+  if (typeof parsedItemsList.firstChild === 'ChildNode') {
+    console.log('Oi', parsedItemsList.firstChild);
+    cartItemsWrapper.appendChild(parsedItemsList);
+  }
 
   handleEmptyCart();
   handleDisplayTotalPrice(0);
   getInitialProducts('computador');
-  reloadCurrentCartItemsList(cartItemsList);
 };
