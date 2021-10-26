@@ -15,12 +15,13 @@ function itemsSavedLocalStorage() {
 }
 
 function cartItemClickListener(event) {
+  const removeItem = event.target;
+  removeItem.remove();
   const totalPrice = document.querySelector('.price');
   const value = event.target.innerText.substring(
     event.target.innerText.indexOf('$') + 1, event.target.innerText.length,
   );
   totalPrice.innerText = parseFloat(totalPrice.innerText) - value;
-  event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -30,7 +31,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  // saveCartItems(olItem.innerHTML);
   return li;
 }
 
