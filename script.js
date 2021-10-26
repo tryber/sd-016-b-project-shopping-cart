@@ -7,6 +7,21 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const retrievesProductPriceInCart = (product) => {
+  const productPrice = product.slice(-10).replace(/[^0-9.]/g, '');
+  console.log(productPrice);
+  return Number(productPrice);
+};
+
+const totalCartValue = () => {
+  const allProductsCart = [...document.querySelectorAll('.cart__item')];
+  const totalValue = allProductsCart
+    .map((product) => retrievesProductPriceInCart(product.innerText))
+    .reduce((acc, currentPrice) => (acc + currentPrice), 0);
+
+  document.querySelector('.total-price').innerText = totalValue;
+};
+
 function createCustomElement(element, className, innerText, butaoAction) {
   const e = document.createElement(element);
   e.className = className;
@@ -20,6 +35,7 @@ function createCustomElement(element, className, innerText, butaoAction) {
 function cartItemClickListener(event) {
   const selectedProduct = event.target;
   selectedProduct.remove();
+  totalCartValue();
   saveCartItems(allProductsInCart.innerHTML);
 }
 
@@ -37,6 +53,7 @@ const addProductToCart = async (idItem) => {
     .then(createCartItemElement)
     .then((item) => shoppingCart.appendChild(item));
 
+  totalCartValue();
   saveCartItems(allProductsInCart.innerHTML);
 };
 
@@ -73,6 +90,7 @@ const loadProducts = async (category) => {
 const loadProductsInCart = () => {
   const allCachedProducts = getSavedCartItems();
   allProductsInCart.innerHTML = allCachedProducts;
+  totalCartValue();
 };
 
 const addEventListener = () => {
@@ -86,6 +104,7 @@ const addEventListener = () => {
 const clearShoppingCart = () => {
   clearShoppingCartButton.addEventListener('click', function () {
     allProductsInCart.innerHTML = '';
+    totalCartValue();
     saveCartItems(allProductsInCart.innerHTML);
   });
 };
