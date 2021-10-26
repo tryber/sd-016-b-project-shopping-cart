@@ -1,6 +1,15 @@
 const listCartItens = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
 
+function totalPriceCartItems() {
+  let count = 0;
+  for (let index = 0; index < listCartItens.children.length; index += 1) {
+    const childrenList = listCartItens.children[index];
+    count += Number(childrenList.getAttribute('price'));
+  }
+  totalPrice.innerHTML = count;
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -59,10 +68,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 function onloadPage() {
   fetchProducts('computador')
     .then((products) => {
@@ -72,15 +77,6 @@ function onloadPage() {
         elementItems.appendChild(createItems); 
       });
     });
-}
-
-function totalPriceCartItems() {
-  let count = 0;
-  for (let index = 0; index < listCartItens.children.length; index += 1) {
-    const childrenList = listCartItens.children[index];
-    count += Number(childrenList.getAttribute('price'));
-  }
-  totalPrice.innerHTML = count;
 }
 
 window.onload = () => {
