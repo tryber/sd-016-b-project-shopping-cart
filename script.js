@@ -79,6 +79,7 @@ saveCartItems(cartItems.innerHTML);
 
 function clearCart() {
   cartItems.innerText = '';
+  saveCartItems(cartItems.innerHTML);
 }
 
 function eventClickList() {
@@ -86,12 +87,40 @@ function eventClickList() {
     document.getElementsByTagName('li')[i].addEventListener('click', cartItemClickListener);
   }
 }
-
 const olHTML = getSavedCartItems();
 cartItems.innerHTML = olHTML;
 
+/*
+function totalPrice() {
+  let sum = 0;
+  const sectionCart = document.querySelector('.cart');
+  const price = document.createElement('p');
+  price.className = 'total-price';
+  sectionCart.appendChild(price);
+  for (let i = 0; i < document.getElementsByTagName('li').length; i += 1) {
+    console.log(i);
+  }
+  price.innerHTML = 'Subtotal: R$'
+
+  return price;
+}
+totalPrice()
+*/
+
+const loadingAPI = () => {
+  const loading = document.createElement('h1');
+  loading.classList = 'loading';
+  loading.innerText = 'carregando...';
+  const sectionItems = document.querySelector('body');
+  sectionItems.appendChild(loading);
+  setTimeout(() => {
+    sectionItems.removeChild(loading);
+    searchProduct('computador');
+  }, 1000);
+};
+
 window.onload = () => {
-  searchProduct('computador'); 
+  loadingAPI();
   cleanButtonCart.addEventListener('click', clearCart);
   eventClickList();
 };
