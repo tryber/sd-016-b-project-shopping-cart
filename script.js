@@ -1,6 +1,7 @@
 const q = (id) => document.querySelector(id);
 const qAll = (id) => document.querySelectorAll(id);
 const cartItems = q('.cart__items');
+const sectionItems = q('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -15,6 +16,8 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+
+sectionItems.appendChild(createCustomElement('h1', 'loading', 'carregando...'));
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
@@ -71,17 +74,17 @@ const applyCarItem = (event) => {
 };
 
 const applyItemElements = () => {
-  const sectionItems = q('.items');
   fetchProducts('computador').then((el) => el
   .forEach((item) => {
     sectionItems.appendChild(createProductItemElement(item));
     const currButton = q('.items').lastChild.lastChild;
     currButton.addEventListener('click', (e) => applyCarItem(e));
-  }));
+  })).then(() => sectionItems.removeChild(q('.loading')));
 };
 
 window.onload = () => {
   applyItemElements();
+  // setTimeout(applyItemElements, 500);
   cartItems.innerHTML = getSavedCartItems();
   addListenner();
   cartSum();
