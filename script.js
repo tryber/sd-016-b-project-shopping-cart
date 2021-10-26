@@ -150,21 +150,21 @@ function appendLoadingMessage() {
   // console.log(section.innerText);
 }
 
-async function removeLoadingMessage() {
+function removeLoadingMessage() {
   const sectionLoading = document.querySelector('.loading');
   const sectionLoadingParent = sectionLoading.parentElement;
   sectionLoadingParent.removeChild(sectionLoading);
 }
 
-async function checkAPIResponseArraived() {
+function checkAPIResponseArraived() {
   const sectionItems = document.querySelector('.items');
-  if (sectionItems.children.length === 0) await removeLoadingMessage();
+  if (sectionItems.children.length === 0) removeLoadingMessage();
 }
 
 window.onload = () => {
   appendLoadingMessage();
   getProducts('computador');
-  checkAPIResponseArraived();
+  // checkAPIResponseArraived();
   checkLocalStorage();
   enableClearCartButton();
 };
