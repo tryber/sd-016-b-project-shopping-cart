@@ -5,6 +5,29 @@ const item = require('../mocks/item');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('2 - Teste a função fecthItem', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('fetchProducts should be a function', () => {
+    expect(typeof fetchItem).toBe('function')
+  })
+
+  it('Should fetchItem have been called', async () => {
+    await fetchItem('MLB1615760527')
+    expect(fetch).toHaveBeenCalled()
+  })
+
+  it('Should fetchItem use specific endpoint', async () => {
+    await fetchItem('MLB1615760527')
+    expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1615760527')
+  })
+
+  it('Should return item with params MLB1615760527', async () => {
+    const request = await fetchItem('MLB1615760527')
+
+    expect(request).toEqual(item)
+  })
+
+  it('Should throw an error when there is no param', async () => {
+    await expect(fetchItem()).rejects.toEqual(
+      new Error('You must provide an id')
+    )
+  })
 });
