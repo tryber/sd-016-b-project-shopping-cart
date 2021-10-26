@@ -8,8 +8,22 @@ const cartItemsClass = document.querySelector('.cart__items');
 const emptyCartClass = document.querySelector('.empty-cart');
 const cartClass = document.querySelector('.cart');
 
+const newLoadingMsg = () => {
+  const p = document.createElement('p');
+  p.className = 'loading';
+  p.innerText = 'carregando...';
+  cartClass.appendChild(p);
+};
+
+const offLoadingMsg = () => {
+  const loadingClass = document.querySelector('.loading');
+  loadingClass.remove();
+};
+
 const itemsPrice = async () => {
+  newLoadingMsg();
   const items = await cartItemsClass.childNodes;
+  offLoadingMsg();
   const totalPriceClass = document.querySelector('.total-price');
   if (items.length === 0) {
     totalPriceClass.innerText = 0;
@@ -50,9 +64,9 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   const eventTarget = event.target;
@@ -70,7 +84,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const getProductsSection = async () => {
+  newLoadingMsg();
   const productsArray = await fetchProducts('computador');
+  offLoadingMsg();
   const createProductSection = productsArray.results
   .map((product) => ({
     sku: product.id,
@@ -83,8 +99,9 @@ const getProductsSection = async () => {
 };
 
 const getCartElement = async (ID) => {
+  newLoadingMsg();
   const returnedItem = await fetchItem(ID);
-
+  offLoadingMsg();
   const { id, title, price } = returnedItem;
   const objOfReturnedItem = {
     sku: id,

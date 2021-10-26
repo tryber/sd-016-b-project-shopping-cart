@@ -1,3 +1,13 @@
+.header-container {
+  width: 8;
+  height: 50px;
+  line-height: 50px;
+  font-size: 30px;
+  background-color: #98ac93;
+  
+}
+
+
 .container {
   display: flex;
   justify-content: space-around;
@@ -37,7 +47,7 @@
 }
 
 .item .item__add {
-  background-color: green;
+  background-color: rgb(83, 187, 83);
   border: 0;
   cursor: pointer;
   margin: 0;
