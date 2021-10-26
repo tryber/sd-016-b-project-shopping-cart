@@ -1,7 +1,3 @@
-const saveCartItems = () => {
-  // seu código aqui
-};
+const saveCartItems = ($data) => localStorage.setItem('cartItems', $data);
 
-if (typeof module !== 'undefined') {
-  module.exports = saveCartItems;
-}
+if (typeof module !== 'undefined') module.exports = saveCartItems;
