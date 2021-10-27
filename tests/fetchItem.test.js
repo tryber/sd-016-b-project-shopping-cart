@@ -14,4 +14,9 @@ describe('2 - Teste a função fecthItem', () => {
     fetchItem('MLB1615760527');
     expect(fetch).toBeCalled();
   });
+
+  it('Se ao chamar a função fetchItem com o argumento do item "MLB1615760527", a função fetch utiliza o endpoint "https://api.mercadolibre.com/items/MLB1615760527".', () => {
+    fetchItem('MLB1615760527');
+    expect(fetch).toBeCalledWith('https://api.mercadolibre.com/items/MLB1615760527');
+  });
 });
