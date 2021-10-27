@@ -1,9 +1,6 @@
-const fetchItem = (id) => {
-  const url = `https://api.mercadolibre.com/items/${id}`;
-  return fetch(url)
+const fetchItem = (id) => fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((response) => response.json())
-    .catch((error) => error);
-};
+    .catch(() => new Error('You must provide an url'));
 
 if (typeof module !== 'undefined') {
   module.exports = {
