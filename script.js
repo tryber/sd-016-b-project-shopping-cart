@@ -92,7 +92,7 @@ function getId() {
 
 window.onload = () => {
   searchProducts('computador');
-  // addItem('MLB1341706310');
   getId();
-  saveCartItems()
+  // saveCartItems();
+  getSavedCartItems();
 };
