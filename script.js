@@ -50,7 +50,7 @@ async function takeProductsAndShowThem() {
   const computers = await fetchProducts('computador');
   removeLoadingScreen();
   const section = document.querySelector('.items');
-  computers.forEach((computer) => {
+  computers.results.forEach((computer) => {
     section.appendChild(createProductItemElement(computer));
   });
 }

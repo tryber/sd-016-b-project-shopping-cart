@@ -6,7 +6,7 @@ const fetchProducts = (product) => {
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   return fetch(url)
     .then((response) => response.json())
-    .then((JSONdata) => JSONdata.results);
+    .then((JSONdata) => JSONdata);
 };
 
 if (typeof module !== 'undefined') {
