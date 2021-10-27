@@ -127,6 +127,6 @@ function eraseStorageCartItem() {
 window.onload = () => {
   getButtons();
   emptyCart();
-  getSavedCartItems();
+  cartOl.innerHTML = getSavedCartItems();
   eraseStorageCartItem();
 };
