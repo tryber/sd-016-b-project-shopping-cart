@@ -1,4 +1,4 @@
-.container {
+.container { 
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -54,4 +54,11 @@
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+
+.total-price {
+  flex-basis: 1;
+  font-size: 16pt;
+  text-align: center;
+}
 }
