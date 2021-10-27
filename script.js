@@ -1,3 +1,6 @@
+const cartOl = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,7 +15,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -28,11 +31,50 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function showLoadingScreen() {
+  const loadingP = document.createElement('p');
+  loadingP.className = 'loading';
+  loadingP.innerText = 'carregando...';
+  const sectionItems = document.querySelector('.items');
+  sectionItems.appendChild(loadingP);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function removeLoadingScreen() {
+  const sectionItems = document.querySelector('.items');
+  const loadingP = document.querySelector('.loading');
+  sectionItems.removeChild(loadingP);
+}
+
+async function takeProductsAndShowThem() {
+  showLoadingScreen();
+  const computers = await fetchProducts('computador');
+  removeLoadingScreen();
+  const section = document.querySelector('.items');
+  computers.results.forEach((computer) => {
+    section.appendChild(createProductItemElement(computer));
+  });
+}
+
+async function sumCartItems() {
+  await takeProductsAndShowThem();
+  const arrCartItems = cartOl.childNodes;
+  totalPrice.innerHTML = '';
+  arrCartItems.forEach((item) => {
+    const itemPrice = Number(item.innerHTML.split('$')[1]);
+    totalPrice.innerHTML = Number(totalPrice.innerHTML) + itemPrice;
+  });
+  saveCartItems(cartOl.innerHTML, totalPrice.innerHTML);
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  const ol = event.target.parentElement;
+  ol.removeChild(event.target);
+  saveCartItems(cartOl.innerHTML);
+  sumCartItems();
+}
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,4 +82,51 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+function addToCart(computer) {
+  cartOl.appendChild(createCartItemElement(computer));
+  saveCartItems(cartOl.innerHTML);
+  sumCartItems();
+}
+
+async function addToCartClickListener(event) {
+  const product = event.target.parentElement;
+  const id = getSkuFromProductItem(product);
+  const computer = await fetchItem(id);
+  addToCart(computer);
+}
+
+async function getButtons() {
+  await takeProductsAndShowThem();
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => {
+    button.addEventListener('click', addToCartClickListener);
+  });
+}
+
+function emptyCart() {
+  const emptyButton = document.querySelector('.empty-cart');
+  emptyButton.addEventListener('click', () => {
+    // Solução retirada de: https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    // Enquanto e minha ol ter um primeiro elemento filho, eu removo o ultimo.
+    while (cartOl.firstChild) {
+      cartOl.removeChild(cartOl.lastChild);
+    }
+    saveCartItems(cartOl.innerHTML);
+  });
+}
+
+function eraseStorageCartItem() {
+  const cartLi = document.querySelectorAll('.cart__item');
+  cartLi.forEach((item) => item.addEventListener('click', (event) => {
+    event.target.remove();
+    saveCartItems(cartOl.innerHTML);
+    sumCartItems();
+  }));
+}
+
+window.onload = () => {
+  getButtons();
+  emptyCart();
+  cartOl.innerHTML = getSavedCartItems();
+  eraseStorageCartItem();
+};
