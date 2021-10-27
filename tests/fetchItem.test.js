@@ -21,6 +21,7 @@ describe('2 - Teste a função fecthItem', () => {
     expect(await fetchItem('MLB1615760527')).toEqual(item);
   });
   it('5- Teste se, ao chamar a função fetchItem sem argumento, retorna um erro com a mensagem: You must provide an url', async () => {
-    await expect(fetchItem()).rejects.toEqual(new Error('You must provide an url'));
+    const responseErro = await fetchItem();
+    expect(responseErro).toEqual(new Error('You must provide an url'));
   });
 });

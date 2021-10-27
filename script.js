@@ -17,10 +17,21 @@ function createCustomElement(element, className, innerText) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+// requisito 5 Gabriel Fontes me ajudou nesse requisito
+function totalPrice() {
+  const spanPrice = document.querySelector('.total-price');
+  const valueLi = document.querySelectorAll('.cart__item');
+  let prices = 0;
+  for (let index = 0; index < valueLi.length; index += 1) {
+    prices += Number(valueLi[index].innerText.split('$').pop());
+  }
+  spanPrice.innerText = prices;
+}
 // 3 requisito
 function cartItemClickListener(event) {
   olValue.removeChild(event.target);
   saveCartItems(olValue.innerHTML);
+  totalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -37,6 +48,7 @@ const carrinhoItem = async (event) => {
   const carItem = createCartItemElement(arrayCar);
   olValue.appendChild(carItem);
   saveCartItems(olValue.innerHTML);
+  totalPrice();
 };
 
 // Requisito 7 do API / para remover a filho da section quando carregar
@@ -50,6 +62,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.className = 'item';
   const buttonItem = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   buttonItem.addEventListener('click', carrinhoItem);
+  
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -74,26 +87,16 @@ const salvaItem = () => {
 };
 
 // 6 requisito
-function removeTudoCar() {
-  const limpaCar = document.querySelector('.empty-cart');
-  limpaCar.addEventListener('click', () => {
-    olValue.innerHTML = '';
-  });
-}
-removeTudoCar();
 
-// function somaCarrinho(param) {
-//   const price = document.querySelector('#total__price');
-//   let array = [];
-//   array = array.push(param);
-//   console.log(array);
-//   // array.reduce((sum, price) => )
-//   // console.log(param);
-//   // price.innerText = `Total: ${param}`;
-//   ol.appendChild(price);
-// }
+const limpaCar = document.querySelector('.empty-cart');
+  limpaCar.addEventListener('click', () => {
+  olValue.innerHTML = '';
+  saveCartItems(olValue.innerHTML);
+  totalPrice();
+});
 
 window.onload = () => { 
   itensCompras();
   salvaItem();
+  totalPrice();
 };
