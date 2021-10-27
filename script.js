@@ -13,7 +13,7 @@ function totalPrice() {
   const liCart = document.querySelectorAll('.cart__item');
   for (let i = 0; i < liCart.length; i += 1) {
     total += Number(liCart[i].innerText.split('$').pop());
-    //Créditos da idéia do método de pegar os preços ao Gabriel Pinheiro.
+    // Créditos da idéia do método de pegar os preços ao Gabriel Pinheiro.
   }
   totalHTML.innerText = total;
 }
