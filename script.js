@@ -12,34 +12,50 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
-}
+};
 
-// function getSkuFromProductItem(item) {
+// function getId(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
+// async function cartItemClickListener(event) {
+//   coloque seu código aqui
   
 // }
 
-// function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+async function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+// Requisito 2 : este requisito foi finalmente concluído e corrigido graças ao colega Leandro
+
+async function shoppingList(computerId) {
+  const computer = await fetchItem(computerId);
+  const { id: sku, title: name, price: salePrice } = computer;
+  const elementShoppingCart = await createCartItemElement({ sku, name, salePrice });
+
+  return elementShoppingCart;
+}
+
+const computersToBuy = document.querySelector('.items');
+computersToBuy.addEventListener('click', async (event) => {
+  const computerId = event.target.parentNode.firstChild.innerText;
+  const addComputer = await shoppingList(computerId);
+  const shoppingCartList = document.querySelector('.cart__items');
+  shoppingCartList.appendChild(addComputer);
+});
 
 const bringListProducts = async () => {
   await fetchProducts('computador')
@@ -48,14 +64,12 @@ const bringListProducts = async () => {
     const computersList = document.querySelector('.items');
     products.forEach((product) => {
       const eachComputer = createProductItemElement(product);
+      eachComputer.lastChild.addEventListener('click', shoppingList);
       computersList.appendChild(eachComputer);
     });
   });
 };
 
-// function captureById(event) {
-
-// }
-window.onload = () => { 
+window.onload = async () => { 
   bringListProducts();
 };
