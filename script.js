@@ -40,6 +40,32 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+async function renderCartItemElement() {
+  const cartItemsSection = document.querySelector('.cart__items');
+
+  const itemId = getSkuFromProductItem(this.parentElement);
+  const itemData = await fetchItem(itemId);
+
+  const itemObject = {
+    sku: itemId,
+    name: itemData.title,
+    salePrice: itemData.price,
+  };
+
+  const cartItem = createCartItemElement(itemObject);
+  cartItemsSection.appendChild(cartItem);
+}
+
+function addEventListenerToItems() {
+  const addItemButtons = document.querySelectorAll('.item__add');
+  const addItemButtonsList = Array.from(addItemButtons);
+  // Para usar métodos para array, foi necessário converter a NodeList para array.
+  // Usei o método Array.from() tendo como referência o artigo encontrado no link abaixo.
+  // Ref. link: https://attacomsian.com/blog/javascript-convert-nodelist-to-array#:~:text=In%20modern%20JavaScript%2C%20the%20simplest,an%20array%20const%20divsArr%20%3D%20Array.
+
+  addItemButtonsList.forEach((button) => button.addEventListener('click', renderCartItemElement));
+}
+
 // Função desenvolvida com base no vídeo disponibilizado no Slack por Bernardo Salgueiro.
 async function renderItems(product) {
   const itemsSection = document.querySelector('.items');
@@ -55,6 +81,8 @@ async function renderItems(product) {
     const productItem = createProductItemElement(itemObject);
     itemsSection.appendChild(productItem);
   });
+
+  addEventListenerToItems();
 }
 
 window.onload = () => {
