@@ -36,9 +36,8 @@ async function addItemCart(id) {
   await fetchItem(id)
     .then((item) => {
       const { id: sku, title: name, price: salePrice } = item;
-      const olProd = olCart.appendChild(createCartItemElement({ sku, name, salePrice }));  
+      olCart.appendChild(createCartItemElement({ sku, name, salePrice }));  
       saveCartItems(JSON.stringify(olCart.innerHTML));
-      return olProd; 
     });
 }
 
