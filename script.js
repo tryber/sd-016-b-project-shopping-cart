@@ -27,7 +27,7 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-        
+        getSkuFromProductItem();
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
@@ -39,7 +39,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-      
+      createCartItemElement();
 async function searchProducts(product) {
   const searchData = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
