@@ -1,4 +1,4 @@
-// Declarações //
+// Declarações Iniciais //
 const itemsSection = document.querySelector('.items');
 const cartItemsList = document.querySelector('.cart__items');
 const clearCartBtn = document.querySelector('.empty-cart');
@@ -28,6 +28,7 @@ function getSkuFromProductItem(item) {
 // Função de Remover Item do Carrinho
 function cartItemClickListener(event) {
   cartItemsList.removeChild(event.target);
+  saveCartItems(cartItemsList.innerHTML); // Salvar localStorage após remover um item do carrinho
 }
 
 // Adicionar ao Carrinho
@@ -47,6 +48,7 @@ async function addToCartEvent(event) {
     salePrice: fetchResult.price,
   };
   cartItemsList.appendChild(createCartItemElement(productObj));
+  saveCartItems(cartItemsList.innerHTML); // Salvar localStorage após adicionar produto ao carrinho
 }
 
 // Listagem de Produtos
@@ -80,7 +82,14 @@ async function fetchComputer() {
   });
 }
 
+// Recuperar Carrinho do localStorage
+function getCart() {
+  cartItemsList.innerHTML = getSavedCartItems();
+  cartItemsList.addEventListener('click', cartItemClickListener);
+}
+
 // Window Onload //
 window.onload = () => {
   fetchComputer();
+  getCart();
 };
