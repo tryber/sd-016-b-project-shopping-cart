@@ -46,15 +46,28 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   // inspirado por Jonhathan Passos.
-  // section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   const makeButton = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   makeButton.addEventListener('click', addToCart);
   section.appendChild(makeButton);
 
   return section;
 }
+// Inspirado por Danilo Couto https://github.com/tryber/sd-016-b-project-shopping-cart/pull/99/commits/be65c644762c9dc5dbe385248f2cf3c1a23ed532
+function loadOn() {
+  const productItem = document.querySelector('.items');
+  const load = document.createElement('h2');
+  load.className = 'loading';
+  productItem.appendChild(load);
+  load.innerText = 'carregando...';
+}
+
+function loadOff() {
+  const load = document.querySelector('.loading');
+  load.remove();
+}
 
 async function searchProduct(product) {
+  loadOn();
   const searchData = await fetchProducts(product);
   const addItemsToSite = document.querySelector('.items');
   searchData.results.forEach((item) => {
@@ -66,6 +79,7 @@ async function searchProduct(product) {
     const productItem = createProductItemElement(itemObject);
     addItemsToSite.appendChild(productItem);
   });
+  loadOff();
 }
 
 function clearCart() {
