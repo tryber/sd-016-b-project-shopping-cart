@@ -23,7 +23,6 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  saveCartItems(event.target.parentNode);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -87,12 +86,6 @@ const searchProducts = async (products) => {
 btnRemoveItems.addEventListener('click', () => {
   shopCartItems.innerHTML = '';
   localStorage.clear();
-});
-
-// Limpa o carrinho
-shopCartItems.addEventListener('click', () => {
-  shopCartItems.innerHTML = '';
-  saveCartItems(shopCartItems.innerHTML);
 });
 
 const loading = () => {
