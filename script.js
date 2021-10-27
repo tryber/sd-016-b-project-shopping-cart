@@ -44,15 +44,24 @@ async function cartItemClickListener(event) {
   cartList.removeChild(event.target);
 }
 
-async function createCartItemElement({ sku, name, salePrice }) {
+async function createCartItemElement({ sku, name, salePrice }) {  
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// requisito 7
+function loading() {
+  const loadSpan = document.querySelector('.loading');
+  loadSpan.innerText = 'carregando...';
+}
 
 async function searchProducts(product) {
+  const cartListAsync = document.querySelector('.cart');
+  const loadSpanAsync = document.querySelector('.loading');
+  // const loadSpan = document.querySelector('.loading')
+  loading();
   const searchData = await fetchProducts(product);
   const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
@@ -65,15 +74,17 @@ async function searchProducts(product) {
     const productItem = createProductItemElement(itemObj);
     sectionItem.appendChild(productItem);
   });
+  cartListAsync.removeChild(loadSpanAsync);
 }
 
 // requisito 2 - chamando o item
-async function searchItem(itemId) {
+async function searchItem(itemId) {  
   const item = await fetchItem(itemId);
   // console.log(item.title);
   const { id: sku, title: name, price: salePrice } = item;
   const itemToCreate = await createCartItemElement({ sku, name, salePrice });
   // console.log(itemToCreate);
+  // cartListAsync.removeChild(loadSpanAsync);
   return itemToCreate;  
 }
 
@@ -123,6 +134,8 @@ cleatButton.addEventListener('click', () => {
   localStorage.clear();
   sumItemPrices();
 });
+
+
 
 window.onload = async () => { 
   searchProducts('computador');  
