@@ -135,8 +135,6 @@ cleatButton.addEventListener('click', () => {
   sumItemPrices();
 });
 
-
-
 window.onload = async () => { 
   searchProducts('computador');  
   cartList.innerHTML = getSavedCartItems();
