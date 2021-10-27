@@ -4,9 +4,9 @@ const cartItems = q('.cart__items');
 const sectionItems = q('.items');
 
 function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
+  const img = document.createElement('div');
   img.className = 'item__image';
-  img.src = imageSource;
+  img.style.backgroundImage = `url("${imageSource}")`;
   return img;
 }
 
@@ -19,13 +19,14 @@ function createCustomElement(element, className, innerText) {
 
 sectionItems.appendChild(createCustomElement('h1', 'loading', 'carregando...'));
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image, price }) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createCustomElement('span', 'item__price', `R$ ${price}`));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
@@ -83,7 +84,7 @@ const applyItemElements = (query = 'computador') => {
 };
 
 window.onload = () => {
-  applyItemElements('demon slayer');
+  applyItemElements('computador');
   cartItems.innerHTML = getSavedCartItems();
   addListenner();
   cartSum();
