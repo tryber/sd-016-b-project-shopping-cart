@@ -1,4 +1,5 @@
 const ol = document.querySelector('.cart__items');
+const buttonEmpty = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -62,18 +63,15 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 // 6- Botão que limpa o carrinho de compras (ol). Através de um evento de escuta click, a função anonima é executada, essa função reatribui o valor do HTML do carrinho que é uma ol com li de strings;
-function emptyCart() {
- const buttonEmpty = document.querySelector('.empty-cart');
- buttonEmpty.addEventListener('click', function () {
-   ol.innerHTML = '';
-   saveCartItems(ol.innerHTML); // atualiza o carrinho - 4 
- });
-}
-emptyCart();
+ function apagaCarrinho() {
+     ol.innerHTML = '';
+     saveCartItems(ol.innerHTML); // atualiza o carrinho - 4 
+ }
 
+ buttonEmpty.addEventListener('click', apagaCarrinho);
 // 4- Chamada ao carregar a página, essa função tem como propósito salvar na memória local os itens que foram adcionados ao carrinho. Tentativa de retirar o undefined do carrinho, logo após a ol vazia receberia o valor correspondente em getSavedCartItems, e ao separar todas as li que recebem a classe cart__item, cada li irá receber um evento de click que ao ser ativado retira-a da memória local;
 function saveItemValue() {
-  if (getSavedCartItems === undefined) {
+  if (localStorage.cartItems === undefined) {
     ol.innerHTML = '';
   }
   ol.innerHTML = getSavedCartItems();
@@ -99,4 +97,5 @@ async function searchProduct(product) {
 window.onload = () => { 
   searchProduct('computador');
   saveItemValue();
+  // ol.innerHTML = '';
 };
