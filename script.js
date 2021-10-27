@@ -1,6 +1,7 @@
 const clearBtn = document.querySelector('.empty-cart');
 const cartListItems = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
+const loading = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -30,10 +31,9 @@ const updatePrice = () => {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const prod = event.target;
-  prod.outerHTML = '';
+  event.target.remove();
 
-  saveCartItems(cartListItems.outerHTML);
+  saveCartItems(cartListItems.innerHTML);
   updatePrice();
 }
 
@@ -52,13 +52,13 @@ const sum = async (price) => {
     subtotal = Number.parseFloat(total);
   }
   subtotal += Number.parseFloat(price);
- //  console.log(subtotal);
- totalPrice.innerText = subtotal;
+  console.log(subtotal);
+ totalPrice.innerText = subtotal.toFixed(1);
 };
 
 const addToCart = async (event) => {
   const id = event.target.parentElement.firstElementChild.innerText;
-  console.log(id);
+  // console.log(id);
   const search = await fetchItem(id);
   // console.log(search);
   const obj = {
@@ -71,7 +71,7 @@ const addToCart = async (event) => {
 
   sum(obj.salePrice);
 
-  saveCartItems(cartListItems.outerHTML);
+  saveCartItems(cartListItems.innerHTML);
 };
 
 // const addToCart = async (productId) => {
@@ -115,7 +115,11 @@ function getSkuFromProductItem(item) {
 }
 
 async function searchProducts(product) {
+  loading.innerHTML = 'carregando';
+
   const searchData = await fetchProducts(product);
+
+  loading.remove();
 
   const sectionItems = document.querySelector('.items');
 
@@ -137,16 +141,13 @@ clearBtn.addEventListener('click', function () {
   totalPrice.innerText = '';
 });
 
-// const loadCartItems = async () => {
-//   const productsList = getSavedCartItems();
-//   // console.log('TESTE: ', productsList);
-//   if (productsList === null) {
-//     cartListItems.outerHTML = productsList;
-//     saveCartItems(cartListItems.outerHTML);
-//   } else {
-//     cartListItems.outerHTML = await getSavedCartItems();
-//   }
-// };
+const loadCartItems = () => {
+  const cartList = getSavedCartItems();
+  // console.log(cartList);
+  cartListItems.innerHTML = cartList;
+  // console.log(cartList);
+  cartItemClickListener();
+};
 
 window.onload = () => {
   // loadCartItems();
