@@ -6,10 +6,11 @@
 
 html , body {
   font-family: Rubik , sans-serif;
+  min-height: 100%;
 }
 
-a:hover {
-  color: inherit;
+.navbar {
+  display: flex;
 }
 
 .navbar-item {
@@ -24,6 +25,23 @@ a:hover {
 .navbar-item .brand {
   font-size: 30px;
   font-weight: 300;
+}
+
+.search-wrap {
+  margin-left: auto;
+  width: 50%;
+}
+
+#search {
+  width: 100%;
+  border-radius: 7px;
+  border: none;
+  font-size: 20px;
+  padding: 5px;
+}
+
+#search:focus {
+  outline: none;
 }
 
 .navbar-item .icon {
@@ -119,6 +137,7 @@ a:hover {
   flex-flow: column wrap;
   align-items: center;
   background-color: rgb(233, 233, 233);
+  min-height: 100vh;
 }
 
 .cart ol {
@@ -150,4 +169,9 @@ a:hover {
   color: rgb(87, 87, 87);
   border: 2px rgb(25, 48, 149) solid;
   cursor: pointer;
+}
+
+.loading {
+  font-size: 40px;
+  color: rgb(54, 54, 54);
 }

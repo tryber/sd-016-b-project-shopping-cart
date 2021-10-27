@@ -83,6 +83,12 @@ const applyItemElements = (query = 'computador') => {
   })).then(() => sectionItems.removeChild(q('.loading')));
 };
 
+q('#search').addEventListener('search', (e) => {
+  sectionItems.innerHTML = '';
+  sectionItems.appendChild(createCustomElement('h1', 'loading', 'carregando...'));
+  return e.target.value === '' ? applyItemElements() : applyItemElements(e.target.value);
+});
+
 window.onload = () => {
   applyItemElements('computador');
   cartItems.innerHTML = getSavedCartItems();
