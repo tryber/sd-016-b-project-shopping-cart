@@ -1,10 +1,7 @@
-const fetchProducts = async (query) => {
-  if (!query) return new Error('You must provide an url');
-
-  return fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
+const fetchProducts = async (query) =>
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`)
     .then((response) => response.json())
-    .catch((error) => console.log('Error on searching...', error));
-};
+    .catch(() => new Error('You must provide an url'));
 
 if (typeof module !== 'undefined') {
   module.exports = {

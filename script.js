@@ -15,66 +15,23 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function sumToTotalPrice(amount) {
-  const currentAmount = Number(localStorage.getItem('totalPrice')) || 0;
-  const newAmount = (currentAmount + amount).toFixed(2);
+function calculateTotalPrice() {
+  const totalPrice = Array.from(cartItemsWrapper.children).reduce((acc, item) => {
+    const priceSignIndex = item.innerHTML.lastIndexOf('$') + 1;
+    const priceValue = item.innerHTML.slice(priceSignIndex);
 
-  localStorage.setItem('totalPrice', newAmount);
+    return acc + Number(priceValue);
+  }, 0);
 
-  return newAmount;
+  return totalPrice;
 }
 
-function removeFromTotalPrice(amount) {
-  const currentAmount = Number(localStorage.getItem('totalPrice')) || 0;
-  let newAmount = 0;
+function handleDisplayTotalPrice() {
+  const totalPriceWrapper = document.querySelector('.total-price');
+  const totalPriceElement = totalPriceWrapper.querySelector('p');
 
-  if (currentAmount <= 0 || currentAmount < amount) {
-    localStorage.setItem('totalPrice', 0);
-    return 0;
-  }
-
-  newAmount = (currentAmount - amount).toFixed(2);
-  localStorage.setItem('totalPrice', newAmount);
-
-  return newAmount;
+  totalPriceElement.innerText = calculateTotalPrice();
 }
-
-function displayCartTotalPrice(totalPrice) {
-  const totalPriceElement = document.querySelector('.total-price');
-  const cartTitleReference = document.querySelector('.cart__title');
-
-  if (totalPriceElement) {
-    totalPriceElement.querySelector('p').innerText = totalPrice;
-    return;
-  }
-
-  const totalPriceWrapper = createCustomElement('section', 'total-price', '');
-  const totalPriceText = createCustomElement('p', 'total-price__value', totalPrice);
-
-  totalPriceWrapper.appendChild(totalPriceText);
-  cartTitleReference.insertAdjacentElement('afterend', totalPriceWrapper);
-}
-
-function handleDisplayTotalPrice(amount, operation) {
-  let totalPrice = 0;
-
-  if (!operation) return;
-
-  if (operation === 'sum') totalPrice = sumToTotalPrice(amount);
-  else totalPrice = removeFromTotalPrice(amount);
-
-  displayCartTotalPrice(totalPrice);
-}
-
-const customRequestPromise = (element) =>
-  new Promise((resolve) => setTimeout(resolve, 700)).then(() => {
-    const itemsList = element.parentNode.innerHTML;
-    const itemPrice = element.getAttribute('data-price');
-
-    handleDisplayTotalPrice(itemPrice, 'sub');
-    element.remove();
-    saveCartItems(SAVE_ITEMS_KEY, itemsList);
-  });
 
 function handleRequestLoading(isLoading) {
   const loadingElement = createCustomElement('section', 'loading', 'Carregando...');
@@ -96,8 +53,10 @@ function handleAPIRequest(request, ...args) {
     });
 }
 
-async function cartItemClickListener(event) {
-  await handleAPIRequest(customRequestPromise, event.target);
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveCartItems(SAVE_ITEMS_KEY, cartItemsWrapper.innerHTML);
+  handleDisplayTotalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -109,14 +68,15 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function addItemsToCart(sku) {
+async function addItemsToCart(event) {
+  const sku = event.target.parentNode.querySelector('.item__sku').innerText;
   const product = await handleAPIRequest(fetchItem, sku);
   const { id, title: name, price: salePrice } = product;
   const itemCart = createCartItemElement({ sku: id, name, salePrice });
 
   cartItemsWrapper.appendChild(itemCart);
   saveCartItems(SAVE_ITEMS_KEY, cartItemsWrapper.innerHTML);
-  handleDisplayTotalPrice(salePrice, 'sum');
+  handleDisplayTotalPrice();
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -130,7 +90,7 @@ function createProductItemElement({ sku, name, image }) {
 
   const addToCartButton = section.querySelector('.item__add');
 
-  addToCartButton.addEventListener('click', () => addItemsToCart(sku));
+  addToCartButton.addEventListener('click', addItemsToCart);
 
   return section;
 }
@@ -153,19 +113,32 @@ function handleEmptyCart() {
   emptyCartButton.addEventListener('click', () => {
     localStorage.clear();
     cartItemsWrapper.innerHTML = '';
-    handleDisplayTotalPrice(0, 'sub');
+    handleDisplayTotalPrice();
   });
+}
+
+function createTotalPriceElement() {
+  const cartTitleReference = document.querySelector('.cart__title');
+  const totalPriceWrapper = createCustomElement('section', 'total-price', '');
+  const totalPriceText = createCustomElement('p', 'total-price__value', '');
+
+  totalPriceWrapper.appendChild(totalPriceText);
+  cartTitleReference.insertAdjacentElement('afterend', totalPriceWrapper);
 }
 
 window.onload = () => {
   const savedItemsList = getSavedCartItems();
   const parsedItemsList = document.createRange().createContextualFragment(savedItemsList);
+  const reloadedItems = parsedItemsList.querySelectorAll('.cart__item');
+
+  reloadedItems.forEach((item) => item.addEventListener('click', cartItemClickListener));
 
   if (parsedItemsList.querySelector('li')) {
     cartItemsWrapper.appendChild(parsedItemsList);
   }
 
   handleEmptyCart();
-  handleDisplayTotalPrice(0);
+  createTotalPriceElement();
+  handleDisplayTotalPrice();
   getInitialProducts('computador');
 };
