@@ -1,7 +1,7 @@
 const shopCartItems = document.querySelector('.cart__items');
 const sectionItems = document.querySelector('.items');
-const load = document.querySelector('.loading');
 const btnRemoveItems = document.querySelector('.empty-cart');
+const totalValues = document.querySelector('.cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -10,6 +10,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// Essa função cria os elementos, suas classes e textos
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -67,8 +68,9 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// Adiciona a lista de produtos na tela
+// Adiciona a lista de produtos
 const searchProducts = async (products) => {
+  loading();
   const searchData = await fetchProducts(products);
   searchData.results.forEach((item) => {
     const itemObject = {
@@ -80,6 +82,8 @@ const searchProducts = async (products) => {
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
   });
+  const load = document.querySelector('.loading');
+  load.remove();
 };
 
 // Botão para limpar carrinho
@@ -88,6 +92,7 @@ btnRemoveItems.addEventListener('click', () => {
   localStorage.clear();
 });
 
+// Funcao para criar o texto 'Carregando...'
 const loading = () => {
   const loadingAPI = document.createElement('h3');
   loadingAPI.className = 'loading';
@@ -95,8 +100,19 @@ const loading = () => {
   sectionItems.appendChild(loadingAPI);
 };
 
-const loadingRemove = () => load.remove();
+// Funcao para remover o texto 'Carregando...'
+const loadingRemove = () => load.innerHTML = '';
+
+const createSpanValue = (param) => {
+  const span = document.createElement('span');
+  span.className = 'total-price';
+  span.innerText = 'O valor total estará aqui!';
+  totalValues.appendChild(span);
+
+  return span;
+}
 
 window.onload = () => {
   searchProducts('computador');
+  createSpanValue();
 };
