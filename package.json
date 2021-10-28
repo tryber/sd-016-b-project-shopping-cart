@@ -8,7 +8,7 @@
     "test:coverage": "jest test --coverage",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js",
+    "lint": "eslint --fix-dry-run --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js",
     "lint:styles": "stylelint **/*.css --config .stylelintrc.json --ignore-disables --allow-empty-input"
   },
   "jest": {
