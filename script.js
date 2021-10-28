@@ -1,5 +1,6 @@
 const olCart = document.querySelector('.cart__items');
 const butEmpty = document.querySelector('.empty-cart');
+const tagTotal = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -15,20 +16,73 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener(event) {
-  const li = event.target;
-  li.remove();
-}
+const getTotalPrice = () => parseFloat(localStorage.getItem('totalPrice'));
+
+const addUpdateTagTotal = (num) => {
+  const numTotal = num.toFixed(2);
+  tagTotal.innerText = '';
+  tagTotal.innerText = `Total: R$ ${numTotal}`;
+};
+// Parei qui tentando transformar em inteiro
+const saveSubtPriceTotal = async (val) => {
+  let valTotalSub = getTotalPrice();
+    valTotalSub -= val;
+    addUpdateTagTotal(valTotalSub);
+    localStorage.removeItem('totalPrice');
+    localStorage.setItem('totalPrice', valTotalSub);
+};
+
+const updateOl = () => {
+  localStorage.removeItem('cartItems');
+  saveCartItems(JSON.stringify(olCart.innerHTML));
+};
+
+// Parei qui tentando transformar em inteiro
+const cartItemClickListener = (event) => {
+  const elemStr = event.innerText.split(' ');
+  const str = elemStr[elemStr.length - 1];
+  const a = parseFloat(str.slice(1));
+  event.remove();
+  saveSubtPriceTotal(a);
+  updateOl();
+};
+
+const cartItemClickListener2 = (event) => {
+  let srt = event.target.innerText.split(' ');
+  srt = srt[srt.length - 1];
+  const num = parseFloat(srt.slice(1));
+  event.target.remove();
+  saveSubtPriceTotal(num);
+  updateOl();
+};
+
+const saveSumPriceTotal = async (val) => {
+  let valTotal = getTotalPrice();
+  if (valTotal) {
+    valTotal += val;
+    addUpdateTagTotal(valTotal);
+    localStorage.removeItem('totalPrice');
+    localStorage.setItem('totalPrice', valTotal);
+  } else {
+    localStorage.setItem('totalPrice', val);
+    addUpdateTagTotal(val);
+  }
+};
+
+const emptyCart = () => {
+  butEmpty.addEventListener('click', () => {
+    olCart.innerHTML = '';
+    tagTotal.innerText = 'Total: R$ 0,00';
+    localStorage.clear();
+  });
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  butEmpty.addEventListener('click', () => {
-    olCart.innerHTML = '';
-    localStorage.clear();
-  });
+  li.addEventListener('click', cartItemClickListener2);
+  emptyCart();
   return li;
 }
 
@@ -36,8 +90,9 @@ async function addItemCart(id) {
   await fetchItem(id)
     .then((item) => {
       const { id: sku, title: name, price: salePrice } = item;
-      olCart.appendChild(createCartItemElement({ sku, name, salePrice }));  
+      olCart.appendChild(createCartItemElement({ sku, name, salePrice }));
       saveCartItems(JSON.stringify(olCart.innerHTML));
+      saveSumPriceTotal(salePrice);
     });
 }
 
@@ -56,13 +111,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// const emptyCart = () => {
-//     butEmpty.addEventListener('click', () => {
-//       olCart.innerHTML = '';
-//     localStorage.removeItem('cartItems');
-//     });
-// };
-
 async function searchProducts(product) {
   const data = await fetchProducts(product);
   const sectionItem = document.querySelector('.items');
@@ -72,22 +120,27 @@ async function searchProducts(product) {
   });
 }
 
+const getTotalPriceStart = () => {
+  const startTotal = getTotalPrice();
+  if (startTotal) {
+    addUpdateTagTotal(startTotal);
+  }
+};
+
 const updateCartList = () => {
   const getCartList = JSON.parse(getSavedCartItems());
-  console.log(getCartList);
   olCart.innerHTML = getCartList;
-  
-  butEmpty.addEventListener('click', () => {
-    olCart.innerHTML = '';
-    localStorage.clear();
-  });
+
+  emptyCart();
 
   itemCart = document.querySelectorAll('.cart__item');
   itemCart.forEach((item) => {
     item.addEventListener('click', () => {
-      item.remove();
+      cartItemClickListener(item);
     });
   });
+
+  getTotalPriceStart();
 };
 
 window.onload = () => {
