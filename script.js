@@ -1,7 +1,7 @@
 const shopCartItems = document.querySelector('.cart__items');
 const sectionItems = document.querySelector('.items');
 const btnRemoveItems = document.querySelector('.empty-cart');
-const totalValues = document.querySelector('.cart');
+// const totalValues = document.querySelector('.cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -18,9 +18,9 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -68,6 +68,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Funcao para criar o texto 'Carregando...'
+const loading = () => {
+  const loadingAPI = document.createElement('h3');
+  loadingAPI.className = 'loading';
+  loadingAPI.innerText = 'carregando...';
+  sectionItems.appendChild(loadingAPI);
+};
+
 // Adiciona a lista de produtos
 const searchProducts = async (products) => {
   loading();
@@ -92,25 +100,14 @@ btnRemoveItems.addEventListener('click', () => {
   localStorage.clear();
 });
 
-// Funcao para criar o texto 'Carregando...'
-const loading = () => {
-  const loadingAPI = document.createElement('h3');
-  loadingAPI.className = 'loading';
-  loadingAPI.innerText = 'carregando...';
-  sectionItems.appendChild(loadingAPI);
-};
+// const createSpanValue = (param) => {
+//   const span = document.createElement('span');
+//   span.className = 'total-price';
+//   span.innerText = 'O valor total estará aqui!';
+//   totalValues.appendChild(span);
 
-// Funcao para remover o texto 'Carregando...'
-const loadingRemove = () => load.innerHTML = '';
-
-const createSpanValue = (param) => {
-  const span = document.createElement('span');
-  span.className = 'total-price';
-  span.innerText = 'O valor total estará aqui!';
-  totalValues.appendChild(span);
-
-  return span;
-}
+//   return span;
+// };
 
 window.onload = () => {
   searchProducts('computador');
