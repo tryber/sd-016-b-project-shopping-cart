@@ -11,7 +11,8 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-
+const getItems = document.querySelector('.items');
+const getCart = document.querySelector('.cart__items');
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -27,8 +28,6 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-const getItems = document.querySelector('.items');
-const getCart = document.querySelector('.cart__items');
 
 function cartItemClickListener(event) {
   const item = event.target;
