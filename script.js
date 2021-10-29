@@ -2,6 +2,9 @@
 const itemsSection = document.querySelector('.items');
 const cartItemsList = document.querySelector('.cart__items');
 const clearCartBtn = document.querySelector('.empty-cart');
+const totalPrice = document.querySelector('.total-price');
+const loadingContainer = document.querySelector('.loading_container')
+const loading = document.querySelector('.loading');
 
 // Funções //
 // Criar Thumbnail
@@ -25,9 +28,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Somar Valor Total
+// function sumtotalPrice(price){
+//   const currentTotal = parseFloat(totalPrice.innerText);
+//   const sum = currentTotal + price;
+
+//   totalPrice.innerText = `${sum}`;
+// }
+
 // Remover Item do Carrinho
 function cartItemClickListener(event) {
   cartItemsList.removeChild(event.target);
+  saveCartItems(cartItemsList.innerHTML);
 }
 
 // Adicionar ao Carrinho
@@ -40,7 +52,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function addToCartEvent(event) {
-  const fetchResult = await fetchItem(getSkuFromProductItem(event.target.parentNode));
+  const productSku = getSkuFromProductItem(event.target.parentNode)
+  const fetchResult = await fetchItem(productSku);
 
   const productObj = {
     sku: fetchResult.id,
@@ -49,18 +62,21 @@ async function addToCartEvent(event) {
   };
   
   cartItemsList.appendChild(createCartItemElement(productObj));
+  // sumtotalPrice(productObj.salePrice);
   saveCartItems(cartItemsList.innerHTML);
 }
 
 // Esvaziar Carrinho
 function eraseCartElements() {
   cartItemsList.innerHTML = ('');
+  // totalPrice.innerText = ('0.00')
   saveCartItems(cartItemsList.innerHTML);
 }
 clearCartBtn.addEventListener('click', eraseCartElements);
 
 // Listagem de Produtos
 function createProductItemElement({ sku, name, image }) {
+  loadingContainer.innerHTML = '';
   const section = document.createElement('section');
   section.className = 'item';
 
