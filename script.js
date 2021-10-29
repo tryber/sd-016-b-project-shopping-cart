@@ -1,3 +1,5 @@
+const getCart = document.querySelector('.cart__items');
+const getItems = document.querySelector('.items');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -11,8 +13,6 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-const getItems = document.querySelector('.items');
-const getCart = document.querySelector('.cart__items');
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
