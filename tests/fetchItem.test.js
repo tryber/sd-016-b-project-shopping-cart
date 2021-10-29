@@ -20,12 +20,12 @@ describe('2 - Teste a função fecthItem', () => {
     await fetchItem('MLB1615760527');
     expect.assertions(1);
     expect(fetch).toHaveBeenCalledWith(expectedURL);
-  })
+  });
 
   it(('testa se ao colocar o parametro "MLB1615760527" a função retorna um objeto igual ao da constante "item"'), async () => {
     expect.assertions(1);
     expect(await fetchItem('MLB1615760527')).toEqual(item)
-  })
+  });
   it(('Teste se ao chamar a função sem argumento um erro é retornado'), async() => {
     //esse teste foi realizado com sucesso após a mentoria da Ellen. 
     // O estudante Jeff Thierch estava com o mesmo problema com o meu e comentou que 
@@ -37,6 +37,6 @@ describe('2 - Teste a função fecthItem', () => {
     catch {
       expect(error).toEqual(new Error('You must provide an url'))
     }
-  })
+  });
   
 });

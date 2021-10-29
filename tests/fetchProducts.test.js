@@ -16,16 +16,19 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCalled();
   });
 
+  it('Testa se o endpoint é acessado é o correto quando utilizado o argumento computador', () => {
+    const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador'
+    fetchProducts('computador');
+    expect(fetch).toHaveBeenCalledWith(endPoint);
+  });
+
   it(('Testa se o retorno da função com o parametro "computador" retorna o restudado da constante computadorSearch'), async () => {
     expect.assertions(1);
     const testezinhoLindo = await fetchProducts('computador');
     expect(testezinhoLindo).toEqual(computadorSearch);
-  })
+  });
 
   it(('Teste se ao chamar a função sem argumento um erro é retornado'), async() => {
-    //esse teste foi realizado com sucesso após a mentoria da Ellen. 
-    // O estudante Jeff Thierch estava com o mesmo problema com o meu e comentou que 
-    // havia finalmente conseguido colocando o try catch no teste.
     const error = new Error('You must provide an url')
     try {
       await fetchProducts();
@@ -33,5 +36,5 @@ describe('1 - Teste a função fecthProducts', () => {
     catch {
       expect(error).toEqual(new Error('You must provide an url'))
     }
-  })
+  });
 });
