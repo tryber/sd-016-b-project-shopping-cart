@@ -1,6 +1,21 @@
 const olCart = document.querySelector('.cart__items');
 const butEmpty = document.querySelector('.empty-cart');
 const tagTotal = document.querySelector('.total-price');
+const getBody = document.querySelector('body');
+
+// Adicione um texto de "carregando" durante uma requisição à API
+
+const loadText = (valBoll) => {
+  const txt = document.createElement('span');
+  
+  if (!valBoll) {
+    getBody.lastChild.remove();
+  } else {
+    txt.className = 'loading';
+    txt.innerText = 'carregando...';
+    getBody.appendChild(txt);
+  }
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -118,6 +133,7 @@ async function searchProducts(product) {
     const { id: sku, title: name, thumbnail: image } = item;
     sectionItem.appendChild(createProductItemElement({ sku, name, image }));
   });
+  loadText(false);
 }
 
 const getTotalPriceStart = () => {
@@ -146,4 +162,5 @@ const updateCartList = () => {
 window.onload = () => {
   searchProducts('computador');
   updateCartList();
+  loadText(true);
 };
