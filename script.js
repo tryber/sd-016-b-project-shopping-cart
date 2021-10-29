@@ -27,9 +27,12 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+const getItems = document.querySelector('.items');
+const getCart = document.querySelector('.cart__items');
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const item = event.target;
+  item.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,14 +44,32 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const elementItem = async () => {
-  const getItems = document.querySelector('.items');
   const arrProducts = await fetchProducts('computador');
   const arrResults = arrProducts.results
   .map((product) => ({ sku: product.id, name: product.title, salePrice: product.price }));
   arrResults.forEach((element) => getItems.appendChild(createProductItemElement(element)));
   console.log(arrProducts);
   };
+
+const addElement = async (parameter) => {
+const item = await fetchItem(parameter);
+const { id, title, price } = item;
+const itemObject = {
+  sku: id,
+  name: title,
+  salePrice: price,
+};
+const element = createCartItemElement(itemObject);
+getCart.appendChild(element);
+};
+const addCartElement = (event) => {
+  const item = event.target;
+  const id = item.parentNode.fistChild.innerText;
+  addElement(id);
+};
   
   window.onload = () => {
     elementItem();
+    getCart.addEventListener('click', cartItemClickListener);
+    getItems.addEventListener('click', addCartElement);
  };
