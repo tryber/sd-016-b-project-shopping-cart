@@ -28,8 +28,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function cartItemClickListener() {
+  // this.remove(); Não suportado por IE.
+  this.parentNode.removeChild(this);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
