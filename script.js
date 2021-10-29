@@ -20,11 +20,11 @@ function cartItemClickListener(event) {
 } 
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const getLi = document.createElement('li');
-  getLi.className = 'cart__item';
-  getLi.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  getLi.addEventListener('click', cartItemClickListener);
-  return getLi;
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 } 
 
 async function addProductToCart(event) {

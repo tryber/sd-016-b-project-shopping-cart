@@ -1,6 +1,6 @@
-const fetchItem = (param) => {
-  if (!param) { return 'You must provide an url'; }
-  const link = `https://api.mercadolibre.com/items/${param}`;
+const fetchItem = (id) => {
+  if (!id) { return 'You must provide an url'; }
+  const link = `https://api.mercadolibre.com/items/${id}`;
   return fetch(link)
     .then((response) => response.json())
     .then((data) => data);
