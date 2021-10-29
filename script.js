@@ -17,6 +17,8 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
+  const getOl = document.querySelector('.cart__items');
+  getOl.removeChild(event.target);
 } 
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -32,7 +34,6 @@ async function addProductToCart(event) {
   const getArr = await fetchItem(getSKU);
   const getOl = document.querySelector('.cart__items');
   const getCartItens = createCartItemElement(getArr);
-
   getOl.appendChild(getCartItens);
 }
 
@@ -60,4 +61,5 @@ const objectF = async () => {
 
 window.onload = () => {
 objectF();
+cartItemClickListener();
  };
