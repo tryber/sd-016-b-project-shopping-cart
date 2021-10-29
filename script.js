@@ -86,6 +86,18 @@ async function renderItems(product) {
   addEventListenerToItems();
 }
 
+function emptyCart() {
+  const emptyCartButton = document.querySelector('.empty-cart');
+  const cartItems = document.querySelector('.cart__items');
+
+  emptyCartButton.addEventListener('click', () => {
+    while (cartItems.firstElementChild) {
+      cartItems.removeChild(cartItems.firstElementChild);
+    }
+  });
+}
+
 window.onload = () => {
   renderItems('computador');
+  emptyCart();
 };
