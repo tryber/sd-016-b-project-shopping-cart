@@ -30,7 +30,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  console.log(event);
+  return event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -73,5 +73,4 @@ window.onload = () => {
   getProduct('computador');
   getItem('MLB1341706310');
   getSkuFromProductItem();
-  cartItemClickListener();
 };
