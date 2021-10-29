@@ -30,11 +30,11 @@ describe('1 - Teste a função fecthProducts', () => {
 
   it(('Teste se ao chamar a função sem argumento um erro é retornado'), async() => {
     const error = new Error('You must provide an url')
-    try {
-      await fetchProducts();
-    }
-    catch {
-      expect(error).toEqual(new Error('You must provide an url'))
-    }
+    // try {
+      const result = await fetchProducts();
+    // }
+    // catch {
+      expect(result).rejects.toEqual(new Error('You must provide an url'))
+    // }
   });
 });
