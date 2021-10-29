@@ -1,4 +1,4 @@
-const getCart = document.querySelector('.cart__items');
+const getCartItems = document.querySelector('.cart__items');
 const getItems = document.querySelector('.items');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -59,7 +59,7 @@ const itemObject = {
   salePrice: price,
 };
 const element = createCartItemElement(itemObject);
-getCart.appendChild(element);
+getCartItems.appendChild(element);
 };
 const addCartElement = (event) => {
   const item = event.target;
@@ -69,6 +69,6 @@ const addCartElement = (event) => {
   
   window.onload = () => {
     elementItem();
-    getCart.addEventListener('click', cartItemClickListener);
+    getCartItems.addEventListener('click', cartItemClickListener);
     getItems.addEventListener('click', addCartElement);
  };
