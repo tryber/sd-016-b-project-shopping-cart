@@ -63,7 +63,7 @@ getCartItems.appendChild(element);
 };
 const addCartElement = (event) => {
   const item = event.target;
-  const id = item.parentNode.fistChild.innerText;
+  const id = item.parentNode.firstChild.innerText;
   addElement(id);
 };
   
