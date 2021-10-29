@@ -1,3 +1,4 @@
+const getOl = document.querySelector('.cart__items');
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -17,9 +18,15 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  const getOl = document.querySelector('.cart__items');
-  getOl.removeChild(event.target);
-} 
+ getOl.removeChild(event.target);
+ saveCartItems(getOl.innerHTML);
+}
+
+const eventLi = () => {
+  getOl.innerHTML = getSavedCartItems();
+  const getAllLi = document.querySelectorAll('.cart__item');
+  getAllLi.forEach((element) => element.addEventListener('click', cartItemClickListener));
+};
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -32,15 +39,15 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 async function addProductToCart(event) {
   const getSKU = getSkuFromProductItem(event.target.parentNode);
   const getArr = await fetchItem(getSKU);
-  const getOl = document.querySelector('.cart__items');
   const getCartItens = createCartItemElement(getArr);
   getOl.appendChild(getCartItens);
+  saveCartItems(getOl.innerHTML);
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-const newButton = createCustomElement('button', 'item_add', 'Adicionar ao carrinho!');
+  const newButton = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
 newButton.addEventListener('click', addProductToCart);
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
@@ -61,5 +68,5 @@ const objectF = async () => {
 
 window.onload = () => {
 objectF();
-cartItemClickListener();
+eventLi();
  };
