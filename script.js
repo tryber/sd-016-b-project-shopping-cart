@@ -24,9 +24,9 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
@@ -39,6 +39,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+async function getItem(nameItem) {
+  const containerCartItems = document.querySelector('.cart__items');
+  const item = await fetchItem(nameItem);
+  const itemObject = {
+    sku: item.id,
+    name: item.title,
+    salePrice: item.price,
+  };
+  const itemElement = createCartItemElement(itemObject);
+  containerCartItems.appendChild(itemElement);
+}
+
+function addToBag(item) {
+  item.addEventListener('click', (event) => {
+    const elementParent = event.target.parentElement;
+    const itemSKU = elementParent.querySelector('.item__sku').innerText;
+    getItem(itemSKU);
+  });
+}
+
+function selectAllBtn() {
+  const btnAddToCart = document.querySelectorAll('.item__add');
+  btnAddToCart.forEach((element) => {
+    addToBag(element);
+  });
 }
 
 async function getProduct(product) {
@@ -55,22 +82,9 @@ async function getProduct(product) {
     const productElement = createProductItemElement(productObject);
     containerItems.appendChild(productElement);
   });
-}
-
-async function getItem(nameItem) {
-  const containerCartItems = document.querySelector('.cart__items');
-  const item = await fetchItem(nameItem);
-  const itemObject = {
-    sku: item.id,
-    name: item.title,
-    salePrice: item.price,
-  };
-  const itemElement = createCartItemElement(itemObject);
-  containerCartItems.appendChild(itemElement);
+  selectAllBtn();
 }
 
 window.onload = () => {
   getProduct('computador');
-  getItem('MLB1341706310');
-  getSkuFromProductItem();
 };
