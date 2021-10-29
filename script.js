@@ -2,9 +2,8 @@
 const itemsSection = document.querySelector('.items');
 const cartItemsList = document.querySelector('.cart__items');
 const clearCartBtn = document.querySelector('.empty-cart');
-const totalPrice = document.querySelector('.total-price');
-const loadingContainer = document.querySelector('.loading_container')
-const loading = document.querySelector('.loading');
+// const totalPrice = document.querySelector('.total-price');
+const loadingContainer = document.querySelector('.loading_container');
 
 // Funções //
 // Criar Thumbnail
@@ -52,7 +51,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function addToCartEvent(event) {
-  const productSku = getSkuFromProductItem(event.target.parentNode)
+  const productSku = getSkuFromProductItem(event.target.parentNode);
   const fetchResult = await fetchItem(productSku);
 
   const productObj = {
@@ -60,7 +59,7 @@ async function addToCartEvent(event) {
     name: fetchResult.title,
     salePrice: fetchResult.price,
   };
-  
+
   cartItemsList.appendChild(createCartItemElement(productObj));
   // sumtotalPrice(productObj.salePrice);
   saveCartItems(cartItemsList.innerHTML);
