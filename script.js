@@ -1,6 +1,4 @@
-const getSavedCartItems = require('./helpers/getSavedCartItems');
-
-const saveCartItems = require('./helpers/saveCartItems');
+// const getSavedCartItems = require('./helpers/getSavedCartItems');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
