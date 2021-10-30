@@ -1,3 +1,5 @@
+// const getSavedCartItems = require('./helpers/getSavedCartItems');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,27 +14,25 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
+};
+
+// function getId(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+const shoppingCartList = document.querySelector('.cart__items');
+async function cartItemClickListener(event) {
+  shoppingCartList.removeChild(event.target);
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
+async function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,4 +40,48 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+// Requisito 2 : este requisito foi finalmente concluído e corrigido graças ao colega Leandro
+
+async function shoppingList(computerId) {
+  const computer = await fetchItem(computerId);
+  const { id: sku, title: name, price: salePrice } = computer;
+  const elementShoppingCart = await createCartItemElement({ sku, name, salePrice });
+
+  return elementShoppingCart;
+}
+
+const computersToBuy = document.querySelector('.items');
+computersToBuy.addEventListener('click', async (event) => {
+  const computerId = event.target.parentNode.firstChild.innerText;
+  const shoppingCartListAsync = document.querySelector('.cart__items'); 
+  const addComputer = await shoppingList(computerId);
+  shoppingCartList.appendChild(addComputer);
+  saveCartItems(shoppingCartListAsync.innerHTML);
+});
+
+const bringListProducts = async () => {
+  await fetchProducts('computador')
+  .then((data) => data.results)
+  .then((products) => {
+    const computersList = document.querySelector('.items');
+    products.forEach((product) => {
+      const eachComputer = createProductItemElement(product);
+      eachComputer.lastChild.addEventListener('click', shoppingList);
+      computersList.appendChild(eachComputer);
+    });
+  });
+};
+
+shoppingCartList.addEventListener('click', async (event) => {
+  cartItemClickListener(event); // retquisito3
+});
+
+const buttonCleadCart = document.querySelector('.empty-cart');
+buttonCleadCart.addEventListener('click', () => {
+  shoppingCartList.innerHTML = '';
+});
+
+window.onload = async () => { 
+  bringListProducts();
+  shoppingCartList.innerHTML = getSavedCartItems(); // requisito4
+};
