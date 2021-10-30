@@ -1,5 +1,6 @@
 const getOl = document.querySelector('.cart__items');
 const getTotalPrice = document.querySelector('.total-price');
+const getEmpyCartButton = document.querySelector('.empty-cart');
 let values = 0;
 
 function createProductImageElement(imageSource) {
@@ -83,6 +84,11 @@ const objectF = async () => {
   });
 };
 
+getEmpyCartButton.addEventListener('click', () => {
+  getOl.innerHTML = '';
+  getTotalPrice.innerText = '';
+  saveCartItems(getOl.innerHTML);
+});
 window.onload = () => {
 objectF();
 eventLi();
