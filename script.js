@@ -76,6 +76,11 @@ shoppingCartList.addEventListener('click', async (event) => {
   cartItemClickListener(event); // retquisito3
 });
 
+const buttonCleadCart = document.querySelector('.empty-cart');
+buttonCleadCart.addEventListener('click', () => {
+  shoppingCartList.innerHTML = '';
+});
+
 window.onload = async () => { 
   bringListProducts();
   shoppingCartList.innerHTML = getSavedCartItems(); // requisito4
