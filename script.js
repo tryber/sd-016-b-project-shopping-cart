@@ -1,6 +1,7 @@
 const getOl = document.querySelector('.cart__items');
 const getTotalPrice = document.querySelector('.total-price');
 const getEmpyCartButton = document.querySelector('.empty-cart');
+const getLoadingSec = document.querySelector('.loadingSec');
 let values = 0;
 
 function createProductImageElement(imageSource) {
@@ -10,6 +11,9 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const RemLoading = () => { 
+  getLoadingSec.innerHTML = ''; 
+};
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 } 
@@ -71,6 +75,7 @@ newButton.addEventListener('click', addProductToCart);
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(newButton);
+  RemLoading();
 
   return section;
 }
