@@ -1,4 +1,7 @@
 const getOl = document.querySelector('.cart__items');
+const getTotalPrice = document.querySelector('.total-price');
+let values = 0;
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -17,9 +20,22 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const sumProductsPrice = (price) => {
+  values += price;
+  getTotalPrice.innerText = values;
+};
+
+const subProductsPrice = (price) => {
+  values -= price;
+  getTotalPrice.innerText = values;
+};
+
 function cartItemClickListener(event) {
- getOl.removeChild(event.target);
- saveCartItems(getOl.innerHTML);
+  const eventTarget = event.target.innerText;
+  const getPrice = Number(eventTarget.split('$')[1]);
+  subProductsPrice(getPrice);
+  getOl.removeChild(event.target);
+  saveCartItems(getOl.innerHTML);
 }
 
 const eventLi = () => {
@@ -41,6 +57,7 @@ async function addProductToCart(event) {
   const getArr = await fetchItem(getSKU);
   const getCartItens = createCartItemElement(getArr);
   getOl.appendChild(getCartItens);
+  sumProductsPrice(getArr.price);
   saveCartItems(getOl.innerHTML);
 }
 
