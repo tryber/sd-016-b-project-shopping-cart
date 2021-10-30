@@ -87,7 +87,7 @@ const addCartElement = (event) => {
   addElement(id);
 };
 const insetPrice = () => {
-  const createPrice = document.createElement('price');
+  const createPrice = document.createElement('p');
   createPrice.className = 'total-price';
   createPrice.innerText = 0;
   getCart.appendChild(createPrice);
