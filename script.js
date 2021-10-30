@@ -51,7 +51,7 @@ async function generateItem(nameItem) {
   };
   const itemElement = createCartItemElement(itemObject);
   containerCartItems.appendChild(itemElement);
-  saveCartItems(containerCartItems.innerHTML)
+  saveCartItems(containerCartItems.innerHTML);
 }
 
 function addToBag(item) {
