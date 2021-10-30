@@ -97,7 +97,7 @@ const emptyCart = async () => {
   getCartItems.innerHTML = '';
   const getTotal = document.querySelector('.total-price');
   getTotal.innerText = 0;
-}
+};
   
   window.onload = () => {
     elementItem();
