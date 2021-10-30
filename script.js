@@ -25,9 +25,9 @@ const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) =>
 // function getId(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
-
+const shoppingCartList = document.querySelector('.cart__items');
 async function cartItemClickListener(event) {
-  event.target.remove();
+  shoppingCartList.removeChild(event.target);
 }
 
 async function createCartItemElement({ sku, name, salePrice }) {
@@ -51,9 +51,10 @@ async function shoppingList(computerId) {
 const computersToBuy = document.querySelector('.items');
 computersToBuy.addEventListener('click', async (event) => {
   const computerId = event.target.parentNode.firstChild.innerText;
+  const shoppingCartListAsync = document.querySelector('.cart__items'); 
   const addComputer = await shoppingList(computerId);
-  const shoppingCartList = document.querySelector('.cart__items');
   shoppingCartList.appendChild(addComputer);
+  saveCartItems(shoppingCartListAsync.innerHTML);
 });
 
 const bringListProducts = async () => {
@@ -69,6 +70,11 @@ const bringListProducts = async () => {
   });
 };
 
+shoppingCartList.addEventListener('click', async (event) => {
+  cartItemClickListener(event); // retquisito3
+});
+
 window.onload = async () => { 
   bringListProducts();
+  shoppingCartList.innerHTML = getSavedCartItems(); // requisito4
 };
