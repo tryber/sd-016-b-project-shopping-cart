@@ -95,15 +95,11 @@ buttonClearCart.addEventListener('click', () => {
   saveCartItems(ol.innerHTML);
 });
 
-const addLoading = () => {
-  const loading = document.createElement('div');
+const loading = document.createElement('p');
+const addLoading = () => {  
   loading.className = 'loading';
   loading.innerText = 'carregando...';
   document.body.appendChild(loading);
-};
-
-const removeLoading = () => {
-  remove(loading);
 };
 
 // código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
@@ -112,7 +108,7 @@ async function allFunc() {
   await searchProducts('computador')
     .then(() => clickButton())
     .then(() => recoverLocalStorage());
-    removeLoading();
+    document.body.removeChild(loading);
 }
 
 window.onload = () => {
