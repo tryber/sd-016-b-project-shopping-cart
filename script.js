@@ -83,6 +83,7 @@ function clickButton() {
   });
 }
 
+// Chama a função getSavedCartItems e add a ol. Add escutador a nova lista criada em que chama cartItemClickListener (função que exclui item ao ser clicado).
 function recoverLocalStorage() {
   ol.innerHTML = getSavedCartItems();
   ol.addEventListener('click', cartItemClickListener);
