@@ -1,6 +1,5 @@
 const cartItems = document.querySelector('.cart__items');
 
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -15,18 +14,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  const cartBtn = section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  cartBtn.addEventListener('click', addProductCart)
-
-  return section;
-}
-
 // returns product ID
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -37,7 +24,6 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
-
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -52,9 +38,20 @@ const addProductCart = async (event) => {
   const fetchProduct = await fetchItem(productId);
   const cart = createCartItemElement(fetchProduct);
   cartItems.appendChild(cart);
+};
 
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const cartBtn = section
+  .appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  cartBtn.addEventListener('click', addProductCart);
+
+  return section;
 }
- 
 // requisito 1 - funcao faz fetch da list de produtos a partir de um parametro query e leva ela formatada para o corpo do site
 
 async function searchProducts(query) {
@@ -78,7 +75,7 @@ const addToCart = async (product) => {
   const productInfo = {
     sku: productToAdd.id,
 
-  }
-}
+  };
+};
 
 window.onload = () => { searchProducts('computador'); };
