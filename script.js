@@ -96,14 +96,14 @@ buttonClearCart.addEventListener('click', () => {
 });
 
 const addLoading = () => {
-  const createElement = document.createElement('div');
-  createElement.className = 'loading';
-  createElement.innerText = 'loading...';
-  document.body.appendChild(createElement);
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.innerText = 'loading...';
+  document.body.appendChild(loading);
 };
 
 const removeLoading = () => {
-  remove(createElement);
+  remove(loading);
 };
 
 // código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
