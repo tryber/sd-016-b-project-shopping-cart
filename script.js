@@ -1,3 +1,5 @@
+const olCartItems = document.querySelector('cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,6 +42,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// requisito 1
+
 async function getItem(item) {
   const data = await fetchProducts(item);
   const classItens = document.querySelector('.items');
@@ -55,6 +59,14 @@ async function getItem(item) {
   });
 }
 
+// requisito 2
+
+async function getId(id) {
+  const data = await fetchItem(id);
+  console.log(data);
+}
+
 window.onload = () => {
  console.log(getItem('computador'));
+ console.log(getId('MLB1341706310'));
 };
