@@ -1,3 +1,8 @@
+const cartTitle = document.querySelector('.cart__title');
+const spanPrice = document.createElement('span');
+spanPrice.classList.add('total-price');
+cartTitle.insertAdjacentElement('afterend', spanPrice);
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,9 +33,40 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-function cartItemClickListener(event) {
+function resumeCartItems() {
+  const productItems = document.querySelectorAll('.cart__item');
+  let totalNumber = 0;
+
+  if (productItems.length < 1) {
+    return totalNumber;
+  }
+
+  productItems.forEach((element) => {
+    const productInfo = element.innerText;
+    const infoSplit = productInfo.split('PRICE: $');
+    const productPrice = infoSplit.pop();
+    totalNumber += parseFloat(productPrice);
+  });
+
+  return totalNumber;
+}
+
+function createTotalPrice() {
+  const totalValueCart = resumeCartItems();
+
+  if (totalValueCart === 0) {
+    spanPrice.innerText = totalValueCart;
+    return spanPrice;
+  }
+
+  spanPrice.innerText = totalValueCart;
+  return spanPrice;
+}
+
+async function cartItemClickListener(event) {
   // coloque seu código aqui
-  return event.target.remove();
+  await event.target.remove();
+  createTotalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -39,6 +75,15 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+function addPrice(price) {
+  const spanTotal = document.querySelector('.total-price').innerText;
+  let total = parseFloat(spanTotal);
+  total += price;
+  const resumePrice = document.querySelector('.total-price');
+  resumePrice.innerText = total;
+  return resumePrice;
 }
 
 async function generateItem(nameItem) {
@@ -52,6 +97,7 @@ async function generateItem(nameItem) {
   const itemElement = createCartItemElement(itemObject);
   containerCartItems.appendChild(itemElement);
   saveCartItems(containerCartItems.innerHTML);
+  addPrice(itemObject.salePrice);
 }
 
 function addToBag(item) {
@@ -98,4 +144,5 @@ window.onload = () => {
       element.addEventListener('click', cartItemClickListener);
     });
   }
+  createTotalPrice();
 };
