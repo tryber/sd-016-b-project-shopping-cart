@@ -1,4 +1,11 @@
 const cartList = document.querySelector('.cart__items');
+const clearCartBtn = document.querySelector('.empty-cart');
+
+function clearCart() {
+  cartList.innerHTML = '';
+  saveCartItems('');
+}
+clearCartBtn.addEventListener('click', clearCart);
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
