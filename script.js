@@ -1,4 +1,5 @@
 const cartItems = document.querySelector('.cart__items');
+const clearCart = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -19,10 +20,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// 
-
 function cartItemClickListener(event) {
   // coloque seu código aqui
+}
+
+// clear cart button
+function clearCartBtn() {
+  cartItems.innerHTML = '';
+}
+
+// clear cart event listener
+function cartBtnEventListener() {
+  clearCart.addEventListener('click', clearCartBtn);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -78,4 +87,4 @@ const addToCart = async (product) => {
   };
 };
 
-window.onload = () => { searchProducts('computador'); };
+window.onload = () => { searchProducts('computador'); cartBtnEventListener(); };
