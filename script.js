@@ -1,5 +1,6 @@
 const ol = document.querySelector('.cart__items');
-const allCartItems = document.querySelectorAll('cart__item');
+const buttonClearCart = document.querySelector('.empty-cart');
+// const allCartItems = document.querySelectorAll('cart__item');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -73,7 +74,7 @@ async function getItemId(item) {
   saveCartItems(ol.innerHTML);
 }
 
-// Capturar botões e add escutador em cada um. 
+// Capturar botões e add escutador em cada um.
 function clickButton() {
   const buttons = document.querySelectorAll('.item__add');
   buttons.forEach((button) => {
@@ -83,22 +84,18 @@ function clickButton() {
   });
 }
 
-// Chama a função getSavedCartItems e add a ol. Add escutador a nova lista criada em que chama cartItemClickListener (função que exclui item ao ser clicado).
+// Chama a função getSavedCartItems e add a ol. Add escutador a nova lista criada em que chama cartItemClickListener (função que exclui item ao ser clicado). Código desenvolvido com auxilio do colega Tonis Torres.
 function recoverLocalStorage() {
   ol.innerHTML = getSavedCartItems();
   ol.addEventListener('click', cartItemClickListener);
 }
 
-// Código desenvolvido com auxilio do colega Tonis Torres, refatorado para a função recoverLocalStorage.
-// function getLocal() {
-//   const getInfoLocal = getSavedCartItems();
-//   // console.log(getInfoLocal);
-//   ol.innerHTML = getInfoLocal;
-//   ol.addEventListener('click', cartItemClickListener);
-// }
+buttonClearCart.addEventListener('click', () => {
+  ol.innerHTML = '';
+  saveCartItems(ol.innerHTML);
+});
 
 // código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
-
 async function allFunc() {
   await searchProducts('computador')
     .then(() => clickButton())
