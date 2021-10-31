@@ -1,3 +1,9 @@
+const cartTitle = document.querySelector('.cart__title');
+const spanPrice = document.createElement('span');
+spanPrice.classList.add('total-price');
+cartTitle.insertAdjacentElement('afterend', spanPrice);
+const btnEmptyCart = document.querySelector('.empty-cart');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -24,12 +30,49 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+function selectAllItemsBag() {
+  const productsBag = document.querySelectorAll('.cart__item');
+  return productsBag;
 }
 
-function cartItemClickListener(event) {
+function resumeCartItems() {
+  const productItems = selectAllItemsBag();
+  let totalNumber = 0;
+
+  if (productItems.length < 1) {
+    return totalNumber;
+  }
+
+  productItems.forEach((element) => {
+    const productInfo = element.innerText;
+    const infoSplit = productInfo.split('PRICE: $');
+    const productPrice = infoSplit.pop();
+    totalNumber += parseFloat(productPrice);
+  });
+
+  return totalNumber;
+}
+
+function createTotalPrice() {
+  const totalValueCart = resumeCartItems();
+
+  if (totalValueCart === 0) {
+    spanPrice.innerText = totalValueCart;
+    return spanPrice;
+  }
+
+  spanPrice.innerText = totalValueCart;
+  return spanPrice;
+}
+
+async function cartItemClickListener(event) {
   // coloque seu código aqui
+  await event.target.remove();
+  createTotalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,4 +83,80 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+function addPrice(price) {
+  const spanTotal = document.querySelector('.total-price').innerText;
+  let total = parseFloat(spanTotal);
+  total += price;
+  const resumePrice = document.querySelector('.total-price');
+  resumePrice.innerText = total;
+  return resumePrice;
+}
+
+async function generateItem(nameItem) {
+  const containerCartItems = document.querySelector('.cart__items');
+  const item = await fetchItem(nameItem);
+  const itemObject = {
+    sku: item.id,
+    name: item.title,
+    salePrice: item.price,
+  };
+  const itemElement = createCartItemElement(itemObject);
+  containerCartItems.appendChild(itemElement);
+  saveCartItems(containerCartItems.innerHTML);
+  addPrice(itemObject.salePrice);
+}
+
+function addToBag(item) {
+  item.addEventListener('click', (event) => {
+    const elementParent = event.target.parentElement;
+    const itemSKU = elementParent.querySelector('.item__sku').innerText;
+    generateItem(itemSKU);
+  });
+}
+
+function selectAllBtn() {
+  const btnAddToCart = document.querySelectorAll('.item__add');
+  btnAddToCart.forEach((element) => {
+    addToBag(element);
+  });
+}
+
+async function getProduct(product) {
+  const products = await fetchProducts(product);
+  const { results } = products;
+  const containerItems = document.querySelector('.items');
+  
+  results.forEach((element) => {
+    const productObject = {
+      sku: element.id,
+      name: element.title,
+      image: element.thumbnail,
+    };
+    const productElement = createProductItemElement(productObject);
+    containerItems.appendChild(productElement);
+  });
+  selectAllBtn();
+}
+
+btnEmptyCart.addEventListener('click', () => {
+  const listProducts = selectAllItemsBag();
+  listProducts.forEach((element) => {
+    element.remove();
+  });
+  return createTotalPrice();
+});
+
+window.onload = () => {
+  getProduct('computador');
+  const recoverItems = getSavedCartItems();
+  if (recoverItems !== null) {
+    const cartModal = document.querySelector('.cart__items');
+    cartModal.insertAdjacentHTML('beforeend', recoverItems);
+
+    const allItems = selectAllItemsBag();
+    allItems.forEach((element) => {
+      element.addEventListener('click', cartItemClickListener);
+    });
+  }
+  createTotalPrice();
+};
