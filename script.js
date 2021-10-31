@@ -2,6 +2,7 @@ const cartTitle = document.querySelector('.cart__title');
 const spanPrice = document.createElement('span');
 spanPrice.classList.add('total-price');
 cartTitle.insertAdjacentElement('afterend', spanPrice);
+const btnEmptyCart = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -33,8 +34,13 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+function selectAllItemsBag() {
+  const productsBag = document.querySelectorAll('.cart__item');
+  return productsBag;
+}
+
 function resumeCartItems() {
-  const productItems = document.querySelectorAll('.cart__item');
+  const productItems = selectAllItemsBag();
   let totalNumber = 0;
 
   if (productItems.length < 1) {
@@ -132,6 +138,14 @@ async function getProduct(product) {
   selectAllBtn();
 }
 
+btnEmptyCart.addEventListener('click', () => {
+  const listProducts = selectAllItemsBag();
+  listProducts.forEach((element) => {
+    element.remove();
+  });
+  return createTotalPrice();
+});
+
 window.onload = () => {
   getProduct('computador');
   const recoverItems = getSavedCartItems();
@@ -139,7 +153,7 @@ window.onload = () => {
     const cartModal = document.querySelector('.cart__items');
     cartModal.insertAdjacentHTML('beforeend', recoverItems);
 
-    const allItems = document.querySelectorAll('.cart__item');
+    const allItems = selectAllItemsBag();
     allItems.forEach((element) => {
       element.addEventListener('click', cartItemClickListener);
     });
