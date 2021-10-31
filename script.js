@@ -98,7 +98,7 @@ buttonClearCart.addEventListener('click', () => {
 const addLoading = () => {
   const loading = document.createElement('div');
   loading.className = 'loading';
-  loading.innerText = 'loading...';
+  loading.innerText = 'carregando...';
   document.body.appendChild(loading);
 };
 
