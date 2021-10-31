@@ -95,11 +95,24 @@ buttonClearCart.addEventListener('click', () => {
   saveCartItems(ol.innerHTML);
 });
 
+const addLoading = () => {
+  const createElement = document.createElement('div');
+  createElement.className = 'loading';
+  createElement.innerText = 'loading...';
+  document.body.appendChild(createElement);
+};
+
+const removeLoading = () => {
+  remove(createElement);
+};
+
 // código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
 async function allFunc() {
+  addLoading();
   await searchProducts('computador')
     .then(() => clickButton())
     .then(() => recoverLocalStorage());
+    removeLoading();
 }
 
 window.onload = () => {
