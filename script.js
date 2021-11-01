@@ -2,16 +2,16 @@ const cartItems = document.querySelector('.cart__items');
 const clearCart = document.querySelector('.empty-cart');
 
 function createLoader() {
-  const loaderP = document.createElement('p');
-  const loaderHolder = document.querySelector('.container');
-  loaderHolder.appendChild(loaderP);
+  const loaderP = document.createElement('div');
+  const loaderHolder = document.querySelector('.items');
   loaderP.className = 'loading';
   loaderP.innerText = 'carregando...';
+  loaderHolder.appendChild(loaderP);
 }
 
 function loaderOff() {
   const loader = document.querySelector('.loading');
-  loader.innerText = '';
+  loader.remove();
 }
 
 function createProductImageElement(imageSource) {
