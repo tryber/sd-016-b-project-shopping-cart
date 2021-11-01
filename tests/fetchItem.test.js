@@ -7,11 +7,8 @@ window.fetch = jest.fn(fetchSimulator);
 
 const test = fetchItem();
 
-describe('2 - Teste a função fetchItem', () => {
-  it('Deve ser uma função', () => {
-    expect(typeof fetchItem).toBe('function');
-  });
-
+describe('2 - Teste a função fecthItem', () => {
+  
   it('1 - Teste se fetchItem é uma função;', () => {
     expect(fetchItem).toBeInstanceOf(Function);
   })
