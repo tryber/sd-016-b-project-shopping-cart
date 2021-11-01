@@ -41,11 +41,27 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function addLoadingMessage(sectionClassName) {
+  const section = document.querySelector(sectionClassName);
+  const loadingMessage = createCustomElement('span', 'loading', 'carregando...');
+
+  section.appendChild(loadingMessage);
+}
+
+function removeLoadingMessage() {
+  const loadingMessage = document.querySelector('.loading');
+
+  loadingMessage.parentElement.removeChild(loadingMessage);
+}
+
 async function renderCartItemElement() {
   const cartItemsSection = document.querySelector('.cart__items');
 
   const itemId = getSkuFromProductItem(this.parentElement);
+
+  addLoadingMessage('.cart');
   const itemData = await fetchItem(itemId);
+  removeLoadingMessage();
 
   const itemObject = {
     sku: itemId,
@@ -71,7 +87,10 @@ function addEventListenerToItems() {
 async function renderItems(product) {
   const itemsSection = document.querySelector('.items');
 
+  addLoadingMessage('.items');
   const data = await fetchProducts(product);
+  removeLoadingMessage();
+
   data.results.forEach((item) => {
     const itemObject = {
       sku: item.id,
@@ -98,6 +117,6 @@ function emptyCart() {
 }
 
 window.onload = () => {
-  renderItems('computador');
+  renderItems('computador'); 
   emptyCart();
 };
