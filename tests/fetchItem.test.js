@@ -5,6 +5,25 @@ const item = require('../mocks/item');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('2 - Teste a função fecthItem', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  it('fetchItem its a function', () => {
+    expect(typeof fetchItem).toBe('function');
+  });
+  it('function fetchItem heve been called', async () => {
+    await fetchItem('MLB1615760527');
+    expect(fetch).toHaveBeenCalled();
+  });
+
+  it('Called fetchItem, use expect endpoint', () => {
+    const endpoint = 'https://api.mercadolibre.com/items/MLB1615760527'
+    fetchItem('MLB1615760527');
+    expect(fetch).toHaveBeenCalledWith(endpoint);
+  });
+  it('function return to equal expect', async () => {
+    const result = await fetchItem('MLB1615760527')
+    expect(result).toEqual(item);
+  });
+  // it('return expect Error', () => {
+  //   const result = fetchItem();
+  //   expect(result).toThrowError('You must provide an url');
+  // })
 });
