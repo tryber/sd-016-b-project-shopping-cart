@@ -1,8 +1,16 @@
 const cartItems = document.querySelector('.cart__items');
 const clearCart = document.querySelector('.empty-cart');
-const loader = document.querySelector('.loading');
+
+function createLoader() {
+  const loaderP = document.createElement('p');
+  const loaderHolder = document.querySelector('.container');
+  loaderHolder.appendChild(loaderP);
+  loaderP.className = 'loading';
+  loaderP.innerText = 'carregando...';
+}
 
 function loaderOff() {
+  const loader = document.querySelector('.loading');
   loader.innerText = '';
 }
 
@@ -70,6 +78,7 @@ function createProductItemElement({ sku, name, image }) {
 // requisito 1 - funcao faz fetch da list de produtos a partir de um parametro query e leva ela formatada para o corpo do site
 
 async function searchProducts(query) {
+createLoader();
  const fetchedProducts = await fetchProducts(query);
  const productSection = document.querySelector('.items');
  fetchedProducts.results.forEach((product) => {
