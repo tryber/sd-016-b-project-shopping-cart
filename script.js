@@ -38,9 +38,8 @@ function addCartSubtotal(cartSubtotal) {
 }
 
 function calculateCartSubtotal() {
-  const cartList = getCartList();
-  const cartItems = [...cartList.children];
-  const subtotal = cartItems.reduce((acc, item) => {
+  const cartItems = document.querySelectorAll('.cart__item');
+  const subtotal = [...cartItems].reduce((acc, item) => {
     const itemPrice = item.innerText.split('$')[1];
     /*
     Consultei o site abaixo para checar sintaxe do parseFloat.
@@ -92,7 +91,6 @@ async function appendItemToCart(event) {
     name: item.title,
     salePrice: item.price,
   };
-
   cartList.appendChild(createCartItemElement(itemObject));
   calculateCartSubtotal();
   saveCartItems(getCartList().innerHTML);
