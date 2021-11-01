@@ -22,6 +22,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  event.target.remove();
 }
 
 // clear cart button
@@ -87,4 +88,13 @@ const addToCart = async (product) => {
   };
 };
 
+// requisito 4 - saves to local storage
+
+function saveCartItems() {
+
+}
+
+function getSavedCartItems() {
+
+}
 window.onload = () => { searchProducts('computador'); cartBtnEventListener(); };
