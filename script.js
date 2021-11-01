@@ -1,3 +1,5 @@
+const getCartList = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -11,7 +13,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  event.target.remove();
+  getCartList.removeChild(event.target);
+  saveCartItems(getCartList.innerHTML);
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -29,13 +32,19 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function LoadCartItems() {
+  const load = getSavedCartItems();
+  getCartList.innerHTML = load;
+  getCartList.addEventListener('click', cartItemClickListener);
+}
+
 // inspirado por Jonhathan Passos.
 async function addToCart(event) {
   const getID = getSkuFromProductItem(event.target.parentNode);
   const prod = await fetchItem(getID);
   const sendToCart = createCartItemElement(prod);
-  const ol = document.querySelector('.cart__items');
-  ol.appendChild(sendToCart);
+  getCartList.appendChild(sendToCart);
+  saveCartItems(getCartList.innerHTML);
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -57,8 +66,8 @@ function loadOn() {
   const productItem = document.querySelector('.items');
   const load = document.createElement('h2');
   load.className = 'loading';
-  productItem.appendChild(load);
   load.innerText = 'carregando...';
+  productItem.appendChild(load);
 }
 
 function loadOff() {
@@ -83,12 +92,12 @@ async function searchProduct(product) {
 }
 
 function clearCart() {
-  const getList = document.querySelector('.cart__items');
   const getButt = document.querySelector('.empty-cart');
   getButt.addEventListener('click', () => {
     // retirado de: https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
-    while (getList.firstChild) {
-      getList.firstChild.remove();
+    while (getCartList.firstChild) {
+      getCartList.firstChild.remove();
+      saveCartItems(getCartList.innerHTML);
     }
   });
 }
@@ -96,4 +105,5 @@ function clearCart() {
 window.onload = () => { 
   searchProduct('computador');
   clearCart();
+  LoadCartItems();
 };
