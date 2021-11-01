@@ -1,5 +1,10 @@
 const cartItems = document.querySelector('.cart__items');
 const clearCart = document.querySelector('.empty-cart');
+const loader = document.querySelector('.loading');
+
+function loaderOff() {
+  loader.innerHTML = '';
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -59,9 +64,10 @@ function createProductItemElement({ sku, name, image }) {
   const cartBtn = section
   .appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   cartBtn.addEventListener('click', addProductCart);
-
+  loaderOff();
   return section;
 }
+
 // requisito 1 - funcao faz fetch da list de produtos a partir de um parametro query e leva ela formatada para o corpo do site
 
 async function searchProducts(query) {
@@ -77,17 +83,5 @@ async function searchProducts(query) {
    productSection.appendChild(productItem);
  });
 }
-
-// requisito 2 -  add to cart:
-
-const addToCart = async (product) => {
-  const productToAdd = await fetchItem(product);
-  const productInfo = {
-    sku: productToAdd.id,
-
-  };
-};
-
-// requisito 4 - saves to local storage
 
 window.onload = () => { searchProducts('computador'); cartBtnEventListener(); };
