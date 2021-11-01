@@ -26,8 +26,18 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const listener = JSON.parse(localStorage.getItem('cartItems'));
+  const listenerArr = [];
+  let bool = false;
+  for (let i = 0; i < listener.length; i += 1) {
+    if (listener[i].includes(event.target.innerText.slice(0, 19)) && bool === false) { 
+      bool = true;
+    } else {
+      listenerArr.push(listener[i]);
+    }  
+  }
+  localStorage.cartItems = JSON.stringify(listenerArr);
   event.target.remove();
-  saveCartItems();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -36,6 +46,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+  saveCartItems(li);
 }
 
 async function productOnCart(event) {
