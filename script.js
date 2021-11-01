@@ -22,7 +22,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-
+  event.target.remove();
 }
 
 // clear cart button
