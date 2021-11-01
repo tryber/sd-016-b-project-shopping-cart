@@ -94,11 +94,14 @@ function cartItemClickListener(event) {
   const itemTarget = event.target;
   const targetString = itemTarget.innerText;
   
-
-  console.log(targetString);
-  // itemTarget.remove();
+  const getItems = localStorage.getItem('cartItems').split('%');
+  const newSave = getItems.filter((item) => item !== targetString).join('%');
+  itemTarget.remove();
   calculatePrice();
-  // localStorage.removeItem(targetString);
+  localStorage.setItem('cartItems', newSave);
+  if (localStorage.cartItems.length === 0) {
+    return localStorage.removeItem('cartItems');
+  }
 }
 
 function createCartItemElement({ sku, name, salePrice }) {

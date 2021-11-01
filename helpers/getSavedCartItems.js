@@ -1,6 +1,7 @@
 const getSavedCartItems = (event) => {
-  const localItems = localStorage.getItem('cartItems').split('%');
-  if (!localItems) return;
+  const localSave = localStorage.getItem('cartItems');
+  if (!localSave) return;
+  const localItems = localSave.split('%');
   const olCartItems = document.querySelector('.cart__items');
 
   localItems.forEach((item) => {
