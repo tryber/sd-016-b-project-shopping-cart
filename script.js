@@ -42,19 +42,34 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function researchProduct() {
-  const searchData = await fetchProducts('computador');
-  const sectionItem = document.querySelector('.items');
-  searchData.results.forEach((item) => {
-    const obj = {
-      sku: item.id,
-      name: item.title,
-      image: item.thumbnail,
+const searchID = async () => {
+  const idProducts = await fetchItem('MLB1341706310');
+  const cart = document.querySelector('.cart__items');
+  const idObject = {
+    sku: idProducts.id,
+    name: idProducts.title,
+    salePrice: idProducts.price,
+  };
+  const createFunc = createCartItemElement(idObject);
+  cart.appendChild(createFunc);
+  return idProducts;
+};
+
+const search = async () => {
+  const products = await fetchProducts('computador');
+  const sectionP = document.querySelector('.items');
+  products.results.forEach((p) => {
+    const dataProducts = {
+      sku: p.id,
+      name: p.title,
+      image: p.thumbnail,
     };
-    const productItem = createProductItemElement(obj);
-    sectionItem.appendChild(productItem);
+    const produtoFnal = createProductItemElement(dataProducts);
+    sectionP.appendChild(produtoFnal);
   });
-}
+};
+
 window.onload = () => {
-  researchProduct();
+  search();
+  searchID();
 };

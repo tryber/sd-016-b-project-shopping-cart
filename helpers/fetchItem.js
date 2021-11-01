@@ -1,6 +1,7 @@
 const fetchItem = (ItemID) => {
   // seu código aqui
-  fetch(`https://api.mercadolibre.com/items/${ItemID}`)
+  const endPoint = `https://api.mercadolibre.com/items/${ItemID}`;
+  return fetch(endPoint)
     .then((response) => response.json())
     .then((data) => data)
     .catch((error) => error);
