@@ -3,7 +3,7 @@ const clearCart = document.querySelector('.empty-cart');
 const loader = document.querySelector('.loading');
 
 function loaderOff() {
-  loader.innerHTML = '';
+  loader.innerText = '';
 }
 
 function createProductImageElement(imageSource) {
