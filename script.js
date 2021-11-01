@@ -124,6 +124,11 @@ function removeLoadingMessage() {
   sectionLoadingParent.removeChild(sectionLoading);
 }
 
+/*
+Consultei o vídeo do Bernardo Salgueiro, disponibilizado no canal da Turma B, para desenvolver parte da função getProducts.
+ref: https://files.slack.com/files-tmb/TMDDFEPFU-F02KATKTLBS-a04e16cc19/primeiro_requisito_-_shopping_cart.mp4
+*/
+
 async function getProducts(productName) {
   const products = await fetchProducts(productName);
   removeLoadingMessage();
