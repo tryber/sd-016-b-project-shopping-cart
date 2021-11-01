@@ -75,13 +75,13 @@ function createProductItemElement({ sku, name, image }) {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   section.appendChild(button);
   button.addEventListener('click', addItemToCart);
-
+  
   return section;
 }
 
 async function searchProducts(product) {
   const sectionItems = document.querySelector('.items');
-  removeLoading();
+  createLoading();
   const searchData = await fetchProducts(product);
   searchData.results.forEach((item) => {
     const itemObject = {
@@ -89,7 +89,7 @@ async function searchProducts(product) {
       name: item.title,
       image: item.thumbnail,
     };
-
+    
     const productItem = createProductItemElement(itemObject);
     sectionItems.appendChild(productItem);
   });

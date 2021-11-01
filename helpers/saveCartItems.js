@@ -1,4 +1,6 @@
 const saveCartItems = (item) => {
+  // seu código aqui
+  console.log(item);
   if (Object.keys(localStorage).length === 0) {
     localStorage.setItem('cartItems', '[]');
   }

@@ -15,7 +15,7 @@ function cartItemClickListener(event) {
 }
 
 const getSavedCartItems = () => {
-  // seu código aqui
+  // seu código aqui 
   if (localStorage.length !== 0) {
     const ol = document.querySelector('.cart__items');
     const huehue = JSON.parse(localStorage.cartItems);
