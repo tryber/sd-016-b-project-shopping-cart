@@ -1,5 +1,2 @@
-const saveCartItems = (param) => localStorage.setItem('carItems', param);
-
-if (typeof module !== 'undefined') {
-  module.exports = saveCartItems;
-}
+const saveCartItems = ($data) => localStorage.setItem('cartItems', $data);
+if (typeof module !== 'undefined') module.exports = saveCartItems;
