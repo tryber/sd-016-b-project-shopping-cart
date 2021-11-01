@@ -35,16 +35,16 @@ function getSkuFromProductItem(item) {
 
 // Requisito 5: total price
 let soma = 0;
-totalPrice.innerText = `Valor total: ${soma}`;
+totalPrice.innerText = soma;
 
 function somaValores(item) {
   soma += item;
-  totalPrice.innerText = `Valor total: ${soma}`;
+  totalPrice.innerText = soma;
 }
 
 function subtraiValores(item) {
   soma -= item;
-  totalPrice.innerText = `Valor total: ${soma}`;
+  totalPrice.innerText = soma;
 }
 // fim Requisito 5
 
