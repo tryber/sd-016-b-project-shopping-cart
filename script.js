@@ -19,11 +19,20 @@ function createCustomElement(element, className, innerText) {
 }
 
 function getSkuFromProductItem(item) {
+  saveCartItems(shopCartItems.innerHTML);
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Ref.: https://www.horadecodar.com.br/2020/07/21/como-salvar-um-objeto-na-localstorage/
+const saveItemLocalStorage = () => {
+  const itemStringfy = JSON.stringify(shopCartItems.innerHTML);
+  saveCartItems(itemStringfy);
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+
+  saveItemLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -46,7 +55,18 @@ const addProduct = async (item) => {
 
   const itemSelect = createCartItemElement(addItem);
   shopCartItems.appendChild(itemSelect);
-  saveCartItems(item);
+
+  saveItemLocalStorage();
+};
+
+// Ref.: https://www.horadecodar.com.br/2020/07/21/como-salvar-um-objeto-na-localstorage/
+const getLocalStorage = () => {
+  shopCartItems.innerHTML = JSON.parse(getSavedCartItems());
+
+  const liItems = document.querySelectorAll('.cart__item');
+  liItems.forEach((el) => {
+    el.addEventListener('click', cartItemClickListener);
+  });
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -112,4 +132,5 @@ const createSpanValue = (param) => {
 window.onload = () => {
   searchProducts('computador');
   createSpanValue();
+  getLocalStorage();
 };
