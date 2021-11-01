@@ -6,7 +6,18 @@ Object.defineProperty(window, 'localStorage', {
   },
 });
 
-describe('4 - Teste a função saveCartItems', () => {
-  // implemente seus testes aqui
-  fail('Teste vazio');
+  describe('3 - Teste a função saveCartItems', () => {
+    it('Deve chamar o método localStorage.setItem', () => {
+      const cartItems = '<ol><li>Item</li></ol>';
+  
+      saveCartItems(cartItems);
+      expect(localStorage.setItem).toHaveBeenCalled();
+    });
+  
+    it('Deve chamar o método localStorage.setItem com o argumento correto', () => {
+      const cartItems = '<ol><li>Item</li></ol>';
+  
+      saveCartItems(cartItems);
+      expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', cartItems);
+    });
 });
