@@ -1,6 +1,18 @@
 const ol = document.querySelector('.cart__items');
 const buttonClearCart = document.querySelector('.empty-cart');
-// const allCartItems = document.querySelectorAll('cart__item');
+const allCartItens = document.querySelector('.cart__items');
+
+// Apoio Gabriel Pinheiro e André Mello, para criar a função. 
+// A função é chamada sempre que há atualização no carrinho.
+const totalCartPrice = () => {
+  const totalPrice = document.querySelector('.total-price');
+  let counter = 0;
+  for (let index = 0; index < allCartItens.children.length; index += 1) {
+    const childrenList = allCartItens.children[index];
+    counter += Number(childrenList.innerHTML.split('$').pop());
+  }
+  totalPrice.innerHTML = counter;
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -28,13 +40,14 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(ol.innerHTML);
+  totalCartPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -59,8 +72,8 @@ async function searchProducts(product) {
   });
 }
 
-// const id criada durante mentoria do Tales Coelho.
-// Resolução de um problema com o results do fetchItem (não precisava do results), com auxilio do Gabriel Pinheiro e Ellen Santos durante a mentoria.
+// Apoio Tales Coelho, para criar const id.
+// Apoio Gabriel Pinheiro e Ellen Santos para ajustar erro no código.
 async function getItemId(item) {
   const id = item.target.parentNode.firstChild.innerText;
   const dataItem = await fetchItem(id);
@@ -72,6 +85,7 @@ async function getItemId(item) {
   const cartItem = createCartItemElement(objItem);
   ol.appendChild(cartItem);
   saveCartItems(ol.innerHTML);
+  totalCartPrice();
 }
 
 // Capturar botões e add escutador em cada um.
@@ -84,7 +98,7 @@ function clickButton() {
   });
 }
 
-// Chama a função getSavedCartItems e add a ol. Add escutador a nova lista criada em que chama cartItemClickListener (função que exclui item ao ser clicado). Código desenvolvido com auxilio do colega Tonis Torres.
+// Chama a função getSavedCartItems e add a ol. Add escutador a nova lista criada em que chama cartItemClickListener (função que exclui item ao ser clicado). Apoio Tonis Torres.
 function recoverLocalStorage() {
   ol.innerHTML = getSavedCartItems();
   ol.addEventListener('click', cartItemClickListener);
@@ -93,22 +107,25 @@ function recoverLocalStorage() {
 buttonClearCart.addEventListener('click', () => {
   ol.innerHTML = '';
   saveCartItems(ol.innerHTML);
+  totalCartPrice();
 });
 
+// Apoio André Mello para ajustar erro no código.
 const loading = document.createElement('p');
-const addLoading = () => {  
+const addLoading = () => {
   loading.className = 'loading';
   loading.innerText = 'carregando...';
   document.body.appendChild(loading);
 };
 
-// código desenvolvido a partir do auxilio fornecido pelo Gian Fritsche na mentoria, assim como pelo uso da idéia do código da aula ao vivo disponível na branch sd-016-b-live-lectures.
+// Apoio  Gian Fritsche para ajustar async/await.
 async function allFunc() {
   addLoading();
   await searchProducts('computador')
     .then(() => clickButton())
     .then(() => recoverLocalStorage());
-    document.body.removeChild(loading);
+  document.body.removeChild(loading);
+  totalCartPrice();
 }
 
 window.onload = () => {
