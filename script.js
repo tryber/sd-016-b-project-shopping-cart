@@ -1,3 +1,8 @@
+// const saveCartItems = require("./helpers/saveCartItems");
+
+const cartItems = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -36,13 +41,34 @@ function cartItemClickListener(event) {
   saveCartItems();
 }
 
+// Requisito 5: total price
+let soma = 0;
+totalPrice.innerText = `Valor total: ${soma}`;
+
+function somaValores(item) {
+  soma += item;
+  totalPrice.innerText = soma;
+}
+
+function subtraiValores(item) {
+  soma -= item;
+  totalPrice.innerText = soma;
+}
+// fim Requisito 5
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  somaValores(salePrice);
   return li;
 }
+
+// function removeItemFromList() {
+//   const savedCartItems = document.querySelector('.cart__item');
+//   savedCartItems.addEventListener('click', cartItemClickListener);
+// }
 
 // Requisito 1
 async function searchProducts(product) {
@@ -65,7 +91,6 @@ async function searchProducts(product) {
 
 async function addItem(id) {
   const newFoundItem = await fetchItem(id);
-  const cartItem = document.querySelector('.cart__items');
   const product = {
     sku: newFoundItem.id,
     name: newFoundItem.title,
@@ -73,7 +98,7 @@ async function addItem(id) {
   };
 
   const productItem = createCartItemElement(product);
-  cartItem.appendChild(productItem);
+  cartItems.appendChild(productItem);
   saveCartItems();
 }
 
@@ -90,9 +115,17 @@ function getId() {
   });
 }
 
+// Requisito 6: botão esvaziar carrinho
+const buttonEsvaziar = document.querySelector('.empty-cart');
+buttonEsvaziar.addEventListener('click', () => {
+  cartItems.innerText = '';
+  totalPrice.innerText = '';
+  saveCartItems();
+});
+
 window.onload = () => {
   searchProducts('computador');
   getId();
-  // saveCartItems();
   getSavedCartItems();
+  // removeItemFromList();
 };

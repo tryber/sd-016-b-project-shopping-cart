@@ -2,7 +2,8 @@ const saveCartItems = () => {
   // seu código aqui
   const cartItems = document.querySelector('.cart__items');
   console.log(cartItems);
-  localStorage.setItem('cartItems', cartItems.innerHTML);
+  const savedItems = cartItems.innerHTML;
+  localStorage.setItem('cartItems', savedItems);
 };
 
 if (typeof module !== 'undefined') {
