@@ -33,28 +33,31 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// Requisito 3
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-  // Noções do remove() tiradas de https://developer.mozilla.org/en-US/docs/Web/API/Element/remove
-  event.target.remove();
-  saveCartItems();
-}
-
 // Requisito 5: total price
 let soma = 0;
 totalPrice.innerText = `Valor total: ${soma}`;
 
 function somaValores(item) {
   soma += item;
-  totalPrice.innerText = soma;
+  totalPrice.innerText = `Valor total: ${soma}`;
 }
 
 function subtraiValores(item) {
   soma -= item;
-  totalPrice.innerText = soma;
+  totalPrice.innerText = `Valor total: ${soma}`;
 }
 // fim Requisito 5
+
+// Requisito 3
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  // Noções do remove() tiradas de https://developer.mozilla.org/en-US/docs/Web/API/Element/remove
+  // event.target.remove();
+  cartItems.removeChild(event.target);
+  const itemPrice = parseFloat(event.target.innerText.split('PRICE: $')[1]);
+  subtraiValores(itemPrice);
+  saveCartItems();
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
