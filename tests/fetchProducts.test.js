@@ -10,6 +10,7 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(typeof fetchProducts).toBe('function');
   });
   it('function "fetchProducts" heve been called', async () => {
+    expect.assertions(1);
     await fetchProducts('computador');
     expect(fetch).toHaveBeenCalled();
   });
@@ -19,7 +20,12 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(fetch).toHaveBeenCalledWith(endpoint);
   });
   it('function return to equal expect', async () => {
+    expect.assertions(1);
     const result = await fetchProducts('computador');
     expect(result).toEqual(computadorSearch);
   });
+  it('return expect Error', () => {
+    const result = fetchProducts();
+    expect(result).toThrowError('You must provide an url');
+  })
 });

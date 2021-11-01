@@ -70,13 +70,13 @@ function calculatePrice() {
   const itemsElements = olCartItems.childNodes;
   let sumPrice = 0;
   
-  itemsElements.forEach((tem) => {
-    const targetString = tem.innerText;
+  itemsElements.forEach((item) => {
+    const targetString = item.innerText;
     const targetPrice = targetString.substring(targetString.indexOf('$') + 1);
     sumPrice += parseFloat(targetPrice);
   });
   
-  sectionTotalPrice.innerText = parseFloat(sumPrice);
+  sectionTotalPrice.innerText = `Total: ${parseFloat(sumPrice)}`;
 }
 
 function clearCartItems() {
@@ -93,13 +93,12 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   const itemTarget = event.target;
   const targetString = itemTarget.innerText;
-  const targetID = targetString.substring(5, 18);
   
-  console.log(targetID);
 
-  itemTarget.remove();
+  console.log(targetString);
+  // itemTarget.remove();
   calculatePrice();
-  localStorage.removeItem(targetID);
+  // localStorage.removeItem(targetString);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -126,7 +125,7 @@ async function importCartItem(event) {
   olCartItems.appendChild(CartLi);
   
   calculatePrice();
-  saveCartItems(id, CartLi.innerText);
+  saveCartItems(CartLi.innerText);
 }
   
 function reloadSavedItems() {
