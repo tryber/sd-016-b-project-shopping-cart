@@ -64,7 +64,6 @@ function createProductItemElement({ sku, name, image }) {
   const cartBtn = section
   .appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   cartBtn.addEventListener('click', addProductCart);
-  loaderOff();
   return section;
 }
 
@@ -82,6 +81,7 @@ async function searchProducts(query) {
    const productItem = createProductItemElement(productData);
    productSection.appendChild(productItem);
  });
+ loaderOff();
 }
 
 window.onload = () => { searchProducts('computador'); cartBtnEventListener(); };
