@@ -1,14 +1,15 @@
+describe('3 - Teste a função saveCartItems', () => {
+  it('Deve chamar o método localStorage.setItem', () => {
+    const cartItems = '<ol><li>Item</li></ol>';
 
-describe('4 - Teste a função getSavedCartItems', () => {
-
-  it('When saveCartItems is executed, the localStorage is called', () => {
-    saveCartItems('<ol><li>Item</li></ol>');
-    expect(localStorage.setItem).toBeCalled();
+    saveCartItems(cartItems);
+    expect(localStorage.setItem).toHaveBeenCalled();
   });
-  it('Testing arguments', () => {
-    expect(localStorage.setItem).toHaveBeenCalledWith(
-      'cartItems',
-      '<ol><li>Item</li></ol>'
-    );
+
+  it('Deve chamar o método localStorage.setItem com o argumento correto', () => {
+    const cartItems = '<ol><li>Item</li></ol>';
+
+    saveCartItems(cartItems);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', cartItems);
   });
 });
