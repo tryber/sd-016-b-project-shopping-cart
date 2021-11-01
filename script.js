@@ -127,8 +127,18 @@ buttonEsvaziar.addEventListener('click', () => {
 });
 
 window.onload = () => {
-  searchProducts('computador');
   getId();
   getSavedCartItems();
-  // removeItemFromList();
+  
+  // Requisito 7
+  const loadingWhileFetch = async () => {
+    const loadingContainer = document.createElement('div');
+    loadingContainer.className = 'loading';
+    loadingContainer.innerText = 'Carregando...';
+    const itemsField = document.querySelector('.items');
+    itemsField.appendChild(loadingContainer);
+    await searchProducts('computador');
+    itemsField.removeChild(loadingContainer);
+  };
+  loadingWhileFetch();
 };
