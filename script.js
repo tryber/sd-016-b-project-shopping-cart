@@ -42,8 +42,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function researchProduct(product) {
-  const searchData = await fetchProducts(product);
+async function researchProduct() {
+  const searchData = await fetchProducts('computador');
   const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
     const obj = {
@@ -56,5 +56,5 @@ async function researchProduct(product) {
   });
 }
 window.onload = () => {
-  researchProduct('computador');
+  researchProduct();
 };
