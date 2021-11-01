@@ -76,7 +76,7 @@ function calculatePrice() {
     sumPrice += parseFloat(targetPrice);
   });
   
-  sectionTotalPrice.innerText = `Total: ${parseFloat(sumPrice)}`;
+  sectionTotalPrice.innerText = parseFloat(sumPrice);
 }
 
 function clearCartItems() {
@@ -90,7 +90,6 @@ function clearCartItems() {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   const itemTarget = event.target;
   const targetString = itemTarget.innerText;
   
