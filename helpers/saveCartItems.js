@@ -2,9 +2,9 @@ const saveCartItems = (item) => {
   if (Object.keys(localStorage).length === 0) {
     localStorage.setItem('cartItems', '[]');
   }
-  const savingItems = JSON.parse(localStorage.getItem('cartItems'));
-  savingItems.push(item.innerText);
-  localStorage.cartItems = JSON.stringify(savingItems);
+  const lala = JSON.parse(localStorage.getItem('cartItems'));
+  lala.push(item.innerText);
+  localStorage.cartItems = JSON.stringify(lala);
 };
 
 if (typeof module !== 'undefined') {
