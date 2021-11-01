@@ -1,4 +1,9 @@
-/* const { fetchProducts } = require('./helpers/fetchProducts'); */
+const OL = document.querySelector('.cart__items');
+const items = document.querySelector('.items');
+const price = document.querySelector('.total-price');
+const buttonEmpty = document.querySelector('.empty-cart');
+
+let value = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -31,6 +36,10 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  OL.removeChild(event.target);
+  value -= event.target.innerText.split('$')[1];
+  price.innerHTML = value;
+  saveCartItems(OL.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -72,10 +81,11 @@ const search = async () => {
   });
 };
 
-const emptyBtn = document.querySelector('.empty-cart');
-emptyBtn.addEventListener('click', () => {
-  const liItem = document.querySelector('.cart__item');
-  liItem.remove();
+buttonEmpty.addEventListener('click', () => {
+  OL.innerHTML = '';
+  value = 0;
+  price.innerHTML = `R$ ${value}`;
+  saveCartItems(OL.innerHTML);
 });
 
 /* const localStorageSave = () => {

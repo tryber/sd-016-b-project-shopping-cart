@@ -6,20 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Shopping Trybe</h1>
+    </header>
+    <main>
+      <form>
+        <input type="text">
+        <button>Pesquisar</button>
+      </form>
+      <section class="container">
+        <section class="items"></section>
+        <section class="cart">
+          <span class="cart__title">Carrinho de compras</span>
+          <button class="empty-cart">Esvaziar carrinho</button>
+          <ol class="cart__items"></ol>
+          <section id="valorFinal">
+            <p class="total-price"></p>
+          </section>
+        </section>
+      </section>
+    </main>
     <script src="./helpers/fetchItem.js" defer></script>
     <script src="./helpers/fetchProducts.js" defer></script>
     <script src="script.js" defer></script>
     <script src="./helpers/saveCartItems.js" defer></script>
     <script src="./helpers/getSavedCartItems.js" defer></script>
-  </head>
-  <body>
-    <section class="container">
-      <section class="items"></section>
-      <section class="cart">
-        <span class="cart__title">Carrinho de compras</span>
-        <button class="empty-cart">Esvaziar carrinho</button>
-        <ol class="cart__items"></ol>
-      </section>
-    </section>
   </body>
 </html>
