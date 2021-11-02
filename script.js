@@ -1,4 +1,4 @@
-const { fetchProducts } = require('./helpers/fetchProducts');
+const fetchProducts = require('./helpers/fetchProducts');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -47,7 +47,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function findInfoProduct(product) {
   const classItem = document.querySelector('.items');
   const data = await fetchProducts(product);
-  data.forEach((result) => {
+  data.results.forEach((result) => {
     const item = {
       sku: result.id,
       name: result.title,
