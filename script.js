@@ -40,7 +40,7 @@ function createCartItemElement(sku, name, salePrice) {
   object = { SKU: sku, NAME: name, PRICE: salePrice };
   
   // li.innerHTML = `${name} <br> PRICE: $ ${salePrice}`;
-  li.innerHTML = `SKU: ${sku} | NOME: ${name} | PREÇO: $ ${salePrice}`;
+  li.innerHTML = `SKU: ${sku} | NOME: ${name} | PREÇO: $${salePrice}`;
   ol.appendChild(li);
   saveCartItems(ol.innerHTML);
   li.addEventListener('click', cartItemClickListener);
