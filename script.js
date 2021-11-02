@@ -1,3 +1,5 @@
+const { fetchProducts } = require("./helpers/fetchProducts");
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -38,6 +40,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+// chamando a função que cria os componentes html comas informações do produto
+
+async function findInfoProduct (product) {
+  const data = await fetchProducts(product);
+  data.forEach((result) => {
+    const item = {
+      sku: result.id,
+      name: result.title,
+      image: result.thumbnail,
+    };
+
+    const newItem = createProductItemElement(item);
+  });
+
+  const classItem = document.querySelector('.items');
+  classItem.appendChild(newItem);
+
 }
 
 window.onload = () => { };

@@ -1,8 +1,8 @@
 const fetchProducts = (product) => {
-  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  fetch(url)
-  .then((list) => list.json())
-  .catch((error) => error);
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${product}`)
+    .then((list) => list.json())
+    .then((data) => data)
+    .catch((error) => error);
 };
 
 if (typeof module !== 'undefined') {
