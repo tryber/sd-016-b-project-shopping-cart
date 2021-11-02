@@ -26,7 +26,8 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  const price = ol.lastChild.lastChild.textContent.split(' ')[3];
+  const price = ol.lastChild.lastChild.textContent.split('$')[1];
+  console.log(price);
   totalPrice -= price;
   event.target.remove();
   localStorage.clear();
