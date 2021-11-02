@@ -27,9 +27,9 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 function cartItemClickListener(event) {
   const li = event.target;
@@ -49,10 +49,19 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function getItemForId(id) {
   const data = await fetchItem(id);
   const { id: sku, title: name, price: salePrice } = data;
-  // console.log(sku, name, salePrice);
   const result = createCartItemElement({ sku, name, salePrice });
-  // console.log(result); //result é uma li com id, nome e preço.
   return result;
+}
+
+function addItem() {
+  const buttons = classItens.querySelectorAll('.item__add');
+  buttons.forEach((element) => {
+    element.addEventListener('click', async () => {
+    const idProduct = element.parentNode.querySelector('.item__sku').textContent;
+    const product = await getItemForId(idProduct);
+    olCartItems.appendChild(product);
+    });
+  });
 }
 
 // requisito 1 feito com a ajuda do Instrutor Bernado Salgueiro
@@ -68,17 +77,9 @@ async function getItem(item) {
     const search = createProductItemElement(result);
     classItens.appendChild(search);
   });
-  const buttons = classItens.querySelectorAll('.item__add');
-  buttons.forEach((element) => {
-    element.addEventListener('click', async () => {
-    const idProduct = element.parentNode.querySelector('.item__sku').textContent
-    const product = await getItemForId(idProduct);
-    olCartItems.appendChild(product);
-    });
-  });
+  addItem();
 }
 
 window.onload = () => {
- console.log(getItem('computador'));
- console.log(getItemForId('MLB1341706310'));
+getItem('computador');
 };
