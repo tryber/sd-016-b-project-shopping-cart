@@ -1,5 +1,6 @@
 const olCartItems = document.querySelector('.cart__items');
 const classItens = document.querySelector('.items');
+const clearBtn = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -79,6 +80,11 @@ async function getItem(item) {
   });
   addItem();
 }
+
+// requisito 6
+clearBtn.addEventListener('click', () => {
+  olCartItems.innerHTML = '';
+});
 
 window.onload = () => {
 getItem('computador');
