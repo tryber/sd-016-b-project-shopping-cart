@@ -112,7 +112,7 @@ async function showData() {
     // li.innerHTML = listaObj[index + 1];
     // // li.innerHTML = listaObj;
     // li.addEventListener('click', cartItemClickListener);
-  }
+  // }
     // saveCartItems(ol.innerHTML);
    };
   //  module.exports = { addElementCart };
