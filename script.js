@@ -57,6 +57,23 @@ async function findInfoProduct(product) {
   });  
 }
 
+// criando os elementos referente ao carrinho
+
+async function CartProduct(product) {
+  const classItemCart = document.querySelector('.cart__items');
+  const data = await fetchItem(product);
+  
+  data.results.forEach((result) => {
+    const itemCartObj = {
+      sku: result.id,
+      name: result.title,
+      saleprice: result.price,
+    };
+    const newItemCart = createCartItemElement(itemCartObj);
+    classItemCart.appendChild(newItemCart);
+  });  
+}
+
 window.onload = () => { 
 findInfoProduct();
 };
