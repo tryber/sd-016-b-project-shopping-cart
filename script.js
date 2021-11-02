@@ -28,12 +28,11 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   const price = ol.lastChild.lastChild.textContent.split(' ')[3];
   totalPrice -= price;
-  console.log(totalPrice.toFixed(2));
   event.target.remove();
   localStorage.clear();
-  subTotal.innerText = totalPrice.toFixed(2);
-  localStorage.setItem('subTotal', totalPrice.toFixed(2));
-  saveCartItems(ol.innerHTML);
+  subTotal.innerHTML = totalPrice;
+  localStorage.setItem('subTotal', totalPrice);
+  // saveCartItems(ol.innerHTML);
 }
 function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
@@ -42,7 +41,7 @@ function createCartItemElement(sku, name, salePrice) {
   li.innerHTML = `${name} <br> PRICE: $ ${salePrice}`;
   // li.innerHTML = name + '<br> PRICE: $' + salePrice;
   ol.appendChild(li);
-  saveCartItems(li.innerHTML);
+  saveCartItems(ol.innerHTML);
   li.addEventListener('click', cartItemClickListener);
 
   return li;
@@ -53,15 +52,14 @@ function addElementCart(result) {
   const titles = result.title;
   const ids = result.id;
   totalPrice += result.price;
-  localStorage.setItem('subTotal', totalPrice.toFixed(2));
-  console.log(totalPrice.toFixed(2));
+  localStorage.setItem('subTotal', totalPrice);
   createCartItemElement(ids, titles, salePrice);
-  subTotal.innerText = totalPrice.toFixed(2);
+  subTotal.innerHTML = totalPrice;
 }
 
 async function getID(event) {
   const ids = event.target.parentNode.firstChild.innerHTML;
-
+  // localStorage.setItem('cartItems', totalPrice);
   addElementCart(await fetchItem(ids));
 
   return ids; 
@@ -94,22 +92,27 @@ async function showData() {
     ol.innerHTML = '';
     localStorage.clear();
     totalPrice = 0;
-    subTotal.innerText = totalPrice.toFixed(2);
-  console.log(totalPrice.toFixed(2));
+    subTotal.innerHTML = totalPrice;  
   }
   emptyBotton.addEventListener('click', emptyCart);
- 
+
   window.onload = () => {
     showData();
-    // console.log(localStorage.cartItems);
-    // for (let index = 0; index < localStorage.cont; index += 1) {
-    // const li = document.createElement('li');
-    // li.className = 'cart__item';
-    // li.innerText = getSavedCartItems('cartItems');
-    // ol.appendChild(li);
+    totalPrice = localStorage.getItem('subTotal');
+    totalPrice = parseInt(totalPrice, 10);
+    console.log(typeof totalPrice);
+    subTotal.innerHTML = totalPrice;
+    const lista = getSavedCartItems('cartItems');
+    const listaObj = lista.split('<li class="cart__item">');
+    for (let index = 0; index < listaObj.length - 1; index += 1) {
+      console.log(listaObj);
+    const li = document.createElement('li'); 
+    li.className = 'cart__item';
+    ol.appendChild(li);
+    li.innerHTML = listaObj[index + 1];
+    // li.innerHTML = listaObj;
+    li.addEventListener('click', cartItemClickListener);
+  }
     // saveCartItems(ol.innerHTML);
-    // li.addEventListener('click', cartItemClickListener);
-  // }
-    // return li;
    };
   //  module.exports = { addElementCart };
