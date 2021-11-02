@@ -14,6 +14,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// criando os elementos referente ao carrinho
+
+async function addCartProduct(event) {
+  const findId = getSkuFromProductItem(event.target.parentNode);
+  const data = await fetchItem(findId);
+  const addCartItens = createCartItemElement(data);
+  cartList.appendChild(addCartItens);
+  saveCartItems(cartList.innerHTML);
+}
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
 
@@ -47,7 +57,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 // chamando a função que cria os componentes html com as informações do produto
 
-async function findInfoProduct(product) {
+async function findInfoProduct() {
   const classItem = document.querySelector('.items');
   const data = await fetchProducts('computador');
   
@@ -60,16 +70,6 @@ async function findInfoProduct(product) {
     const newItem = createProductItemElement(itemObj);
     classItem.appendChild(newItem);
   });  
-}
-
-// criando os elementos referente ao carrinho
-
-async function addCartProduct(event) {
-  const findId = getSkuFromProductItem(event.target.parentNode);
-  const data = await fetchItem(findId);
-  const addCartItens = createCartItemElement(data);
-  cartList.appendChild(addCartItens);
-  saveCartItems(cartList.innerHTML);
 }
 
 // função que manipula produtos do carrinho
