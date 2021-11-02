@@ -101,10 +101,12 @@ async function showData() {
     showData();
     totalPrice = localStorage.getItem('subTotal');
     totalPrice = parseInt(totalPrice, 10);
-    console.log(typeof totalPrice);
     subTotal.innerHTML = totalPrice;
     const lista = getSavedCartItems('cartItems');
-    const listaObj = lista.split('<li class="cart__item">');
+    if (lista !== null) {
+      const listaObj = lista.split('<li class="cart__item">');
+      return listaObj;
+    }
     for (let index = 0; index < listaObj.length - 1; index += 1) {
       console.log(listaObj);
     const li = document.createElement('li'); 
