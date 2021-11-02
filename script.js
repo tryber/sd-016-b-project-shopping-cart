@@ -1,3 +1,5 @@
+const cartItemsSection = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,9 +30,27 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function updateLocalStorage() {
+  const cartItemsList = cartItemsSection.innerHTML;
+  saveCartItems(JSON.stringify(cartItemsList));
+}
+
 function cartItemClickListener() {
   // this.remove(); Não suportado por IE.
   this.parentNode.removeChild(this);
+
+  updateLocalStorage();
+}
+
+function initialRendering() {
+  const storage = getSavedCartItems();
+
+  if (storage !== null) {
+    cartItemsSection.innerHTML = JSON.parse(storage);
+    const itemsList = Array.from(cartItemsSection.children);
+
+    itemsList.forEach((item) => item.addEventListener('click', cartItemClickListener));
+  }
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -55,8 +75,6 @@ function removeLoadingMessage() {
 }
 
 async function renderCartItemElement() {
-  const cartItemsSection = document.querySelector('.cart__items');
-
   const itemId = getSkuFromProductItem(this.parentElement);
 
   addLoadingMessage('.cart');
@@ -71,6 +89,8 @@ async function renderCartItemElement() {
 
   const cartItem = createCartItemElement(itemObject);
   cartItemsSection.appendChild(cartItem);
+
+  updateLocalStorage();
 }
 
 function addEventListenerToItems() {
@@ -80,7 +100,9 @@ function addEventListenerToItems() {
   // Usei o método Array.from() tendo como referência o artigo encontrado no link abaixo.
   // Ref. link: https://attacomsian.com/blog/javascript-convert-nodelist-to-array#:~:text=In%20modern%20JavaScript%2C%20the%20simplest,an%20array%20const%20divsArr%20%3D%20Array.
 
-  addItemButtonsList.forEach((button) => button.addEventListener('click', renderCartItemElement));
+  addItemButtonsList.forEach((button) => {
+    button.addEventListener('click', renderCartItemElement);
+  });
 }
 
 // Função desenvolvida com base no vídeo disponibilizado no Slack por Bernardo Salgueiro.
@@ -107,16 +129,18 @@ async function renderItems(product) {
 
 function emptyCart() {
   const emptyCartButton = document.querySelector('.empty-cart');
-  const cartItems = document.querySelector('.cart__items');
 
   emptyCartButton.addEventListener('click', () => {
-    while (cartItems.firstElementChild) {
-      cartItems.removeChild(cartItems.firstElementChild);
+    while (cartItemsSection.firstElementChild) {
+      cartItemsSection.removeChild(cartItemsSection.firstElementChild);
     }
+
+    updateLocalStorage();
   });
 }
 
 window.onload = () => {
-  renderItems('computador'); 
+  renderItems('computador');
+  initialRendering();
   emptyCart();
 };
