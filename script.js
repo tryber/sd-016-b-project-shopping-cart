@@ -31,7 +31,7 @@ function cartItemClickListener(event) {
   totalPrice -= price;
   event.target.remove();
   localStorage.clear();
-  subTotal.innerHTML = totalPrice;
+  subTotal.innerHTML = totalPrice.toFixed(2);
   localStorage.setItem('subTotal', totalPrice);
   // saveCartItems(ol.innerHTML);
 }
@@ -100,14 +100,15 @@ async function showData() {
 
   window.onload = () => {
     showData();
-    totalPrice = localStorage.getItem('subTotal');
+    totalPrice = getSavedCartItems('subTotal');
     totalPrice = parseInt(totalPrice, 10);
-    subTotal.innerHTML = totalPrice;
+    console.log(totalPrice);
+    if (!getSavedCartItems('subTotal')) { totalPrice = 0; }
+  subTotal.innerHTML = totalPrice;
     const lista = getSavedCartItems('cartItems');
     if (lista !== null) {
       const listaObj = lista.split('<li class="cart__item">');
       for (let index = 0; index < listaObj.length - 1; index += 1) {
-        console.log(listaObj);
       const li = document.createElement('li'); 
       li.className = 'cart__item';
       ol.appendChild(li);
