@@ -1,3 +1,5 @@
+const cartList = document.querySelectorAll('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,13 +16,15 @@ function createCustomElement(element, className, innerText) {
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
-  section.className = 'item';
 
+  const buttons = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(buttons);
 
+  buttons.addEventListener('click', addCartProduct);
   return section;
 }
 
@@ -29,10 +33,11 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  cartList.removeChild(event.target);
+  saveCartItems(cartList.innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -40,7 +45,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// chamando a função que cria os componentes html comas informações do produto
+// chamando a função que cria os componentes html com as informações do produto
 
 async function findInfoProduct(product) {
   const classItem = document.querySelector('.items');
@@ -59,21 +64,22 @@ async function findInfoProduct(product) {
 
 // criando os elementos referente ao carrinho
 
-async function CartProduct(product) {
-  const classItemCart = document.querySelector('.cart__items');
-  const data = await fetchItem(product);
-  
-  data.results.forEach((result) => {
-    const itemCartObj = {
-      sku: result.id,
-      name: result.title,
-      saleprice: result.price,
-    };
-    const newItemCart = createCartItemElement(itemCartObj);
-    classItemCart.appendChild(newItemCart);
-  });  
+async function addCartProduct(event) {
+  const findId = getSkuFromProductItem(event.target.parentNode);
+  const data = await fetchItem(findId);
+  const addCartItens = createCartItemElement(data);
+  cartList.appendChild(addCartItens);
+  saveCartItems(cartList.innerHTML);
 }
 
+// função que manipula produtos do carrinho
+const eventsCartList = () => {
+  cartList.innerHTML = getSavedCartItems();
+  const list = document.querySelectorAll('.cart__item');
+  list.forEach((element) => element.addEventListener('click', cartItemClickListener));
+};
+
 window.onload = () => { 
-findInfoProduct();
+  findInfoProduct();
+  eventsCartList();
 };
