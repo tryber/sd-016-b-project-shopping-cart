@@ -1,4 +1,5 @@
-const olCartItems = document.querySelector('cart__items');
+const olCartItems = document.querySelector('.cart__items');
+const classItens = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -31,7 +32,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const li = event.target;
+  event.target.parentNode.removeChild(li);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,12 +44,21 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// requisito 1
+// requisito 2
+
+async function getItemForId(id) {
+  const data = await fetchItem(id);
+  const { id: sku, title: name, price: salePrice } = data;
+  // console.log(sku, name, salePrice);
+  const result = createCartItemElement({ sku, name, salePrice });
+  // console.log(result); //result é uma li com id, nome e preço.
+  return result;
+}
+
+// requisito 1 feito com a ajuda do Instrutor Bernado Salgueiro
 
 async function getItem(item) {
   const data = await fetchProducts(item);
-  const classItens = document.querySelector('.items');
-
   data.results.forEach((element) => {
    const result = {
       sku: element.id,
@@ -57,16 +68,17 @@ async function getItem(item) {
     const search = createProductItemElement(result);
     classItens.appendChild(search);
   });
-}
-
-// requisito 2
-
-async function getId(id) {
-  const data = await fetchItem(id);
-  console.log(data);
+  const buttons = classItens.querySelectorAll('.item__add');
+  buttons.forEach((element) => {
+    element.addEventListener('click', async () => {
+    const idProduct = element.parentNode.querySelector('.item__sku').textContent
+    const product = await getItemForId(idProduct);
+    olCartItems.appendChild(product);
+    });
+  });
 }
 
 window.onload = () => {
  console.log(getItem('computador'));
- console.log(getId('MLB1341706310'));
+ console.log(getItemForId('MLB1341706310'));
 };
