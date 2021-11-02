@@ -38,8 +38,9 @@ function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   object = { SKU: sku, NAME: name, PRICE: salePrice };
-  li.innerHTML = `${name} <br> PRICE: $ ${salePrice}`;
-  // li.innerHTML = name + '<br> PRICE: $' + salePrice;
+  
+  // li.innerHTML = `${name} <br> PRICE: $ ${salePrice}`;
+  li.innerHTML = `SKU: ${sku} | NOME: ${name} | PREÇO: $ ${salePrice} `;
   ol.appendChild(li);
   saveCartItems(ol.innerHTML);
   li.addEventListener('click', cartItemClickListener);
@@ -98,21 +99,20 @@ async function showData() {
 
   window.onload = () => {
     showData();
-    // totalPrice = localStorage.getItem('subTotal');
-    // totalPrice = parseInt(totalPrice, 10);
-    // console.log(typeof totalPrice);
-    // subTotal.innerHTML = totalPrice;
-    // const lista = getSavedCartItems('cartItems');
-    // const listaObj = lista.split('<li class="cart__item">');
-    // for (let index = 0; index < listaObj.length - 1; index += 1) {
-    //   console.log(listaObj);
-    // const li = document.createElement('li'); 
-    // li.className = 'cart__item';
-    // ol.appendChild(li);
-    // li.innerHTML = listaObj[index + 1];
-    // // li.innerHTML = listaObj;
-    // li.addEventListener('click', cartItemClickListener);
-  // }
+    totalPrice = localStorage.getItem('subTotal');
+    totalPrice = parseInt(totalPrice, 10);
+    console.log(typeof totalPrice);
+    subTotal.innerHTML = totalPrice;
+    const lista = getSavedCartItems('cartItems');
+    const listaObj = lista.split('<li class="cart__item">');
+    for (let index = 0; index < listaObj.length - 1; index += 1) {
+      console.log(listaObj);
+    const li = document.createElement('li'); 
+    li.className = 'cart__item';
+    ol.appendChild(li);
+    li.innerHTML = listaObj[index + 1];
+    li.addEventListener('click', cartItemClickListener);
+  }
     // saveCartItems(ol.innerHTML);
    };
   //  module.exports = { addElementCart };
