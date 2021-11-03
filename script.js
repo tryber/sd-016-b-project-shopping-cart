@@ -1,4 +1,6 @@
-const cartItems = document.querySelector('.cart__items')
+const cartItems = document.querySelector('.cart__items');
+const loading = document.querySelector('.loading');
+const totalPrice = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -35,6 +37,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   saveLocalStorage();
+  subProducts(event);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -42,6 +45,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumProducts(salePrice);
   return li;
 }
 
@@ -80,10 +84,35 @@ const getLocalStorage = () => {
   lis.forEach((li) => li.addEventListener('click', cartItemClickListener));
 };
 
+/* Somando os valores dos produtos */
+const sumProducts = (price) => {
+  let soma = Number(localStorage.getItem('valueProduct'));
+  soma += price;
+  localStorage.setItem('valueProduct', soma);
+  totalPrice.innerText = `Subtotal: ${soma}`;
+};
+
+/* Subtraindo os valores dos produtos */
+const subProducts = (event) => {
+  const textProduct = event.target.innerText;
+  const arrProduct = textProduct.split(' ');
+  const arrLengthPosition = arrProduct[arrProduct.length - 1];
+  const valueProduct = arrLengthPosition.replace('$', '');
+  let soma = Number(localStorage.getItem('valueProduct'));
+  soma -= valueProduct;
+  localStorage.setItem('valueProduct', soma);
+  totalPrice.innerText = `Subtotal: ${soma}`;
+};
+
+const getValueProductLocalStorage = () => {
+  totalPrice.innerHTML = localStorage.getItem('valueProduct');
+};
+
 function emptyButton() {
   const btnEmpty = document.querySelector('.empty-cart');
   btnEmpty.addEventListener('click', () => {
-    cartItems.innerHTML = ' ';
+    cartItems.innerHTML = '';
+    totalPrice.innerText = '';
     localStorage.clear();
   })
 }
@@ -92,4 +121,5 @@ window.onload = () => {
   searchProducts('computador');
   emptyButton();
   getLocalStorage();
+  getValueProductLocalStorage();
 };
