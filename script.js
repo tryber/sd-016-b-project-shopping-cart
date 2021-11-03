@@ -2,6 +2,7 @@ const cartList = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
 const cleanbutton = document.querySelector('.empty-cart');
 let total = 0;
+const load = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -75,6 +76,7 @@ function createProductItemElement({ sku, name, image }) {
 // chamando a função que cria os componentes html com as informações do produto
 
 async function findInfoProduct() {
+  load.innerHTML = 'carregando...';
   const classItem = document.querySelector('.items');
   const data = await fetchProducts('computador');
   
@@ -87,6 +89,7 @@ async function findInfoProduct() {
     const newItem = createProductItemElement(itemObj);
     classItem.appendChild(newItem);
   });  
+  load.remove();
 }
 
 // função para esvaziar o carrinho
