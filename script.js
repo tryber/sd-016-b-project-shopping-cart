@@ -96,10 +96,11 @@ async function findInfoProduct() {
 
 const clean = () => {
   cartList.innerHTML = '';
-  price.innerHTML = 0;
 };
 
 cleanbutton.addEventListener('click', clean);
+
+//somando os preços
 
 window.onload = () => { 
   findInfoProduct();
