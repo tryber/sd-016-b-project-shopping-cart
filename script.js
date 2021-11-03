@@ -1,4 +1,7 @@
 const cartList = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price')
+const cleanbutton = document.querySelector('.empty-cart');
+const total = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -46,6 +49,7 @@ async function addCartProduct(event) {
   const addCartItens = createCartItemElement(data);
   cartList.appendChild(addCartItens);
   saveCartItems(cartList.innerHTML);
+  sumCartItems(data.price);
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -76,6 +80,22 @@ async function findInfoProduct() {
     classItem.appendChild(newItem);
   });  
 }
+
+// função que soma o preço total do carrinho
+
+function sumCartItems (price) {
+  total += price;
+  totalPrice.appendChild(`Valor lotal:${total}`);
+}
+
+// função para esvaziar o carrinho
+
+const clean = () => {
+  cartList.innerHTML = '';
+  price.innerHTML = 0;
+}
+
+cleanbutton.addEventListener('click',clean);
 
 window.onload = () => { 
   findInfoProduct();
