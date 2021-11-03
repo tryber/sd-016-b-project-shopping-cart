@@ -5,7 +5,7 @@ const computadorSearch = require('../mocks/search');
 window.fetch = jest.fn(fetchSimulator);
 
 describe('1 - Teste a função fecthProducts', () => {
-  it('1.1 - Deve ser uma função', () => {
+  it('1.1 - Teste se fetchProducts é uma função', () => {
     expect(typeof fetchProducts).toBe('function');
   });
 
@@ -25,7 +25,7 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(results).toEqual(computadorSearch);
   });
 
-  it("1.5 - Deve retornar um erro", async () => {
+  it("1.5 -Se estiver sem argumento, deve retornar um erro com a mensagem: You must provide an url", async () => {
     const expectedError = new Error('You must provide an url');
     const result = await fetchProducts();
     expect(result).toEqual(expectedError)
