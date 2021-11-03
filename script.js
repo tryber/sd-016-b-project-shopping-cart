@@ -1,3 +1,5 @@
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
 const olCartItems = document.querySelector('.cart__items');
 const classItens = document.querySelector('.items');
 const clearBtn = document.querySelector('.empty-cart');
@@ -11,11 +13,6 @@ function clearList() {
   });
   }
   clearList();
-
-const getLocalStorage = () => {
-    const listLocal = JSON.parse(getSavedCartItems());
-    listCarts.innerHTML = listLocal;
-};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -105,8 +102,13 @@ async function getItem(item) {
   addItem();
 }
 
-// getLocalStorage();
+function getLocalStorage() {
+  const objString = localStorage.getItem('cartItems');
+  const result = JSON.parse(objString);
+  return result;
+}
 
 window.onload = () => {
+  olCartItems.innerHTML = getLocalStorage();
   getItem('computador');
 };
