@@ -11,7 +11,8 @@ function createProductImageElement(imageSource) {
 }
 
 function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+  id = item.querySelector('span.item__sku').innerText;
+  return id;
 }
 
 function createCustomElement(element, className, innerText) {
@@ -23,7 +24,6 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   cartList.removeChild(event.target);
-  const p =
   saveCartItems(cartList.innerHTML);
 }
 
@@ -44,7 +44,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 // função que soma o preço total do carrinho
 
-function sumCartItems (price){
+function sumCartItems(price) {
   total += price;
   totalPrice.innerHTML(`Valor lotal:${total}`);
 }
@@ -94,7 +94,7 @@ async function findInfoProduct() {
 const clean = () => {
   cartList.innerHTML = '';
   price.innerHTML = 0;
-}
+};
 
 cleanbutton.addEventListener('click', clean);
 
