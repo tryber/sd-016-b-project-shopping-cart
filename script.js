@@ -32,6 +32,11 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+function setLocalStorage() {
+  const list = olCartItems.innerHTML;
+  saveCartItems(JSON.stringify(list));
+}
+
 function cartItemClickListener(event) {
   const li = event.target;
   event.target.parentNode.removeChild(li);
@@ -61,6 +66,7 @@ function addItem() {
     const idProduct = element.parentNode.querySelector('.item__sku').textContent;
     const product = await getItemForId(idProduct);
     olCartItems.appendChild(product);
+    setLocalStorage();
     });
   });
 }
@@ -82,9 +88,13 @@ async function getItem(item) {
 }
 
 // requisito 6
+function clearList() {
 clearBtn.addEventListener('click', () => {
   olCartItems.innerHTML = '';
+  localStorage.clear();
 });
+}
+clearList();
 
 window.onload = () => {
 getItem('computador');
