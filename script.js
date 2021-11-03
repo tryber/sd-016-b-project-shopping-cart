@@ -30,12 +30,12 @@ const eventsCartList = () => {
   list.forEach((element) => element.addEventListener('click', cartItemClickListener));
 };
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const getli = document.createElement('li');
+  getli.className = 'cart__item';
+  getli.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  getli.addEventListener('click', cartItemClickListener);
+  return getli;
 }
 
 // criando os elementos referente ao carrinho
@@ -43,12 +43,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function addCartProduct(event) {
   const findId = getSkuFromProductItem(event.target.parentNode);
   const data = await fetchItem(findId);
-  const cartObj = {
-    sku: data.id,
-    name: data.title,
-    salePrice: data.price,
-  };
-  const addCartItens = createCartItemElement(cartObj);
+  const addCartItens = createCartItemElement(data);
   cartList.appendChild(addCartItens);
   saveCartItems(cartList.innerHTML);
 }
