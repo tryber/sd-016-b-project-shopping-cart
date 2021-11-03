@@ -31,7 +31,7 @@ function cartItemClickListener(event) {
   totalPrice -= price;
   event.target.remove();
   localStorage.clear();
-  subTotal.innerHTML = totalPrice.toFixed(2);
+  subTotal.innerHTML = totalPrice.toFixed(1);
   localStorage.setItem('subTotal', totalPrice);
   // saveCartItems(ol.innerHTML);
 }
