@@ -1,4 +1,4 @@
-const cartList = document.querySelectorAll('.cart__items');
+const cartList = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -30,7 +30,7 @@ const eventsCartList = () => {
   list.forEach((element) => element.addEventListener('click', cartItemClickListener));
 };
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -43,7 +43,12 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 async function addCartProduct(event) {
   const findId = getSkuFromProductItem(event.target.parentNode);
   const data = await fetchItem(findId);
-  const addCartItens = createCartItemElement(data);
+  const cartObj = {
+    sku: data.id,
+    name: data.title,
+    salePrice: data.price,
+  };
+  const addCartItens = createCartItemElement(cartObj);
   cartList.appendChild(addCartItens);
   saveCartItems(cartList.innerHTML);
 }
