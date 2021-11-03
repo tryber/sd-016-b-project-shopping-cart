@@ -1,7 +1,6 @@
 const cartList = document.querySelector('.cart__items');
 const totalPrice = document.querySelector('.total-price');
 const cleanbutton = document.querySelector('.empty-cart');
-let total = 0;
 const load = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
