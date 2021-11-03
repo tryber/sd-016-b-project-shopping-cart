@@ -1,6 +1,21 @@
 const olCartItems = document.querySelector('.cart__items');
 const classItens = document.querySelector('.items');
 const clearBtn = document.querySelector('.empty-cart');
+const loading = document.querySelector('.loading');
+
+// requisito 6
+function clearList() {
+  clearBtn.addEventListener('click', () => {
+    olCartItems.innerHTML = '';
+    localStorage.clear();
+  });
+  }
+  clearList();
+
+const getLocalStorage = () => {
+    const listLocal = JSON.parse(getSavedCartItems());
+    listCarts.innerHTML = listLocal;
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -40,6 +55,7 @@ function setLocalStorage() {
 function cartItemClickListener(event) {
   const li = event.target;
   event.target.parentNode.removeChild(li);
+  localStorage.removeItem(this);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -74,7 +90,9 @@ function addItem() {
 // requisito 1 feito com a ajuda do Instrutor Bernado Salgueiro
 
 async function getItem(item) {
+  loading.innerHTML = 'carregando';
   const data = await fetchProducts(item);
+  loading.remove();
   data.results.forEach((element) => {
    const result = {
       sku: element.id,
@@ -87,15 +105,8 @@ async function getItem(item) {
   addItem();
 }
 
-// requisito 6
-function clearList() {
-clearBtn.addEventListener('click', () => {
-  olCartItems.innerHTML = '';
-  localStorage.clear();
-});
-}
-clearList();
+// getLocalStorage();
 
 window.onload = () => {
-getItem('computador');
+  getItem('computador');
 };
