@@ -26,7 +26,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  const price = ol.lastChild.lastChild.textContent.split('$')[1];
+  const price = parseFloat(event.target.innerText.split('$')[1], 10);
   console.log(price);
   totalPrice -= price;
   event.target.remove();
@@ -39,7 +39,6 @@ function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   object = { SKU: sku, NAME: name, PRICE: salePrice };
-  
   // li.innerHTML = `${name} <br> PRICE: $ ${salePrice}`;
   li.innerHTML = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   ol.appendChild(li);
@@ -101,7 +100,7 @@ async function showData() {
   window.onload = () => {
     showData();
     totalPrice = getSavedCartItems('subTotal');
-    totalPrice = parseInt(totalPrice, 10);
+    totalPrice = parseFloat(totalPrice, 10);
     console.log(totalPrice);
     if (!getSavedCartItems('subTotal')) { totalPrice = 0; }
   subTotal.innerHTML = totalPrice;
