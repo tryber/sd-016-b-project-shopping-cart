@@ -1,5 +1,5 @@
 const fetchItem = (item) => {
-  return fetch(`https://api.mercadolibre.com/items/${item}`)
+   fetch(`https://api.mercadolibre.com/items/${item}`)
   .then((data) => data.json())
   .then((itemCart) => itemCart)
   .catch((error) => error);
