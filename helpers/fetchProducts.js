@@ -5,8 +5,7 @@ const fetchProducts = (search) => {
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
   return fetch(url)
   .then((response) => response.json())
-  .then((data) => data)
-  .catch(() => new Error('You must provide an url'));
+  .then((data) => data);
 };
 
 if (typeof module !== 'undefined') {
