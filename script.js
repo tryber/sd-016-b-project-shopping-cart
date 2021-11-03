@@ -32,7 +32,7 @@ const subProducts = (event) => {
   let soma = Number(localStorage.getItem('valueProduct'));
   soma -= valueProduct;
   localStorage.setItem('valueProduct', soma);
-  totalPrice.innerText = `Subtotal: ${soma}`;
+  totalPrice.innerText = soma;
 };
 
 function cartItemClickListener(event) {
@@ -45,7 +45,7 @@ const sumProducts = (price) => {
   let soma = Number(localStorage.getItem('valueProduct'));
   soma += price;
   localStorage.setItem('valueProduct', soma);
-  totalPrice.innerText = `Subtotal: ${soma}`;
+  totalPrice.innerText = soma;
 };
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
