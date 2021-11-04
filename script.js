@@ -49,7 +49,6 @@ async function getItem(item) {
       name: resultado.title,
       image: resultado.thumbnail,
     };
-    
     const pesquisa = createProductItemElement(parametroFuturo);
     sectionItens.appendChild(pesquisa);
   });
