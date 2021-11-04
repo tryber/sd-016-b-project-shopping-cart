@@ -1,3 +1,6 @@
+const sectionItens = document.querySelector('.items');
+const listaCarrinho = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +32,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // vai
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,9 +43,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const catchItem = async (item) => {
+const itemById = async (id) => {
+  const dadosItem = await fetchItem(id);
+  const { id: sku, title: name, price: salePrice } = dadosItem;
+  const cartaoDoElemento = createCartItemElement({ sku, name, salePrice });
+  return cartaoDoElemento;
+};
+
+function addEventToButton() {
+  const botoes = sectionItens.querySelectorAll('.item__add');
+  botoes.forEach((botao) => {
+    botao.addEventListener('click', async () => {
+    const productId = botao.parentNode.querySelector('.item__sku').textContent;
+    listaCarrinho.appendChild(await itemById(productId));
+    });
+  });
+}
+
+const catchItem = async (item, callback) => {
   const dadosRecebidos = await fetchProducts(item);
-  const sectionItens = document.querySelector('.items');
   dadosRecebidos.results.forEach((result) => {
    const parametro = {
       sku: result.id,
@@ -52,8 +71,10 @@ const catchItem = async (item) => {
     const pesquisa = createProductItemElement(parametro);
     sectionItens.appendChild(pesquisa);
   });
+  callback();
 };
 
 window.onload = () => {
- catchItem('computador');
-}; 
+ catchItem('computador', addEventToButton);
+ itemById('MLB1341706310');
+};
