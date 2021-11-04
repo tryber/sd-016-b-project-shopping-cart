@@ -1,5 +1,6 @@
 const sectionItens = document.querySelector('.items');
 const listaCarrinho = document.querySelector('.cart__items');
+const botaoLimpador = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -74,7 +75,14 @@ const catchItem = async (item, callback) => {
   callback();
 };
 
+function limpaTudo() {
+  botaoLimpador.addEventListener('click', () => {
+    listaCarrinho.innerHTML = '';
+  });
+}
+
 window.onload = () => {
  catchItem('computador', addEventToButton);
+ limpaTudo();
  itemById('MLB1341706310');
 };
