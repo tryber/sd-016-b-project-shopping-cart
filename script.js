@@ -1,6 +1,7 @@
 const sectionItens = document.querySelector('.items');
 const listaCarrinho = document.querySelector('.cart__items');
 const botaoLimpador = document.querySelector('.empty-cart');
+const carregando = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -74,7 +75,9 @@ function addEventToButton() {
 }
 
 const catchItem = async (item, callback) => {
+  carregando.innerHTML = 'carregando';
   const dadosRecebidos = await fetchProducts(item);
+  carregando.remove();
   dadosRecebidos.results.forEach((result) => {
    const parametro = {
       sku: result.id,
