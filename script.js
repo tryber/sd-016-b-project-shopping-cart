@@ -46,7 +46,7 @@ async function getItem(item) {
   dadosColetados.results.forEach((resultado) => {
     const parametroFuturo = {
       sku: resultado.id,
-      name: resultado.name,
+      name: resultado.title,
       image: resultado.thumbnail,
     };
     const pesquisa = createProductItemElement(parametroFuturo);
