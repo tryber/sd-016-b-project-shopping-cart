@@ -43,7 +43,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function getItem(item) {
   const dadosColetados = (await fetchProducts(item)).results;
   const sectionItens = document.querySelector('.items');
-  for (let i = 0; i < dadosColetados.length; i++) {
+  for (let i = 0; i < dadosColetados.length; i += 1) {
     const resultado = {
       sku: dadosColetados[i].id,
       name: dadosColetados[i].name,
