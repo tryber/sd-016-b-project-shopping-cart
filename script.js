@@ -32,8 +32,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Código retirado do stackoverflow: escrito pelo usuário Veikko Karsikko em Dec 28 '12 at 8:07 
+function removeElementsByClass(className) {
+  const elements = document.getElementsByClassName(className);
+  while (elements.length > 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+  }
+}
+
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
+  localStorage.removeItem(event.target);
+  saveCartItems(sectionItens.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,6 +51,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  saveCartItems(sectionItens.innerHTML);
   return li;
 }
 
@@ -57,6 +68,7 @@ function addEventToButton() {
     botao.addEventListener('click', async () => {
     const productId = botao.parentNode.querySelector('.item__sku').textContent;
     listaCarrinho.appendChild(await itemById(productId));
+    saveCartItems(sectionItens.innerHTML);
     });
   });
 }
@@ -78,6 +90,7 @@ const catchItem = async (item, callback) => {
 function limpaTudo() {
   botaoLimpador.addEventListener('click', () => {
     listaCarrinho.innerHTML = '';
+    localStorage.clear();
   });
 }
 
