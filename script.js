@@ -45,7 +45,8 @@ function getItems() {
     .then((items) => {
       const sectionItens = document.querySelector('.items');
       dadosColetados.results.forEach((resultado) => {
-      sectionItens.appendChild(createProductItemElement(resultado));
+        const itemRetornado = createProductItemElement(resultado);
+        sectionItens.appendChild(itemRetornado);
     });
   });
 }
