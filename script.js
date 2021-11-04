@@ -40,7 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const catchItem = async (item) =>{
+const catchItem = async (item) => {
   const dadosRecebidos = await fetchProducts(item);
   const sectionItens = document.querySelector('.items');
   dadosRecebidos.results.forEach((result) => {
@@ -52,7 +52,7 @@ const catchItem = async (item) =>{
     const pesquisa = createProductItemElement(parametro);
     sectionItens.appendChild(pesquisa);
   });
-}
+};
 
 window.onload = () => {
  catchItem('computador');
