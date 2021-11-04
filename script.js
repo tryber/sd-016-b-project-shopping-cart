@@ -41,17 +41,17 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function getItem(item) {
-  const dadosColetados = (await fetchProducts(item)).results;
+  const dadosColetados = await fetchProducts(item);
   const sectionItens = document.querySelector('.items');
-  for (let i = 0; i < dadosColetados.length; i += 1) {
-    const resultado = {
-      sku: dadosColetados[i].id,
-      name: dadosColetados[i].name,
-      image: dadosColetados[i].thumbnail,
+  dadosColetados.results.forEach((resultado) => {
+    const parametroFuturo = {
+      sku: resultado.id,
+      name: resultado.name,
+      image: resultado.thumbnail,
     };
-    const pesquisa = createProductItemElement(resultado);
+    const pesquisa = createProductItemElement(parametroFuturo);
     sectionItens.appendChild(pesquisa);
-  }
+  });
 }
 
 window.onload = () => { };
