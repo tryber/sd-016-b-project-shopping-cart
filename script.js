@@ -40,8 +40,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function getItem(item) {
-  const dadosColetados = await fetchProducts(item);
+async function getItems() {
+  const dadosColetados = await fetchProducts();
   const sectionItens = document.querySelector('.items');
   dadosColetados.results.forEach((resultado) => {
     sectionItens.appendChild(createProductItemElement(resultado));
