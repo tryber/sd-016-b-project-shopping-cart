@@ -35,9 +35,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);
-  localStorage.removeItem();
-  saveCartItems(sectionItens.innerHTML);
+  listaCarrinho.removeChild(event.target);
+  saveCartItems(listaCarrinho.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -45,7 +44,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  saveCartItems(sectionItens.innerHTML);
   return li;
 }
 
@@ -53,7 +51,6 @@ const itemById = async (id) => {
   const dadosItem = await fetchItem(id);
   const { id: sku, title: name, price: salePrice } = dadosItem;
   const cartaoDoElemento = createCartItemElement({ sku, name, salePrice });
-  precoTotal.innerText = (parseFloat(precoTotal.innerText) + parseFloat(salePrice)).toFixed(2);
   return cartaoDoElemento;
 };
 
@@ -63,7 +60,7 @@ function addEventToButton() {
     botao.addEventListener('click', async () => {
     const productId = botao.parentNode.querySelector('.item__sku').textContent;
     listaCarrinho.appendChild(await itemById(productId));
-    saveCartItems(sectionItens.innerHTML);
+    saveCartItems(listaCarrinho.innerHTML);
     });
   });
 }
@@ -78,7 +75,6 @@ const catchItem = async (item, callback) => {
       name: result.title,
       image: result.thumbnail,
     };
-    precoTotal.innerText = '0.00';
     const pesquisa = createProductItemElement(parametro);
     sectionItens.appendChild(pesquisa);
   });
@@ -88,13 +84,18 @@ const catchItem = async (item, callback) => {
 function limpaTudo() {
   botaoLimpador.addEventListener('click', () => {
     listaCarrinho.innerHTML = '';
-    precoTotal.innerText = '0.00';
     localStorage.clear();
   });
 }
 
+function trazStorage() {
+  listaCarrinho.innerHTML = getSavedCartItems();
+  const itemsLista = document.querySelectorAll('.cart__item');
+  itemsLista.forEach((item) => item.addEventListener('click', cartItemClickListener));
+}
+
 window.onload = () => {
+  trazStorage();
   catchItem('computador', addEventToButton);
   limpaTudo();
-  // itemById('MLB1341706310');
 };
