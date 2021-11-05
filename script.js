@@ -44,6 +44,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  precoTotal.innerText = (parseFloat(precoTotal.innerText) + parseFloat(salePrice)).toFixed(2);
   return li;
 }
 
@@ -84,6 +85,7 @@ const catchItem = async (item, callback) => {
 function limpaTudo() {
   botaoLimpador.addEventListener('click', () => {
     listaCarrinho.innerHTML = '';
+    precoTotal.innerText = '0.00';
     localStorage.clear();
   });
 }
