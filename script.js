@@ -2,6 +2,7 @@ const sectionItens = document.querySelector('.items');
 const listaCarrinho = document.querySelector('.cart__items');
 const botaoLimpador = document.querySelector('.empty-cart');
 const carregando = document.querySelector('.loading');
+const precoTotal = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -33,17 +34,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// Código retirado do stackoverflow: escrito pelo usuário Veikko Karsikko em Dec 28 '12 at 8:07 
-function removeElementsByClass(className) {
-  const elements = document.getElementsByClassName(className);
-  while (elements.length > 0) {
-      elements[0].parentNode.removeChild(elements[0]);
-  }
-}
-
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
-  localStorage.removeItem(event.target);
+  localStorage.removeItem();
   saveCartItems(sectionItens.innerHTML);
 }
 
@@ -60,6 +53,7 @@ const itemById = async (id) => {
   const dadosItem = await fetchItem(id);
   const { id: sku, title: name, price: salePrice } = dadosItem;
   const cartaoDoElemento = createCartItemElement({ sku, name, salePrice });
+  precoTotal.innerText = (parseFloat(precoTotal.innerText) + parseFloat(salePrice)).toFixed(2);
   return cartaoDoElemento;
 };
 
@@ -77,13 +71,14 @@ function addEventToButton() {
 const catchItem = async (item, callback) => {
   carregando.innerHTML = 'carregando';
   const dadosRecebidos = await fetchProducts(item);
-  carregando.remove();
+  carregando.parentNode.removeChild(carregando);
   dadosRecebidos.results.forEach((result) => {
    const parametro = {
       sku: result.id,
       name: result.title,
       image: result.thumbnail,
     };
+    precoTotal.innerText = '0.00';
     const pesquisa = createProductItemElement(parametro);
     sectionItens.appendChild(pesquisa);
   });
@@ -93,12 +88,13 @@ const catchItem = async (item, callback) => {
 function limpaTudo() {
   botaoLimpador.addEventListener('click', () => {
     listaCarrinho.innerHTML = '';
+    precoTotal.innerText = '0.00';
     localStorage.clear();
   });
 }
 
 window.onload = () => {
- catchItem('computador', addEventToButton);
- limpaTudo();
- itemById('MLB1341706310');
+  catchItem('computador', addEventToButton);
+  limpaTudo();
+  // itemById('MLB1341706310');
 };
