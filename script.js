@@ -1,5 +1,3 @@
-const cartItems = document.querySelector('.cart__items');
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,26 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener() {
-  // coloque seu código aqui
-}
-
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-async function morena(event) {
-  const li = event.target.parentElement.firstChild.innerText;
-  await fetchItem(li)
-  .then((data) => {
-    cartItems.appendChild(createCartItemElement(data));
-  });
-}
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -42,26 +20,43 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  section.appendChild(button);
-  button.addEventListener('click', morena);
+
   return section;
 }
 
-async function researchProduct(product) {
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+async function searchProducts(product) {
+  const sectionItems = document.querySelector('.items');
   const searchData = await fetchProducts(product);
-  const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
-    const obj = {      
+    const itemObject = {
       sku: item.id,
       name: item.title,
       image: item.thumbnail,
     };
-    const productItem = createProductItemElement(obj);
-    sectionItem.appendChild(productItem);
+
+    const productItem = createProductItemElement(itemObject);
+    sectionItems.appendChild(productItem);
   });
 }
 
-window.onload = () => {
-  researchProduct('computador');
-  searchId('MLB1341706310'); 
+window.onload = () => { 
+  searchProducts('computador');
 };
+
+window.onload = () => { };
