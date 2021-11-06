@@ -4,36 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Shopping Cart</title>
+    <title>Document</title>
     <link rel="stylesheet" href="style.css" />
     <script src="./helpers/fetchItem.js" defer></script>
     <script src="./helpers/fetchProducts.js" defer></script>
     <script src="./helpers/saveCartItems.js" defer></script>
     <script src="./helpers/getSavedCartItems.js" defer></script>
-    <script src="script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1 class='page_title'>Shopping Trybe</h1>
-    </header>
     <section class="container">
-      <section id="loadtext">
-        <p class="loading">carregando...</p>
+      <section class="items">
+        <span class="loading">carregando...</span>
       </section>
-      <section class="content">
-        <section class="search"> <input type="text" class="searchI" placeholder="Pesquisar mais produtos..."> </section>
-        <section class="load">
-        </section>
-              <section class="items">
-              </section>
-            </section>
       <section class="cart">
         <span class="cart__title">Carrinho de compras</span>
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
-        <section class="price_itens">Total price: $ <p class="total-price">0,0</p></section>
-        <section class="payout"><em>Levar para casa ..?</em></section>
+        <p>
+          Total: <samp class="total-price"></samp>
+        </p>
       </section>
     </section>
+    <script src="script.js" defer></script>
   </body>
 </html>
