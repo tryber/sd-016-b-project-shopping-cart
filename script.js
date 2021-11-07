@@ -40,21 +40,43 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function searchProducts(product) {
-  const sectionItems = document.querySelector('.items');
+async function searchId(id) {
+  const findId = await fetchItem(id);
+  const cartItem = document.querySelector('.cart__items');
+  const obj = {      
+    sku: findId.id,
+    name: findId.title,
+    salePrice: findId.price,
+  };
+  const createCartItem = createCartItemElement(obj);
+  cartItem.appendChild(createCartItem);
+  return findId;
+}
+
+function createEventListener() {
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => button.addEventListener('click', (event) => {
+    const id = event
+      .target.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
+    searchId(id);
+  }));
+}
+
+async function searchProduct(product) {
   const searchData = await fetchProducts(product);
+  const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
-    const itemObject = {
+    const obj = {      
       sku: item.id,
       name: item.title,
       image: item.thumbnail,
     };
-
-    const productItem = createProductItemElement(itemObject);
-    sectionItems.appendChild(productItem);
+    const productItem = createProductItemElement(obj);
+    sectionItem.appendChild(productItem);    
   });
+  createEventListener();
 }
 
-window.onload = () => { 
-  searchProducts('computador');
+window.onload = () => {
+  searchProduct('computador');  
 };
