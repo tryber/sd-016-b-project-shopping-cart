@@ -19,6 +19,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  
   return section;
 }
 function getSkuFromProductItem(item) {
@@ -28,57 +29,57 @@ function getSkuFromProductItem(item) {
 const totalElement = document.querySelector('.total-price');
 
 let allPrices = [];
-const reduceFunction = (accumulator, currentValue) => accumulator + currentValue;
-const totalPurchase = () => allPrices.reduce(reduceFunction, 0);
+const reduce = (accumulator, currentValue) => accumulator + currentValue;
+const total = () => allPrices.reduce(reduce, 0);
 
 function addPrice(price) {
   allPrices.push(price);
-  totalElement.innerHTML = `${totalPurchase()}`;
+  totalElement.innerHTML = `${total()}`;
   localStorage.setItem('total', JSON.stringify(allPrices));
 }
 
 function removePrice(index) {
   allPrices.splice(index, 1);
-  totalElement.innerHTML = `${totalPurchase()}`;
+  totalElement.innerHTML = `${total()}`;
   localStorage.setItem('total', JSON.stringify(allPrices));
 }
 
-function cartItemClickListener(event) {
-  const clickedItem = event.target;
-  const indexOfClickedItem = Array.from(cart.children).indexOf(clickedItem);
-  removePrice(indexOfClickedItem);
+function clickItem(event) {
+  const itemClicked = event.target;
+  const itemClickedIndex = Array.from(cart.children).indexOf(itemClicked);
+  removePrice(itemClickedIndex);
 
-  clickedItem.remove();
+  itemClicked.remove();
 
   saveCartItems(cart.innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createItem({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', clickItem);
   return li;
 }
 
-const loadingElement = document.querySelector('.loading');
+const loadElem = document.querySelector('.loading');
 
-async function createComputerList() {
+async function computerListCreate() {
   const computerList = await fetchProducts('computer');
-  loadingElement.remove();
+  loadElem.remove();
   computerList.results.forEach((computer) => {
     const skuNameImage = {
       sku: computer.id,
       name: computer.title,
       image: computer.thumbnail,
     };
-    const itemListElement = document.querySelector('.items');
+    const itemListElem = document.querySelector('.items');
     const createSection = createProductItemElement(skuNameImage);
-    itemListElement.appendChild(createSection);
+    itemListElem.appendChild(createSection);
   });
 }
 
-async function addItemToCart(event) {
+async function ItemAdd(event) {
   const eventSection = event.target.parentElement;
   const fetchItemData = await fetchItem(getSkuFromProductItem(eventSection));
 
@@ -89,55 +90,54 @@ async function addItemToCart(event) {
   };
 
   addPrice(skuNameSalePrice.salePrice);
-  const newLiItem = createCartItemElement(skuNameSalePrice);
-  newLiItem.addEventListener('click', cartItemClickListener);
+  const newLiItem = createItem(skuNameSalePrice);
+  newLiItem.addEventListener('click', clickItem);
   cart.appendChild(newLiItem);
 
   saveCartItems(cart.innerHTML);
 }
 
-function addListenersToButtons() {
-  const buttonsAddToCart = document.querySelectorAll('.item__add');
-  buttonsAddToCart.forEach((button) => {
-    button.addEventListener('click', addItemToCart);
+function ListenerButton() {
+  const buttonAdd = document.querySelectorAll('.item__add');
+  buttonAdd.forEach((button) => {
+    button.addEventListener('click', ItemAdd);
   });
 }
 
-function addListenersToCartItems() {
+function listenerItem() {
   const items = document.querySelectorAll('.cart__item');
   items.forEach((item) => {
-    item.addEventListener('click', cartItemClickListener);
+    item.addEventListener('click', clickItem);
   });
 }
 
-function clearCart() {
+function clearItems() {
   allPrices.splice(0, allPrices.length);
   localStorage.setItem('total', JSON.stringify(allPrices));
 
-  totalElement.innerHTML = `${totalPurchase()}`;
+  totalElement.innerHTML = `${total()}`;
   cart.innerHTML = '';
   saveCartItems(cart.innerHTML);
 }
 
-const clearCartButton = document.querySelector('.empty-cart');
-clearCartButton.addEventListener('click', clearCart);
+const clearItemsButton = document.querySelector('.empty-cart');
+clearItemsButton.addEventListener('click', clearItems);
 
-function recreateCart() {
+function CartReset() {
   const savedCartItems = localStorage.getItem('cartItems');
   cart.innerHTML = savedCartItems;
 }
 
-async function generatePage() {
-  await createComputerList();
-  addListenersToButtons();
+async function createPage() {
+  await computerListCreate();
+  ListenerButton();
 }
 
 window.onload = () => {
-  generatePage();
-  recreateCart();
-  addListenersToCartItems();
-  // OBSERVAÇÃO: Cypress não está avaliando o projeto ao tentar recuperar o total no localStorage
+  createPage();
+  CartReset();
+  listenerItem();
   if (localStorage.getItem('cartItems') === null) return localStorage.setItem('total', []);
   allPrices = JSON.parse(localStorage.getItem('total'));
-  totalElement.innerHTML = `${totalPurchase()}`;
+  totalElement.innerHTML = `${total()}`;
 };

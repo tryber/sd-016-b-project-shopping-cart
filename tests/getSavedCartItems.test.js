@@ -11,16 +11,10 @@ beforeEach(() => {
 });
 
 describe('4 - Teste a função getSavedCartItems', () => {
-  // implemente seus testes aqui
-  it('Testa se ao executar getSavedCartItems, o método localStorage.getItem é chamado', () => {
+
+  it('Teste a função getSavedCartItems', () => {
     expect.assertions(1);
     getSavedCartItems();
     expect(localStorage.getItem).toHaveBeenCalled();
-  });
-
-  it('Testa se ao executar getSavedCartItems, o método localStorage.getItem é chamado com o "cartItems" como parâmetro', () => {
-    expect.assertions(1);
-    getSavedCartItems();
-    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
   });
 });
