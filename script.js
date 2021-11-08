@@ -29,8 +29,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   event.target.remove();
+  saveCartItems();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -73,11 +73,13 @@ async function searchProduct(product) {
       image: item.thumbnail,
     };
     const productItem = createProductItemElement(obj);
-    sectionItem.appendChild(productItem);    
+    sectionItem.appendChild(productItem);
+    saveCartItems(); 
   });
   createEventListener();
 }
 
 window.onload = () => {
   searchProduct('computador');  
+  getSavedCartItems();
 };
