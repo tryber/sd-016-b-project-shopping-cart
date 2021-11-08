@@ -82,14 +82,11 @@ async function searchProduct(product) {
   createEventListener();
 }
 
-const emptyItemCart = async () => {
-  getCartItems.innerHTML = '';
-  const getTotal = document.querySelector('.total-price');
-  getTotal.innerText = 0;
-};
+getEmptyButton.addEventListener('click', () => {
+  document.getElementsByClassName('cart__items')[0].innerText = '';
+});
 
 window.onload = () => {
   searchProduct('computador');  
-  getEmptyButton.addEventListener('click', emptyItemCart);
   getSavedCartItems();
 };
