@@ -1,11 +1,28 @@
+const saveCartItems = require('../helpers/saveCartItems');
+
+Object.defineProperty(window, 'localStorage', {
+  value: {
+    setItem: jest.fn(),
+  },
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('4 - Teste a função saveCartItems', () => {
-  it('Se o método `localStorage.setItem` é chamado ao executar saveCartItems com o argumento especificado.', () => {
-    saveCartItems('<ol><li>Item</li></ol>');
-    expect(localStorage.setItem).toBeCalled();
+  // implemente seus testes aqui
+  it('Testa se ao executar saveCartItems com um argumento, o método localStorage.setItem é chamado', () => {
+    expect.assertions(1);
+    const argument = '<ol><li>Item</li></ol>';
+    saveCartItems(argument);
+    expect(localStorage.setItem).toHaveBeenCalled();
   });
 
-  it('Teste se, ao executar saveCartItems com o argumento "<ol><li>Item</li></ol>", o método localStorage.setItem é chamado com dois parâmetros, sendo o primeiro "cartItems" e o segundo sendo o valor passado como argumento para saveCartItems', () => {
-    saveCartItems('<ol><li>Item</li></ol>');
-    expect(localStorage.setItem).toBeCalledWith('cartItems', '<ol><li>Item</li></ol>')
+  it('Testa se ao executar saveCartItems com um argumento, o método localStorage.setItem é chamado com os argumentos corretos', () => {
+    expect.assertions(1);
+    const argument = '<ol><li>Item</li></ol>';
+    saveCartItems(argument);
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartItems', argument);
   });
 });
