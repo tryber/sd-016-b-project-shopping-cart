@@ -1,3 +1,5 @@
+const getEmptyButton = document.querySelector('.empty-cart');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,6 +46,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function searchId(id) {
   const findId = await fetchItem(id);
   const cartItem = document.querySelector('.cart__items');
+
   const obj = {      
     sku: findId.id,
     name: findId.title,
@@ -79,7 +82,14 @@ async function searchProduct(product) {
   createEventListener();
 }
 
+const emptyItemCart = async () => {
+  getCartItems.innerHTML = '';
+  const getTotal = document.querySelector('.total-price');
+  getTotal.innerText = 0;
+};
+
 window.onload = () => {
   searchProduct('computador');  
+  getEmptyButton.addEventListener('click', emptyItemCart);
   getSavedCartItems();
 };
