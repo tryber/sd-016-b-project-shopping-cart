@@ -55,7 +55,7 @@ function cartOff() {
   const load = document.querySelector('.loading');
   load.remove();
 }
-//test
+
 async function searchId(id) {
   cartOff();
   const findId = await fetchItem(id);
