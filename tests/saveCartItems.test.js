@@ -19,5 +19,5 @@ describe('4 - Teste a função saveCartItems', () => {
     expect(test[0]).toEqual('cartItems');
     expect(JSON.parse(test[1])).toEqual(['<ol><li>Item</li></ol>']);// está entre [] pois na function savecartitems ela está salvando no local storage o parametro dentro de um array
   });
-  fail('Teste vazio');
+  
 });

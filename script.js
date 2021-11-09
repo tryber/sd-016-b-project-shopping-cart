@@ -43,7 +43,21 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function cartOn() {
+  const productItem = document.querySelector('.items');
+  const load = document.createElement('h2');
+  load.className = 'loading';
+  productItem.appendChild(load);
+  load.innerText = 'carregando...';
+}
+
+function cartOff() {
+  const load = document.querySelector('.loading');
+  load.remove();
+}
+//test
 async function searchId(id) {
+  cartOff();
   const findId = await fetchItem(id);
   const cartItem = document.querySelector('.cart__items');
 
@@ -54,6 +68,7 @@ async function searchId(id) {
   };
   const createCartItem = createCartItemElement(obj);
   cartItem.appendChild(createCartItem);
+  cartOn();
   return findId;
 }
 
