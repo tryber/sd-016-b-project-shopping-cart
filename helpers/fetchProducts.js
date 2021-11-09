@@ -1,5 +1,5 @@
-const fetchProducts = (product) => {
-  const url = (`https://api.mercadolibre.com/sites/MLB/search?q=${product}`);
+const fetchProducts = (computador) => {
+  const url = (`https://api.mercadolibre.com/sites/MLB/search?q=${computador}`);
    return fetch(url)
     .then((data) => data.json()) 
     .catch((error) => error);
