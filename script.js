@@ -28,7 +28,7 @@ function createProductItemElement({ sku, name, image }) {
 
 function addLoadingText() {
   const loading = createCustomElement('div', 'loading', 'carregando...');
-  getItemsSection.appendChild(loading);
+  document.querySelector('.items').appendChild(loading);
 }
 
 function removeLoadingText() {
@@ -55,7 +55,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 async function searchId(id) {
   const findId = await fetchItem(id);
   const cartItem = document.querySelector('.cart__items');
-
   const obj = {      
     sku: findId.id,
     name: findId.title,
@@ -76,7 +75,9 @@ function createEventListener() {
 }
 
 async function searchProduct(product) {
+  addLoadingText()
   const searchData = await fetchProducts(product);
+  removeLoadingText()
   const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
     const obj = {      
