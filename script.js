@@ -2,6 +2,12 @@ const getEmptyButton = document.querySelector('.empty-cart');
 const totalPriceElemente = document.querySelector('.total-price');
 let totalPrice = 0;
 
+
+function updateTotalPrice(value) {
+  totalPrice += value;
+  totalPriceElemente.innerHTML = totalPrice;
+} 
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -44,7 +50,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   const text = event.target.innerHTML;
-  const positionPrice = text.search("PRICE") + 8;
+  const positionPrice = text.search('PRICE') + 8;
   const valueTouRemove = text.substring(positionPrice, text.length);
   updateTotalPrice(valueTouRemove * (-1));
   saveCartItems();
@@ -58,11 +64,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   updateTotalPrice(salePrice);
   return li;
 }
-
-function updateTotalPrice(value) {
-  totalPrice = totalPrice + value;
-  totalPriceElemente.innerHTML = totalPrice;
-} 
 
 async function searchId(id) {
   const findId = await fetchItem(id);
