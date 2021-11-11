@@ -1,4 +1,6 @@
 const getEmptyButton = document.querySelector('.empty-cart');
+const totalPriceElemente = document.querySelector('.total-price');
+let totalPrice = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -41,6 +43,10 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  const text = event.target.innerHTML;
+  const positionPrice = text.search("PRICE") + 8
+  const valueTouRemove = text.substring(positionPrice, text.length);
+  updateTotalPrice(valueTouRemove * (-1))
   saveCartItems();
 }
 
@@ -49,8 +55,14 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  updateTotalPrice(salePrice)
   return li;
 }
+
+function updateTotalPrice(value) {
+  totalPrice = totalPrice + value;
+  totalPriceElemente.innerHTML = totalPrice;
+} 
 
 async function searchId(id) {
   const findId = await fetchItem(id);
