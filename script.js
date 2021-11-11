@@ -44,9 +44,9 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   event.target.remove();
   const text = event.target.innerHTML;
-  const positionPrice = text.search("PRICE") + 8
+  const positionPrice = text.search("PRICE") + 8;
   const valueTouRemove = text.substring(positionPrice, text.length);
-  updateTotalPrice(valueTouRemove * (-1))
+  updateTotalPrice(valueTouRemove * (-1));
   saveCartItems();
 }
 
@@ -55,7 +55,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  updateTotalPrice(salePrice)
+  updateTotalPrice(salePrice);
   return li;
 }
 
