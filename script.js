@@ -75,9 +75,9 @@ function createEventListener() {
 }
 
 async function searchProduct(product) {
-  addLoadingText()
+  addLoadingText();
   const searchData = await fetchProducts(product);
-  removeLoadingText()
+  removeLoadingText();
   const sectionItem = document.querySelector('.items');
   searchData.results.forEach((item) => {
     const obj = {      
