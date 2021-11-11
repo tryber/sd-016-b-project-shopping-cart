@@ -2,7 +2,6 @@ const getEmptyButton = document.querySelector('.empty-cart');
 const totalPriceElemente = document.querySelector('.total-price');
 let totalPrice = 0;
 
-
 function updateTotalPrice(value) {
   totalPrice += value;
   totalPriceElemente.innerHTML = totalPrice;
