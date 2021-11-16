@@ -54,8 +54,22 @@ async function searchProducts(product) {
   });
 }
 
+async function getItemById(iD) {
+  const itemSelected = await fetchItem(iD);
+  const cartList = document.querySelector('.items');
+  const itemObject = {
+    sku: itemSelected.id,
+    name: itemSelected.title,
+    salePrice: itemSelected.price,
+  };
+
+  const cartItem = createCartItemElement(itemObject);
+  cartList.appendChild(cartItem);
+}
+
 window.onload = () => {
   searchProducts('computador');
+  getItemById('MLB1341706310');
 };
 
 // Requisito 1 - Feito com auxilio do video disponibilizado no slack pelo Prof. Bernardo.
