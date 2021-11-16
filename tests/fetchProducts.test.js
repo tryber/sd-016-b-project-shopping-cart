@@ -37,3 +37,4 @@ describe('1 - Teste a função fecthProducts', () => {
   });
 });
 
+// Requisito 1 - Feito com auxilio do video disponibilizado no slack pelo Prof. Bernardo.

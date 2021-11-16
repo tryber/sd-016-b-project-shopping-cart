@@ -41,19 +41,21 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function searchProducts(product) {
-  const searchData = await fetchProducts(product);
+  const returnedProducts = await fetchProducts(product);
   const sectionItems = document.querySelector('.items');
-  searchData.results.forEach((item) => {
+  returnedProducts.results.forEach((item) => {
     const itemObject = {
       sku: item.id,
       name: item.title,
       image: item.thumbnail,
     };
-    const productItem = createProductItemElement(itemObject);
-    sectionItems.appendChild(productItem);
+    const researchedProducts = createProductItemElement(itemObject);
+    sectionItems.appendChild(researchedProducts);
   });
 }
 
 window.onload = () => {
   searchProducts('computador');
 };
+
+// Requisito 1 - Feito com auxilio do video disponibilizado no slack pelo Prof. Bernardo.
