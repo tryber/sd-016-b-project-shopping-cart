@@ -40,23 +40,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function searchProducts(product) {
-  const returnedProducts = await fetchProducts(product);
-  const sectionItems = document.querySelector('.items');
-  returnedProducts.results.forEach((item) => {
-    const itemObject = {
-      sku: item.id,
-      name: item.title,
-      image: item.thumbnail,
-    };
-    const researchedProducts = createProductItemElement(itemObject);
-    sectionItems.appendChild(researchedProducts);
-  });
-}
-
-async function getItemById(iD) {
-  const itemSelected = await fetchItem(iD);
-  const cartList = document.querySelector('.items');
+async function addItemToCart(event) {
+  const itemId = event.target.parentNode.firstChild.innerText;
+  const itemSelected = await fetchItem(itemId);
+  const cartList = document.querySelector('.cart__items');
   const itemObject = {
     sku: itemSelected.id,
     name: itemSelected.title,
@@ -67,9 +54,23 @@ async function getItemById(iD) {
   cartList.appendChild(cartItem);
 }
 
+async function searchProducts(product) {
+  const returnedProducts = await fetchProducts(product);
+  const sectionItems = document.querySelector('.items');
+  returnedProducts.results.forEach((item) => {
+    const itemObject = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    };
+    const researchedProducts = createProductItemElement(itemObject);
+    researchedProducts.lastChild.addEventListener('click', addItemToCart);
+    sectionItems.appendChild(researchedProducts);
+  });
+}
+
 window.onload = () => {
   searchProducts('computador');
-  getItemById('MLB1341706310');
 };
 
 // Requisito 1 - Feito com auxilio do video disponibilizado no slack pelo Prof. Bernardo.
