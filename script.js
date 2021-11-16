@@ -1,3 +1,5 @@
+const cartList = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,10 +30,11 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
+function cartItemClickListener(event) { // remove itens da lista
   const product = event.target;
   const productList = event.target.parentNode;
   productList.removeChild(product);
+  saveCartItems(cartList.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,10 +45,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function addItemToCart(event) {
+async function addItemToCart(event) { // adiciona itens na lista
   const itemId = event.target.parentNode.firstChild.innerText;
   const itemSelected = await fetchItem(itemId);
-  const cartList = document.querySelector('.cart__items');
   const itemObject = {
     sku: itemSelected.id,
     name: itemSelected.title,
@@ -54,6 +56,7 @@ async function addItemToCart(event) {
 
   const cartItem = createCartItemElement(itemObject);
   cartList.appendChild(cartItem);
+  saveCartItems(cartList.innerHTML);
 }
 
 async function searchProducts(product) {
@@ -71,8 +74,15 @@ async function searchProducts(product) {
   });
 }
 
+function restoreItems() {
+  cartList.innerHTML = getSavedCartItems();
+  const items = document.querySelectorAll('.cart__item');
+  items.forEach((item) => item.addEventListener('click', cartItemClickListener));
+}
+
 window.onload = () => {
   searchProducts('computador');
+  restoreItems();
 };
 
 // Requisito 1 - Feito com auxilio do video disponibilizado no slack pelo Prof. Bernardo.
