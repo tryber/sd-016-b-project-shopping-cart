@@ -1,9 +1,7 @@
-const fetchProducts = (item) => {
-  const url = `https://api.mercadolibre.com/sites/MLB/search?q=${item}`;
-    fetch(url)
+const fetchProducts = (item) => fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${item}`)
     .then((response) => response.json())
-    .catch((error) => error);
-};
+    .then((data) => data)
+    .catch((erro) => erro);
 
 // console.log(fetchProducts('computador'));
 
