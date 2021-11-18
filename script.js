@@ -56,21 +56,21 @@ async function clickCartItem(event) {
 }
 
 async function searchProducts(product) {
-  const sectionItems = document.querySelector('.items');
-  const searchData = await fetchProducts(product);
-  searchData.results.forEach((item) => {
-    const itemObject = {
+  const items = document.querySelector('.items');
+  const searchItems = await fetchProducts(product);
+  searchItems.results.forEach((item) => { // Percorre o array retornado de 'fetchProducts'
+    const returnObject = { // e retorna um objeto no padrão desejado.
       sku: item.id,
       name: item.title,
       image: item.thumbnail,
     };
 
-    const productItem = createProductItemElement(itemObject);
-    sectionItems.appendChild(productItem);
+    const productItem = createProductItemElement(returnObject);
+    items.appendChild(productItem);
   });
   
-  const buttons = document.querySelectorAll('.item__add');
-  buttons.forEach((button) => {
+  const addToCartButtons = document.querySelectorAll('.item__add');
+  addToCartButtons.forEach((button) => { // Adiciona um event listener para cada botão de "adicionar o carrinho".
     button.addEventListener('click', clickCartItem);
 });
 }
