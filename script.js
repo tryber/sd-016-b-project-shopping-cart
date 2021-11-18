@@ -1,3 +1,6 @@
+// Correção: push passado era apenas organização do código.
+// renomeei algumas variáveis e escrevi o que as funções faziam para
+// me localizar melhor no código.
 const cartItems = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
@@ -33,7 +36,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
