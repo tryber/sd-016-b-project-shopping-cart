@@ -1,3 +1,5 @@
+const items = document.querySelector('.items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,4 +42,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const loading = () => {
+  const loading = document.querySelector('.loading');
+  const img = document.createElement('img');
+  img.setAttribute('src', 'loading.gif');
+  img.style.width = '20px';
+  img.style.height = '20px';
+
+  if (loading.hasChildNodes()) {
+    loading.removeChild(loading.firstChild);
+  } else {
+    loading.appendChild(img);
+  }
+}
+
+window.onload = async () => {
+  setInterval(loading, 1000);
+  // const { results } = await fetchProducts('computador').map;
+  // console.log( results );
+
+};
