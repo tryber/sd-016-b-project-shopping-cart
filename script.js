@@ -85,7 +85,7 @@ const clearCartList = () => {
     totalprice.innerHTML = null;
     localStorage.clear();
   }
-}
+};
 
 const addInShoppingCart = async ({ target }) => {
   const elementId = getSkuFromProductItem(target.parentNode);
@@ -98,13 +98,13 @@ const addInShoppingCart = async ({ target }) => {
   const item = createCartItemElement(object);
   cartlist.appendChild(item);
   saveCartItems(cartlist.innerHTML);
-}
+};
 
 /** Main Thread; */
 window.onload = async () => {
   await assemblyProducts('computador');
   document.querySelector('.empty-cart').addEventListener('click', clearCartList);
-  document.querySelectorAll('.item__add').forEach(item => {
+  document.querySelectorAll('.item__add').forEach((item) => {
     item.addEventListener('click', addInShoppingCart);
   });
 };
