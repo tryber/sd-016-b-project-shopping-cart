@@ -44,15 +44,18 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const loading = () => {
   const loading = document.querySelector('.loading');
+  const p = document.createElement('p');
   const img = document.createElement('img');
   img.setAttribute('src', 'loading.gif');
   img.style.width = '20px';
   img.style.height = '20px';
+  p.innerHTML = 'carregando';
+  p.appendChild(img);
 
   if (loading.hasChildNodes()) {
     loading.removeChild(loading.firstChild);
   } else {
-    loading.appendChild(img);
+    loading.appendChild(p);
   }
 }
 
@@ -72,7 +75,4 @@ const assemblyProducts = async (item) => {
 
 window.onload = async () => {
   assemblyProducts('computador');
-  // const { results } = await fetchProducts('computador').map;
-  // console.log( results );
-
 };
