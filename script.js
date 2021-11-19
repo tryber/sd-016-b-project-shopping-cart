@@ -41,7 +41,7 @@ const saveTotalPrice = () => {
 const cartItemClickListener = async ({ target }) => {
   cartlist.removeChild(target);
   const element = await fetchItem(target.querySelector('.cart-itemid').innerHTML);
-  totalprice.innerHTML = (total -= parseInt(element.price)).toFixed(2);
+  totalprice.innerHTML = (total -= parseInt(element.price, 10)).toFixed(2);
   saveCartItems(cartlist.innerHTML);
   saveTotalPrice();
 };
@@ -93,7 +93,7 @@ const addInShoppingCart = async ({ target }) => {
     name: element.title,
     salePrice: element.price,
   };
-  totalprice.innerHTML = (total += parseInt(element.price)).toFixed(2);
+  totalprice.innerHTML = (total += parseInt(element.price, 10)).toFixed(2);
 
   const item = createCartItemElement(object);
   cartlist.appendChild(item);
