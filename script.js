@@ -1,5 +1,6 @@
-const items = document.querySelector('.items');
+const list = document.querySelector('.items');
 const cartlist = document.querySelector('.cart__items');
+const totalprice = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -32,7 +33,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  cartlist.removeChild(event.target);
+  saveCartItems(cartlist.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -43,8 +45,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const loading = () => {
-  const load = document.querySelector('.loading');
+/** Atribui o status carregando; */
+const requestLoading = () => {
+  const loading = document.querySelector('.loading');
   const p = document.createElement('p');
   const img = document.createElement('img');
   img.setAttribute('src', 'loading.gif');
@@ -53,33 +56,55 @@ const loading = () => {
   p.innerHTML = 'carregando';
   p.appendChild(img);
 
-  if (load.hasChildNodes()) {
-    load.removeChild(load.firstChild);
+  if (loading.hasChildNodes()) {
+    loading.removeChild(loading.firstChild);
   } else {
-    load.appendChild(p);
+    loading.appendChild(p);
   }
 };
 
+/** Monta a lista de produtos; */
 const assemblyProducts = async (query) => {
-  loading();
+  requestLoading();
   const { results } = await fetchProducts(query);
-  loading();
+  requestLoading();
   results.forEach((i) => {
     const item = {
       sku: i.id,
       name: i.title,
       image: i.thumbnail,
     };
-    items.appendChild(createProductItemElement(item));
+    list.appendChild(createProductItemElement(item));
   });
 };
 
+/** Esvazia o carrinho de compras; */
 const clearCartList = () => {
-  cartlist.innerHTML = null;
-  localStorage.clear();
+  if (localStorage.getItem('cartItems') !== null) {
+    cartlist.innerHTML = null;
+    totalprice.innerHTML = null;
+    localStorage.clear();
+  }
 }
 
+const addInShoppingCart = async ({ target }) => {
+  const elementId = getSkuFromProductItem(target.parentNode);
+  const element = await fetchItem(elementId);
+  const object = {
+    sku: element.id,
+    name: element.title,
+    salePrice: element.price,
+  };
+  const item = createCartItemElement(object);
+  cartlist.appendChild(item);
+  saveCartItems(cartlist.innerHTML);
+}
+
+/** Main Thread; */
 window.onload = async () => {
-  assemblyProducts('computador');
+  await assemblyProducts('computador');
   document.querySelector('.empty-cart').addEventListener('click', clearCartList);
+  document.querySelectorAll('.item__add').forEach(item => {
+    item.addEventListener('click', addInShoppingCart);
+  });
 };
