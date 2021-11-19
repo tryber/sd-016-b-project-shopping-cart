@@ -1,4 +1,5 @@
 const items = document.querySelector('.items');
+const cartlist = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -73,6 +74,12 @@ const assemblyProducts = async (query) => {
   });
 };
 
+const clearCartList = () => {
+  cartlist.innerHTML = null;
+  localStorage.clear();
+}
+
 window.onload = async () => {
   assemblyProducts('computador');
+  document.querySelector('.empty-cart').addEventListener('click', clearCartList);
 };
