@@ -56,8 +56,22 @@ const loading = () => {
   }
 }
 
+const assemblyProducts = async (item) => {
+  loading();
+  const { results } = await fetchProducts(item);
+  loading();
+  results.forEach((i) => {
+    const item = {
+      sku: i.id,
+      name: i.title,
+      image: i.thumbnail,
+    };
+    items.appendChild(createProductItemElement(item));
+  });
+};
+
 window.onload = async () => {
-  setInterval(loading, 1000);
+  assemblyProducts('computador');
   // const { results } = await fetchProducts('computador').map;
   // console.log( results );
 
