@@ -29,7 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  console.log('tst')
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,6 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
  
+// Requisito 01 -  Crie uma listagem de produtos
 const getProduct = async (item) => {
   const productsInfos = await fetchProducts(item);
   const sectionItems = document.querySelector('.items');
@@ -55,6 +56,32 @@ const getProduct = async (item) => {
    });
  };
 
+// Requisito 02 - Adicione o produto ao carrinho de compras
+const addProductToCart = async (item) => {
+  const cartItem = document.querySelector('.cart__items');
+  const fItem = await fetchItem(item);
+
+  const objItem = {
+    sku: fItem.id,
+    name: fItem.title,
+    salePrice: fItem.price,
+  };
+
+  const createItem = createCartItemElement(objItem);
+  cartItem.appendChild(createItem);
+}
+
+const eventListeners = () => {
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('item__add')) {
+      const itemId = e.target.parentNode.firstChild.innerText;
+      addProductToCart(itemId);
+    }
+  })
+}
+
+ 
 window.onload = () => { 
   getProduct('computador');
+  eventListeners();
 };
