@@ -29,7 +29,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  console.log('tst')
+  console.log('tst');
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -69,17 +69,16 @@ const addProductToCart = async (item) => {
 
   const createItem = createCartItemElement(objItem);
   cartItem.appendChild(createItem);
-}
+};
 
 const eventListeners = () => {
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
       const itemId = e.target.parentNode.firstChild.innerText;
       addProductToCart(itemId);
     }
-  })
-}
-
+  });
+};
  
 window.onload = () => { 
   getProduct('computador');
