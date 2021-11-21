@@ -1,3 +1,5 @@
+const cartItem = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -18,16 +20,34 @@ function getSkuFromProductItem(item) {
 
 function getAllCartItems() {
   const cartItems = document.querySelectorAll('.cart__item');
-  const cartItem = [];
+  const allCartItems = [];
   cartItems.forEach((item) => {
-    cartItem.push(item.innerHTML);
+    allCartItems.push(item.innerHTML);
   });
-  return cartItem;
+  return allCartItems;
+}
+
+function sumAllCartItems() {
+  const allCartItem = document.querySelectorAll('.cart__item');
+  const prices = [];
+  allCartItem.forEach((item) => {
+    prices.push(Number(item.innerText.split('PRICE: $')[1]));
+  });
+  const totalPrices = prices.reduce((previousValue, currentValue) => (
+    previousValue + currentValue), 0);
+  return totalPrices;
+}
+
+function appendTotalPrices() {
+  const totalPrices = sumAllCartItems();
+  const total = document.querySelector('.total-price');
+  total.innerText = totalPrices;
 }
 
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(getAllCartItems());
+  appendTotalPrices();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -42,9 +62,9 @@ async function onClickEventItem(event) {
   const targetItem = event.target.parentElement;
   const itemId = getSkuFromProductItem(targetItem);
   const itemData = await fetchItem(itemId);
-  const cartItem = document.querySelector('.cart__items');
   cartItem.appendChild(createCartItemElement(itemData));
   saveCartItems(getAllCartItems());
+  appendTotalPrices();
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -72,19 +92,43 @@ function mapAllProducts(products) {
 function restoreCartItemsFromLocalStorage() {
   const restoredCartList = JSON.parse(getSavedCartItems());
   if (restoredCartList) {
-    const cartItem = document.querySelector('.cart__items');
     restoredCartList.forEach((item) => {
       const li = document.createElement('li');
       li.className = 'cart__item';
       li.innerText = item;
       li.addEventListener('click', cartItemClickListener);
       cartItem.appendChild(li);
+      appendTotalPrices();
     });
   }
 }
 
+function clearCart() {
+  const fatherElement = cartItem;
+  while (fatherElement.firstChild) {
+    fatherElement.removeChild(fatherElement.lastChild);
+  }
+  appendTotalPrices();
+}
+
+function createLoadElement() {
+  const loadElement = document.createElement('div');
+  loadElement.className = 'loading';
+  loadElement.innerText = 'carregando...';
+  document.querySelector('body').appendChild(loadElement);
+}
+
+function removeLoadElement() {
+  document.querySelector('.loading').remove();
+}
+
 window.onload = async () => {
+  createLoadElement();
   const searchResult = await fetchProducts('computador');
+  removeLoadElement();
   mapAllProducts(searchResult);
   restoreCartItemsFromLocalStorage();
+  sumAllCartItems();
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', clearCart);
  };
