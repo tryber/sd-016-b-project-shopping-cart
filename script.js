@@ -1,7 +1,14 @@
 // Correção: push passado era apenas organização do código.
 // renomeei algumas variáveis e escrevi o que as funções faziam para
 // me localizar melhor no código.
+
 const cartItems = document.querySelector('.cart__items');
+
+const clearButton = document.querySelector('.empty-cart');
+
+clearButton.addEventListener('click', () => {
+cartItems.innerHTML = '';
+});
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -37,6 +44,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  saveCartItems(cartItems.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -61,7 +69,7 @@ async function clickCartItem(event) {
 async function searchProducts(product) {
   const items = document.querySelector('.items');
   const searchItems = await fetchProducts(product);
-  searchItems.results.forEach((item) => { // Percorre o array retornado de 'fetchProducts'
+  searchItems.results.forEach((item) => { // Percorre o objeto  retornado de 'fetchProducts'
     const returnObject = { // e retorna um objeto no padrão desejado.
       sku: item.id,
       name: item.title,
