@@ -2,13 +2,18 @@
 // renomeei algumas variáveis e escrevi o que as funções faziam para
 // me localizar melhor no código.
 
-const cartItems = document.querySelector('.cart__items');
+// Query Selectors
 
+const cartItems = document.querySelector('.cart__items');
 const clearButton = document.querySelector('.empty-cart');
+
+// Função de limpar o carrinho
 
 clearButton.addEventListener('click', () => {
 cartItems.innerHTML = '';
 });
+
+// Função que cria a imagem do produto
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -44,7 +49,6 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  saveCartItems(cartItems.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -54,6 +58,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+// Parte 1 do Req 2
 
 async function clickCartItem(event) {
   const id = event.target.parentElement.firstChild.innerText;
@@ -65,6 +71,8 @@ async function clickCartItem(event) {
   };
   cartItems.appendChild(createCartItemElement(cartItemsElements));
 }
+
+// Req 1
 
 async function searchProducts(product) {
   const items = document.querySelector('.items');
@@ -79,13 +87,25 @@ async function searchProducts(product) {
     const productItem = createProductItemElement(returnObject);
     items.appendChild(productItem);
   });
-  
+  // Parte 2 do Req 2
   const addToCartButtons = document.querySelectorAll('.item__add');
   addToCartButtons.forEach((button) => { // Adiciona um event listener para cada botão de "adicionar o carrinho".
     button.addEventListener('click', clickCartItem);
 });
 }
 
+// Função que adiciona o texto 'carregando...' enquanto a requisição não é chamada - Req 7
+
+const loadingFunc = async () => {
+  const containerLoading = document.createElement('div');
+  containerLoading.className = 'loading';
+  containerLoading.innerText = 'carregando...';
+  const containerItems = document.querySelector('.items');
+  containerItems.appendChild(containerLoading);
+  await searchProducts('computador');
+  containerItems.removeChild(containerLoading);
+};
+loadingFunc();
+
 window.onload = () => {
-  searchProducts('computador');
 };
