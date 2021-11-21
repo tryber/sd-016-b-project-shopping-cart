@@ -87,6 +87,18 @@ emptyButton.addEventListener('click', () => {
   cartItems.innerHTML = '';
 });
 
+const loading = async () => {
+  const loadingParagraph = document.createElement('p');
+  loadingParagraph.innerText = 'carregando...';
+  loadingParagraph.className = 'loading';
+  const items = document.querySelector('.items');
+  items.appendChild(loadingParagraph);
+  await searchProducts('computador');
+  items.removeChild(loadingParagraph);
+};
+loading();
+
 window.onload = () => {
   searchProducts('computador');
 };
+
