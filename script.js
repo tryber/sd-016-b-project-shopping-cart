@@ -30,6 +30,7 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+// Requisito 03 - Remover item do carrinho ao clicar // Req. 04 Salvar no localStore a mudança
 function cartItemClickListener(event) {
   event.target.remove();
   saveCartItems(cartItems.innerHTML);
@@ -47,7 +48,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 const getProduct = async (item) => {
   const productsInfos = await fetchProducts(item);
   const sectionItems = document.querySelector('.items');
-  //  console.log(productsInfos);
    productsInfos.results.forEach((element) => {
      const result = {
        sku: element.id,
@@ -76,12 +76,13 @@ const addProductToCart = async (item) => {
   saveCartItems(cartItems.innerHTML);
 };
 
+// Requisito 04 - getLocalStore
 const local = () => {
   const getSaved = getSavedCartItems();
-  console.log(getSaved);
   cartItems.innerHTML = getSaved;
 };
 
+// Adiciona eventos. (adicionar/remover itens do carrinho)
 const eventListeners = () => {
   document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('item__add')) {
@@ -94,15 +95,35 @@ const eventListeners = () => {
   });
 };
 
+// Requisito 06 - Limpa Carrinho
 const clearCart = () => {
   cartItems.innerHTML = '';
   saveCartItems(cartItems.innerHTML);
 };
 const btnClear = document.querySelector('.empty-cart');
 btnClear.addEventListener('click', clearCart);
+
+// Requisito 07 - Funções Carrengando
+const loadingON = () => {
+  const load = createCustomElement('p', 'loading', 'Carregando...');
+  cartItems.appendChild(load);
+};
+const loadingOFF = () => {
+  document.querySelector('.loading').remove();
+};
+
+// Requisito 07 - Carregando página
+const loadingPage = async () => {
+  loadingON();
+  await getProduct('computador')
+    .then(() => eventListeners())
+    .then(() => local())
+    .then(() => loadingOFF());
+};
  
 window.onload = () => { 
-  getProduct('computador');
-  eventListeners();
-  local();
+  loadingPage();
+  // getProduct('computador');
+  // eventListeners();
+  // local();
 };
