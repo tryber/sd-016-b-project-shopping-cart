@@ -38,6 +38,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  localStorage.clear();
 }
 
 function createCartItemElement({
@@ -61,7 +62,6 @@ function createCartItemElement({
       salePrice: fetchID.price,
     };
     cartItems.appendChild(createCartItemElement(cartObject));
-    
   }
 
 async function searchProducts(product) {
@@ -101,4 +101,3 @@ loading();
 window.onload = () => {
   searchProducts('computador');
 };
-
