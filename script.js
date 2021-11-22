@@ -113,3 +113,5 @@ loadingFunc();
 window.onload = () => {
   loadCartItems();
 };
+
+// teste
