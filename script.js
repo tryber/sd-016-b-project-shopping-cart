@@ -1,6 +1,7 @@
 // Query Selectors
 
 const cartItems = document.querySelector('.cart__items');
+const cartItem = document.querySelector('.cart__item');
 const clearButton = document.querySelector('.empty-cart');
 
 // Função de limpar o carrinho
@@ -94,7 +95,7 @@ async function searchProducts(product) {
 function loadCartItems() {
   const fetchLocalStorageItems = getSavedCartItems();
   cartItems.innerHTML = fetchLocalStorageItems;
-  cartItems.addEventListener('click', cartItemClickListener);
+  cartItem.addEventListener('click', cartItemClickListener);
 }
 
 // Função que adiciona o texto 'carregando...' enquanto a requisição não é chamada - Req 7
