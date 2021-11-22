@@ -1,5 +1,13 @@
 const getOL = document.querySelector('.cart__items');
 const itemSection = document.querySelector('.items');
+const emptyCartButton = document.querySelector('.empty-cart');
+
+/* Requisito 6 */
+const esvaziarCarrinho = () => {
+  emptyCartButton.addEventListener('click', () => {
+    getOL.innerHTML = '';
+  });
+};
 
 /* Função que cria as imagens do card dos produtos */
 function createProductImageElement(imageSource) {
@@ -80,4 +88,5 @@ const SearchProducts = async () => {
 
 window.onload = () => {
   SearchProducts();
+  esvaziarCarrinho();
 };
