@@ -1,7 +1,3 @@
-// Correção: push passado era apenas organização do código.
-// renomeei algumas variáveis e escrevi o que as funções faziam para
-// me localizar melhor no código.
-
 // Query Selectors
 
 const cartItems = document.querySelector('.cart__items');
@@ -49,6 +45,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  saveCartItems(cartItems.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -94,6 +91,12 @@ async function searchProducts(product) {
 });
 }
 
+function loadCartItems() {
+  const fetchLocalStorageItems = getSavedCartItems();
+  cartItems.innerHTML = fetchLocalStorageItems;
+  cartItems.addEventListener('click', cartItemClickListener);
+}
+
 // Função que adiciona o texto 'carregando...' enquanto a requisição não é chamada - Req 7
 
 const loadingFunc = async () => {
@@ -108,4 +111,5 @@ const loadingFunc = async () => {
 loadingFunc();
 
 window.onload = () => {
+  loadCartItems();
 };
