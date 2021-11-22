@@ -1,7 +1,6 @@
 // Query Selectors
 
 const cartItems = document.querySelector('.cart__items');
-const cartItem = document.querySelector('.cart__item');
 const clearButton = document.querySelector('.empty-cart');
 
 // Função de limpar o carrinho
@@ -18,6 +17,8 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
+
+// Função de criar elementos HTML
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -40,9 +41,12 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+// Função de remover os itens no carrinho clicando neles
+// E atualizar a lista do carrinho na localStorage.
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -68,6 +72,7 @@ async function clickCartItem(event) {
     salePrice: objectId.price,
   };
   cartItems.appendChild(createCartItemElement(cartItemsElements));
+  saveCartItems(cartItems.innerHTML);
 }
 
 // Req 1
@@ -95,7 +100,6 @@ async function searchProducts(product) {
 function loadCartItems() {
   const fetchLocalStorageItems = getSavedCartItems();
   cartItems.innerHTML = fetchLocalStorageItems;
-  cartItem.addEventListener('click', cartItemClickListener);
 }
 
 // Função que adiciona o texto 'carregando...' enquanto a requisição não é chamada - Req 7
