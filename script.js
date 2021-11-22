@@ -7,6 +7,7 @@ const load = document.querySelector('.loading');
 const esvaziarCarrinho = () => {
   emptyCartButton.addEventListener('click', () => {
     getOL.innerHTML = '';
+    localStorage.clear();
   });
 };
 
@@ -43,6 +44,7 @@ function createProductItemElement({ sku, name, image }) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
+  saveCartItems(getOL.innerHTML);
 }
 
 /* Requisito 2 */
@@ -67,7 +69,7 @@ function eventButton() {
     btn.addEventListener('click', async () => {
       const itemID = btn.parentNode.querySelector('.item__sku').textContent;
       await fetchItemID(itemID);
-      /* saveCartItems(getOL.innerHTML); */
+      saveCartItems(getOL.innerHTML);
     });
   });
 }
@@ -89,7 +91,14 @@ const SearchProducts = async () => {
   eventButton();
 };
 
+function addEventClickLocalStorage() {
+  olCartItems.innerHTML = getSavedCartItems();
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach((l) => l.addEventListener('click', cartItemClickListener));
+}
+
 window.onload = () => {
   SearchProducts();
   esvaziarCarrinho();
+  addEventClickLocalStorage();
 };
