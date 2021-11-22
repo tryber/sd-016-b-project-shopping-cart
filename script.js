@@ -1,13 +1,14 @@
 const getOL = document.querySelector('.cart__items');
 const itemSection = document.querySelector('.items');
 
+/* Função que cria as imagens do card dos produtos */
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
-
+/* Função para criar elementos html de forma dinâmica */
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -33,7 +34,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -43,19 +44,18 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 /* Requisito 2 */
 const fetchItemID = async (param) => {
-  const data = await fetchItemID(param);
-  const { sku: id, name: title, salePrice: price } = data;
-  const results = createCartItemElement({ id, title, price });
-  return results;
+  const data = await fetchItem(param);
+  const { id: sku, title: name, price: salePrice } = data;
+  const results = createCartItemElement({ id: sku, title: name, price: salePrice });
+  getOL.appendChild(results);
 };
 
-function addItem() {
-  const buttons = classItens.querySelectorAll('.item__add');
+function eventButton() {
+  const buttons = document.querySelectorAll('.item__add');
   buttons.forEach((btn) => {
     btn.addEventListener('click', async () => {
       const itemID = btn.parentNode.querySelector('.item__sku').textContent;
-      const resultID = await fetchItemID(itemID);
-      getOL.appendChild(resultID);
+      await fetchItemID(itemID);
       /* saveCartItems(getOL.innerHTML); */
     });
   });
@@ -71,10 +71,9 @@ const SearchProducts = async () => {
       image: data.thumbnail,
     };
     const products = createProductItemElement(result);
-    console.log(search, products);
     itemSection.appendChild(products);
   });
-  addItem();
+  eventButton();
 };
 
 window.onload = () => {

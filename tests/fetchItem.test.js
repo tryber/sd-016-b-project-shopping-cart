@@ -18,7 +18,7 @@ describe("2 - Teste a função fecthItem", () => {
   test("1.3 Testa a função com o endPoint", () => {
     const endPoint = "https://api.mercadolibre.com/items/MLB1615760527";
     fetchItem("MLB1615760527");
-    expect(fetchItem).toHaveBeenCalledWith(endPoint);
+    expect(fetch).toHaveBeenCalledWith(endPoint);
   });
 
   test("1.4 Teste o retorno de fetchItem para ser igual a computadorSearch", async () => {
