@@ -20,7 +20,13 @@ describe('2 - Teste a função fecthItem', () => {
   })
   
   it('Teste se o retorno da função é uma estrutura ao objeto `item`', async () => {
-    const testFetch = await fetchItem('MLB1615760527');
-    expect(testFetch).toEqual(item);
+    const fetchFunc = await fetchItem('MLB1615760527');
+    expect(fetchFunc).toEqual(item);
+  });
+  
+  it('Verifica se ao chamar o fetch sem parametro, retorna um erro', async () => {
+    const returnError = new Error('You must provide an url');
+    const fetchItemFunc = await fetchItem();
+     expect(fetchItemFunc).toEqual(returnError); 
   });
 });
