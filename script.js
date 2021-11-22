@@ -1,5 +1,11 @@
 const productsPlace = document.querySelector('.items');
 const cartList = document.querySelector('.cart__items');
+const emptyButton = document.querySelector('.empty-cart');
+
+const clearCartList = () => {
+  cartList.innerHTML = '';
+  saveCartItems('');
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -90,4 +96,5 @@ window.onload = () => {
   productList();
   cartList.innerHTML = getSavedCartItems();
   addEventToCart();
+  emptyButton.addEventListener('click', clearCartList);
 };
