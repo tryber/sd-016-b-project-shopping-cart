@@ -1,5 +1,5 @@
 const getOL = document.querySelector('.cart__items');
-const itemSection = document.querySelector('.item');
+const itemSection = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -43,7 +43,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 /* Requisito 2 */
 const fetchItemID = async (param) => {
-  const data = await fetchItem(param);
+  const data = await fetchItemID(param);
   const { sku: id, name: title, salePrice: price } = data;
   const results = createCartItemElement({ id, title, price });
   return results;
@@ -72,7 +72,7 @@ const SearchProducts = async () => {
     };
     const products = createProductItemElement(result);
     console.log(search, products);
-    document.getElementsByClassName('item').appendChild(products);
+    itemSection.appendChild(products);
   });
   addItem();
 };
