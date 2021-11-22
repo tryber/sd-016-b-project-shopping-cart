@@ -1,7 +1,6 @@
 const getOL = document.querySelector('.cart__items');
 const itemSection = document.querySelector('.item');
 
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
