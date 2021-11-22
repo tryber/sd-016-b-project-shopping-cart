@@ -1,6 +1,7 @@
 const getOL = document.querySelector('.cart__items');
 const itemSection = document.querySelector('.items');
 const emptyCartButton = document.querySelector('.empty-cart');
+const load = document.querySelector('.loading');
 
 /* Requisito 6 */
 const esvaziarCarrinho = () => {
@@ -73,7 +74,9 @@ function eventButton() {
 
 /* Requisito 1 */
 const SearchProducts = async () => {
+  load.innerText = 'Loading...';
   const search = await fetchProducts('computador');
+  load.innerText = '';
   search.results.forEach((data) => {
     const result = {
       sku: data.id,
