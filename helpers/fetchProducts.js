@@ -1,5 +1,5 @@
 const fetchProducts = async (product) => {
-  if (product === undefined) throw new Error('mensagem esperada aqui');
+  if (!product) throw new Error('You must provide an url');
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   return fetch(url)
     .then((response) => response.json())
