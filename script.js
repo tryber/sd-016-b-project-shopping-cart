@@ -91,14 +91,15 @@ const SearchProducts = async () => {
   eventButton();
 };
 
-function addEventClickLocalStorage() {
-  olCartItems.innerHTML = getSavedCartItems();
+/* Requisito 4 */
+function listenerLocalStorage() {
+  getOL.innerHTML = getSavedCartItems();
   const li = document.querySelectorAll('.cart__item');
-  li.forEach((l) => l.addEventListener('click', cartItemClickListener));
+  li.forEach((element) => element.addEventListener('click', cartItemClickListener));
 }
 
 window.onload = () => {
   SearchProducts();
   esvaziarCarrinho();
-  addEventClickLocalStorage();
+  listenerLocalStorage();
 };
