@@ -74,9 +74,9 @@ function eventButton() {
 
 /* Requisito 1 */
 const SearchProducts = async () => {
-  load.innerText = 'Loading...';
+  load.innerText = 'carregando';
   const search = await fetchProducts('computador');
-  load.innerText = '';
+  load.remove();
   search.results.forEach((data) => {
     const result = {
       sku: data.id,
