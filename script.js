@@ -1,4 +1,5 @@
 const productsPlace = document.querySelector('.items');
+const cartList = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,7 +14,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  saveCartItems();
+  saveCartItems(cartList.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -45,7 +46,7 @@ function createItens(sku) {
         salePrice: item.price,
       };
       appendToCartList(createCartItemElement(obj));
-      saveCartItems();
+      saveCartItems(cartList.innerHTML);
     });
 }
 
@@ -79,15 +80,14 @@ function productList() {
 }
 
 function addEventToCart() {
-  const cartList = document.querySelectorAll('.cart__item');
-  cartList.forEach((item) => {
+  const cartItens = document.querySelectorAll('.cart__item');
+  cartItens.forEach((item) => {
     item.addEventListener('click', cartItemClickListener);
   });
 }
 
 window.onload = () => {
   productList();
-  const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = getSavedCartItems();
   addEventToCart();
 };
