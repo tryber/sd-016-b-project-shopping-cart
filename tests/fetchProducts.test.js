@@ -9,12 +9,12 @@ describe('1 - Teste a função fecthProducts', () => {
     expect(typeof fetchProducts).toBe('function');
   });
 
-  it('Verifica se a função fetchProducts com o parâmetro `computador` chama a `fetch`', async () => {
+  it('Verifica se fetch foi chamado', async () => {
     await fetchProducts('computador');
     expect(fetch).toHaveBeenCalled();
   });
 
-  it('Verifica se a função fetchProducts com o parâmetro `computador` usa o endpoint correto', async () => {
+  it('Verifica se o endpoint está correto', async () => {
     await fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   });
