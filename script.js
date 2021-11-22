@@ -50,7 +50,7 @@ window.onload = () => {
           sku: product.id,
           name: product.title,
           image: product.thumbnail,
-        }
+        };
         productsPlace.append(createProductItemElement(obj));
       });
   });
