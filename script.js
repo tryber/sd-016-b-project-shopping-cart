@@ -108,4 +108,5 @@ window.onload = () => {
   addLoadingText();
   showProductItems();
   getSavedCart();
+  sumPrices();
 };
