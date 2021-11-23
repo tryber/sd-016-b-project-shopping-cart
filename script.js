@@ -62,7 +62,7 @@ const addProductToCart = () => {
   });
 };
 
-// Feito com ajuada do Pedro ivo e Erick viana
+// Feito com ajuda do Pedro ivo e Erick viana
 
 const renderCartList = () => {
   getItem.innerHTML = getSavedCartItems();
@@ -70,8 +70,17 @@ const renderCartList = () => {
   allItens.forEach((item) => item.addEventListener('click', cartItemClickListener));
 };
 
+const clearCart = () => {
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', () => {
+    getItem.innerHTML = '';
+    saveCartItems('');
+  });
+};
+
 window.onload = async () => {
  await renderProductList();
  addProductToCart();
   renderCartList();
+  clearCart();
 };
