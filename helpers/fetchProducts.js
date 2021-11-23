@@ -1,9 +1,9 @@
-const fetchProducts = async (search) => {
-  const find = fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${search}`)
-  .then((response) => response.json())
-  .then((data) => data.results)
-  .catch((error) => error);
-  return find;
+const fetchProducts = (search) => {
+  if (!search) { return 'You must provide an url'; }
+        const link = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
+        return fetch(link)
+        .then((response) => response.json()
+        .then((data) => data.results));
 };
 
 if (typeof module !== 'undefined') {
