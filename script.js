@@ -1,8 +1,10 @@
-const getOl = document.querySelector('.cart__items');
-const getTotalPrice = document.querySelector('.total-price');
-const getEmpyCartButton = document.querySelector('.empty-cart');
+// referencias de codigos: https://github.com/tryber/sd-016-b-project-shopping-cart/pull/119
+// https://github.com/tryber/sd-016-b-project-shopping-cart/pull/133
+const setOL = document.querySelector('.cart__items');
+const totalPrice = document.querySelector('.total-price');
 const getLoadingSec = document.querySelector('.loadingSec');
-let values = 0;
+const getEmpyCartButton = document.querySelector('.empty-cart');
+let valor = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -17,38 +19,32 @@ const RemLoading = () => {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 } 
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
 }
-
 const sumProductsPrice = (price) => {
-  values += price;
-  getTotalPrice.innerText = values;
+  valor += price;
+  totalPrice.innerText = valor;
 };
-
 const subProductsPrice = (price) => {
-  values -= price;
-  getTotalPrice.innerText = values;
+  valor -= price;
+  totalPrice.innerText = valor;
 };
-
 function cartItemClickListener(event) {
   const eventTarget = event.target.innerText;
   const getPrice = Number(eventTarget.split('$')[1]);
   subProductsPrice(getPrice);
-  getOl.removeChild(event.target);
-  saveCartItems(getOl.innerHTML);
+  setOL.removeChild(event.target);
+  saveCartItems(setOL.innerHTML);
 }
-
 const eventLi = () => {
-  getOl.innerHTML = getSavedCartItems();
+  setOL.innerHTML = getSavedCartItems();
   const getAllLi = document.querySelectorAll('.cart__item');
   getAllLi.forEach((element) => element.addEventListener('click', cartItemClickListener));
 };
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -56,16 +52,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 } 
-
 async function addProductToCart(event) {
   const getSKU = getSkuFromProductItem(event.target.parentNode);
   const getArr = await fetchItem(getSKU);
   const getCartItens = createCartItemElement(getArr);
-  getOl.appendChild(getCartItens);
+  setOL.appendChild(getCartItens);
   sumProductsPrice(getArr.price);
-  saveCartItems(getOl.innerHTML);
+  saveCartItems(setOL.innerHTML);
 }
-
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -76,10 +70,8 @@ newButton.addEventListener('click', addProductToCart);
   section.appendChild(createProductImageElement(image));
   section.appendChild(newButton);
   RemLoading();
-
   return section;
 }
-
 const objectF = async () => {
   const arrProducts = await fetchProducts('computador');
   arrProducts.forEach((arr) => {
@@ -88,11 +80,10 @@ const objectF = async () => {
     getItens.appendChild(createArray);
   });
 };
-
 getEmpyCartButton.addEventListener('click', () => {
-  getOl.innerHTML = '';
-  getTotalPrice.innerText = '';
-  saveCartItems(getOl.innerHTML);
+  setOL.innerHTML = '';
+  totalPrice.innerText = '';
+  saveCartItems(setOL.innerHTML);
 });
 window.onload = () => {
 objectF();
