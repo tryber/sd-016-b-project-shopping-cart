@@ -1,3 +1,5 @@
+const getItem = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -49,8 +51,8 @@ const renderProductList = async () => {
 const add = async (event) => {
   const sku = getSkuFromProductItem(event.target.parentNode);
   const cartItems = await fetchItem(sku);
-  const getItem = document.querySelector('.cart__items');
   getItem.appendChild(createCartItemElement(cartItems));
+  saveCartItems(getItem.innerHTML);
 };
 
 const addProductToCart = () => {
@@ -60,7 +62,16 @@ const addProductToCart = () => {
   });
 };
 
+// Feito com ajuada do Pedro ivo e Erick viana
+
+const renderCartList = () => {
+  getItem.innerHTML = getSavedCartItems();
+  const allItens = document.querySelectorAll('.cart__items');
+  allItens.forEach((item) => item.addEventListener('click', cartItemClickListener));
+};
+
 window.onload = async () => {
  await renderProductList();
  addProductToCart();
+  renderCartList();
 };
