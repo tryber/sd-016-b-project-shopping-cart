@@ -1,3 +1,8 @@
+const getCartItemsOL = document.querySelector('.cart__items');
+const getItemsSection = document.querySelector('.items');
+const getButtonEmptyCart = document.querySelector('.empty-cart');
+const getTotalPriceSpan = document.querySelector('.total-price');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
