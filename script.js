@@ -49,7 +49,7 @@ function createProductItemElement({ sku, name, image }) {
 // E atualizar a lista do carrinho na localStorage.
 
 function cartItemClickListener(event) {
-  event.target.remove();
+  cartItems.removeChild(event.target);
   saveCartItems(cartItems.innerHTML);
 }
 
@@ -71,7 +71,8 @@ async function clickCartItem(event) {
     name: objectId.title,
     salePrice: objectId.price,
   };
-  cartItems.appendChild(createCartItemElement(cartItemsElements));
+  const createElement = createCartItemElement(cartItemsElements);
+  cartItems.appendChild(createElement);
   saveCartItems(cartItems.innerHTML);
 }
 
@@ -97,10 +98,11 @@ async function searchProducts(product) {
 });
 }
 
-function loadCartItems() {
-  const fetchLocalStorageItems = getSavedCartItems();
-  cartItems.innerHTML = fetchLocalStorageItems;
-}
+const loadCartItems = () => {
+  cartItems.innerHTML = getSavedCartItems();
+  const cartItem = document.querySelectorAll('.cart__item');
+  cartItem.forEach((item) => item.addEventListener('click', cartItemClickListener));
+};
 
 // Função que adiciona o texto 'carregando...' enquanto a requisição não é chamada - Req 7
 
@@ -118,5 +120,3 @@ loadingFunc();
 window.onload = () => {
   loadCartItems();
 };
-
-// teste
