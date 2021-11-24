@@ -1,4 +1,5 @@
 const getItem = document.querySelector('.cart__items');
+const loading = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -45,7 +46,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 const renderProductList = async () => {
   const listItems = await fetchProducts('computador');
+  loading.innerHTML = 'carregando ...';
   listItems.forEach((item) => createProductItemElement(item));
+  loading.remove();
 };
 // Feito com mentoria do Gabriel Silvestre
 const add = async (event) => {
@@ -74,7 +77,7 @@ const clearCart = () => {
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', () => {
     getItem.innerHTML = '';
-    saveCartItems('');
+    // saveCartItems('');
   });
 };
 
