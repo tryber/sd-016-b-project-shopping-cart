@@ -59,6 +59,17 @@ const buttonAddItemCart = () => {
   }));
 };
 
+function buttonRemoveAllItem() {
+  while (selectedItemCart.firstChild) {
+    selectedItemCart.removeChild(selectedItemCart.firstChild);
+  }
+  localStorage.removeItem('cartItems');
+}
+
+const removeAllItemsButton = document.querySelector('.empty-cart');
+removeAllItemsButton.addEventListener('click', buttonRemoveAllItem);
+
+// função para carregar o storage
 const loadStorage = () => {
   selectedItemCart.innerHTML = getSavedCartItems();
   selectedItemCart.childNodes.forEach((li) => {
@@ -67,7 +78,6 @@ const loadStorage = () => {
 };
 
 // função para listar os produtos
-
 async function listProducts() {
   const fetchProductsItems = await fetchProducts('computador');
   const { results } = fetchProductsItems;
