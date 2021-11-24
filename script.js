@@ -37,7 +37,7 @@ function createProductItemElement({
 // }
 
 function cartItemClickListener(event) {
-  event.target.remove();
+  cartItems.removeChild(event.target);
   saveCartItems(cartItems.innerHTML);
 }
 
@@ -61,7 +61,9 @@ function createCartItemElement({
       name: fetchID.title,
       salePrice: fetchID.price,
     };
-    cartItems.appendChild(createCartItemElement(cartObject));
+    const plusElement = createCartItemElement(cartObject);
+  cartItems.appendChild(plusElement);
+  saveCartItems(cartItems.innerHTML);
   }
 
 async function searchProducts(product) {
