@@ -1,4 +1,5 @@
 const selectedItemCart = document.querySelector('.cart__items');
+const loadingApi = document.querySelector('.loading');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -70,6 +71,7 @@ const loadStorage = () => {
 async function listProducts() {
   const fetchProductsItems = await fetchProducts('computador');
   const { results } = fetchProductsItems;
+  loadingApi.remove();
   results.forEach(({ id, title, thumbnail }) => {
     const productItem = createProductItemElement({
       sku: id,
