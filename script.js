@@ -52,7 +52,8 @@ function sumPrices() {
   getTotalPriceSpan.innerText = sum;
 }
 function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);
+  // event.target.parentNode.removeChild(event.target);
+  event.target.remove();
   saveCartItems(getCartItemsOL.innerHTML);
   sumPrices();
 }
@@ -60,7 +61,7 @@ function cartItemClickListener(event) {
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $<span class="prices">${price}</span>`;
+  li.innerHTML = `SKU: ${id} | NAME: ${title} | PRICE: $<span class="prices">${price}</span>`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -108,5 +109,4 @@ window.onload = () => {
   addLoadingText();
   showProductItems();
   getSavedCart();
-  sumPrices();
 };
