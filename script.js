@@ -34,7 +34,7 @@ function getCartList() {
 
 function addCartSubtotal(cartSubtotal) {
   const spanSubtotal = document.querySelector('.total-price');
-  spanSubtotal.innerText = cartSubtotal;
+  spanSubtotal.innerText = cartSubtotal.toFixed(2);
 }
 
 function calculateCartSubtotal() {
@@ -62,12 +62,13 @@ function cartItemClickListener(event) {
   saveCartItems(getCartList().innerHTML);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
+function createCartItemElement({ sku, name, salePrice, image }) {
+  const section = document.createElement('section');
+  section.className = 'cart__item';
+  section.innerHTML = `<img class="item-image" src=${image} alt="product image"/>
+    <span class="item-info">SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}<span/>`;
+  section.addEventListener('click', cartItemClickListener);
+  return section;
 }
 
 function clearCart() {
@@ -90,6 +91,7 @@ async function appendItemToCart(event) {
     sku: item.id,
     name: item.title,
     salePrice: item.price,
+    image: item.thumbnail,
   };
   cartList.appendChild(createCartItemElement(itemObject));
   calculateCartSubtotal();

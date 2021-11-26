@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
+  <title>Shopping Cart</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <script src="./helpers/fetchItem.js" defer></script>
@@ -17,14 +17,14 @@
 
 <body>
   <header class="header">
-    <h1><span>smart</span>shopping</h1>
+    <h1>smart<span id="title-highlight">shopping</span></h1>
     <img id="logo" src="https://lh3.googleusercontent.com/6rDhYKbXQ-aM95kjF_jWroaDC5rP20X7GSnKE76qC1iowDFOrth-GvyyfZYpLlbwcp-hiM6rqwr8oVfQsFsf-zj4P9if-4fa3ky86NW6w2EvIGLhR8ZMr4SHFCtRnMSET1WrIA7nuV4Gjk3gHSq-pqcJ2qrTJ4IgtaupvPkL3p2_yi3YZ5d6jXq3_1HjH_0HCZ-ir3PHeeLX7BIDNzbGYuwrGkKn_EtQTeGsGLDEJ3lKSTmcqs-MIFKsfUCyNGjx0Su5pOiIUuDM8vSQ08d98iR1p8rCr7s27jhoKbDKzXMp7Z0YEUAfD-FkqBGtKTt2sAa11fIm-lVCuIV6o0xWEO-dQlR2TOCRPLf6q_UPuEbI2TGAsGuWfXtugNloT937VS0KQ3RMxi7DMXxxI1KvgDsHwigSLyrMCWiAMXLMVE3t-qRdAPiSwf0ewGAHBmrT5nLhupWkXl3ILtMQfEyNpT4JxGdPO66p04UY9l5vFn2ECrw-EFvFMVOx4XAYaAFThaBJHPj_k6EU6lvsTLlBvDL53YYbT8smyX42yW3iR36i70bB_BFiJhCJXbjm07Khe4MHZ70zAGz1lyBqXhS7dUTXrXyO9D5ScIe-K0XAIdPcbcuOoWQ_CQV4NjW8O0ZtGrN54QMfiMtPkDta6p-dIdqysdrHK3URY6bjVx8sVdEg2tvztTPw6s6nEEaEKpfDZpMAAM1bI0jGNC0ycTGiW7HNcA=s552-no?authuser=0" alt="logo">
   </header>
   <section class="container">
     <section class="items"></section>
     <section class="cart">
       <span class="cart__title">Carrinho de compras</span>
-      <ol class="cart__items"></ol>
+      <section class="cart__items"></section>
       <button class="empty-cart">Esvaziar carrinho</button>
       <span class="cart__subtotal">Subtotal: $
         <span class="total-price">0.00</span>
