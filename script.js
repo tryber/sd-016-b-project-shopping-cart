@@ -60,11 +60,28 @@ function getSkuFromProductItem(item) {
   return sku.innerText; // Retorna o ID do produto, está correto.
 }
 
+// https://github.com/tryber/sd-016-b-project-shopping-cart/pull/27
+// Repositório da colega Juliane Cardoso - T16B,
+// usado como referência para solução do requisito 5.
+function calculateTotalPrice() {
+  const value = document.querySelector('.total-price');
+  value.innerText = 0;
+  const regExp = /MLB[0-9]{9}[0-9]?/;
+  const allItems = document.querySelectorAll('.cart__item');
+  allItems.forEach(async (e) => {
+    const info = e.innerText;
+    const expected = info.match(regExp);
+    const prod = await fetchItem(expected[0]);
+    value.innerText = Number(value.innerText) + prod.price;
+  });
+}
+
 function cartItemClickListener(event) {
   // Recupera o elemento HTML e depois o remove usando `.remove()`.
   // https://www.w3schools.com/jsref/met_element_remove.asp
   // https://stackoverflow.com/questions/18795028/javascript-remove-li-without-removing-ul
   event.target.remove();
+  calculateTotalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price }) {
@@ -82,6 +99,7 @@ const addToCart = async (id) => {
   const addProduct = createCartItemElement(product);
   cartItem.appendChild(addProduct);
   saveCartItems(cartItemsList.innerHTML);
+  calculateTotalPrice();
 };
 
 const loadCartItems = () => {
@@ -101,6 +119,7 @@ const emptyCart = () => {
   emptyCartBtn.addEventListener('click', () => {
     cartItemsList.innerHTML = '';
     removeItemFromLocalStorage();
+    calculateTotalPrice();
   });
 };
 
@@ -121,6 +140,7 @@ window.onload = () => {
   setupEventListener();
   emptyCart();
   loadCartItems();
+  calculateTotalPrice();
 };
 
 // Foram usados como referência para solução de alguns pontos, os projetos de:
